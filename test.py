@@ -5,7 +5,7 @@ import math
 
 now = time.time()
 
-f = open('ave.jpg','rb')
+f = open('JamesWebb.png','rb')
 original = f.read()
 f.close()
 
@@ -16,7 +16,7 @@ print('\nTiempo f.read(): ',after-now)
 
 now = time.time()
 
-img_np = np.fromfile('ave.jpg', dtype=np.uint8)
+img_np = np.fromfile('JamesWebb.png', dtype=np.uint8)
 
 after = time.time()
 
