@@ -1199,22 +1199,21 @@ class MainWindow(QMainWindow):
                         
         ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)         
                    
-            elif self.user_defined_const_flag == True:
+           elif self.user_defined_const_flag == True:
                 index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
                 if index_n_symbols == 1:
                     base1 = self.ui.text_3.toPlainText()
                     base2 = self.ui.text_4.toPlainText()
                     try:
-                        point1 = eval(base1)
+                        point1 = eval(base1) #Cuidado con los eval
                         point2 = eval(base2)
                         #Colocar condicional que verifique que lo ingresado sea un numero?????
-                        #Llamar funcion para crear constelación personalizada
-                        #Llamar prepare_to_send
-                        #Llamar define_parts
+                        constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        self.ui.mSim.display(int(len(bits_array)))
+                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
 
-                        #Descomentar luego de lo anterior
-                        """
                         for inx,packet in enumerate(symbols_to_send):
                             symbols_to_send[inx] = np.multiply(packet,2**14)
 
@@ -1224,12 +1223,10 @@ class MainWindow(QMainWindow):
 
                         for packet_symbols in symbols_to_send:
                             self.sdr.tx(packet_symbols)
-                        """
-                        
+                            
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                         self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
-                    
                 
                 elif index_n_symbols == 2:
                     base1 = self.ui.text_5.toPlainText()
@@ -1243,12 +1240,11 @@ class MainWindow(QMainWindow):
                         point3=eval(base3)
                         point4=eval(base4)
                         #Colocar condicional para verificar que lo ingresado sea un numero??????
-                        #Llamar funcion para crear constelación personalizada
-                        #Llamar prepare_to_send
-                        #Llamar define_parts
+                        constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        self.ui.mSim.display(int(len(bits_array)))
+                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
 
-                        #Descomentar luego de lo anterior
-                        """
                         for inx,packet in enumerate(symbols_to_send):
                             symbols_to_send[inx] = np.multiply(packet,2**14)
 
@@ -1258,11 +1254,10 @@ class MainWindow(QMainWindow):
 
                         for packet_symbols in symbols_to_send:
                             self.sdr.tx(packet_symbols)
-                        """
+
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                         self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
-
 
     def defined_const(self):
         self.ui.stackedWidget_4.setCurrentWidget(self.ui.page_12)
