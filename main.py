@@ -1018,7 +1018,7 @@ class MainWindow(QMainWindow):
             
         ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)
                       
-     elif self.user_defined_const_flag == True:
+            elif self.user_defined_const_flag == True:
                 index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
                 if index_n_symbols == 1:
