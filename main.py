@@ -1228,6 +1228,7 @@ class MainWindow(QMainWindow):
                         
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                        self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                 
                 elif index_n_symbols == 2:
@@ -1260,6 +1261,7 @@ class MainWindow(QMainWindow):
                         """
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                        self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
 
 
     def defined_const(self):
