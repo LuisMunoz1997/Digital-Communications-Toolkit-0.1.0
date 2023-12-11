@@ -1255,17 +1255,9 @@ class MainWindow(QMainWindow):
                         constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
                         bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                         self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
-
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
+                        symbols_to_send = MainFunctions.pulse_shape(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                        
+                        MainFunctions.graph_signal(self, constellation, symbols_to_send, tsim, fsample)
                             
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
@@ -1286,17 +1278,9 @@ class MainWindow(QMainWindow):
                         constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
                         bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                         self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
-
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
+                        symbols_to_send = MainFunctions.pulse_shape(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                        
+                        MainFunctions.graph_signal(self, constellation, symbols_to_send, tsim, fsample)
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
