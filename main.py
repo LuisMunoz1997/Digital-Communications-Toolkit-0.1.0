@@ -1205,6 +1205,29 @@ class MainWindow(QMainWindow):
                 if index_n_symbols == 1:
                     base1 = self.ui.text_3.toPlainText()
                     base2 = self.ui.text_4.toPlainText()
+                    try:
+                        point1 = eval(base1)
+                        point2 = eval(base2)
+                        #Colocar condicional que verifique que lo ingresado sea un numero?????
+                        #Llamar funcion para crear constelación personalizada
+                        #Llamar prepare_to_send
+                        #Llamar define_parts
+
+                        #Descomentar luego de lo anterior
+                        """
+                        for inx,packet in enumerate(symbols_to_send):
+                            symbols_to_send[inx] = np.multiply(packet,2**14)
+
+                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+
+                        for packet_symbols in symbols_to_send:
+                            self.sdr.tx(packet_symbols)
+                        """
+                        
+                    except:
+                        print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                     
                 
                 elif index_n_symbols == 2:
@@ -1212,7 +1235,31 @@ class MainWindow(QMainWindow):
                     base2 = self.ui.text_7.toPlainText()
                     base3 = self.ui.text_8.toPlainText()
                     base4 = self.ui.text_9.toPlainText()
-            
+
+                    try:
+                        point1=eval(base1)
+                        point2=eval(base2)
+                        point3=eval(base3)
+                        point4=eval(base4)
+                        #Colocar condicional para verificar que lo ingresado sea un numero??????
+                        #Llamar funcion para crear constelación personalizada
+                        #Llamar prepare_to_send
+                        #Llamar define_parts
+
+                        #Descomentar luego de lo anterior
+                        """
+                        for inx,packet in enumerate(symbols_to_send):
+                            symbols_to_send[inx] = np.multiply(packet,2**14)
+
+                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+
+                        for packet_symbols in symbols_to_send:
+                            self.sdr.tx(packet_symbols)
+                        """
+                    except:
+                        print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
 
 
     def defined_const(self):
