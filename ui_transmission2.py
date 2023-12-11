@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2MyHSPc.ui'
+## Form generated from reading UI file 'transmission2mFXPuS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1542,7 +1542,7 @@ class Ui_transmission2(object):
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
         self.stackedWidget_8.setCurrentIndex(0)
-        self.stackedWidget_6.setCurrentIndex(2)
+        self.stackedWidget_6.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(1)
         self.stackedWidget_3.setCurrentIndex(1)
 
