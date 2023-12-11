@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1boiKvG.ui'
+## Form generated from reading UI file 'transmission1XdANbV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1509,7 +1509,7 @@ class Ui_transmission1(object):
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
         self.stackedWidget_8.setCurrentIndex(0)
-        self.stackedWidget_6.setCurrentIndex(0)
+        self.stackedWidget_6.setCurrentIndex(2)
         self.stackedWidget_2.setCurrentIndex(1)
         self.stackedWidget_3.setCurrentIndex(1)
 
@@ -1622,10 +1622,10 @@ class Ui_transmission1(object):
         self.radioButton_5.setText(QCoreApplication.translate("transmission1", u"Rectangular", None))
         self.radioButton_6.setText(QCoreApplication.translate("transmission1", u"Circular", None))
         self.radioButton_7.setText(QCoreApplication.translate("transmission1", u"Estrella", None))
-        self.label_7.setText(QCoreApplication.translate("transmission1", u"Escriba a las base, de la forma x + jy", None))
+        self.label_7.setText(QCoreApplication.translate("transmission1", u"Escriba a las base, de la forma x + yj", None))
         self.text_4.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 1", None))
         self.text_3.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 2", None))
-        self.label_20.setText(QCoreApplication.translate("transmission1", u"Escriba a las base, de la forma x + jy", None))
+        self.label_20.setText(QCoreApplication.translate("transmission1", u"Escriba a las base, de la forma x + yj", None))
         self.text_8.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 1", None))
         self.text_5.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 2", None))
         self.text_9.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 3", None))
