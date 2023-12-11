@@ -1097,7 +1097,10 @@ class MainWindow(QMainWindow):
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
         if self.filepath_flag_message == True:
-            message = np.fromfile(self.filePath[0], dtype=bool)
+            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            int_message = message
+            message = np.unpackbits(message)
+            message = np.asarray(message, dtype=bool)
         
         if message == "":
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
