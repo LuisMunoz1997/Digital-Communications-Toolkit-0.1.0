@@ -573,10 +573,16 @@ class MainFunctions(MainWindow):
              packets[inx] = MainFunctions.add_preamble(self,MainFunctions.pulse_shape(self, part, tsim, fsample, beta=0.35), fsample = 522000, freq = 80e3, n_samples = 100)
             
         return packets
-
-        
-        
-        
+    
+    #CUSTOM TX - Crea constelacion con información de fase y cuadratura dada por usuario.
+    def create_constellation_tx_user(self, nsimb, point1 = 0, point2 = 0, point3 = 0, point4 = 0):
+        if nsimb == 2:
+            constellation = np.array([point1,point2])
+        elif nsimb == 4:
+            constellation = np.array([point1,point2,point3,point4])
+        else:
+            print("ERROR CREACION CONSTELACION USUARIO")
+        return constellation
         
     
     #Método para pasar string a bits arreglo
