@@ -1530,7 +1530,10 @@ class MainFunctions(MainWindow):
             #De allí se pueden convertir a texto, imagen, o el formato requerido
             #FIN DEL CICLO FOR
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
-        #Cuarto paso: Se crean las gráficas para todo
+
+        #Cuarto paso: Verificar y seleccionar mejor resultado
+        
+        #Quinto paso: Se crean las gráficas para todo
             
         self.ui.finalInfo_2.setText("") #AQUÍ COLOCAR INFORMACIÓN ESPECIFICA CON RESPECTO A LA SEÑAL RECIBIDA COMO "PROBABILIDAD DE ERROR", NUMERO DE BITS RECIBIDOS, NUMERO DE BITS CON ERRORES, ENTRE OTROS
 
