@@ -683,6 +683,7 @@ class MainWindow(QMainWindow):
         
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
+
         elif self.filepath_flag_message == True:
             message = np.fromfile(self.filePath[0], dtype=np.uint8)
             int_message = message
@@ -1082,8 +1083,6 @@ class MainWindow(QMainWindow):
                         self.sdr.tx(packet_symbols)
 
 
-        
-
 
     def graph_modulated_signal_prev(self):
         fsample = self.fsample
@@ -1096,6 +1095,7 @@ class MainWindow(QMainWindow):
         
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
+
         if self.filepath_flag_message == True:
             message = np.fromfile(self.filePath[0], dtype=np.uint8)
             int_message = message
@@ -1503,7 +1503,28 @@ class MainWindow(QMainWindow):
         
         
     def graph_original_bits(self):
-        MainFunctions.graph_original_bits(self)     
+
+        fsample = self.fsample
+        spb = 100 #samples per bit
+        amplitude = 5
+        codeline = self.ui.codeBox.currentIndex()
+        
+        if self.text_flag_message == True:
+            message = self.ui.text.toPlainText()
+
+        if self.filepath_flag_message == True:
+            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            int_message = message
+            message = np.unpackbits(message)
+            message = np.asarray(message, dtype=bool)
+        
+        if message == "":
+            self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
+
+        else:
+            self.ui.simWarnTxt.setText("")
+            message = MainFunctions.string_to_bits(self, message)
+            MainFunctions.graph_original_bits(self, message, fsample, spb, amplitude, codeline)     
         
 
     def bit_frecuency(self, d1):

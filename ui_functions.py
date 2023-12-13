@@ -594,9 +594,79 @@ class MainFunctions(MainWindow):
         return message
 
                        
-    def graph_original_bits(self):
-        pass
-                        
+    def graph_original_bits(self, bits, fs, spb, amplitude, codeline):
+
+        clk = np.arange(0,2*len(bits)) % 2 # clock samples
+
+        clk_sequence = np.repeat(clk, spb)
+        data_sequence = np.repeat(bits, 2 * spb) #Basic bits
+
+        if codeline == 0:
+            MainFunctions.graph_widget_setting(self, data_sequence)
+
+        elif codeline == 1:
+            unipolar_nrz = amplitude * data_sequence #Unipolar non-return-to-zero level
+            MainFunctions.graph_widget_setting(self, unipolar_nrz)
+
+        elif codeline == 2:
+            nrz_bipolar = amplitude * (2 * data_sequence - 1) #Bipolar Non-return-to-zero level
+            MainFunctions.graph_widget_setting(self, nrz_bipolar)
+
+        elif codeline == 3:
+            unipolar_rz = amplitude * (data_sequence * (1 - clk_sequence)) #Unipolar return-to-zero
+            MainFunctions.graph_widget_setting(self, unipolar_rz)
+
+        elif codeline == 4:
+            rz_bipolar = amplitude * (data_sequence * (1 - clk_sequence) - 0.5) #Unipolar return-to-zero
+            MainFunctions.graph_widget_setting(self, rz_bipolar)
+
+
+        elif codeline == 5:
+            ami = 1 * bits
+            previousOne = 0 
+
+            for i in range(0,len(bits)):
+
+                if (ami[i]==1) and (previousOne==0):
+                    ami[i] = amplitude
+                    previousOne=1
+                
+                if (ami[i]==1) and (previousOne==1):
+                    ami[i]= -amplitude
+                    previousOne = 0
+
+            ami_sequence = np.repeat(ami, 2 * spb) #Alternate Mark Inversion (AMI)
+            MainFunctions.graph_widget_setting(self, ami_sequence)
+
+
+
+        elif codeline == 6:
+            manchester_encoded = amplitude * (2 * np.logical_xor(data_sequence,clk_sequence).astype(int) - 1) #Manchester Encoded - IEEE 802.3
+            MainFunctions.graph_widget_setting(self, manchester_encoded)
+
+
+    def graph_widget_setting(self, coded_bits):
+
+        if self.BB_graph_flag == False:
+            self.BB_graph_flag = True
+
+            self.grafica = plt_bits_coded(coded_bits) #Banda Base
+            self.toolbar = NavigationToolbar(self.grafica, self)
+
+            self.ui.prevPBlayout.addWidget(self.grafica)
+            self.ui.prevPBlayout.addWidget(self.toolbar)
+
+        else:
+            self.ui.prevPBlayout.removeWidget(self.grafica)
+            self.ui.prevPBlayout.removeWidget(self.toolbar)
+
+            self.grafica = plt_bits_coded(coded_bits) #Banda Base
+            self.toolbar = NavigationToolbar(self.grafica, self)
+
+            self.ui.prevPBlayout.addWidget(self.grafica)
+            self.ui.prevPBlayout.addWidget(self.toolbar)
+
+                     
                         
     def graph_signal(self, constellation, symbols, tsim, fsample):    
 
@@ -1629,14 +1699,16 @@ class MainFunctions(MainWindow):
 #########################################################################3#   
         
         
-class plt_carrier(FigureCanvas):
+class plt_bits_coded(FigureCanvas):
      
-    def __init__(self, x, y, parent = None):        
+    def __init__(self, x, parent = None):        
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
     
-        self.ax.plot(x, y)
-        self.ax.grid()
+        plt.plot(x[0:2000])
+
+        #self.ax.plot()
+        #self.ax.grid()
         
         
 class plt_modulated_signal(FigureCanvas):
