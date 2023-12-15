@@ -600,25 +600,26 @@ class MainFunctions(MainWindow):
 
         clk_sequence = np.repeat(clk, spb)
         data_sequence = np.repeat(bits, 2 * spb) #Basic bits
+        t = np.arange(len(data_sequence)) / fs
 
         if codeline == 0:
-            MainFunctions.graph_widget_setting(self, data_sequence)
+            MainFunctions.graph_widget_setting(self, data_sequence, t)
 
         elif codeline == 1:
             unipolar_nrz = amplitude * data_sequence #Unipolar non-return-to-zero level
-            MainFunctions.graph_widget_setting(self, unipolar_nrz)
+            MainFunctions.graph_widget_setting(self, unipolar_nrz, t)
 
         elif codeline == 2:
             nrz_bipolar = amplitude * (2 * data_sequence - 1) #Bipolar Non-return-to-zero level
-            MainFunctions.graph_widget_setting(self, nrz_bipolar)
+            MainFunctions.graph_widget_setting(self, nrz_bipolar, t)
 
         elif codeline == 3:
             unipolar_rz = amplitude * (data_sequence * (1 - clk_sequence)) #Unipolar return-to-zero
-            MainFunctions.graph_widget_setting(self, unipolar_rz)
+            MainFunctions.graph_widget_setting(self, unipolar_rz, t)
 
         elif codeline == 4:
             rz_bipolar = amplitude * (data_sequence * (1 - clk_sequence) - 0.5) #Unipolar return-to-zero
-            MainFunctions.graph_widget_setting(self, rz_bipolar)
+            MainFunctions.graph_widget_setting(self, rz_bipolar, t)
 
 
         elif codeline == 5:
@@ -636,21 +637,21 @@ class MainFunctions(MainWindow):
                     previousOne = 0
 
             ami_sequence = np.repeat(ami, 2 * spb) #Alternate Mark Inversion (AMI)
-            MainFunctions.graph_widget_setting(self, ami_sequence)
+            MainFunctions.graph_widget_setting(self, ami_sequence, t)
 
 
 
         elif codeline == 6:
             manchester_encoded = amplitude * (2 * np.logical_xor(data_sequence,clk_sequence).astype(int) - 1) #Manchester Encoded - IEEE 802.3
-            MainFunctions.graph_widget_setting(self, manchester_encoded)
+            MainFunctions.graph_widget_setting(self, manchester_encoded, t)
 
 
-    def graph_widget_setting(self, coded_bits):
+    def graph_widget_setting(self, coded_bits, t):
 
         if self.BB_graph_flag == False:
             self.BB_graph_flag = True
 
-            self.grafica = plt_bits_coded(coded_bits) #Banda Base
+            self.grafica = plt_bits_coded(coded_bits, t) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
             self.ui.prevPBlayout.addWidget(self.grafica)
@@ -660,7 +661,7 @@ class MainFunctions(MainWindow):
             self.ui.prevPBlayout.removeWidget(self.grafica)
             self.ui.prevPBlayout.removeWidget(self.toolbar)
 
-            self.grafica = plt_bits_coded(coded_bits) #Banda Base
+            self.grafica = plt_bits_coded(coded_bits, t) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
             self.ui.prevPBlayout.addWidget(self.grafica)
@@ -683,7 +684,7 @@ class MainFunctions(MainWindow):
             t2, modulated = MainFunctions.plot_modulated(self, tsim, fsample, symbols)
             
 
-            self.grafica1 = plt_modulated_signal2(t1, symbols.real, t1, symbols.imag) #Banda Base
+            self.grafica1 = plt_modulated_signal2(t1, symbols.real, t1, symbols.imag) #Banda Base IQ with pulse Shaping
             self.toolbar1 = NavigationToolbar(self.grafica1, self)
             
             self.grafica2 = plt_modulated_signal(symbols, fsample) #DEP Creo
@@ -1701,11 +1702,15 @@ class MainFunctions(MainWindow):
         
 class plt_bits_coded(FigureCanvas):
      
-    def __init__(self, x, parent = None):        
+    def __init__(self, y, x, parent = None):        
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
     
-        plt.plot(x[0:2000])
+        plt.plot(x[0:40000], y[0:40000])
+        plt.grid()
+        self.ax.set_title("Primeros bits que componen el mensaje (tbit aprox = 0.0004)")
+        #self.ax.set_ylabel("Amplitud (Referencial)")
+        #self.ax.set_xlabel("Tiempo")
 
         #self.ax.plot()
         #self.ax.grid()

@@ -1505,7 +1505,8 @@ class MainWindow(QMainWindow):
     def graph_original_bits(self):
 
         fsample = self.fsample
-        spb = 100 #samples per bit
+        tbit = self.ui.tbit.value()
+        spb = 200 #samples per bit
         amplitude = 5
         codeline = self.ui.codeBox.currentIndex()
         
