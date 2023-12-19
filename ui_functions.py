@@ -1151,7 +1151,7 @@ class MainFunctions(MainWindow):
             for i, point in enumerate(samples):
                 print(point)
                 circle[i] = MainFunctions.is_inside_sm(self, umbrales_no[2], point)
-        print(circle)
+        #print(circle)
 
         regiones = eval(regiones)
         for index,region in enumerate(regiones):
@@ -1161,12 +1161,18 @@ class MainFunctions(MainWindow):
         #for index,bits in enumerate(bits_save):
         #    bits_save[index] = eval(bits)
         
-        result = np.select(regiones, bits_save, default='No condition met')
+        result = np.select(regiones, bits_save, default=random.choice(bits_save))
 
         #Se puede poner lo siguiente para retornar None en default y despues, fuera de la función, quitarle esos None
         #result = result[~np.isnan(result)]
 
         return result
+        
+    def bits_to_string(self,bits):
+        binary_string = ''.join(bits)
+        text = ''.join((chr(int(binary_string[i:i+8],2))) for i in range(0,len(binary_string),8))
+        return text
+        
 
 
     def interpolate_umbrales(self, umbrales):
@@ -1517,8 +1523,10 @@ class MainFunctions(MainWindow):
         
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
-        umbral = 4
-        resultado = np.where(~(self.plot.real <=margen) | ~(self.plot.real >=-margen) | ~(self.plot.imag <=margen) | ~(self.plot.imag >=-margen))
+        margen = 4
+        resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
+        print(resultado)
+        print(self.muestras)
         start = resultado[0][0]
         end = resultado[0][-1:]
         end = int(end[0])
@@ -1552,12 +1560,12 @@ class MainFunctions(MainWindow):
             
             sin_nada = filtered #Muestras para señal solo filtrada
             
-            filtered, peak_hz = self.coarse_frequency_correction(self, filtered, fsample, nsimb) #Se aplica correción de Frecuencia Portadora
+            filtered, peak_hz = MainFunctions.coarse_frequency_correction(self, filtered, fsample, nsimb) #Se aplica correción de Frecuencia Portadora
             #Verificar la formula con nsimb para esta función, por favor. Documentación en pysdr.org
             
             solo_freq_coarse = filtered #Muestras para señal con solo Frecuencia corregida
             
-            filtered_phase, delta_phi = self.coarse_phase_correction(self,filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
+            filtered_phase, delta_phi = MainFunctions.coarse_phase_correction(self,filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
             
             #Sincronización en tiempo (No Muller). RECORDAR QUE LA NORMALIZACIÓN VARÍA CON LA CONSTELACIÓN
             symbolindices = np.arange(0, len(filtered), sps) #Indices para tomar muestra cada Sps
@@ -1576,37 +1584,60 @@ class MainFunctions(MainWindow):
             simbolos_phase_freq = simbolos_phase_freq / np.max(simbolos_phase_freq)
             
             #Sincronización en tiempo con Muller
-            simbolos2 = self.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
+            simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
             
             #Se aplica Fine Frequency Correction. PILA CON LOS ESQUEMAS, SE DEBEN SELECCIONAR DE ANTES
-            simbolos2, freq_log2 = self.fine_frequency_correction2(self, simbolos2, fs=fsample / sps, modulation_scheme = 'BPSK', alpha = 0.132, beta = 0.00932) #Con muller, con coarse y fine freq
+            simbolos2, freq_log2 = MainFunctions.fine_frequency_correction2(self, simbolos2, fs=fsample / sps, modulation_scheme = 'BPSK', alpha = 0.132, beta = 0.00932) #Con muller, con coarse y fine freq
             
-            simbolos, freq_log = self.fine_frequency_correction2(self, simbolos, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Señal sin muller, con coarse y fine freq
+            simbolos, freq_log = MainFunctions.fine_frequency_correction2(self, simbolos, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Señal sin muller, con coarse y fine freq
             
-            simbolos3, freq_log3 = self.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
+            simbolos3, freq_log3 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
             
-            simbolos4 = self.fine_frequency_correction(self, simbolos_phase_freq, (1/tsim)*2, initial_freq_offset=0.0, modulation_scheme = 'BPSK') #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = 'BPSK') #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
+            esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
             
             #Se acumulan los resultados obtenidos de todas las partes luego de aplicar esquema RX.
-            resultado_total = np.append(resultado_total,self.check_conditions(self,simbolos, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Sin muller, con coarse y fine freq
+            resultado_total = np.append(resultado_total,MainFunctions.check_conditions(self,simbolos, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con coarse y fine freq
     
-            resultado_total2 = np.append(resultado_total2,self.check_conditions(self,simbolos2, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Con muller, con coarse y fine freq
+            resultado_total2 = np.append(resultado_total2,MainFunctions.check_conditions(self,simbolos2, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Con muller, con coarse y fine freq
     
-            resultado_total3 = np.append(resultado_total3,self.check_conditions(self,simbolos_sin_nada, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Solo filtrando sin hacer nada más
+            resultado_total3 = np.append(resultado_total3,MainFunctions.check_conditions(self,simbolos_sin_nada, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Solo filtrando sin hacer nada más
     
-            resultado_total4 = np.append(resultado_total4,self.check_conditions(self,simbolos_solo_freq_coarse, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Solo freq coarse
+            resultado_total4 = np.append(resultado_total4,MainFunctions.check_conditions(self,simbolos_solo_freq_coarse, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Solo freq coarse
     
-            resultado_total5 = np.append(resultado_total5,self.check_conditions(self,simbolos_phase_freq, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Solo freq coarse y phase "coarse"
+            resultado_total5 = np.append(resultado_total5,MainFunctions.check_conditions(self,simbolos_phase_freq, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Solo freq coarse y phase "coarse"
     
-            resultado_total6 = np.append(resultado_total6,self.check_conditions(self,simbolos3, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
+            resultado_total6 = np.append(resultado_total6,MainFunctions.check_conditions(self,simbolos3, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
     
-            resultado_total7 = np.append(resultado_total7,self.check_conditions(simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
             #En este punto se obtuvieron un arreglos con strings de 1's y 0's, que representan el resultado del esquema RX para cada método
             #De allí se pueden convertir a texto, imagen, o el formato requerido
             #FIN DEL CICLO FOR
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
+        print("")
+        print("Resultado 1:")
+        print(MainFunctions.bits_to_string(self,resultado_total))
+        print("")
+        print("Resultado 2:")
+        print(MainFunctions.bits_to_string(self,resultado_total2))
+        print("")
+        print("Resultado 3:")
+        print(MainFunctions.bits_to_string(self,resultado_total3))
+        print("")
+        print("Resultado 4:")
+        print(MainFunctions.bits_to_string(self,resultado_total4))
+        print("")
+        print("Resultado 5:")
+        print(MainFunctions.bits_to_string(self,resultado_total5))
+        print("")
+        print("Resultado 6:")
+        print(MainFunctions.bits_to_string(self,resultado_total6))
+        print("")
+        print("Resultado 7:")
+        print(MainFunctions.bits_to_string(self,resultado_total7))
+        print("")
 
         #Cuarto paso: Verificar y seleccionar mejor resultado
         
@@ -1652,6 +1683,7 @@ class MainFunctions(MainWindow):
         print(len(t))
         
         self.x = t
+        self.x1 = self.x
         self.y = self.sdr.rx().real
         
         pen1 = pg.mkPen(color=(255, 0, 0), style = QtCore.Qt.NoPen)

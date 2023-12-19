@@ -32,6 +32,7 @@ from commpy.filters import rrcosfilter
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
+import random
 from random import randint
 
 class MainWindow(QMainWindow):
@@ -547,15 +548,21 @@ class MainWindow(QMainWindow):
         ######## UMBRALES PREDEFINIDOS
         
         if self.ui.UmbPreBtn.isChecked() == True:
-            n_symbol_index = self.ui.simPBitBox.currentIndex()                  
+            print("Entró condicional inicio recepcion")
+            n_symbol_index = self.ui.simPBitBox.currentIndex()
+            print("n_symbol_index es:", n_symbol_index)               
             
             if n_symbol_index == 1:
+                print("Entro segundo condicional")
                 threshold_index = self.ui.geoBox_1.currentIndex()
                 n_symbol = 2
                 
                 thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                print("Umbrales definidos listos")
                 regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                print("Regiones definidas listas")
                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                print("Umbrales interpolados listos")
                 print("2- UMBRALES Y REGIONES CONFIGURADOS")
                 print("3. RECIBIENDO...")
                 MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, threshold_index)
