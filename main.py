@@ -1512,8 +1512,14 @@ class MainWindow(QMainWindow):
     def graph_original_bits(self):
 
         fsample = self.fsample
-        tbit = self.ui.tbit.value()
-        spb = 200 #samples per bit
+        tsim = self.ui.tbit.value() 
+
+        if self.defined_const_flag == True:
+            index_n_symbols = self.ui.simPBitBox.currentIndex()
+
+        if self.user_defined_const_flag == True:
+            index_n_symbols = self.ui.simPBitBox_2.currentIndex()
+
         amplitude = 5
         codeline = self.ui.codeBox.currentIndex()
         
@@ -1526,13 +1532,16 @@ class MainWindow(QMainWindow):
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
         
-        if message == "":
+        if message == "" and index_n_symbols == 0:
+            self.ui.simWarnTxt.setText("Hace falta definir al mensaje y número de simbolos por bit")
+        elif message == "":
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
-
-        else:
+        elif index_n_symbols == 0:
+            self.ui.simWarnTxt.setText("Hace falta definir el número de simbolos por bit")  
+        elif message != "" and index_n_symbols != 0:
             self.ui.simWarnTxt.setText("")
             message = MainFunctions.string_to_bits(self, message)
-            MainFunctions.graph_original_bits(self, message, fsample, spb, amplitude, codeline)     
+            MainFunctions.graph_original_bits(self, message, fsample, amplitude, codeline, index_n_symbols, tsim)     
         
 
     def bit_frecuency(self, d1):

@@ -594,32 +594,45 @@ class MainFunctions(MainWindow):
         return message
 
                        
-    def graph_original_bits(self, bits, fs, spb, amplitude, codeline):
+    def graph_original_bits(self, bits, fs, amplitude, codeline, index_n_symbol, tsim):
 
-        clk = np.arange(0,2*len(bits)) % 2 # clock samples
+        if index_n_symbol == 1:
+            n_bits = 1
+        if index_n_symbol == 2:
+            n_bits = 2
+        if index_n_symbol == 3:
+            n_bits = 3
+        if index_n_symbol == 4:
+            n_bits = 4
 
+        tbit = tsim / n_bits
+
+        spb = int(tbit * fs)
+
+        clk = np.arange(0, len(bits)) % 2 # clock samples
         clk_sequence = np.repeat(clk, spb)
-        data_sequence = np.repeat(bits, 2 * spb) #Basic bits
+
+        data_sequence = np.repeat(bits, spb) #Basic bits
         t = np.arange(len(data_sequence)) / fs
 
         if codeline == 0:
-            MainFunctions.graph_widget_setting(self, data_sequence, t)
+            MainFunctions.graph_widget_setting(self, data_sequence, t, tbit)
 
         elif codeline == 1:
             unipolar_nrz = amplitude * data_sequence #Unipolar non-return-to-zero level
-            MainFunctions.graph_widget_setting(self, unipolar_nrz, t)
+            MainFunctions.graph_widget_setting(self, unipolar_nrz, t, tbit)
 
         elif codeline == 2:
             nrz_bipolar = amplitude * (2 * data_sequence - 1) #Bipolar Non-return-to-zero level
-            MainFunctions.graph_widget_setting(self, nrz_bipolar, t)
+            MainFunctions.graph_widget_setting(self, nrz_bipolar, t, tbit)
 
         elif codeline == 3:
             unipolar_rz = amplitude * (data_sequence * (1 - clk_sequence)) #Unipolar return-to-zero
-            MainFunctions.graph_widget_setting(self, unipolar_rz, t)
+            MainFunctions.graph_widget_setting(self, unipolar_rz, t, tbit)
 
         elif codeline == 4:
             rz_bipolar = amplitude * (data_sequence * (1 - clk_sequence) - 0.5) #Unipolar return-to-zero
-            MainFunctions.graph_widget_setting(self, rz_bipolar, t)
+            MainFunctions.graph_widget_setting(self, rz_bipolar, t, tbit)
 
 
         elif codeline == 5:
@@ -637,21 +650,20 @@ class MainFunctions(MainWindow):
                     previousOne = 0
 
             ami_sequence = np.repeat(ami, 2 * spb) #Alternate Mark Inversion (AMI)
-            MainFunctions.graph_widget_setting(self, ami_sequence, t)
-
+            MainFunctions.graph_widget_setting(self, ami_sequence, t, tbit)
 
 
         elif codeline == 6:
             manchester_encoded = amplitude * (2 * np.logical_xor(data_sequence,clk_sequence).astype(int) - 1) #Manchester Encoded - IEEE 802.3
-            MainFunctions.graph_widget_setting(self, manchester_encoded, t)
+            MainFunctions.graph_widget_setting(self, manchester_encoded, t, tbit)
 
 
-    def graph_widget_setting(self, coded_bits, t):
+    def graph_widget_setting(self, coded_bits, t, tbit):
 
         if self.BB_graph_flag == False:
             self.BB_graph_flag = True
 
-            self.grafica = plt_bits_coded(coded_bits, t) #Banda Base
+            self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
             self.ui.prevPBlayout.addWidget(self.grafica)
@@ -661,7 +673,7 @@ class MainFunctions(MainWindow):
             self.ui.prevPBlayout.removeWidget(self.grafica)
             self.ui.prevPBlayout.removeWidget(self.toolbar)
 
-            self.grafica = plt_bits_coded(coded_bits, t) #Banda Base
+            self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
             self.ui.prevPBlayout.addWidget(self.grafica)
@@ -1734,13 +1746,13 @@ class MainFunctions(MainWindow):
         
 class plt_bits_coded(FigureCanvas):
      
-    def __init__(self, y, x, parent = None):        
+    def __init__(self, y, x, tbit, parent = None):        
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
     
         plt.plot(x[0:40000], y[0:40000])
         plt.grid()
-        self.ax.set_title("Primeros bits que componen el mensaje (tbit aprox = 0.0004)")
+        self.ax.set_title("Primeros bits que componen el mensaje (tbit aprox = " + str(tbit) + ")")
         #self.ax.set_ylabel("Amplitud (Referencial)")
         #self.ax.set_xlabel("Tiempo")
 
