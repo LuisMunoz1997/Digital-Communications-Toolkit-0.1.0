@@ -649,7 +649,7 @@ class MainFunctions(MainWindow):
                     ami[i]= -amplitude
                     previousOne = 0
 
-            ami_sequence = np.repeat(ami, 2 * spb) #Alternate Mark Inversion (AMI)
+            ami_sequence = np.repeat(ami, spb) #Alternate Mark Inversion (AMI)
             MainFunctions.graph_widget_setting(self, ami_sequence, t, tbit)
 
 
@@ -1215,6 +1215,7 @@ class MainFunctions(MainWindow):
         self.ui.DEPlayout.addWidget(self.graphWidget_3)
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
         """
+
         self.timer.setInterval(50)
         self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, fsample))
         self.timer.start()
@@ -1716,7 +1717,7 @@ class MainFunctions(MainWindow):
             self.reception_initiated = True
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
             
-            self.timer.setInterval(50)
+            self.timer.setInterval(10)
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
             self.timer.start()
             
@@ -1735,7 +1736,7 @@ class MainFunctions(MainWindow):
             
             
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
-            self.timer.setInterval(50)
+            self.timer.setInterval(10)
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
             self.timer.start()
             
