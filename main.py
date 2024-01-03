@@ -193,7 +193,16 @@ class MainWindow(QMainWindow):
         #TRANSMISSION-ARCHIVE PAGE
         self.ui.fileBtn_2.clicked.connect(self.open_transmission2)
         self.ui.fileBtn_2.clicked.connect(self.close)
-        
+
+#####################################################################################
+        #RECEPTION GRAPHS BUTTONS
+        self.ui.graph_recep.clicked.connect(self.recep_filter_signal)
+        self.ui.graph_recep_2.clicked.connect(self.recep_freq_fase_signal)
+        self.ui.graph_recep_1.clicked.connect(self.recep_time_sync_signal)
+        self.ui.graph_recep_0.clicked.connect(self.recep_error_correc_signal)
+
+#####################################################################################
+
         #CHOOSE PATH
         self.ui.ArchiveBtn.clicked.connect(self.setArchive)
 
@@ -492,6 +501,23 @@ class MainWindow(QMainWindow):
 #######################################################################################################################################
 #METHODS
 ####################################################################################################################################### 
+        
+
+    def recep_filter_signal(self):
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
+
+    def recep_freq_fase_signal(self):
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
+
+    def recep_time_sync_signal(self):
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_35)
+
+    def recep_error_correc_signal(self):
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
+
+
+
+
     def configure_signal(self):
         if self.configured_signal == False:
             self.configured_signal = True

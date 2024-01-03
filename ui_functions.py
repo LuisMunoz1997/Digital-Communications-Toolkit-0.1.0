@@ -1499,6 +1499,8 @@ class MainFunctions(MainWindow):
         return signal * np.exp(-1j*delta_phi)
         
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_29)
+
         self.timer.stop()
         self.ui.SRlayout.removeWidget(self.graphWidget_2)
         self.ui.Constlayout.removeWidget(self.graphWidget)
