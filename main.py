@@ -582,6 +582,12 @@ class MainWindow(QMainWindow):
                 print("Entro segundo condicional")
                 threshold_index = self.ui.geoBox_1.currentIndex()
                 n_symbol = 2
+                esquema = threshold_index
+                #Esquema = 1 - Recta inclinada - FSK probablemente
+                #Esquema = 2 - Recta paralela eje X - BPSK con simbolos arriba y abajo
+                #Esquema = 3 - Recta paralela eje Y - BPSK normal
+                #Esquema = 4 - Recta eje Y=1.5 - ASK normal
+                #Esquema = 5 - Recta eje Y=0.5 - OOK normal, probablemente no se use
                 
                 thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
                 print("Umbrales definidos listos")
@@ -591,12 +597,25 @@ class MainWindow(QMainWindow):
                 print("Umbrales interpolados listos")
                 print("2- UMBRALES Y REGIONES CONFIGURADOS")
                 print("3. RECIBIENDO...")
-                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, threshold_index)
+                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
                 
             elif n_symbol_index == 2:
                 threshold_index = self.ui.geoBox_2.currentIndex()
                 n_symbol = 4
+                esquema = threshold_index
+                #Esquema = 1 - Rectas diagonales - QPSK en ejes
+                #Esquema = 2 - Rectas paralelas ejes - QPSK normal
+                #Esquema = 3 - Rectas verticales - 4ASK normal
                 
+                thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                print("Umbrales definidos listos")
+                regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                print("Regiones definidas listas")
+                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                print("Umbrales interpolados listos")
+                print("2- UMBRALES Y REGIONES CONFIGURADOS")
+                print("3. RECIBIENDO...")
+                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                
                 
                 
             elif n_symbol_index == 3:

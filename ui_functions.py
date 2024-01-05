@@ -1564,6 +1564,14 @@ class MainFunctions(MainWindow):
         resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
         resultado_total7 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
         
+        #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
+        if nsimb == 2 and esquema == 3: #BPSK normal
+            mod_scheme = "BPSK"
+        elif nsimb == 4 and esquema == 2: #QPSK normal
+            mod_scheme = "QPSK"
+        
+        factor = np.max(MainFunctions.create_constellation_tx(self, nsimb,esquema).real) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
+        
         #(Linea para seleccion de esquema de modulación basado en nsimb y esquema de umbral elegido)
         print("6. INICIALIZANDO ESQUEMA CORRECCION Y DETECCION RX")
         for paquete in resultado_packets:
@@ -1588,27 +1596,31 @@ class MainFunctions(MainWindow):
             simbolos = filtered[symbolindices] #Señal sin muller, con coarse y fine freq
             simbolos.real = simbolos.real/np.max(simbolos.real)
             simbolos.imag = simbolos.imag/np.max(simbolos.imag)
-           
+            simbolos = simbolos * factor
+            
             simbolos_sin_nada = sin_nada[symbolindices] #Solo señal Filtrada
             simbolos_sin_nada = simbolos_sin_nada / np.max(simbolos_sin_nada)
+            simbolos_sin_nada = simbolos_sin_nada * factor
             
             simbolos_solo_freq_coarse = solo_freq_coarse[symbolindices] #Señal con solo Frecuencia corregida
             simbolos_solo_freq_coarse = simbolos_solo_freq_coarse / np.max(simbolos_solo_freq_coarse)
+            simbolos_solo_freq_coarse = simbolos_solo_freq_coarse * factor
             
             simbolos_phase_freq = filtered_phase[symbolindices] #Señal con Frecuencia y Fase corregida
             simbolos_phase_freq = simbolos_phase_freq / np.max(simbolos_phase_freq)
+            simbolos_phase_freq = simbolos_phase_freq * factor
             
             #Sincronización en tiempo con Muller
             simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
             
             #Se aplica Fine Frequency Correction. PILA CON LOS ESQUEMAS, SE DEBEN SELECCIONAR DE ANTES
-            simbolos2, freq_log2 = MainFunctions.fine_frequency_correction2(self, simbolos2, fs=fsample / sps, modulation_scheme = 'BPSK', alpha = 0.132, beta = 0.00932) #Con muller, con coarse y fine freq
+            simbolos2, freq_log2 = MainFunctions.fine_frequency_correction2(self, simbolos2, fs=fsample / sps, modulation_scheme = mod_scheme, alpha = 0.132, beta = 0.00932) #Con muller, con coarse y fine freq
             
-            simbolos, freq_log = MainFunctions.fine_frequency_correction2(self, simbolos, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Señal sin muller, con coarse y fine freq
+            simbolos, freq_log = MainFunctions.fine_frequency_correction2(self, simbolos, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Señal sin muller, con coarse y fine freq
             
-            simbolos3, freq_log3 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = 'BPSK', alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
+            simbolos3, freq_log3 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
             
-            simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = 'BPSK') #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = mod_scheme) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
             esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
             
