@@ -737,10 +737,12 @@ class MainWindow(QMainWindow):
             message = self.ui.text.toPlainText()
 
         elif self.filepath_flag_message == True:
-            message = np.fromfile(self.filePath[0], dtype=np.uint8)
-            int_message = message
-            message = np.unpackbits(message)
-            message = np.asarray(message, dtype=bool)
+            message = self.filePath[0]
+
+            #message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            #int_message = message
+            #message = np.unpackbits(message)
+            #message = np.asarray(message, dtype=bool)
         
         if message == "":
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
@@ -785,8 +787,8 @@ class MainWindow(QMainWindow):
                         for packet_symbols in symbols_to_send:
                             self.sdr.tx(packet_symbols)
                         print("ENVIANDO")
-                        print(int_message[0:10])
-                        print(int_message[-10:])
+                        #print(int_message[0:10])
+                        #print(int_message[-10:])
                         after = time.time()
                         print('Estimado {}', after-now)
                     
@@ -829,7 +831,7 @@ class MainWindow(QMainWindow):
                         for packet_symbols in symbols_to_send:
                             self.sdr.tx(packet_symbols)
                         print("ENVIANDO")
-                        print(int_message)
+                        #print(int_message)
                         after = time.time()
                         print('Estimado {}', after-now)
                     
@@ -1149,10 +1151,12 @@ class MainWindow(QMainWindow):
             message = self.ui.text.toPlainText()
 
         if self.filepath_flag_message == True:
-            message = np.fromfile(self.filePath[0], dtype=np.uint8)
-            int_message = message
-            message = np.unpackbits(message)
-            message = np.asarray(message, dtype=bool)
+            message = self.filePath[0]
+
+            #message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            #int_message = message
+            #message = np.unpackbits(message)
+            #message = np.asarray(message, dtype=bool)
         
         if message == "":
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
@@ -1572,10 +1576,12 @@ class MainWindow(QMainWindow):
             message = self.ui.text.toPlainText()
 
         if self.filepath_flag_message == True:
-            message = np.fromfile(self.filePath[0], dtype=np.uint8)
-            int_message = message
-            message = np.unpackbits(message)
-            message = np.asarray(message, dtype=bool)
+            message = self.filePath[0]
+
+            #message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            #int_message = message
+            #message = np.unpackbits(message)
+            #message = np.asarray(message, dtype=bool)
         
         if message == "" and index_n_symbols == 0:
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje y número de simbolos por bit")
