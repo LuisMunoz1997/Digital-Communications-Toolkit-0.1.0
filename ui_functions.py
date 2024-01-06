@@ -1676,6 +1676,7 @@ class MainFunctions(MainWindow):
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
         
         t = np.arange(len(self.muestras)) / 522000
+
         self.grafica2 = plt_received_signal2(t,self.muestras.real, t,self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL EN BITS RECONTRUIDOS
         self.toolbar2 = NavigationToolbar(self.grafica2, self)
 
@@ -1685,14 +1686,16 @@ class MainFunctions(MainWindow):
         self.grafica4 = plt_received_signal4(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
             
-        self.ui.recBBlayout.addWidget(self.grafica2)
-        self.ui.recBBlayout.addWidget(self.toolbar2)
+
         self.ui.DEPlayout.addWidget(self.grafica1)
         self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.SRlayout.addWidget(self.grafica2)
+        self.ui.SRlayout.addWidget(self.toolbar2)
         self.ui.Constlayout.addWidget(self.grafica3)
         self.ui.Constlayout.addWidget(self.toolbar3)
-        self.ui.SRlayout.addWidget(self.grafica4)
-        self.ui.SRlayout.addWidget(self.toolbar4)
+        self.ui.recBBlayout.addWidget(self.grafica4)
+        self.ui.recBBlayout.addWidget(self.toolbar4)
+
         
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):

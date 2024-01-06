@@ -209,6 +209,8 @@ class MainWindow(QMainWindow):
         #RECEIVED MESSAGE FORMAT
         self.ui.formatBox.activated.connect(self.format_box_animation_desicion)
         
+########################################################################################################## SIGNAL RECEIVED AND RECOVERED
+
         #INFO ABOUT THE SIGNAL
         self.ui.dataBtn.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_14))
         
@@ -225,7 +227,20 @@ class MainWindow(QMainWindow):
         self.ui.recBBBTN.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4))
 
         #MESSAGE RETRIEVED
-        self.ui.mesRecBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))     
+        self.ui.mesRecBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))
+
+######################################################################################################## REAL TIME
+        
+        #SIGNAL RECEIVED 
+        self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+      
+        #DEP
+        self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
+
+        #CONSTELATION
+        self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
+
+
         
         ## SYMBOL DETECTION
         ########################################################################
@@ -622,10 +637,13 @@ class MainWindow(QMainWindow):
                 threshold_index = self.ui.geoBox_3.currentIndex()
                 n_symbol = 8
                 
+
                 
             elif n_symbol_index == 4:
                 threshold_index = self.ui.geoBox_4.currentIndex()
                 n_symbol = 16
+
+                
                 
         ######## UMBRALES DEFINIDOS POR EL USUARIO
  
