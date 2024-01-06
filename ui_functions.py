@@ -1502,9 +1502,13 @@ class MainFunctions(MainWindow):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_29)
 
         self.timer.stop()
+
         self.ui.SRlayout.removeWidget(self.graphWidget_2)
         self.ui.Constlayout.removeWidget(self.graphWidget)
         self.ui.DEPlayout.removeWidget(self.graphWidget_3)
+        self.ui.recBBlayout.removeWidget(self.graphWidget_4)
+
+
         print("3- RECEPCIÓN TERMINADA")
         """
         #Como primer paso separo la señal del preambulo y los filtro un poco para eliminar ruido
@@ -1728,6 +1732,9 @@ class MainFunctions(MainWindow):
         
         self.ui.DEPlayout.addWidget(self.graphWidget_3)
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
+
+        self.ui.recBBlayout.addWidget(self.graphWidget_4)
+        self.data_line3 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
         
         self.muestras = np.array([], dtype=complex)
         
@@ -1742,14 +1749,15 @@ class MainFunctions(MainWindow):
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
             
         else:
-            self.ui.recBBlayout.removeWidget(self.grafica1)
-            self.ui.recBBlayout.removeWidget(self.toolbar1)
-            self.ui.prevDEPlayout.removeWidget(self.grafica2)
-            self.ui.prevDEPlayout.removeWidget(self.toolbar2)
-            self.ui.prevConstlayout.removeWidget(self.grafica3)
-            self.ui.prevConstlayout.removeWidget(self.toolbar3)
-            self.ui.SRlayout.removeWidget(self.grafica4)
-            self.ui.SRlayout.removeWidget(self.toolbar4)
+            #self.ui.recBBlayout.removeWidget(self.grafica1)
+            #self.ui.recBBlayout.removeWidget(self.toolbar1)
+            #self.ui.prevDEPlayout.removeWidget(self.grafica2)
+            #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
+            #self.ui.prevConstlayout.removeWidget(self.grafica3)
+            #self.ui.prevConstlayout.removeWidget(self.toolbar3)
+            #self.ui.SRlayout.removeWidget(self.grafica4)
+            #self.ui.SRlayout.removeWidget(self.toolbar4)
+
             self.ui.finalInfo_2.setText("")
             
             
