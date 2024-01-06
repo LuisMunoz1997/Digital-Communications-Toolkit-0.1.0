@@ -1306,9 +1306,9 @@ class MainFunctions(MainWindow):
         signal_fft = np.fft.fftshift(np.abs(np.fft.fft(signal)))
         f = np.linspace(-Fs/2.0, Fs/2.0, len(signal_fft))
         
-        fig1, ax1 = plt.subplots(2)
-        ax1[0].plot(f,signal_fft)
-        ax1[0].set_title('FFT Signal sin potencia')
+        #fig1, ax1 = plt.subplots(2)
+        #ax1[0].plot(f,signal_fft)
+        #ax1[0].set_title('FFT Signal sin potencia')
     
         #Elevo a la potencia del esquema de modulacion la señal
         signal_potencia = np.power(signal,nsimb)
@@ -1673,10 +1673,11 @@ class MainFunctions(MainWindow):
         self.ui.finalInfo_2.setText("") #AQUÍ COLOCAR INFORMACIÓN ESPECIFICA CON RESPECTO A LA SEÑAL RECIBIDA COMO "PROBABILIDAD DE ERROR", NUMERO DE BITS RECIBIDOS, NUMERO DE BITS CON ERRORES, ENTRE OTROS
 
         self.grafica1 = plt_received_signal(self.muestras, 522000)  #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
-        self.toolbar1 = NavigationToolbar(self.grafica2, self)
+        self.toolbar1 = NavigationToolbar(self.grafica1, self)
         
+        t = np.arange(len(self.muestras)) / 522000
         self.grafica2 = plt_received_signal2(t,self.muestras.real, t,self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL EN BITS RECONTRUIDOS
-        self.toolbar2 = NavigationToolbar(self.grafica1, self)
+        self.toolbar2 = NavigationToolbar(self.grafica2, self)
 
         self.grafica3 = plt_received_signal3(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
@@ -1684,12 +1685,12 @@ class MainFunctions(MainWindow):
         self.grafica4 = plt_received_signal4(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
             
-        self.ui.recBBlayout.addWidget(self.grafica1)
-        self.ui.recBBlayout.addWidget(self.toolbar1)
-        self.ui.prevDEPlayout.addWidget(self.grafica2)
-        self.ui.prevDEPlayout.addWidget(self.toolbar2)
-        self.ui.prevConstlayout.addWidget(self.grafica3)
-        self.ui.prevConstlayout.addWidget(self.toolbar3)
+        self.ui.recBBlayout.addWidget(self.grafica2)
+        self.ui.recBBlayout.addWidget(self.toolbar2)
+        self.ui.DEPlayout.addWidget(self.grafica1)
+        self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.Constlayout.addWidget(self.grafica3)
+        self.ui.Constlayout.addWidget(self.toolbar3)
         self.ui.SRlayout.addWidget(self.grafica4)
         self.ui.SRlayout.addWidget(self.toolbar4)
         
@@ -1824,8 +1825,8 @@ class plt_received_signal(FigureCanvas):
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
         
-        self.ax.plot(x, y)
-        self.ax.grid()
+        #self.ax.plot(x, y)
+        #self.ax.grid()
         
 class plt_received_signal2(FigureCanvas):
      
