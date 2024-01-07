@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptiontUEVyA.ui'
+## Form generated from reading UI file 'receptionBMLZSF.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -76,9 +76,14 @@ class Ui_reception(object):
 "\n"
 "}\n"
 "\n"
-"#frame_5, #stackedWidget_22 QPushButton:hover{\n"
-"	background-color:"
-                        " #acacac;\n"
+"#frame_5 QPushButton:hover{\n"
+"	background-color: #acacac;\n"
+"	bord"
+                        "er-radius: 25px\n"
+"}\n"
+"\n"
+"#stackedWidget_22 QPushButton:hover{\n"
+"	background-color: #acacac;\n"
 "	border-radius: 25px\n"
 "}\n"
 "\n"
@@ -127,13 +132,13 @@ class Ui_reception(object):
 "	background-color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	border"
+                        "-style: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#stackedWidget_22 QPushButton {\n"
-"	background-color: "
-                        "#4d648d;\n"
+"	background-color: #4d648d;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
@@ -182,13 +187,13 @@ class Ui_reception(object):
 "#widget {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	"
+                        "border-style: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#widget_4, #widget_11, #widget_13 {\n"
-"	color: r"
-                        "gb(255, 255, 255);\n"
+"	color: rgb(255, 255, 255);\n"
 "	background-color: #4d648d;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -2155,12 +2160,12 @@ class Ui_reception(object):
         self.label_10.setText(QCoreApplication.translate("reception", u"Para la deteci\u00f3n de los simbolos, \u00bfComo prefiere definir los umbrales?", None))
         self.UmbPreBtn.setText(QCoreApplication.translate("reception", u"Umbrales previamente definidos", None))
         self.UmbDisBtn.setText(QCoreApplication.translate("reception", u"Dise\u00f1ar los umbrales ", None))
-        self.label_8.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de simbolos por bit de la se\u00f1al transmitida:", None))
+        self.label_8.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de bits codificados por simbolo:", None))
         self.simPBitBox.setItemText(0, "")
-        self.simPBitBox.setItemText(1, QCoreApplication.translate("reception", u"2 simbolos por bit", None))
-        self.simPBitBox.setItemText(2, QCoreApplication.translate("reception", u"4 simbolos por bit", None))
-        self.simPBitBox.setItemText(3, QCoreApplication.translate("reception", u"8 simbolos por bit", None))
-        self.simPBitBox.setItemText(4, QCoreApplication.translate("reception", u"16 simbolos por bit", None))
+        self.simPBitBox.setItemText(1, QCoreApplication.translate("reception", u"1 bit codificado por bit", None))
+        self.simPBitBox.setItemText(2, QCoreApplication.translate("reception", u"2 bits codificados por bit", None))
+        self.simPBitBox.setItemText(3, QCoreApplication.translate("reception", u"3 bits codificados por bit", None))
+        self.simPBitBox.setItemText(4, QCoreApplication.translate("reception", u"4 bits codificados por bit", None))
 
         self.label_11.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de simbolos por bit de la se\u00f1al transmitida:", None))
         self.simPBitBox_2.setItemText(0, "")

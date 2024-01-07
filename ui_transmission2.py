@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2mFXPuS.ui'
+## Form generated from reading UI file 'transmission2SoVnFj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
+
 
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -1541,6 +1542,7 @@ class Ui_transmission2(object):
         self.TranBtn.setDefault(False)
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
+        self.stackedWidget_4.setCurrentIndex(1)
         self.stackedWidget_8.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(1)
@@ -1617,17 +1619,17 @@ class Ui_transmission2(object):
         self.label_14.setText(QCoreApplication.translate("transmission2", u"\u00bfC\u00f3mo prefiere configurar la modulaci\u00f3n de la se\u00f1al?", None))
         self.UmbPreBtn.setText(QCoreApplication.translate("transmission2", u"Modulaci\u00f3n previamente definida ", None))
         self.UmbDisBtn.setText(QCoreApplication.translate("transmission2", u"Dise\u00f1ar la constelaci\u00f3n de la se\u00f1al", None))
-        self.label_8.setText(QCoreApplication.translate("transmission2", u"Escoja la cantidad de simbolos por bit de la se\u00f1al transmitida:", None))
+        self.label_8.setText(QCoreApplication.translate("transmission2", u"Escoja la cantidad de bits codificados por simbolo para la se\u00f1al:", None))
         self.simPBitBox.setItemText(0, "")
-        self.simPBitBox.setItemText(1, QCoreApplication.translate("transmission2", u"2 simbolos por bit", None))
-        self.simPBitBox.setItemText(2, QCoreApplication.translate("transmission2", u"4 simbolos por bit", None))
-        self.simPBitBox.setItemText(3, QCoreApplication.translate("transmission2", u"8 simbolos por bit", None))
-        self.simPBitBox.setItemText(4, QCoreApplication.translate("transmission2", u"16 simbolos por bit", None))
+        self.simPBitBox.setItemText(1, QCoreApplication.translate("transmission2", u"1 bit codificado por simbolo", None))
+        self.simPBitBox.setItemText(2, QCoreApplication.translate("transmission2", u"2 bits codificados por simbolo", None))
+        self.simPBitBox.setItemText(3, QCoreApplication.translate("transmission2", u"3 bits codificados por simbolo", None))
+        self.simPBitBox.setItemText(4, QCoreApplication.translate("transmission2", u"4 bits codificados por simbolo", None))
 
-        self.label_19.setText(QCoreApplication.translate("transmission2", u"Escoja la cantidad de simbolos por bit de la se\u00f1al transmitida:", None))
+        self.label_19.setText(QCoreApplication.translate("transmission2", u"Escoja la cantidad de bits codificados por simbolo para la se\u00f1al:", None))
         self.simPBitBox_2.setItemText(0, "")
-        self.simPBitBox_2.setItemText(1, QCoreApplication.translate("transmission2", u"2 simbolos por bit", None))
-        self.simPBitBox_2.setItemText(2, QCoreApplication.translate("transmission2", u"4 simbolos por bit", None))
+        self.simPBitBox_2.setItemText(1, QCoreApplication.translate("transmission2", u"1 bit codificados por simbolo", None))
+        self.simPBitBox_2.setItemText(2, QCoreApplication.translate("transmission2", u"2 bits codificados por simbolo", None))
 
         self.label_6.setText(QCoreApplication.translate("transmission2", u"Escoja el tipo de Modulaci\u00f3n:", None))
         self.modBox.setItemText(0, "")
