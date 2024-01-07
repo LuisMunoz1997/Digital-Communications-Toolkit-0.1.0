@@ -1242,9 +1242,10 @@ class MainFunctions(MainWindow):
         self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
         #self.y3 = self.y3/len(self.plot2)
         
-        self.data_line1.setData(self.x2, self.y2)  # Update the data.
-        self.data_line2.setData(self.x1, self.y1)  # Update the data.
-        self.data_line3.setData(self.x3, self.y3)  # Update the data.
+        self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
+        self.data_line2.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
+        self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
+        self.data_line4.setData(self.x3, self.y3)  # Update the data. DEP
         
         self.muestras = np.append(self.muestras, self.plot)
         
@@ -1734,7 +1735,7 @@ class MainFunctions(MainWindow):
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
 
         self.ui.recBBlayout.addWidget(self.graphWidget_4)
-        self.data_line3 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
+        self.data_line4 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
         
         self.muestras = np.array([], dtype=complex)
         
