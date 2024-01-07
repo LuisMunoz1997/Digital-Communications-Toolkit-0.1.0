@@ -699,7 +699,7 @@ class MainFunctions(MainWindow):
             self.grafica1 = plt_modulated_signal2(t1, symbols.real, t1, symbols.imag) #Banda Base IQ with pulse Shaping
             self.toolbar1 = NavigationToolbar(self.grafica1, self)
             
-            self.grafica2 = plt_modulated_signal(symbols, fsample) #DEP Creo
+            self.grafica2 = plt_modulated_signal(symbols, fsample) #DEP 
             self.toolbar2 = NavigationToolbar(self.grafica2, self)
 
             self.grafica3 = plt_modulated_signal3(constellation.real, constellation.imag) #Constelacion
@@ -1197,71 +1197,6 @@ class MainFunctions(MainWindow):
         return umbrales_interpolate, umbrales_interpolate_i
 
 
-    def plt_signal_real_time(self, t, samples, fsample):
-        
-        #self.x = t
-        #self.y = self.sdr.rx().real
-        
-        """
-        pen1 = pg.mkPen(color=(255, 0, 0), style = QtCore.Qt.NoPen)
-        pen2 = pg.mkPen(color=(255, 0, 0))  
-        
-        self.ui.Constlayout.addWidget(self.graphWidget) 
-        self.data_line1 =  self.graphWidget.plot(self.x, self.y, pen=pen1, symbol='+', symbolSize=5, symbolBrush=('b'))
-        
-        self.ui.SRlayout.addWidget(self.graphWidget_2)
-        self.data_line2 =  self.graphWidget_2.plot(self.x, self.y, pen=pen2)
-        
-        self.ui.DEPlayout.addWidget(self.graphWidget_3)
-        self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
-        """
-
-        self.timer.setInterval(50)
-        self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, fsample))
-        self.timer.start()
-        
-        self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self))
-
-
-    def update_plot_data(self, buffer, fsample):
-        self.plot = self.sdr.rx()
-        
-        #self.x = self.x[1:]  # Remove the first y element.
-        #self.x = np.append(self.x, self.x[-1] + 1/fsample)  # Add a new value 1 higher than the last.
-        #self.y = np.append(self.y, samples[:-10])  # Add a new random value.
-        
-        #Para graficar en banda base, solo parte real y en muestras, no dominio tiempo definido
-        self.x1 = (np.arange(buffer) / fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
-        self.y1 = self.plot.real
-        
-        self.y2 = self.plot.imag
-        self.x2 = self.plot.real
-        #print(self.y)
-        
-        self.plot2 = self.plot[:16384]
-        self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
-        #self.y3 = self.y3/len(self.plot2)
-        
-        self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
-        self.data_line2.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
-        self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
-        self.data_line4.setData(self.x3, self.y3)  # Update the data. DEP
-        
-        self.muestras = np.append(self.muestras, self.plot)
-        
-        """
-        umbral = 4
-        resultado = np.where(~(self.plot.real <=margen) | ~(self.plot.real >=-margen) | ~(self.plot.imag <=margen) | ~(self.plot.imag >=-margen))
-        start = resultado[0][0]
-        end = resultado[0][-1:]
-        end = int(end[0])
-
-        self.muestras = np.append(self.muestras,self.plot[start:end])
-
-        print('muestras es ', self.muestras)
-        plt.cla() #Limpio memoria de los plots, esto es una prueba.
-        """
-
     def separate_preamble(self, received, fc_signal = 50000, fc_preamble = 110000, fsample = 522000, n_samples = 100): #Quito el preambulo.
         #Con FC_Signal filtro la señal para quitarle ruido. Con FC_preamble filtro preambulo para quitarle ruido.
         #Las frecuencias de corte deberían ir en función al bando de ancho de la modulación.
@@ -1504,8 +1439,8 @@ class MainFunctions(MainWindow):
 
         self.timer.stop()
 
-        self.ui.SRlayout.removeWidget(self.graphWidget_2)
         self.ui.Constlayout.removeWidget(self.graphWidget)
+        #self.ui.SRlayout.removeWidget(self.graphWidget_2)
         self.ui.DEPlayout.removeWidget(self.graphWidget_3)
         self.ui.recBBlayout.removeWidget(self.graphWidget_4)
 
@@ -1682,8 +1617,8 @@ class MainFunctions(MainWindow):
         
         t = np.arange(len(self.muestras)) / 522000
 
-        self.grafica2 = plt_received_signal2(t,self.muestras.real, t,self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL EN BITS RECONTRUIDOS
-        self.toolbar2 = NavigationToolbar(self.grafica2, self)
+        #self.grafica2 = plt_received_signal2(t, self.muestras.real, t, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL EN BITS RECONTRUIDOS
+        #self.toolbar2 = NavigationToolbar(self.grafica2, self)
 
         self.grafica3 = plt_received_signal3(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
@@ -1694,8 +1629,8 @@ class MainFunctions(MainWindow):
 
         self.ui.DEPlayout.addWidget(self.grafica1)
         self.ui.DEPlayout.addWidget(self.toolbar1)
-        self.ui.SRlayout.addWidget(self.grafica2)
-        self.ui.SRlayout.addWidget(self.toolbar2)
+        #self.ui.SRlayout.addWidget(self.grafica2)
+        #self.ui.SRlayout.addWidget(self.toolbar2)
         self.ui.Constlayout.addWidget(self.grafica3)
         self.ui.Constlayout.addWidget(self.toolbar3)
         self.ui.recBBlayout.addWidget(self.grafica4)
@@ -1728,8 +1663,8 @@ class MainFunctions(MainWindow):
         self.ui.Constlayout.addWidget(self.graphWidget) 
         self.data_line1 =  self.graphWidget.plot(self.x, self.y, pen=pen1, symbol='+', symbolSize=5, symbolBrush=('b'))
         
-        self.ui.SRlayout.addWidget(self.graphWidget_2)
-        self.data_line2 =  self.graphWidget_2.plot(self.x, self.y, pen=pen2)
+        #self.ui.SRlayout.addWidget(self.graphWidget_2)
+        #self.data_line2 =  self.graphWidget_2.plot(self.x, self.y, pen=pen2)
         
         self.ui.DEPlayout.addWidget(self.graphWidget_3)
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
@@ -1747,17 +1682,29 @@ class MainFunctions(MainWindow):
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
             self.timer.start()
             
+            
+######################################################################################################## REAL TIME BUTTONS
+            #STOP RECEPTION
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
+        
+            #SIGNAL RECEIVED 
+            self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+      
+            #DEP
+            self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
+
+            #CONSTELATION
+            self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
             
         else:
-            #self.ui.recBBlayout.removeWidget(self.grafica1)
-            #self.ui.recBBlayout.removeWidget(self.toolbar1)
-            #self.ui.prevDEPlayout.removeWidget(self.grafica2)
-            #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
-            #self.ui.prevConstlayout.removeWidget(self.grafica3)
-            #self.ui.prevConstlayout.removeWidget(self.toolbar3)
-            #self.ui.SRlayout.removeWidget(self.grafica4)
-            #self.ui.SRlayout.removeWidget(self.toolbar4)
+            self.ui.DEPlayout.removeWidget(self.grafica1)
+            self.ui.DEPlayout.removeWidget(self.toolbar1)
+            #self.ui.SRlayout.removeWidget(self.grafica2)
+            #self.ui.SRlayout.removeWidget(self.toolbar2)
+            self.ui.Constlayout.removeWidget(self.grafica3)
+            self.ui.Constlayout.removeWidget(self.toolbar3)
+            self.ui.recBBlayout.removeWidget(self.grafica4)
+            self.ui.recBBlayout.removeWidget(self.toolbar4)
 
             self.ui.finalInfo_2.setText("")
             
@@ -1767,10 +1714,68 @@ class MainFunctions(MainWindow):
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
             self.timer.start()
             
+######################################################################################################## REAL TIME BUTTONS
+            #STOP RECEPTION
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
-
-#########################################################################3#   
         
+            #SIGNAL RECEIVED 
+            self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+      
+            #DEP
+            self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
+
+            #CONSTELATION
+            self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
+
+
+
+    def plt_signal_real_time(self, t, samples, fsample):
+        
+        self.timer.setInterval(10)
+        self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
+        self.timer.start()
+        
+
+
+    def update_plot_data(self, buffer, fsample):
+        self.plot = self.sdr.rx()
+        
+        #self.x = self.x[1:]  # Remove the first y element.
+        #self.x = np.append(self.x, self.x[-1] + 1/fsample)  # Add a new value 1 higher than the last.
+        #self.y = np.append(self.y, samples[:-10])  # Add a new random value.
+        
+        #Para graficar en banda base, solo parte real y en muestras, no dominio tiempo definido
+        self.x1 = (np.arange(buffer) / fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+        self.y1 = self.plot.real
+        
+        self.y2 = self.plot.imag
+        self.x2 = self.plot.real
+        #print(self.y)
+        
+        self.plot2 = self.plot[:16384]
+        self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
+        #self.y3 = self.y3/len(self.plot2)
+        
+        self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
+        #self.data_line2.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
+        self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
+        self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
+        
+        self.muestras = np.append(self.muestras, self.plot)
+        
+        """
+        umbral = 4
+        resultado = np.where(~(self.plot.real <=margen) | ~(self.plot.real >=-margen) | ~(self.plot.imag <=margen) | ~(self.plot.imag >=-margen))
+        start = resultado[0][0]
+        end = resultado[0][-1:]
+        end = int(end[0])
+
+        self.muestras = np.append(self.muestras,self.plot[start:end])
+
+        print('muestras es ', self.muestras)
+        plt.cla() #Limpio memoria de los plots, esto es una prueba.
+        """
+
         
 class plt_bits_coded(FigureCanvas):
      
@@ -1796,8 +1801,8 @@ class plt_modulated_signal(FigureCanvas):
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear', Fc = 0)
         
-        self.ax.plot()
-        self.ax.grid()
+        #self.ax.plot()
+        #self.ax.grid()
             
 class plt_modulated_signal2(FigureCanvas):
      
@@ -1855,7 +1860,7 @@ class plt_received_signal3(FigureCanvas):
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
-        self.ax.plot(x, y, "*")
+        self.ax.plot(x, y, "*", linewidth = 58)
         self.ax.grid()
         
 class plt_received_signal4(FigureCanvas):
