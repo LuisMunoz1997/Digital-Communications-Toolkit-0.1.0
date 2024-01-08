@@ -1687,8 +1687,8 @@ class MainFunctions(MainWindow):
             #STOP RECEPTION
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
         
-            #SIGNAL RECEIVED 
-            self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+            #DATA SIGNAL RECEIVED 
+            #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
       
             #DEP
             self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
@@ -1718,8 +1718,8 @@ class MainFunctions(MainWindow):
             #STOP RECEPTION
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
         
-            #SIGNAL RECEIVED 
-            self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+            #DATA SIGNAL RECEIVED 
+            #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
       
             #DEP
             self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
@@ -1776,7 +1776,33 @@ class MainFunctions(MainWindow):
         plt.cla() #Limpio memoria de los plots, esto es una prueba.
         """
 
-        
+
+    def configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer):
+    
+        if self.reception_initiated == False:
+            self.reception_initiated = True
+
+            try:
+                #frequency_carrier = 400e6
+                #tsim = 0.0001
+                print("1. CONFIGURANDO PLUTO PARA RECEPCIÓN")
+                self.sdr = adi.Pluto("ip:192.168.2.1")
+                self.sdr.gain_control_mode_chan0 = "manual"
+                self.sdr.rx_hardwaregain_chan0 = gain_rx
+                self.sdr.rx_lo = int(frequency_carrier*1e6)
+                self.sdr.sample_rate = int(fsample)
+                self.sdr.rx_rf_bandwidth = int(fsample) # filter width, just set it to the same as sample rate for now
+                self.sdr.rx_buffer_size = buffer
+                print("1- PLUTO CONFIGURADO")
+                print("2. CONFIGURANDO UMBRALES Y REGIONES")
+
+            except:
+                self.reception_initiated = False
+                self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
+
+#####################################################################################################################################################
+#####################################################################################################################################################
+
 class plt_bits_coded(FigureCanvas):
      
     def __init__(self, y, x, tbit, parent = None):        

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionBMLZSF.ui'
+## Form generated from reading UI file 'receptionoNjVFP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1555,9 +1555,7 @@ class Ui_reception(object):
         self.frame_15.setFrameShape(QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QFrame.Raised)
         self.verticalLayout_11 = QVBoxLayout(self.frame_15)
-        self.verticalLayout_11.setSpacing(10)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(6, 0, 0, 0)
         self.recepBtn = QPushButton(self.frame_15)
         self.recepBtn.setObjectName(u"recepBtn")
         self.recepBtn.setMinimumSize(QSize(0, 0))
@@ -1571,7 +1569,7 @@ class Ui_reception(object):
 "}\n"
 "")
 
-        self.verticalLayout_11.addWidget(self.recepBtn, 0, Qt.AlignHCenter)
+        self.verticalLayout_11.addWidget(self.recepBtn)
 
         self.stoprecBtn = QPushButton(self.frame_15)
         self.stoprecBtn.setObjectName(u"stoprecBtn")
@@ -1595,6 +1593,14 @@ class Ui_reception(object):
         self.recSBtn.setStyleSheet(u"")
 
         self.verticalLayout_11.addWidget(self.recSBtn)
+
+        self.simWarnTxt = QTextBrowser(self.frame_15)
+        self.simWarnTxt.setObjectName(u"simWarnTxt")
+        self.simWarnTxt.setMaximumSize(QSize(16777215, 100))
+        self.simWarnTxt.setFont(font3)
+        self.simWarnTxt.setStyleSheet(u"color: rgb(255, 0, 0)")
+
+        self.verticalLayout_11.addWidget(self.simWarnTxt)
 
 
         self.horizontalLayout_14.addWidget(self.frame_15, 0, Qt.AlignLeft|Qt.AlignTop)
@@ -1930,14 +1936,6 @@ class Ui_reception(object):
         self.horizontalLayout_29 = QHBoxLayout(self.page_38)
         self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
         self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
-        self.SRBtn_2 = QPushButton(self.page_38)
-        self.SRBtn_2.setObjectName(u"SRBtn_2")
-        self.SRBtn_2.setFont(font3)
-        self.SRBtn_2.setStyleSheet(u"color: rgb(255, 255, 255);\n"
-"text-align: center;")
-
-        self.horizontalLayout_29.addWidget(self.SRBtn_2)
-
         self.DEPBtn_2 = QPushButton(self.page_38)
         self.DEPBtn_2.setObjectName(u"DEPBtn_2")
         self.DEPBtn_2.setFont(font3)
@@ -2077,6 +2075,7 @@ class Ui_reception(object):
         self.TranBtn.setDefault(False)
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
+        self.stackedWidget_4.setCurrentIndex(1)
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_7.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
@@ -2162,15 +2161,15 @@ class Ui_reception(object):
         self.UmbDisBtn.setText(QCoreApplication.translate("reception", u"Dise\u00f1ar los umbrales ", None))
         self.label_8.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de bits codificados por simbolo:", None))
         self.simPBitBox.setItemText(0, "")
-        self.simPBitBox.setItemText(1, QCoreApplication.translate("reception", u"1 bit codificado por bit", None))
-        self.simPBitBox.setItemText(2, QCoreApplication.translate("reception", u"2 bits codificados por bit", None))
-        self.simPBitBox.setItemText(3, QCoreApplication.translate("reception", u"3 bits codificados por bit", None))
-        self.simPBitBox.setItemText(4, QCoreApplication.translate("reception", u"4 bits codificados por bit", None))
+        self.simPBitBox.setItemText(1, QCoreApplication.translate("reception", u"1 bit codificado por simbolo", None))
+        self.simPBitBox.setItemText(2, QCoreApplication.translate("reception", u"2 bits codificados por simbolo", None))
+        self.simPBitBox.setItemText(3, QCoreApplication.translate("reception", u"3 bits codificados por simbolo", None))
+        self.simPBitBox.setItemText(4, QCoreApplication.translate("reception", u"4 bits codificados por simbolo", None))
 
-        self.label_11.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de simbolos por bit de la se\u00f1al transmitida:", None))
+        self.label_11.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de bits codificados por simbolo:", None))
         self.simPBitBox_2.setItemText(0, "")
-        self.simPBitBox_2.setItemText(1, QCoreApplication.translate("reception", u"2 simbolos por bit", None))
-        self.simPBitBox_2.setItemText(2, QCoreApplication.translate("reception", u"4 simbolos por bit", None))
+        self.simPBitBox_2.setItemText(1, QCoreApplication.translate("reception", u"1 bit codificado por simbolo", None))
+        self.simPBitBox_2.setItemText(2, QCoreApplication.translate("reception", u"2 bits codificados por simbolo", None))
 
         self.label_7.setText(QCoreApplication.translate("reception", u"Escoja la ubicaci\u00f3n en donde guardar el archivo:", None))
         self.archivePath.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -2266,8 +2265,15 @@ class Ui_reception(object):
         self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
         self.recepBtn.setText(QCoreApplication.translate("reception", u"Habilitar estado de Recepci\u00f3n", None))
         self.stoprecBtn.setText(QCoreApplication.translate("reception", u"Detener estado de Recepci\u00f3n", None))
-        self.recSBtn.setText(QCoreApplication.translate("reception", u"Visualizar Mensaje Recibido\n"
-"(Solo si es texto o Imagen)", None))
+        self.recSBtn.setText(QCoreApplication.translate("reception", u"Visualizar Mensaje Recibido", None))
+        self.simWarnTxt.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.graph_recep.setText(QCoreApplication.translate("reception", u"Filtrar la Se\u00f1al y Graficar", None))
         self.info_text_recep.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
@@ -2304,7 +2310,7 @@ class Ui_reception(object):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Actualmente est\u00e1 graficado la se\u00f1al despu\u00e9s de haber sido sincronizada en tiempo, frecuencia y/o fase</span></p></body></html>", None))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Actualmente est\u00e1 graficado la se\u00f1al despu\u00e9s de haber pasado por el mecanismo de sincronizaci\u00f3n de tiempo.</span></p></body></html>", None))
         self.info_text_recep_final.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -2336,7 +2342,6 @@ class Ui_reception(object):
         self.SRBtn.setText(QCoreApplication.translate("reception", u"Se\u00f1al Recibida", None))
         self.DEPBtn.setText(QCoreApplication.translate("reception", u"D.E.P", None))
         self.ConstBtn.setText(QCoreApplication.translate("reception", u"Constelaci\u00f3n de la S.R.", None))
-        self.SRBtn_2.setText(QCoreApplication.translate("reception", u"Se\u00f1al Banda Base Recibida", None))
         self.DEPBtn_2.setText(QCoreApplication.translate("reception", u"D.E.P", None))
         self.ConstBtn_2.setText(QCoreApplication.translate("reception", u"Constelaci\u00f3n de la S.R.", None))
     # retranslateUi

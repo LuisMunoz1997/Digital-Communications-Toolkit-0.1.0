@@ -143,6 +143,7 @@ class MainWindow(QMainWindow):
         self.graphWidget = pg.PlotWidget(background= "w")
         self.graphWidget_2 = pg.PlotWidget(background= "w")
         self.graphWidget_3 = pg.PlotWidget(background= "w")
+        self.graphWidget_4 = pg.PlotWidget(background= "w")
         
         #FLAGS
         self.BB_graph_flag = False
@@ -167,9 +168,10 @@ class MainWindow(QMainWindow):
         ########################################################################
         self.ui.menuBtn.clicked.connect(lambda: MainFunctions.toggleMenu(self, 180, True))
         
+        
+############################################################################################# 
         #BUTTON ACTIONS
-        ############################################################################################# 
-              
+
         #TRANSMISSION      
         self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
         #self.ui.TranBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
@@ -232,7 +234,7 @@ class MainWindow(QMainWindow):
 ######################################################################################################## REAL TIME
         
         #SIGNAL RECEIVED 
-        self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
+        #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
       
         #DEP
         self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
@@ -240,10 +242,12 @@ class MainWindow(QMainWindow):
         #CONSTELATION
         self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
 
-
+#########################################################################################################
+        
+        self.ui.stoprecBtn.clicked.connect(self.check_reception_state)
         
         ## SYMBOL DETECTION
-        ########################################################################
+###########################################################################################################
         
         #DEFINED THRESHOLD
         self.ui.UmbPreBtn.pressed.connect(self.defined_threshold)
@@ -530,8 +534,11 @@ class MainWindow(QMainWindow):
     def recep_error_correc_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
 
-
-
+    
+    def check_reception_state(self):
+        if self.reception_initiated == False:
+            self.ui.simWarnTxt.setText("Debe primero inicializar el estado de recepción")
+            
 
     def configure_signal(self):
         if self.configured_signal == False:
@@ -543,15 +550,20 @@ class MainWindow(QMainWindow):
             fsample = self.fsample
             print('fsample configurada', fsample)
             print('tsim elegido:', tsim)   
-        
-            self.sdr = adi.Pluto("ip:192.168.2.1")        
-            self.sdr.tx_hardwaregain_chan0 = 0
-            self.sdr.tx_lo = int(fport*1e6)
-            self.sdr.sample_rate = int(fsample)
-            self.sdr.tx_rf_bandwidth = int(fsample)
+
+            try:        
+                self.sdr = adi.Pluto("ip:192.168.2.1")        
+                self.sdr.tx_hardwaregain_chan0 = 0
+                self.sdr.tx_lo = int(fport*1e6)
+                self.sdr.sample_rate = int(fsample)
+                self.sdr.tx_rf_bandwidth = int(fsample)
+                
+                MainFunctions.transmit_motion_btn(self, 30, True)
             
-            MainFunctions.transmit_motion_btn(self, 30, True)
-    
+            except:
+                self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
+                self.configured_signal = False
+
     
     
     def graph_received_result(self):
@@ -572,82 +584,107 @@ class MainWindow(QMainWindow):
         tsim = self.ui.tbit.value()
         gain_rx = self.ui.gananRx.value()
         buffer = 30000
-        
-        #frequency_carrier = 400e6
-        #tsim = 0.0001
-        print("1. CONFIGURANDO PLUTO PARA RECEPCIÓN")
-        self.sdr = adi.Pluto("ip:192.168.2.1")
-        self.sdr.gain_control_mode_chan0 = "manual"
-        self.sdr.rx_hardwaregain_chan0 = gain_rx
-        self.sdr.rx_lo = int(frequency_carrier*1e6)
-        self.sdr.sample_rate = int(fsample)
-        self.sdr.rx_rf_bandwidth = int(fsample) # filter width, just set it to the same as sample rate for now
-        self.sdr.rx_buffer_size = buffer
-        print("1- PLUTO CONFIGURADO")
-        print("2. CONFIGURANDO UMBRALES Y REGIONES")
+        n_format = self.ui.formatBox.currentIndex()
         
         ######## UMBRALES PREDEFINIDOS
-        
-        if self.ui.UmbPreBtn.isChecked() == True:
+        if n_format == 0 and self.ui.UmbPreBtn.isChecked() == False:
+            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje a recibir y el número de bits codificados por simbolo")
+
+        elif n_format == 0:
+            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje a recibir")
+
+        elif self.ui.UmbPreBtn.isChecked() == False:
+            self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
+
+        elif self.ui.UmbPreBtn.isChecked() == True and n_format != 0:
             print("Entró condicional inicio recepcion")
             n_symbol_index = self.ui.simPBitBox.currentIndex()
-            print("n_symbol_index es:", n_symbol_index)               
+            print("n_symbol_index es:", n_symbol_index)    
+
+            if n_symbol_index == 0:
+                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")            
             
-            if n_symbol_index == 1:
-                print("Entro segundo condicional")
+            elif n_symbol_index == 1:
                 threshold_index = self.ui.geoBox_1.currentIndex()
-                n_symbol = 2
-                esquema = threshold_index
-                #Esquema = 1 - Recta inclinada - FSK probablemente
-                #Esquema = 2 - Recta paralela eje X - BPSK con simbolos arriba y abajo
-                #Esquema = 3 - Recta paralela eje Y - BPSK normal
-                #Esquema = 4 - Recta eje Y=1.5 - ASK normal
-                #Esquema = 5 - Recta eje Y=0.5 - OOK normal, probablemente no se use
-                
-                thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
-                print("Umbrales definidos listos")
-                regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
-                print("Regiones definidas listas")
-                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
-                print("Umbrales interpolados listos")
-                print("2- UMBRALES Y REGIONES CONFIGURADOS")
-                print("3. RECIBIENDO...")
-                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
-                
+
+                if threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+
+                elif threshold_index != 0:
+                    print("Entro segundo condicional")
+                    n_symbol = 2
+                    esquema = threshold_index
+                    #Esquema = 1 - Recta inclinada - FSK probablemente
+                    #Esquema = 2 - Recta paralela eje X - BPSK con simbolos arriba y abajo
+                    #Esquema = 3 - Recta paralela eje Y - BPSK normal
+                    #Esquema = 4 - Recta eje Y=1.5 - ASK normal
+                    #Esquema = 5 - Recta eje Y=0.5 - OOK normal, probablemente no se use
+
+                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
+
+                    if self.reception_initiated == True:
+                        thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        print("Umbrales definidos listos")
+                        regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                        print("Regiones definidas listas")
+                        thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                        print("Umbrales interpolados listos")
+                        print("2- UMBRALES Y REGIONES CONFIGURADOS")
+                        print("3. RECIBIENDO...")
+                        MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
+                    
             elif n_symbol_index == 2:
                 threshold_index = self.ui.geoBox_2.currentIndex()
-                n_symbol = 4
-                esquema = threshold_index
-                #Esquema = 1 - Rectas diagonales - QPSK en ejes
-                #Esquema = 2 - Rectas paralelas ejes - QPSK normal
-                #Esquema = 3 - Rectas verticales - 4ASK normal
-                
-                thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
-                print("Umbrales definidos listos")
-                regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
-                print("Regiones definidas listas")
-                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
-                print("Umbrales interpolados listos")
-                print("2- UMBRALES Y REGIONES CONFIGURADOS")
-                print("3. RECIBIENDO...")
-                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                
-                
-                
+
+                if threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+
+                elif threshold_index != 0:
+                    n_symbol = 4
+                    esquema = threshold_index
+                    #Esquema = 1 - Rectas diagonales - QPSK en ejes
+                    #Esquema = 2 - Rectas paralelas ejes - QPSK normal
+                    #Esquema = 3 - Rectas verticales - 4ASK normal
+
+                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
+                    
+                    if self.reception_initiated == True:
+                        thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        print("Umbrales definidos listos")
+                        regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                        print("Regiones definidas listas")
+                        thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                        print("Umbrales interpolados listos")
+                        print("2- UMBRALES Y REGIONES CONFIGURADOS")
+                        print("3. RECIBIENDO...")
+                        MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                
+                        
+                    
             elif n_symbol_index == 3:
                 threshold_index = self.ui.geoBox_3.currentIndex()
-                n_symbol = 8
+
+                if threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+
+                elif threshold_index != 0:
+                    n_symbol = 8
                 
 
                 
             elif n_symbol_index == 4:
                 threshold_index = self.ui.geoBox_4.currentIndex()
-                n_symbol = 16
+
+                if threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+
+                elif threshold_index != 0:
+                    n_symbol = 16
 
                 
                 
         ######## UMBRALES DEFINIDOS POR EL USUARIO
  
-        if self.ui.UmbDisBtn.isChecked() == True:
+        elif self.ui.UmbDisBtn.isChecked() == True:
             n_symbol_index = self.ui.simPBitBox_2.currentIndex()
             
             if n_symbol_index == 1:
@@ -776,7 +813,7 @@ class MainWindow(QMainWindow):
                 print('Index modulacion elegido', self.ui.modBox.currentIndex())
                 print('Index n symbol es:',index_n_symbols)
                 if index_n_symbols == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir el número de simbolos por bit y tipo de modulación correspondiente")
+                    self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
                 
                 elif index_n_symbols == 1:
                     index_2_symbols_type_of_modulation = self.ui.modBox.currentIndex()
@@ -1188,7 +1225,7 @@ class MainWindow(QMainWindow):
             if self.defined_const_flag == True:
                 index_n_symbols = self.ui.simPBitBox.currentIndex()
                 if index_n_symbols == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir el número de simbolos por bit y tipo de modulación correspondiente")
+                    self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
                 
                 elif index_n_symbols == 1:
                     index_2_symbols_type_of_modulation = self.ui.modBox.currentIndex()
