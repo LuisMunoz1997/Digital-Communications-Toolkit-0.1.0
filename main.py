@@ -245,6 +245,8 @@ class MainWindow(QMainWindow):
 #########################################################################################################
         
         self.ui.stoprecBtn.clicked.connect(self.check_reception_state)
+
+        self.ui.recSBtn.clicked.connect(self.retrieve_message)
         
         ## SYMBOL DETECTION
 ###########################################################################################################
@@ -535,6 +537,17 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
 
     
+    def retrieve_message(self):
+        n_format = self.ui.formatBox.currentIndex()
+
+        if n_format == 0:
+            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje para recuperarlo")
+
+        elif n_format != 0:
+            pass
+
+
+
     def check_reception_state(self):
         if self.reception_initiated == False:
             self.ui.simWarnTxt.setText("Debe primero inicializar el estado de recepción")
@@ -584,19 +597,13 @@ class MainWindow(QMainWindow):
         tsim = self.ui.tbit.value()
         gain_rx = self.ui.gananRx.value()
         buffer = 30000
-        n_format = self.ui.formatBox.currentIndex()
         
         ######## UMBRALES PREDEFINIDOS
-        if n_format == 0 and self.ui.UmbPreBtn.isChecked() == False:
-            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje a recibir y el número de bits codificados por simbolo")
 
-        elif n_format == 0:
-            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje a recibir")
-
-        elif self.ui.UmbPreBtn.isChecked() == False:
+        if self.ui.UmbPreBtn.isChecked() == False:
             self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
 
-        elif self.ui.UmbPreBtn.isChecked() == True and n_format != 0:
+        elif self.ui.UmbPreBtn.isChecked() == True:
             print("Entró condicional inicio recepcion")
             n_symbol_index = self.ui.simPBitBox.currentIndex()
             print("n_symbol_index es:", n_symbol_index)    
