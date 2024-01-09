@@ -1779,8 +1779,8 @@ class MainFunctions(MainWindow):
 
     def configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer):
     
-        if self.reception_initiated == False:
-            self.reception_initiated = True
+        if self.reception_configured == False:
+            self.reception_configured = True
 
             try:
                 #frequency_carrier = 400e6
@@ -1797,7 +1797,7 @@ class MainFunctions(MainWindow):
                 print("2. CONFIGURANDO UMBRALES Y REGIONES")
 
             except:
-                self.reception_initiated = False
+                self.reception_configured = False
                 self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
 
 #####################################################################################################################################################

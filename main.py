@@ -159,7 +159,8 @@ class MainWindow(QMainWindow):
         self.add_threshold_4_symbols_flag = False
         self.add_threshold_4_symbols_2_flag = False
         
-        self.reception_initiated = False   
+        self.reception_initiated = False
+        self.reception_configured = False
         
         #WINDOW ICON
         self.ventana.setWindowTitle("Digital Comunications Toolkit - Reception Mode")
@@ -549,7 +550,7 @@ class MainWindow(QMainWindow):
 
 
     def check_reception_state(self):
-        if self.reception_initiated == False:
+        if self.reception_configured == False:
             self.ui.simWarnTxt.setText("Debe primero inicializar el estado de recepción")
             
 
@@ -629,7 +630,7 @@ class MainWindow(QMainWindow):
 
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
-                    if self.reception_initiated == True:
+                    if self.reception_configured == True:
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
@@ -655,7 +656,7 @@ class MainWindow(QMainWindow):
 
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                     
-                    if self.reception_initiated == True:
+                    if self.reception_configured == True:
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
