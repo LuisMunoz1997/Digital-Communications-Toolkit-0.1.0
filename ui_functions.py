@@ -1321,9 +1321,9 @@ class MainFunctions(MainWindow):
             if modulation_scheme == 'BPSK':
                 error[i] = np.real(output_signal[i]) * np.imag(output_signal[i]) # This is the error formula for 2nd order Costas Loop (e.g. for BPSK)
             elif modulation_scheme == 'QPSK':
-                error[i] = phase_detector_4(output_signal[i])
+                error[i] = MainFunctions.phase_detector_4(output_signal[i])
             elif modulation_scheme == '16PSK':
-                error[i] = phase_detector_16psk(output_signal[i])
+                error[i] = MainFunctions.phase_detector_16psk(output_signal[i])
     
             # Update the loop filter and VCO
             loop_filter[0] = loop_filter[0] + error[i]
@@ -1408,9 +1408,9 @@ class MainFunctions(MainWindow):
             if modulation_scheme == 'BPSK':
                 error = np.real(out[i]) * np.imag(out[i]) # This is the error formula for 2nd order Costas Loop (e.g. for BPSK)
             elif modulation_scheme == 'QPSK':
-                error = phase_detector_4(out[i])
+                error = MainFunctions.phase_detector_4(out[i])
             elif modulation_scheme == '16PSK':
-                error = phase_detector_16psk(out[i])
+                error = MainFunctions.phase_detector_16psk(out[i])
             
             #print('error:',error)
         
@@ -1504,6 +1504,11 @@ class MainFunctions(MainWindow):
         resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
         resultado_total7 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
         
+        self.graph_filtered = np.array([])
+        self.graph_corrected = np.array([])
+        self.graph_sincro = np.array([])
+        self.graph_sincro_corrected = np.array([])
+        
         #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
         if nsimb == 2 and esquema == 3: #BPSK normal
             mod_scheme = "BPSK"
@@ -1579,6 +1584,31 @@ class MainFunctions(MainWindow):
     
             resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
+            self.graph_filtered = np.append(self.graph_filtered, sin_nada) #Señal tiempo filtrada
+            
+            self.graph_corrected = np.append(self.graph_corrected, filtered_phase) #Señal tiempo corregida freq y fase
+            
+            self.graph_sincro = np.append(self.graph_sincro, simbolos_phase_freq) #Señal sincronizada en tiempo
+            
+            self.graph_sincro_corrected = np.append(self.graph_sincro_corrected, simbolos3) #Señal sincro y corregida en tiempo
+            
+            #Para graficar: Las variable contienen la señal en tiempo, ejemplo:
+            
+            #Graficar tiempo: 
+            #t = np.arange(len(self.variable)) / fsample
+            #plt_received_signal2(t, self.muestras.real, t, self.muestras.imag)
+            
+            #Graficar DEP:
+            #plt_received_signal(self.muestras, 522000)
+            
+            #Graficar Constelación:
+            #plt_received_signal3(self.muestras.real, self.muestras.imag)
+            
+            #Entonces, cada variable representa una fase de la recepción, las pasas por esas funciones y obtienes los resultados de cada fase correspondiente
+            
+            
+            
+            
             #En este punto se obtuvieron un arreglos con strings de 1's y 0's, que representan el resultado del esquema RX para cada método
             #De allí se pueden convertir a texto, imagen, o el formato requerido
             #FIN DEL CICLO FOR
@@ -1623,7 +1653,7 @@ class MainFunctions(MainWindow):
         self.grafica3 = plt_received_signal3(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
-        self.grafica4 = plt_received_signal4(self.muestras.real, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.grafica4 = plt_received_signal2(t, self.muestras.real, t, self.muestras.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
             
 
