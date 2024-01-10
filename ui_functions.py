@@ -670,8 +670,8 @@ class MainFunctions(MainWindow):
             self.ui.prevPBlayout.addWidget(self.toolbar)
 
         else:
-            self.ui.prevPBlayout.removeWidget(self.grafica)
-            self.ui.prevPBlayout.removeWidget(self.toolbar)
+            self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevPBlayout.itemAt(1).widget().deleteLater()
 
             self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
@@ -717,15 +717,26 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.grafica4)
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
-        else:    
-            self.ui.prevBBlayout.removeWidget(self.grafica1)
-            self.ui.prevBBlayout.removeWidget(self.toolbar1)
-            self.ui.prevDEPlayout.removeWidget(self.grafica2)
-            self.ui.prevDEPlayout.removeWidget(self.toolbar2)
-            self.ui.prevConstlayout.removeWidget(self.grafica3)
-            self.ui.prevConstlayout.removeWidget(self.toolbar3)
-            self.ui.prevMSlayout.removeWidget(self.grafica4)
-            self.ui.prevMSlayout.removeWidget(self.toolbar4)
+        else:
+            self.ui.prevBBlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevBBlayout.itemAt(1).widget().deleteLater()    
+            #self.ui.prevBBlayout.removeWidget(self.grafica1)
+            #self.ui.prevBBlayout.removeWidget(self.toolbar1)
+
+            self.ui.prevDEPlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevDEPlayout.itemAt(1).widget().deleteLater()
+            #self.ui.prevDEPlayout.removeWidget(self.grafica2)
+            #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
+
+            self.ui.prevConstlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevConstlayout.itemAt(1).widget().deleteLater()
+            #self.ui.prevConstlayout.removeWidget(self.grafica3)
+            #self.ui.prevConstlayout.removeWidget(self.toolbar3)
+
+            self.ui.prevMSlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevMSlayout.itemAt(1).widget().deleteLater()
+            #self.ui.prevMSlayout.removeWidget(self.grafica4)
+            #self.ui.prevMSlayout.removeWidget(self.toolbar4)
             
             
             #estimated_time = (len(symbols) / fsample)
@@ -1439,10 +1450,17 @@ class MainFunctions(MainWindow):
 
         self.timer.stop()
 
-        self.ui.Constlayout.removeWidget(self.graphWidget)
         #self.ui.SRlayout.removeWidget(self.graphWidget_2)
-        self.ui.DEPlayout.removeWidget(self.graphWidget_3)
-        self.ui.recBBlayout.removeWidget(self.graphWidget_4)
+
+        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        #self.ui.DEPlayout.removeWidget(self.graphWidget_3)
+
+        self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        #self.ui.Constlayout.removeWidget(self.graphWidget)
+
+        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        #self.ui.recBBlayout.removeWidget(self.graphWidget_4)
+
 
 
         print("3- RECEPCIÓN TERMINADA")
@@ -1533,7 +1551,7 @@ class MainFunctions(MainWindow):
             
             solo_freq_coarse = filtered #Muestras para señal con solo Frecuencia corregida
             
-            filtered_phase, delta_phi = MainFunctions.coarse_phase_correction(self,filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
+            filtered_phase, delta_phi = MainFunctions.coarse_phase_correction(self, filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
             
             #Sincronización en tiempo (No Muller). RECORDAR QUE LA NORMALIZACIÓN VARÍA CON LA CONSTELACIÓN
             symbolindices = np.arange(0, len(filtered), sps) #Indices para tomar muestra cada Sps
@@ -1727,14 +1745,23 @@ class MainFunctions(MainWindow):
             self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
             
         else:
-            self.ui.DEPlayout.removeWidget(self.grafica1)
-            self.ui.DEPlayout.removeWidget(self.toolbar1)
+            self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+            self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+            #self.ui.DEPlayout.removeWidget(self.grafica1)
+            #self.ui.DEPlayout.removeWidget(self.toolbar1)
+
             #self.ui.SRlayout.removeWidget(self.grafica2)
             #self.ui.SRlayout.removeWidget(self.toolbar2)
-            self.ui.Constlayout.removeWidget(self.grafica3)
-            self.ui.Constlayout.removeWidget(self.toolbar3)
-            self.ui.recBBlayout.removeWidget(self.grafica4)
-            self.ui.recBBlayout.removeWidget(self.toolbar4)
+
+            self.ui.Constlayout.itemAt(0).widget().deleteLater()
+            self.ui.Constlayout.itemAt(1).widget().deleteLater()
+            #self.ui.Constlayout.removeWidget(self.grafica3)
+            #self.ui.Constlayout.removeWidget(self.toolbar3)
+
+            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+            #self.ui.recBBlayout.removeWidget(self.grafica4)
+            #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
             self.ui.finalInfo_2.setText("")
             

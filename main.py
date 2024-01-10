@@ -528,14 +528,148 @@ class MainWindow(QMainWindow):
     def recep_filter_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
 
+        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+        #self.ui.DEPlayout.removeWidget(self.grafica1)
+        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+
+        self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        self.ui.Constlayout.itemAt(1).widget().deleteLater()
+        #self.ui.Constlayout.removeWidget(self.grafica3)
+        #self.ui.Constlayout.removeWidget(self.toolbar3)
+
+        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+        #self.ui.recBBlayout.removeWidget(self.grafica4)
+        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+
+        t = np.arange(len(self.graph_filtered)) / 522000
+
+        self.grafica1 = plt_received_signal(self.graph_filtered, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.toolbar1 = NavigationToolbar(self.grafica1, self)
+
+        self.grafica3 = plt_received_signal3(self.graph_filtered.real, self.graph_filtered.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.toolbar3 = NavigationToolbar(self.grafica3, self)
+            
+        self.grafica4 = plt_received_signal2(t, self.graph_filtered.real, t, self.graph_filtered.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.toolbar4 = NavigationToolbar(self.grafica4, self)
+
+        self.ui.DEPlayout.addWidget(self.grafica1)
+        self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.Constlayout.addWidget(self.grafica3)
+        self.ui.Constlayout.addWidget(self.toolbar3)
+        self.ui.recBBlayout.addWidget(self.grafica4)
+        self.ui.recBBlayout.addWidget(self.toolbar4)
+
+        
+
     def recep_freq_fase_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
+
+        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+        #self.ui.DEPlayout.removeWidget(self.grafica1)
+        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+
+        self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        self.ui.Constlayout.itemAt(1).widget().deleteLater()
+        #self.ui.Constlayout.removeWidget(self.grafica3)
+        #self.ui.Constlayout.removeWidget(self.toolbar3)
+
+        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+        #self.ui.recBBlayout.removeWidget(self.grafica4)
+        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+
+        t = np.arange(len(self.graph_filtered)) / 522000
+
+        self.grafica1 = plt_received_signal(self.graph_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.toolbar1 = NavigationToolbar(self.grafica1, self)
+
+        self.grafica3 = plt_received_signal3(self.graph_corrected.real, self.graph_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.toolbar3 = NavigationToolbar(self.grafica3, self)
+            
+        self.grafica4 = plt_received_signal2(t, self.graph_corrected.real, t, self.graph_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.toolbar4 = NavigationToolbar(self.grafica4, self)
+
+        self.ui.DEPlayout.addWidget(self.grafica1)
+        self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.Constlayout.addWidget(self.grafica3)
+        self.ui.Constlayout.addWidget(self.toolbar3)
+        self.ui.recBBlayout.addWidget(self.grafica4)
+        self.ui.recBBlayout.addWidget(self.toolbar4)
 
     def recep_time_sync_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_35)
 
+        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+        #self.ui.DEPlayout.removeWidget(self.grafica1)
+        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+
+        self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        self.ui.Constlayout.itemAt(1).widget().deleteLater()
+        #self.ui.Constlayout.removeWidget(self.grafica3)
+        #self.ui.Constlayout.removeWidget(self.toolbar3)
+
+        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+        #self.ui.recBBlayout.removeWidget(self.grafica4)
+        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+
+        t = np.arange(len(self.graph_filtered)) / 522000
+
+        self.grafica1 = plt_received_signal(self.graph_sincro, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.toolbar1 = NavigationToolbar(self.grafica1, self)
+
+        self.grafica3 = plt_received_signal3(self.graph_sincro.real, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.toolbar3 = NavigationToolbar(self.grafica3, self)
+            
+        self.grafica4 = plt_received_signal2(t, self.graph_sincro.real, t, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.toolbar4 = NavigationToolbar(self.grafica4, self)
+
+        self.ui.DEPlayout.addWidget(self.grafica1)
+        self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.Constlayout.addWidget(self.grafica3)
+        self.ui.Constlayout.addWidget(self.toolbar3)
+        self.ui.recBBlayout.addWidget(self.grafica4)
+        self.ui.recBBlayout.addWidget(self.toolbar4)
+
     def recep_error_correc_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
+
+        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+        #self.ui.DEPlayout.removeWidget(self.grafica1)
+        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+
+        self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        self.ui.Constlayout.itemAt(1).widget().deleteLater()
+        #self.ui.Constlayout.removeWidget(self.grafica3)
+        #self.ui.Constlayout.removeWidget(self.toolbar3)
+
+        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+        #self.ui.recBBlayout.removeWidget(self.grafica4)
+        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+
+        t = np.arange(len(self.graph_filtered)) / 522000
+
+        self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.toolbar1 = NavigationToolbar(self.grafica1, self)
+
+        self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.toolbar3 = NavigationToolbar(self.grafica3, self)
+            
+        self.grafica4 = plt_received_signal2(t, self.graph_sincro_corrected.real, t, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.toolbar4 = NavigationToolbar(self.grafica4, self)
+
+        self.ui.DEPlayout.addWidget(self.grafica1)
+        self.ui.DEPlayout.addWidget(self.toolbar1)
+        self.ui.Constlayout.addWidget(self.grafica3)
+        self.ui.Constlayout.addWidget(self.toolbar3)
+        self.ui.recBBlayout.addWidget(self.grafica4)
+        self.ui.recBBlayout.addWidget(self.toolbar4)
 
     
     def retrieve_message(self):
