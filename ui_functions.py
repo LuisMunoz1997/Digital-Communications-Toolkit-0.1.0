@@ -1446,6 +1446,11 @@ class MainFunctions(MainWindow):
         return signal * np.exp(-1j*delta_phi)
         
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
+        
+        self.stop_realtime_flag = True
+        
+        self.realtime_buffer.join()
+        
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_29)
 
         self.timer.stop()
@@ -1684,11 +1689,59 @@ class MainFunctions(MainWindow):
         self.ui.recBBlayout.addWidget(self.grafica4)
         self.ui.recBBlayout.addWidget(self.toolbar4)
 
+    def get_buffer_sdr(self):
+        print("Realtime buffer started")
+        margen = 4
+        while True:
+            if not self.stop_realtime_flag:
+                self.buffer_plot = self.sdr.rx()
+                #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
+                
+                #if len(resultado) >= 2:
+                    #start = resultado[0][0]
+                    #end = resultado[0][-1:]
+                    #end = int(end[0])
+                    #resultado_interes = self.muestras[start:end]
+                    #self.muestras = np.append(self.muestras, resultado_interes)
+                
+                self.muestras = np.append(self.muestras, self.buffer_plot)
+                self.buffer_ready_flag = True
+            else:
+                self.buffer_ready_flag = False
+                print("Realtime Buffer Stopped")
+                break
+     
+    def realtime_plot(self):
+        print("Realtime plotting started")
+        while True:
+            if not self.stop_realtime_flag:
+                if self.buffer_ready_flag:
+                    self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+                    self.y1 = self.buffer_plot.real
         
+                    self.y2 = self.buffer_plot.imag
+                    self.x2 = self.buffer_plot.real
+        
+                    self.plot2 = self.buffer_plot[:16384]
+                    #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
+                    self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
+                    self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
+        
+                    self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
+                    self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
+                    self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
+                    
+                    self.buffer_ready_flag = False
+            else:
+                print("Realtime plotting Stopped")
+                self.buffer_ready_flag = False
+                break
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
+        
+        self.buffer_ready_flag = False
+        self.stop_realtime_flag = False
 
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         # Clear buffer just to be safe
         for i in range (0, 10):
            samples = self.sdr.rx()
@@ -1727,14 +1780,19 @@ class MainFunctions(MainWindow):
             self.reception_initiated = True
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
             
-            print("Se creo un QThread primero")
-            receive_thread = QtCore.QThread()
+            #Creo que va a ser mejor tener el buffer en hilo normal, y el plot en hilo controlador por timer cada 30ms por ejemplo
+            self.realtime_buffer = threading.Thread(target=MainFunctions.get_buffer_sdr, args=(self,), daemon=True)
+            print("Se creo hilo buffer")
+            self.realtime_plot = threading.Thread(target=MainFunctions.realtime_plot, args=(self,), daemon=True)
+            print("Se creo hilo plot")
             
+            self.realtime_buffer.start()
+            self.realtime_plot.start()
             
-            self.timer.setInterval(10)
-            self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
-            self.timer.start()
-            
+            #self.timer.setInterval(10)
+            #self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
+            #self.timer.start()
+            print("Se paso el codigo de los Threads")
             
 ######################################################################################################## REAL TIME BUTTONS
             #STOP RECEPTION
@@ -1768,11 +1826,7 @@ class MainFunctions(MainWindow):
             #self.ui.recBBlayout.removeWidget(self.grafica4)
             #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
-            self.ui.finalInfo_2.setText("")
-            
-            print("Se creo un QThread abajo")
-            receive_thread = QtCore.QThread()
-            
+            self.ui.finalInfo_2.setText("")           
             
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
             self.timer.setInterval(10)
