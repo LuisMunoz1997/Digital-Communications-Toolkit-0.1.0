@@ -1332,9 +1332,9 @@ class MainFunctions(MainWindow):
             if modulation_scheme == 'BPSK':
                 error[i] = np.real(output_signal[i]) * np.imag(output_signal[i]) # This is the error formula for 2nd order Costas Loop (e.g. for BPSK)
             elif modulation_scheme == 'QPSK':
-                error[i] = MainFunctions.phase_detector_4(output_signal[i])
+                error[i] = MainFunctions.phase_detector_4(self,output_signal[i])
             elif modulation_scheme == '16PSK':
-                error[i] = MainFunctions.phase_detector_16psk(output_signal[i])
+                error[i] = MainFunctions.phase_detector_16psk(self,output_signal[i])
     
             # Update the loop filter and VCO
             loop_filter[0] = loop_filter[0] + error[i]
@@ -1371,7 +1371,7 @@ class MainFunctions(MainWindow):
         out = out[2:i_out]
         return out
         
-    def phase_detector_4(sample): #Error para fine QPSK
+    def phase_detector_4(self,sample): #Error para fine QPSK
         if sample.real > 0:
             a = 1.0
         else:
@@ -1382,7 +1382,7 @@ class MainFunctions(MainWindow):
             b = -1.0
         return a * sample.imag - b * sample.real
     
-    def phase_detector_16psk(sample): #Error para fine 16PSK
+    def phase_detector_16psk(self,sample): #Error para fine 16PSK
         psk16_domain = np.arange(0,16)
         constellation = np.exp(2j* np.pi * psk16_domain / 16)
         
@@ -1395,7 +1395,7 @@ class MainFunctions(MainWindow):
         
         return error
     
-    def phase_detector_16psk_2(sample, estimated_phase, loop_filter_coeffs):
+    def phase_detector_16psk_2(self,sample, estimated_phase, loop_filter_coeffs):
         error = 0.5 * sample * np.exp(-1j * estimated_phase)
         k_values = np.arange(1,9)
         additional_terms = -loop_filter_coeffs * np.sin(2 * k_values * np.pi * estimated_phase)
@@ -1419,9 +1419,9 @@ class MainFunctions(MainWindow):
             if modulation_scheme == 'BPSK':
                 error = np.real(out[i]) * np.imag(out[i]) # This is the error formula for 2nd order Costas Loop (e.g. for BPSK)
             elif modulation_scheme == 'QPSK':
-                error = MainFunctions.phase_detector_4(out[i])
+                error = MainFunctions.phase_detector_4(self,out[i])
             elif modulation_scheme == '16PSK':
-                error = MainFunctions.phase_detector_16psk(out[i])
+                error = MainFunctions.phase_detector_16psk(self,out[i])
             
             #print('error:',error)
         
@@ -1688,6 +1688,7 @@ class MainFunctions(MainWindow):
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
 
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         # Clear buffer just to be safe
         for i in range (0, 10):
            samples = self.sdr.rx()
@@ -1725,6 +1726,10 @@ class MainFunctions(MainWindow):
         if self.reception_initiated == False:
             self.reception_initiated = True
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
+            
+            print("Se creo un QThread primero")
+            receive_thread = QtCore.QThread()
+            
             
             self.timer.setInterval(10)
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
@@ -1764,6 +1769,9 @@ class MainFunctions(MainWindow):
             #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
             self.ui.finalInfo_2.setText("")
+            
+            print("Se creo un QThread abajo")
+            receive_thread = QtCore.QThread()
             
             
             #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
@@ -1810,7 +1818,9 @@ class MainFunctions(MainWindow):
         #print(self.y)
         
         self.plot2 = self.plot[:16384]
-        self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
+        #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
+        self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
+        self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
         #self.y3 = self.y3/len(self.plot2)
         
         self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
@@ -1931,26 +1941,35 @@ class plt_received_signal(FigureCanvas):
 class plt_received_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, parent = None):  
-        self.fig , self.ax = plt.subplots()
-        super().__init__(self.fig)
+        self.fig2 , self.ax2 = plt.subplots()
+        super().__init__(self.fig2)
+        #self.fig2.clf()
+        #self.fig2.cla()
+        #self.fig2.close()
         
-        self.ax.plot(x, y, x2, y2)
-        self.ax.grid()
+        self.ax2.plot(x, y, x2, y2)
+        self.ax2.grid()
         
 class plt_received_signal3(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
-        super().__init__(self.fig)
+        self.fig3 , self.ax3 = plt.subplots()
+        super().__init__(self.fig3)
+        #self.fig3.clf()
+        #self.fig3.cla()
+        #self.fig3.close()
         
-        self.ax.plot(x, y, "*", linewidth = 58)
-        self.ax.grid()
+        self.ax3.plot(x, y, "*", linewidth = 58)
+        self.ax3.grid()
         
 class plt_received_signal4(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
-        super().__init__(self.fig)
+        self.fig4 , self.ax4 = plt.subplots()
+        super().__init__(self.fig4)
+        #self.fig4.clf()
+        #self.fig4.cla()
+        #self.fig4.close()        
         
-        self.ax.plot(x, y)
-        self.ax.grid()
+        self.ax4.plot(x, y)
+        self.ax4.grid()

@@ -563,7 +563,7 @@ class MainWindow(QMainWindow):
 
         
 
-    def recep_freq_fase_signal(self):
+    def recep_freq_fase_signal(self):      
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
 
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
@@ -581,7 +581,7 @@ class MainWindow(QMainWindow):
         #self.ui.recBBlayout.removeWidget(self.grafica4)
         #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
-        t = np.arange(len(self.graph_filtered)) / 522000
+        t = np.arange(len(self.graph_corrected)) / 522000
 
         self.grafica1 = plt_received_signal(self.graph_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
@@ -617,7 +617,7 @@ class MainWindow(QMainWindow):
         #self.ui.recBBlayout.removeWidget(self.grafica4)
         #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
-        t = np.arange(len(self.graph_filtered)) / 522000
+        t = np.arange(len(self.graph_sincro)) / 522000
 
         self.grafica1 = plt_received_signal(self.graph_sincro, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
@@ -653,7 +653,7 @@ class MainWindow(QMainWindow):
         #self.ui.recBBlayout.removeWidget(self.grafica4)
         #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
-        t = np.arange(len(self.graph_filtered)) / 522000
+        t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
         self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
