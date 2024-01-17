@@ -848,7 +848,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
                     if symbol1 == "" or symbol2 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -857,7 +857,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 2:
@@ -867,7 +867,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
                     if symbol1 == "" or symbol2 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -876,7 +876,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
                     
                     
@@ -887,7 +887,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
                     if symbol1 == "" or symbol2 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -896,7 +896,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 4:
@@ -906,7 +906,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
                     if symbol1 == "" or symbol2 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -915,7 +915,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 5:
@@ -926,7 +926,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
                     if symbol1 == "" or symbol2 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -935,7 +935,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                     
@@ -956,7 +956,7 @@ class MainWindow(QMainWindow):
 
 
                     if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                         try:
@@ -967,7 +967,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
                     
                     
@@ -980,7 +980,7 @@ class MainWindow(QMainWindow):
                     symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                     if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                         try:
@@ -991,7 +991,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 3:
@@ -1003,7 +1003,7 @@ class MainWindow(QMainWindow):
                     symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                     if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                         try:
@@ -1014,7 +1014,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 4:
@@ -1026,7 +1026,7 @@ class MainWindow(QMainWindow):
                     symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                     if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                         try:
@@ -1037,7 +1037,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 5:
@@ -1050,7 +1050,7 @@ class MainWindow(QMainWindow):
                     symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                     if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                     elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                         try:
@@ -1061,7 +1061,7 @@ class MainWindow(QMainWindow):
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
                 
@@ -1087,7 +1087,7 @@ class MainWindow(QMainWindow):
                             symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1098,7 +1098,7 @@ class MainWindow(QMainWindow):
 
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                 
                                 
                         elif geo_threshold_index2 == 2:
@@ -1110,7 +1110,7 @@ class MainWindow(QMainWindow):
                             symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1121,7 +1121,7 @@ class MainWindow(QMainWindow):
 
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                 
                                 
                         elif geo_threshold_index2 == 3:
@@ -1133,7 +1133,7 @@ class MainWindow(QMainWindow):
                             symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1144,7 +1144,7 @@ class MainWindow(QMainWindow):
 
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                 
                                 
                         elif geo_threshold_index2 == 4:
@@ -1156,7 +1156,7 @@ class MainWindow(QMainWindow):
                             symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1167,7 +1167,7 @@ class MainWindow(QMainWindow):
 
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                 
                                 
                         elif geo_threshold_index2 == 5:
@@ -1180,7 +1180,7 @@ class MainWindow(QMainWindow):
                             symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
-                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1191,7 +1191,7 @@ class MainWindow(QMainWindow):
 
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                 
                             
 
@@ -1577,7 +1577,7 @@ class MainWindow(QMainWindow):
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                        self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
@@ -1610,7 +1610,7 @@ class MainWindow(QMainWindow):
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                        self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
                     bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
@@ -1837,7 +1837,7 @@ class MainWindow(QMainWindow):
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                        self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
