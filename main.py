@@ -155,6 +155,8 @@ class MainWindow(QMainWindow):
         self.df_threshold_options = False
         self.user_df_threshold_options = False
         self.add_threshold_page_flag = False
+
+        self.user_defined_symbols_flag = False
         
         self.add_threshold_2_symbols_flag = False
         self.add_threshold_4_symbols_flag = False
@@ -736,7 +738,7 @@ class MainWindow(QMainWindow):
         
         ######## UMBRALES PREDEFINIDOS
 
-        if self.ui.UmbPreBtn.isChecked() == False:
+        if self.ui.UmbPreBtn.isChecked() == False and self.ui.UmbDisBtn.isChecked() == False:
             self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
 
         elif self.ui.UmbPreBtn.isChecked() == True:
@@ -829,97 +831,388 @@ class MainWindow(QMainWindow):
  
         elif self.ui.UmbDisBtn.isChecked() == True:
             n_symbol_index = self.ui.simPBitBox_2.currentIndex()
+
+            if n_symbol_index == 0:
+                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")  
             
-            if n_symbol_index == 1:
+            elif n_symbol_index == 1:
                 geo_threshold_index = self.ui.codelineBox_4.currentIndex()
+
+                if geo_threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
                 
-                if geo_threshold_index == 1:
+                elif geo_threshold_index == 1:
                     x = self.ui.doubleSpinBox_12.value()
                     off = self.ui.doubleSpinBox_13.value()
+                    symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
+                    symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
+
+                    if symbol1 == "" or symbol2 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "":
+                        try:
+                            point1 = complex(symbol1) #Cuidado con los eval
+                            point2 = complex(symbol2)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 2:
                     x = self.ui.doubleSpinBox_14.value()
                     off = self.ui.doubleSpinBox_15.value()
+                    symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
+                    symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
+
+                    if symbol1 == "" or symbol2 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "":
+                        try:
+                            point1 = complex(symbol1) #Cuidado con los eval
+                            point2 = complex(symbol2)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+
                     
                     
                 elif geo_threshold_index == 3:
                     y = self.ui.doubleSpinBox_16.value()
                     off = self.ui.doubleSpinBox_17.value()
+                    symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
+                    symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
+
+                    if symbol1 == "" or symbol2 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "":
+                        try:
+                            point1 = complex(symbol1) #Cuidado con los eval
+                            point2 = complex(symbol2)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 4:
                     y = self.ui.doubleSpinBox_18.value()
                     off = self.ui.doubleSpinBox_19.value()
+                    symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
+                    symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
+
+                    if symbol1 == "" or symbol2 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "":
+                        try:
+                            point1 = complex(symbol1) #Cuidado con los eval
+                            point2 = complex(symbol2)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 5:
                     ang = self.ui.doubleSpinBox_20.value()
                     offx = self.ui.doubleSpinBox_21.value()
                     offy = self.ui.doubleSpinBox_22.value()
+                    symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
+                    symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
+
+                    if symbol1 == "" or symbol2 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "":
+                        try:
+                            point1 = complex(symbol1) #Cuidado con los eval
+                            point2 = complex(symbol2)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                     
                 
-            elif n_symbol_index == 2:
+            elif n_symbol_index == 2 and self.ui.addBtn.isChecked() == False:
                 geo_threshold_index = self.ui.codelineBox_3.currentIndex()
                 
-                if geo_threshold_index == 1:
+                if geo_threshold_index == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                
+                elif geo_threshold_index == 1:
                     x = self.ui.doubleSpinBox_12.value()
                     off = self.ui.doubleSpinBox_13.value()
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+
+                    if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                        try:
+                            point1 = complex(symbol1) 
+                            point2 = complex(symbol2)
+                            point3 = complex(symbol3)
+                            point4 = complex(symbol4)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+
                     
                     
                 elif geo_threshold_index == 2:
                     x = self.ui.doubleSpinBox_14.value()
                     off = self.ui.doubleSpinBox_15.value()
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                    if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                        try:
+                            point1 = complex(symbol1) 
+                            point2 = complex(symbol2)
+                            point3 = complex(symbol3)
+                            point4 = complex(symbol4)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 3:
                     y = self.ui.doubleSpinBox_16.value()
                     off = self.ui.doubleSpinBox_17.value()
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                    if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                        try:
+                            point1 = complex(symbol1) 
+                            point2 = complex(symbol2)
+                            point3 = complex(symbol3)
+                            point4 = complex(symbol4)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 4:
                     y = self.ui.doubleSpinBox_18.value()
                     off = self.ui.doubleSpinBox_19.value()
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                    if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                        try:
+                            point1 = complex(symbol1) 
+                            point2 = complex(symbol2)
+                            point3 = complex(symbol3)
+                            point4 = complex(symbol4)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 elif geo_threshold_index == 5:
                     ang = self.ui.doubleSpinBox_20.value()
                     offx = self.ui.doubleSpinBox_21.value()
                     offy = self.ui.doubleSpinBox_22.value()
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                    if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                        self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                    elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                        try:
+                            point1 = complex(symbol1) 
+                            point2 = complex(symbol2)
+                            point3 = complex(symbol3)
+                            point4 = complex(symbol4)
+
+                        except:
+                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
                     
                     
                 
-                if self.ui.addBtn.isChecked() == True:
-                    geo_threshold_index2 = self.ui.codelineBox_2.currentIndex()
-                    
-                    if geo_threshold_index2 == 1:
-                        off = self.ui.doubleSpinBox_2.value()
-                        x = self.ui.doubleSpinBox.value()
-                        
-                        
-                    elif geo_threshold_index2 == 2:
-                        off = self.ui.doubleSpinBox_3.value()
-                        x = self.ui.doubleSpinBox_4.value()
-                        
-                        
-                    elif geo_threshold_index2 == 3:
-                        off = self.ui.doubleSpinBox_5.value()
-                        y = self.ui.doubleSpinBox_6.value()
-                        
-                        
-                    elif geo_threshold_index2 == 4:
-                        off = self.ui.doubleSpinBox_7.value()
-                        y = self.ui.doubleSpinBox_8.value()
-                        
-                        
-                    elif geo_threshold_index2 == 5:
-                        ang = self.ui.doubleSpinBox_10.value()
-                        offx = self.ui.doubleSpinBox_11.value()
-                        offy = self.ui.doubleSpinBox_9.value()
-                        
-                        
+            elif n_symbol_index == 2 and self.ui.addBtn.isChecked() == True:
+                geo_threshold_index2 = self.ui.codelineBox_2.currentIndex()
+                geo_threshold_index3 = self.ui.codelineBox_3.currentIndex()
+
+                if geo_threshold_index2 == 0 or geo_threshold_index3 == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría de uno de los umbrales")
+
+                elif geo_threshold_index2 != 0 or geo_threshold_index3 != 0:
+
+                    if geo_threshold_index3 == 1:
+                        x = self.ui.doubleSpinBox_12.value()
+                        off = self.ui.doubleSpinBox_13.value()
+
+                        if geo_threshold_index2 == 1:
+                            off2 = self.ui.doubleSpinBox_2.value()
+                            x2 = self.ui.doubleSpinBox.value()
+                            symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                            symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                            symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                            symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                            if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                            elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                                try:
+                                    point1 = complex(symbol1) 
+                                    point2 = complex(symbol2)
+                                    point3 = complex(symbol3)
+                                    point4 = complex(symbol4)
+
+                                except:
+                                    print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                
+                                
+                        elif geo_threshold_index2 == 2:
+                            off2 = self.ui.doubleSpinBox_3.value()
+                            x2 = self.ui.doubleSpinBox_4.value()
+                            symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                            symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                            symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                            symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                            if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                            elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                                try:
+                                    point1 = complex(symbol1) 
+                                    point2 = complex(symbol2)
+                                    point3 = complex(symbol3)
+                                    point4 = complex(symbol4)
+
+                                except:
+                                    print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                
+                                
+                        elif geo_threshold_index2 == 3:
+                            off2 = self.ui.doubleSpinBox_5.value()
+                            y2 = self.ui.doubleSpinBox_6.value()
+                            symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                            symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                            symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                            symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                            if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                            elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                                try:
+                                    point1 = complex(symbol1) 
+                                    point2 = complex(symbol2)
+                                    point3 = complex(symbol3)
+                                    point4 = complex(symbol4)
+
+                                except:
+                                    print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                
+                                
+                        elif geo_threshold_index2 == 4:
+                            off2 = self.ui.doubleSpinBox_7.value()
+                            y2 = self.ui.doubleSpinBox_8.value()
+                            symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                            symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                            symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                            symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                            if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                            elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                                try:
+                                    point1 = complex(symbol1) 
+                                    point2 = complex(symbol2)
+                                    point3 = complex(symbol3)
+                                    point4 = complex(symbol4)
+
+                                except:
+                                    print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                
+                                
+                        elif geo_threshold_index2 == 5:
+                            ang2 = self.ui.doubleSpinBox_10.value()
+                            offx2 = self.ui.doubleSpinBox_11.value()
+                            offy2 = self.ui.doubleSpinBox_9.value()
+                            symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                            symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                            symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                            symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                            if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                                self.ui.simWarnTxt.setText("Alguna de los simbolos no está escrito. Por favor revise")
+
+                            elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
+                                try:
+                                    point1 = complex(symbol1) 
+                                    point2 = complex(symbol2)
+                                    point3 = complex(symbol3)
+                                    point4 = complex(symbol4)
+
+                                except:
+                                    print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    self.ui.simWarnTxt.setText("Alguna de las bases escrita tiene un error. Por favor revise e intente otra vez")
+                                
+                            
+
+                    elif geo_threshold_index3 == 2:
+                        x = self.ui.doubleSpinBox_14.value()
+                        off = self.ui.doubleSpinBox_15.value()
+
+                    elif geo_threshold_index3 == 3:
+                        y = self.ui.doubleSpinBox_16.value()
+                        off = self.ui.doubleSpinBox_17.value()
+
+                    elif geo_threshold_index3 == 4:
+                        y = self.ui.doubleSpinBox_18.value()
+                        off = self.ui.doubleSpinBox_19.value()
+
+                    elif geo_threshold_index3 == 5:
+                        ang = self.ui.doubleSpinBox_20.value()
+                        offx = self.ui.doubleSpinBox_21.value()
+                        offy = self.ui.doubleSpinBox_22.value()
+
+                            
 
     def transmit_signal(self):
         self.configured_signal = False
@@ -1275,12 +1568,12 @@ class MainWindow(QMainWindow):
                 index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
                 if index_n_symbols == 1:
-                    base1 = self.ui.text_3.toPlainText() #BASE 1
-                    base2 = self.ui.text_4.toPlainText() #BASE 2
+                    symbol1 = self.ui.text_3.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_4.toPlainText() #SIMBOLO 2
 
                     try:
-                        point1 = complex(base1) #Cuidado con los eval
-                        point2 = complex(base2)
+                        point1 = complex(symbol1) #Cuidado con los eval
+                        point2 = complex(symbol2)
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
@@ -1304,16 +1597,16 @@ class MainWindow(QMainWindow):
                             
                 
                 elif index_n_symbols == 2:
-                    base1 = self.ui.text_5.toPlainText() #BASE 1
-                    base2 = self.ui.text_7.toPlainText() #BASE 2
-                    base3 = self.ui.text_8.toPlainText() #BASE 3
-                    base4 = self.ui.text_9.toPlainText() #BASE 4
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
 
                     try:
-                        point1 = complex(base1) 
-                        point2 = complex(base2)
-                        point3 = complex(base3)
-                        point4 = complex(base4)
+                        point1 = complex(symbol1) 
+                        point2 = complex(symbol2)
+                        point3 = complex(symbol3)
+                        point4 = complex(symbol4)
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
@@ -1509,13 +1802,13 @@ class MainWindow(QMainWindow):
                 self.ui.simWarnTxt.setText("")
 
                 if index_n_symbols == 1:
-                    base1 = self.ui.text_3.toPlainText()
-                    base2 = self.ui.text_4.toPlainText()
+                    symbol1 = self.ui.text_3.toPlainText()
+                    symbol2 = self.ui.text_4.toPlainText()
                     self.ui.simWarnTxt.setText("")
 
                     try:
-                        point1 = complex(base1) #Cuidado con los eval
-                        point2 = complex(base2)
+                        point1 = complex(symbol1) #Cuidado con los eval
+                        point2 = complex(symbol2)
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
@@ -1531,16 +1824,16 @@ class MainWindow(QMainWindow):
                             
           
                 elif index_n_symbols == 2:
-                    base1 = self.ui.text_5.toPlainText()
-                    base2 = self.ui.text_7.toPlainText()
-                    base3 = self.ui.text_8.toPlainText()
-                    base4 = self.ui.text_9.toPlainText()
+                    symbol1 = self.ui.text_5.toPlainText()
+                    symbol2 = self.ui.text_7.toPlainText()
+                    symbol3 = self.ui.text_8.toPlainText()
+                    symbol4 = self.ui.text_9.toPlainText()
 
                     try:
-                        point1 = complex(base1) 
-                        point2 = complex(base2)
-                        point3 = complex(base3)
-                        point4 = complex(base4)
+                        point1 = complex(symbol1) 
+                        point2 = complex(symbol2)
+                        point3 = complex(symbol3)
+                        point4 = complex(symbol4)
 
                     except:
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
@@ -1852,6 +2145,7 @@ class MainWindow(QMainWindow):
                 self.add_threshold_4_symbols_2_flag = False
                 self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_25)
                 self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_26)
+                self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
                 self.ui.codelineBox_4.setCurrentIndex(0)
                 self.ui.codelineBox_3.setCurrentIndex(0)
                 self.ui.codelineBox_2.setCurrentIndex(0)
@@ -1920,6 +2214,7 @@ class MainWindow(QMainWindow):
                 self.add_threshold_2_symbols_flag = True
                 self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_25)
                 self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_26)
+                self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
                 self.ui.codelineBox_4.setCurrentIndex(0)
                 self.ui.codelineBox_3.setCurrentIndex(0)
                 self.ui.codelineBox_2.setCurrentIndex(0)
@@ -1934,6 +2229,7 @@ class MainWindow(QMainWindow):
                 self.add_threshold_4_symbols_flag = True
                 self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_25)
                 self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_26)
+                self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
                 self.ui.codelineBox_4.setCurrentIndex(0)
                 self.ui.codelineBox_3.setCurrentIndex(0)
                 self.ui.codelineBox_2.setCurrentIndex(0)
@@ -1955,29 +2251,36 @@ class MainWindow(QMainWindow):
 
         if index == 0 and self.add_threshold_2_symbols_flag == True:
             self.add_threshold_2_symbols_flag = False
+            self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_26)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
             
         if index == 1:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_20)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_33)
             if self.add_threshold_2_symbols_flag == False:
                 self.add_threshold_2_symbols_flag = True
          
         if index == 2:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_21)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_33)
             if self.add_threshold_2_symbols_flag == False:
                 self.add_threshold_2_symbols_flag = True
             
         if index == 3:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_22)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_33)
             if self.add_threshold_2_symbols_flag == False:
                 self.add_threshold_2_symbols_flag = True
             
         if index == 4:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_23)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_33)
             if self.add_threshold_2_symbols_flag == False:
                 self.add_threshold_2_symbols_flag = True
             
         if index == 5:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_24)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_33)
             if self.add_threshold_2_symbols_flag == False:
                 self.add_threshold_2_symbols_flag = True
                         
@@ -1986,29 +2289,36 @@ class MainWindow(QMainWindow):
 
         if index == 0 and self.add_threshold_4_symbols_flag == True:
             self.add_threshold_4_symbols_flag = False
+            self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_26)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
             
         if index == 1:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_20)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_flag == False:
                 self.add_threshold_4_symbols_flag = True
          
         if index == 2:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_21)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_flag == False:
                 self.add_threshold_4_symbols_flag = True
                 
         if index == 3:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_22)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_flag == False:
                 self.add_threshold_4_symbols_flag = True
             
         if index == 4:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_23)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_flag == False:
                 self.add_threshold_4_symbols_flag = True    
         
         if index == 5:
             self.ui.stackedWidget_7.setCurrentWidget(self.ui.page_24)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_flag == False:
                 self.add_threshold_4_symbols_flag = True
 
@@ -2017,29 +2327,36 @@ class MainWindow(QMainWindow):
         
         if index == 0 and self.add_threshold_4_symbols_2_flag == True:
             self.add_threshold_4_symbols_2_flag = False
+            self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_25)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_32)
 
         if index == 1:
             self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_15)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_2_flag == False:
                 self.add_threshold_4_symbols_2_flag = True
                  
         if index == 2:
             self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_16)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_2_flag == False:
                 self.add_threshold_4_symbols_2_flag = True
             
         if index == 3:
             self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_17)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_2_flag == False:
                 self.add_threshold_4_symbols_2_flag = True
 
         if index == 4:
             self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_19)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_2_flag == False:
                 self.add_threshold_4_symbols_2_flag = True            
             
         if index == 5:
             self.ui.stackedWidget_6.setCurrentWidget(self.ui.page_18)
+            self.ui.stackedWidget_8.setCurrentWidget(self.ui.page_34)
             if self.add_threshold_4_symbols_2_flag == False:
                 self.add_threshold_4_symbols_2_flag = True 
         

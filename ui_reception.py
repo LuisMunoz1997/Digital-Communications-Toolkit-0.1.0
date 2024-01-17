@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionoNjVFP.ui'
+## Form generated from reading UI file 'receptionbMTzJG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -57,6 +57,14 @@ class Ui_reception(object):
 "\n"
 "}\n"
 "\n"
+"#widget_12 {\n"
+"	color: rgb(255, 255, 255);\n"
+"	background-color: #4d648d;\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"}\n"
+"\n"
 "\n"
 "#centerMenuSubContaniner, #centerMenuSubContaniner_2{\n"
 "	background-color: #283655;\n"
@@ -69,7 +77,8 @@ class Ui_reception(object):
 "	background-color: #4d648d;\n"
 "	padding: 7;\n"
 "	margin: 0;\n"
-"	color: #fff;\n"
+"	color: #ff"
+                        "f;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
@@ -78,8 +87,7 @@ class Ui_reception(object):
 "\n"
 "#frame_5 QPushButton:hover{\n"
 "	background-color: #acacac;\n"
-"	bord"
-                        "er-radius: 25px\n"
+"	border-radius: 25px\n"
 "}\n"
 "\n"
 "#stackedWidget_22 QPushButton:hover{\n"
@@ -124,7 +132,8 @@ class Ui_reception(object):
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
-"\n"
+""
+                        "\n"
 "}\n"
 "\n"
 "\n"
@@ -132,8 +141,7 @@ class Ui_reception(object):
 "	background-color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border"
-                        "-style: inset;\n"
+"	border-style: inset;\n"
 "\n"
 "}\n"
 "\n"
@@ -176,7 +184,8 @@ class Ui_reception(object):
 "	background-color: #8bb6ff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	border-style: i"
+                        "nset;\n"
 "\n"
 "}\n"
 "\n"
@@ -187,12 +196,11 @@ class Ui_reception(object):
 "#widget {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	"
-                        "border-style: inset;\n"
+"	border-style: inset;\n"
 "\n"
 "}\n"
 "\n"
-"#widget_4, #widget_11, #widget_13 {\n"
+"#widget_4, #widget_11, #widget_13, #widget_12 {\n"
 "	color: rgb(255, 255, 255);\n"
 "	background-color: #4d648d;\n"
 "	border-width: 1px;\n"
@@ -505,8 +513,8 @@ class Ui_reception(object):
         self.verticalLayout_9.setContentsMargins(0, 9, 0, 0)
         self.frame_10 = QFrame(self.mainBodySubLeftContainer)
         self.frame_10.setObjectName(u"frame_10")
-        self.frame_10.setMinimumSize(QSize(435, 0))
-        self.frame_10.setMaximumSize(QSize(435, 16777215))
+        self.frame_10.setMinimumSize(QSize(440, 0))
+        self.frame_10.setMaximumSize(QSize(440, 16777215))
         self.frame_10.setStyleSheet(u"color: #000000;	\n"
 "\n"
 "")
@@ -1045,7 +1053,7 @@ class Ui_reception(object):
         self.verticalLayout_55.setContentsMargins(0, 0, 0, 0)
         self.widget_13 = QWidget(self.frame_29)
         self.widget_13.setObjectName(u"widget_13")
-        self.widget_13.setMinimumSize(QSize(435, 0))
+        self.widget_13.setMinimumSize(QSize(440, 0))
         self.widget_13.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_53 = QVBoxLayout(self.widget_13)
         self.verticalLayout_53.setObjectName(u"verticalLayout_53")
@@ -1133,12 +1141,13 @@ class Ui_reception(object):
         self.verticalLayout_56.setContentsMargins(0, 0, 0, 0)
         self.widget_11 = QWidget(self.frame_30)
         self.widget_11.setObjectName(u"widget_11")
-        self.widget_11.setMinimumSize(QSize(0, 0))
+        self.widget_11.setMinimumSize(QSize(0, 160))
         self.widget_11.setMaximumSize(QSize(16777215, 16777215))
+        self.widget_11.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_44 = QVBoxLayout(self.widget_11)
         self.verticalLayout_44.setSpacing(0)
         self.verticalLayout_44.setObjectName(u"verticalLayout_44")
-        self.verticalLayout_44.setContentsMargins(3, 0, 0, 0)
+        self.verticalLayout_44.setContentsMargins(3, 9, 5, 0)
         self.stackedWidget_7 = QStackedWidget(self.widget_11)
         self.stackedWidget_7.setObjectName(u"stackedWidget_7")
         self.page_26 = QWidget()
@@ -1295,7 +1304,7 @@ class Ui_reception(object):
         self.verticalLayout_49.setContentsMargins(9, -1, 9, -1)
         self.label_36 = QLabel(self.page_24)
         self.label_36.setObjectName(u"label_36")
-        self.label_36.setFont(font3)
+        self.label_36.setFont(font1)
 
         self.verticalLayout_49.addWidget(self.label_36)
 
@@ -1308,7 +1317,7 @@ class Ui_reception(object):
 
         self.label_37 = QLabel(self.page_24)
         self.label_37.setObjectName(u"label_37")
-        self.label_37.setFont(font3)
+        self.label_37.setFont(font1)
 
         self.verticalLayout_49.addWidget(self.label_37)
 
@@ -1321,7 +1330,7 @@ class Ui_reception(object):
 
         self.label_38 = QLabel(self.page_24)
         self.label_38.setObjectName(u"label_38")
-        self.label_38.setFont(font3)
+        self.label_38.setFont(font1)
 
         self.verticalLayout_49.addWidget(self.label_38)
 
@@ -1343,12 +1352,14 @@ class Ui_reception(object):
         self.widget_4.setObjectName(u"widget_4")
         self.widget_4.setMinimumSize(QSize(0, 0))
         self.widget_4.setMaximumSize(QSize(16777215, 16777215))
+        self.widget_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_37 = QVBoxLayout(self.widget_4)
         self.verticalLayout_37.setSpacing(0)
         self.verticalLayout_37.setObjectName(u"verticalLayout_37")
-        self.verticalLayout_37.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout_37.setContentsMargins(2, 2, 4, 2)
         self.stackedWidget_6 = QStackedWidget(self.widget_4)
         self.stackedWidget_6.setObjectName(u"stackedWidget_6")
+        self.stackedWidget_6.setMinimumSize(QSize(0, 160))
         self.page_25 = QWidget()
         self.page_25.setObjectName(u"page_25")
         self.verticalLayout_50 = QVBoxLayout(self.page_25)
@@ -1373,7 +1384,7 @@ class Ui_reception(object):
         self.verticalLayout_39 = QVBoxLayout(self.page_15)
         self.verticalLayout_39.setSpacing(0)
         self.verticalLayout_39.setObjectName(u"verticalLayout_39")
-        self.verticalLayout_39.setContentsMargins(6, 0, 6, 6)
+        self.verticalLayout_39.setContentsMargins(9, 0, 6, 15)
         self.label_12 = QLabel(self.page_15)
         self.label_12.setObjectName(u"label_12")
         self.label_12.setFont(font3)
@@ -1405,6 +1416,7 @@ class Ui_reception(object):
         self.page_16.setObjectName(u"page_16")
         self.verticalLayout_40 = QVBoxLayout(self.page_16)
         self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalLayout_40.setContentsMargins(-1, -1, -1, 15)
         self.label_13 = QLabel(self.page_16)
         self.label_13.setObjectName(u"label_13")
         self.label_13.setFont(font3)
@@ -1436,6 +1448,7 @@ class Ui_reception(object):
         self.page_17.setObjectName(u"page_17")
         self.verticalLayout_41 = QVBoxLayout(self.page_17)
         self.verticalLayout_41.setObjectName(u"verticalLayout_41")
+        self.verticalLayout_41.setContentsMargins(-1, -1, -1, 15)
         self.label_15 = QLabel(self.page_17)
         self.label_15.setObjectName(u"label_15")
         self.label_15.setFont(font3)
@@ -1467,6 +1480,7 @@ class Ui_reception(object):
         self.page_19.setObjectName(u"page_19")
         self.verticalLayout_42 = QVBoxLayout(self.page_19)
         self.verticalLayout_42.setObjectName(u"verticalLayout_42")
+        self.verticalLayout_42.setContentsMargins(-1, -1, -1, 15)
         self.label_23 = QLabel(self.page_19)
         self.label_23.setObjectName(u"label_23")
         self.label_23.setFont(font3)
@@ -1501,9 +1515,10 @@ class Ui_reception(object):
         self.page_18.setFont(font7)
         self.verticalLayout_43 = QVBoxLayout(self.page_18)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
+        self.verticalLayout_43.setContentsMargins(-1, -1, -1, 15)
         self.label_25 = QLabel(self.page_18)
         self.label_25.setObjectName(u"label_25")
-        self.label_25.setFont(font3)
+        self.label_25.setFont(font1)
 
         self.verticalLayout_43.addWidget(self.label_25)
 
@@ -1516,7 +1531,7 @@ class Ui_reception(object):
 
         self.label_27 = QLabel(self.page_18)
         self.label_27.setObjectName(u"label_27")
-        self.label_27.setFont(font3)
+        self.label_27.setFont(font1)
 
         self.verticalLayout_43.addWidget(self.label_27)
 
@@ -1529,7 +1544,7 @@ class Ui_reception(object):
 
         self.label_26 = QLabel(self.page_18)
         self.label_26.setObjectName(u"label_26")
-        self.label_26.setFont(font3)
+        self.label_26.setFont(font1)
 
         self.verticalLayout_43.addWidget(self.label_26)
 
@@ -1548,7 +1563,7 @@ class Ui_reception(object):
         self.verticalLayout_56.addWidget(self.widget_4, 0, Qt.AlignLeft|Qt.AlignTop)
 
 
-        self.horizontalLayout_14.addWidget(self.frame_30, 0, Qt.AlignLeft)
+        self.horizontalLayout_14.addWidget(self.frame_30, 0, Qt.AlignLeft|Qt.AlignTop)
 
         self.frame_15 = QFrame(self.frame_8)
         self.frame_15.setObjectName(u"frame_15")
@@ -1556,9 +1571,149 @@ class Ui_reception(object):
         self.frame_15.setFrameShadow(QFrame.Raised)
         self.verticalLayout_11 = QVBoxLayout(self.frame_15)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(-1, 0, 0, -1)
+        self.widget_12 = QWidget(self.frame_15)
+        self.widget_12.setObjectName(u"widget_12")
+        self.widget_12.setMinimumSize(QSize(0, 0))
+        self.widget_12.setMaximumSize(QSize(16777215, 160))
+        self.widget_12.setStyleSheet(u"	color: rgb(255, 255, 255);")
+        self.verticalLayout_57 = QVBoxLayout(self.widget_12)
+        self.verticalLayout_57.setObjectName(u"verticalLayout_57")
+        self.verticalLayout_57.setContentsMargins(9, -1, 9, -1)
+        self.stackedWidget_8 = QStackedWidget(self.widget_12)
+        self.stackedWidget_8.setObjectName(u"stackedWidget_8")
+        self.stackedWidget_8.setStyleSheet(u"	color: rgb(255, 255, 255);")
+        self.page_32 = QWidget()
+        self.page_32.setObjectName(u"page_32")
+        self.verticalLayout_58 = QVBoxLayout(self.page_32)
+        self.verticalLayout_58.setSpacing(0)
+        self.verticalLayout_58.setObjectName(u"verticalLayout_58")
+        self.verticalLayout_58.setContentsMargins(0, 0, 0, 0)
+        self.frame_31 = QFrame(self.page_32)
+        self.frame_31.setObjectName(u"frame_31")
+        self.frame_31.setFrameShape(QFrame.StyledPanel)
+        self.frame_31.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_61 = QVBoxLayout(self.frame_31)
+        self.verticalLayout_61.setObjectName(u"verticalLayout_61")
+
+        self.verticalLayout_58.addWidget(self.frame_31, 0, Qt.AlignRight|Qt.AlignTop)
+
+        self.stackedWidget_8.addWidget(self.page_32)
+        self.page_33 = QWidget()
+        self.page_33.setObjectName(u"page_33")
+        self.verticalLayout_62 = QVBoxLayout(self.page_33)
+        self.verticalLayout_62.setObjectName(u"verticalLayout_62")
+        self.verticalLayout_62.setContentsMargins(0, 0, 0, 0)
+        self.label_45 = QLabel(self.page_33)
+        self.label_45.setObjectName(u"label_45")
+        self.label_45.setMaximumSize(QSize(16777215, 20))
+        self.label_45.setFont(font1)
+
+        self.verticalLayout_62.addWidget(self.label_45)
+
+        self.text_4 = QPlainTextEdit(self.page_33)
+        self.text_4.setObjectName(u"text_4")
+        self.text_4.setMaximumSize(QSize(16777215, 40))
+        font8 = QFont()
+        font8.setFamilies([u"Bahnschrift Light"])
+        font8.setUnderline(False)
+        self.text_4.setFont(font8)
+        self.text_4.setStyleSheet(u"#text_4 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_62.addWidget(self.text_4)
+
+        self.text_3 = QPlainTextEdit(self.page_33)
+        self.text_3.setObjectName(u"text_3")
+        self.text_3.setMaximumSize(QSize(16777215, 40))
+        self.text_3.setFont(font8)
+        self.text_3.setStyleSheet(u"#text_3 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_62.addWidget(self.text_3)
+
+        self.stackedWidget_8.addWidget(self.page_33)
+        self.page_34 = QWidget()
+        self.page_34.setObjectName(u"page_34")
+        self.verticalLayout_63 = QVBoxLayout(self.page_34)
+        self.verticalLayout_63.setObjectName(u"verticalLayout_63")
+        self.verticalLayout_63.setContentsMargins(0, 0, 0, 0)
+        self.label_46 = QLabel(self.page_34)
+        self.label_46.setObjectName(u"label_46")
+        self.label_46.setFont(font1)
+
+        self.verticalLayout_63.addWidget(self.label_46)
+
+        self.text_8 = QPlainTextEdit(self.page_34)
+        self.text_8.setObjectName(u"text_8")
+        self.text_8.setMaximumSize(QSize(16777215, 40))
+        self.text_8.setFont(font8)
+        self.text_8.setStyleSheet(u"#text_8 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_63.addWidget(self.text_8, 0, Qt.AlignTop)
+
+        self.text_5 = QPlainTextEdit(self.page_34)
+        self.text_5.setObjectName(u"text_5")
+        self.text_5.setMaximumSize(QSize(16777215, 40))
+        self.text_5.setFont(font8)
+        self.text_5.setStyleSheet(u"#text_5 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_63.addWidget(self.text_5)
+
+        self.text_9 = QPlainTextEdit(self.page_34)
+        self.text_9.setObjectName(u"text_9")
+        self.text_9.setMaximumSize(QSize(16777215, 40))
+        self.text_9.setFont(font8)
+        self.text_9.setStyleSheet(u"#text_9 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_63.addWidget(self.text_9)
+
+        self.text_7 = QPlainTextEdit(self.page_34)
+        self.text_7.setObjectName(u"text_7")
+        self.text_7.setMaximumSize(QSize(16777215, 40))
+        self.text_7.setFont(font8)
+        self.text_7.setStyleSheet(u"#text_7 {\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+
+        self.verticalLayout_63.addWidget(self.text_7)
+
+        self.stackedWidget_8.addWidget(self.page_34)
+
+        self.verticalLayout_57.addWidget(self.stackedWidget_8, 0, Qt.AlignTop)
+
+
+        self.verticalLayout_11.addWidget(self.widget_12, 0, Qt.AlignTop)
+
         self.recepBtn = QPushButton(self.frame_15)
         self.recepBtn.setObjectName(u"recepBtn")
-        self.recepBtn.setMinimumSize(QSize(0, 0))
+        self.recepBtn.setMinimumSize(QSize(175, 0))
         self.recepBtn.setFont(font1)
         self.recepBtn.setStyleSheet(u"#recepBtn {\n"
 "	background-color: rgb(238, 146, 143);\n"
@@ -1569,11 +1724,11 @@ class Ui_reception(object):
 "}\n"
 "")
 
-        self.verticalLayout_11.addWidget(self.recepBtn)
+        self.verticalLayout_11.addWidget(self.recepBtn, 0, Qt.AlignHCenter)
 
         self.stoprecBtn = QPushButton(self.frame_15)
         self.stoprecBtn.setObjectName(u"stoprecBtn")
-        self.stoprecBtn.setMinimumSize(QSize(0, 0))
+        self.stoprecBtn.setMinimumSize(QSize(175, 0))
         self.stoprecBtn.setFont(font1)
         self.stoprecBtn.setStyleSheet(u"#stoprecBtn {\n"
 "	background-color: rgb(238, 146, 143);\n"
@@ -1583,20 +1738,20 @@ class Ui_reception(object):
 "	background-color: #acacac;\n"
 "}")
 
-        self.verticalLayout_11.addWidget(self.stoprecBtn)
+        self.verticalLayout_11.addWidget(self.stoprecBtn, 0, Qt.AlignHCenter)
 
         self.recSBtn = QPushButton(self.frame_15)
         self.recSBtn.setObjectName(u"recSBtn")
-        self.recSBtn.setMinimumSize(QSize(0, 0))
+        self.recSBtn.setMinimumSize(QSize(175, 0))
         self.recSBtn.setMaximumSize(QSize(16777215, 16777215))
         self.recSBtn.setFont(font1)
         self.recSBtn.setStyleSheet(u"")
 
-        self.verticalLayout_11.addWidget(self.recSBtn)
+        self.verticalLayout_11.addWidget(self.recSBtn, 0, Qt.AlignHCenter)
 
         self.simWarnTxt = QTextBrowser(self.frame_15)
         self.simWarnTxt.setObjectName(u"simWarnTxt")
-        self.simWarnTxt.setMaximumSize(QSize(16777215, 100))
+        self.simWarnTxt.setMaximumSize(QSize(16777215, 90))
         self.simWarnTxt.setFont(font3)
         self.simWarnTxt.setStyleSheet(u"color: rgb(255, 0, 0)")
 
@@ -2079,6 +2234,7 @@ class Ui_reception(object):
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_7.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
+        self.stackedWidget_8.setCurrentIndex(0)
         self.stackedWidget_15.setCurrentIndex(5)
         self.stackedWidget_22.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
@@ -2263,6 +2419,14 @@ class Ui_reception(object):
         self.label_25.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
         self.label_27.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
         self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
+        self.label_45.setText(QCoreApplication.translate("reception", u"Escriba a las base, de la forma x + yj", None))
+        self.text_4.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
+        self.text_3.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
+        self.label_46.setText(QCoreApplication.translate("reception", u"Escriba a las base, de la forma x + yj", None))
+        self.text_8.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
+        self.text_5.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
+        self.text_9.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 3", None))
+        self.text_7.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 4", None))
         self.recepBtn.setText(QCoreApplication.translate("reception", u"Habilitar estado de Recepci\u00f3n", None))
         self.stoprecBtn.setText(QCoreApplication.translate("reception", u"Detener estado de Recepci\u00f3n", None))
         self.recSBtn.setText(QCoreApplication.translate("reception", u"Visualizar Mensaje Recibido", None))
