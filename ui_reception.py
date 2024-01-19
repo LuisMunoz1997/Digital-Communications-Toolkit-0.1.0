@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionbMTzJG.ui'
+## Form generated from reading UI file 'receptionarzJSS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -976,20 +976,6 @@ class Ui_reception(object):
         self.horizontalLayout_12.setSpacing(0)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.addBtn = QRadioButton(self.widget_8)
-        self.addBtn.setObjectName(u"addBtn")
-        font5 = QFont()
-        font5.setFamilies([u"Bahnschrift Light"])
-        self.addBtn.setFont(font5)
-
-        self.horizontalLayout_12.addWidget(self.addBtn, 0, Qt.AlignHCenter)
-
-        self.noaddBtn = QRadioButton(self.widget_8)
-        self.noaddBtn.setObjectName(u"noaddBtn")
-        self.noaddBtn.setFont(font5)
-
-        self.horizontalLayout_12.addWidget(self.noaddBtn, 0, Qt.AlignHCenter)
-
 
         self.verticalLayout_33.addWidget(self.widget_8)
 
@@ -998,7 +984,7 @@ class Ui_reception(object):
 
         self.widget_3 = QWidget(self.page_13)
         self.widget_3.setObjectName(u"widget_3")
-        self.widget_3.setMaximumSize(QSize(16777215, 0))
+        self.widget_3.setMaximumSize(QSize(16777215, 75))
         self.verticalLayout_32 = QVBoxLayout(self.widget_3)
         self.verticalLayout_32.setSpacing(5)
         self.verticalLayout_32.setObjectName(u"verticalLayout_32")
@@ -1059,11 +1045,11 @@ class Ui_reception(object):
         self.verticalLayout_53.setObjectName(u"verticalLayout_53")
         self.label_41 = QLabel(self.widget_13)
         self.label_41.setObjectName(u"label_41")
-        font6 = QFont()
-        font6.setFamilies([u"Bahnschrift Light"])
-        font6.setPointSize(10)
-        font6.setUnderline(True)
-        self.label_41.setFont(font6)
+        font5 = QFont()
+        font5.setFamilies([u"Bahnschrift Light"])
+        font5.setPointSize(10)
+        font5.setUnderline(True)
+        self.label_41.setFont(font5)
         self.label_41.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_53.addWidget(self.label_41)
@@ -1078,7 +1064,7 @@ class Ui_reception(object):
 
         self.label_42 = QLabel(self.widget_13)
         self.label_42.setObjectName(u"label_42")
-        self.label_42.setFont(font6)
+        self.label_42.setFont(font5)
         self.label_42.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_53.addWidget(self.label_42)
@@ -1094,7 +1080,7 @@ class Ui_reception(object):
 
         self.label_43 = QLabel(self.widget_13)
         self.label_43.setObjectName(u"label_43")
-        self.label_43.setFont(font6)
+        self.label_43.setFont(font5)
 
         self.verticalLayout_53.addWidget(self.label_43)
 
@@ -1107,7 +1093,7 @@ class Ui_reception(object):
 
         self.label_44 = QLabel(self.widget_13)
         self.label_44.setObjectName(u"label_44")
-        self.label_44.setFont(font6)
+        self.label_44.setFont(font5)
 
         self.verticalLayout_53.addWidget(self.label_44)
 
@@ -1510,9 +1496,9 @@ class Ui_reception(object):
         self.stackedWidget_6.addWidget(self.page_19)
         self.page_18 = QWidget()
         self.page_18.setObjectName(u"page_18")
-        font7 = QFont()
-        font7.setPointSize(10)
-        self.page_18.setFont(font7)
+        font6 = QFont()
+        font6.setPointSize(10)
+        self.page_18.setFont(font6)
         self.verticalLayout_43 = QVBoxLayout(self.page_18)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.verticalLayout_43.setContentsMargins(-1, -1, -1, 15)
@@ -1614,10 +1600,10 @@ class Ui_reception(object):
         self.text_4 = QPlainTextEdit(self.page_33)
         self.text_4.setObjectName(u"text_4")
         self.text_4.setMaximumSize(QSize(16777215, 40))
-        font8 = QFont()
-        font8.setFamilies([u"Bahnschrift Light"])
-        font8.setUnderline(False)
-        self.text_4.setFont(font8)
+        font7 = QFont()
+        font7.setFamilies([u"Bahnschrift Light"])
+        font7.setUnderline(False)
+        self.text_4.setFont(font7)
         self.text_4.setStyleSheet(u"#text_4 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1630,7 +1616,7 @@ class Ui_reception(object):
         self.text_3 = QPlainTextEdit(self.page_33)
         self.text_3.setObjectName(u"text_3")
         self.text_3.setMaximumSize(QSize(16777215, 40))
-        self.text_3.setFont(font8)
+        self.text_3.setFont(font7)
         self.text_3.setStyleSheet(u"#text_3 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1655,7 +1641,7 @@ class Ui_reception(object):
         self.text_8 = QPlainTextEdit(self.page_34)
         self.text_8.setObjectName(u"text_8")
         self.text_8.setMaximumSize(QSize(16777215, 40))
-        self.text_8.setFont(font8)
+        self.text_8.setFont(font7)
         self.text_8.setStyleSheet(u"#text_8 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1668,7 +1654,7 @@ class Ui_reception(object):
         self.text_5 = QPlainTextEdit(self.page_34)
         self.text_5.setObjectName(u"text_5")
         self.text_5.setMaximumSize(QSize(16777215, 40))
-        self.text_5.setFont(font8)
+        self.text_5.setFont(font7)
         self.text_5.setStyleSheet(u"#text_5 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1681,7 +1667,7 @@ class Ui_reception(object):
         self.text_9 = QPlainTextEdit(self.page_34)
         self.text_9.setObjectName(u"text_9")
         self.text_9.setMaximumSize(QSize(16777215, 40))
-        self.text_9.setFont(font8)
+        self.text_9.setFont(font7)
         self.text_9.setStyleSheet(u"#text_9 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1694,7 +1680,7 @@ class Ui_reception(object):
         self.text_7 = QPlainTextEdit(self.page_34)
         self.text_7.setObjectName(u"text_7")
         self.text_7.setMaximumSize(QSize(16777215, 40))
-        self.text_7.setFont(font8)
+        self.text_7.setFont(font7)
         self.text_7.setStyleSheet(u"#text_7 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -2232,6 +2218,7 @@ class Ui_reception(object):
         self.InfoBtn.setDefault(False)
         self.stackedWidget_4.setCurrentIndex(1)
         self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget_5.setCurrentIndex(1)
         self.stackedWidget_7.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
         self.stackedWidget_8.setCurrentIndex(0)
@@ -2381,8 +2368,6 @@ class Ui_reception(object):
         self.codelineBox_3.setItemText(4, QCoreApplication.translate("reception", u"L\u00ednea Horizontal (y = -b)", None))
         self.codelineBox_3.setItemText(5, QCoreApplication.translate("reception", u"L\u00ednea Inclinada ", None))
 
-        self.addBtn.setText(QCoreApplication.translate("reception", u"Agregar otro Umbral", None))
-        self.noaddBtn.setText(QCoreApplication.translate("reception", u"No Agregar otro Umbral", None))
         self.label_3.setText(QCoreApplication.translate("reception", u"Umbral 2: Escoja la geometr\u00eda del umbral que desea agregar:", None))
         self.codelineBox_2.setItemText(0, "")
         self.codelineBox_2.setItemText(1, QCoreApplication.translate("reception", u"L\u00ednea Vertical (x = a)", None))
@@ -2419,10 +2404,10 @@ class Ui_reception(object):
         self.label_25.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
         self.label_27.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
         self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
-        self.label_45.setText(QCoreApplication.translate("reception", u"Escriba a las base, de la forma x + yj", None))
+        self.label_45.setText(QCoreApplication.translate("reception", u"Escriba a los simb, de la forma x + yj", None))
         self.text_4.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
         self.text_3.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
-        self.label_46.setText(QCoreApplication.translate("reception", u"Escriba a las base, de la forma x + yj", None))
+        self.label_46.setText(QCoreApplication.translate("reception", u"Escriba a los simb, de la forma x + yj", None))
         self.text_8.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
         self.text_5.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
         self.text_9.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 3", None))

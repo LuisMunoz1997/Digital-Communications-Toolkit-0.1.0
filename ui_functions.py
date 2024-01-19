@@ -172,29 +172,6 @@ class MainFunctions(MainWindow):
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()
 
-    def user_threshold_add(self, maxWidth, enable):
-        if enable:
-
-            # GET HEIGHT
-            width = self.ui.widget_3.height()
-            maxExtend = maxWidth
-            standard = 0
-            
-            
-            # SET MAX WIDTH
-            if width == 0:
-                widthExtended = maxExtend
-            else:
-                widthExtended = standard
-
-                    
-            # ANIMATION
-            self.animation = QPropertyAnimation(self.ui.widget_3, b"maximumHeight")
-            self.animation.setDuration(400)
-            self.animation.setStartValue(width)
-            self.animation.setEndValue(widthExtended)
-            self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation.start()
 
     def user_threshold_add_data_1(self, maxWidth, enable):
         if enable:

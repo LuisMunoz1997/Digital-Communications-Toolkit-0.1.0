@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2SoVnFj.ui'
+## Form generated from reading UI file 'transmission2bylxZh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-
 
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -891,7 +890,7 @@ class Ui_transmission2(object):
         self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.widget_32 = QWidget(self.frame_15)
         self.widget_32.setObjectName(u"widget_32")
-        self.widget_32.setMaximumSize(QSize(16777215, 200))
+        self.widget_32.setMaximumSize(QSize(220, 200))
         self.widget_32.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.verticalLayout_41 = QVBoxLayout(self.widget_32)
         self.verticalLayout_41.setObjectName(u"verticalLayout_41")
@@ -917,28 +916,25 @@ class Ui_transmission2(object):
         self.verticalLayout_67.setObjectName(u"verticalLayout_67")
         self.label_23 = QLabel(self.page_25)
         self.label_23.setObjectName(u"label_23")
-        font8 = QFont()
-        font8.setFamilies([u"Bahnschrift Light"])
-        font8.setUnderline(True)
-        self.label_23.setFont(font8)
+        self.label_23.setFont(font7)
 
         self.verticalLayout_67.addWidget(self.label_23)
 
         self.radioButton_2 = QRadioButton(self.page_25)
         self.radioButton_2.setObjectName(u"radioButton_2")
-        self.radioButton_2.setFont(font5)
+        self.radioButton_2.setFont(font3)
 
         self.verticalLayout_67.addWidget(self.radioButton_2)
 
         self.radioButton_3 = QRadioButton(self.page_25)
         self.radioButton_3.setObjectName(u"radioButton_3")
-        self.radioButton_3.setFont(font5)
+        self.radioButton_3.setFont(font3)
 
         self.verticalLayout_67.addWidget(self.radioButton_3)
 
         self.radioButton_4 = QRadioButton(self.page_25)
         self.radioButton_4.setObjectName(u"radioButton_4")
-        self.radioButton_4.setFont(font5)
+        self.radioButton_4.setFont(font3)
 
         self.verticalLayout_67.addWidget(self.radioButton_4)
 
@@ -949,25 +945,25 @@ class Ui_transmission2(object):
         self.verticalLayout_66.setObjectName(u"verticalLayout_66")
         self.label_22 = QLabel(self.page_26)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setFont(font8)
+        self.label_22.setFont(font7)
 
         self.verticalLayout_66.addWidget(self.label_22, 0, Qt.AlignTop)
 
         self.radioButton_5 = QRadioButton(self.page_26)
         self.radioButton_5.setObjectName(u"radioButton_5")
-        self.radioButton_5.setFont(font5)
+        self.radioButton_5.setFont(font3)
 
         self.verticalLayout_66.addWidget(self.radioButton_5)
 
         self.radioButton_6 = QRadioButton(self.page_26)
         self.radioButton_6.setObjectName(u"radioButton_6")
-        self.radioButton_6.setFont(font5)
+        self.radioButton_6.setFont(font3)
 
         self.verticalLayout_66.addWidget(self.radioButton_6)
 
         self.radioButton_7 = QRadioButton(self.page_26)
         self.radioButton_7.setObjectName(u"radioButton_7")
-        self.radioButton_7.setFont(font5)
+        self.radioButton_7.setFont(font3)
 
         self.verticalLayout_66.addWidget(self.radioButton_7)
 
@@ -981,7 +977,7 @@ class Ui_transmission2(object):
         self.widget_4 = QWidget(self.frame_15)
         self.widget_4.setObjectName(u"widget_4")
         self.widget_4.setMinimumSize(QSize(0, 0))
-        self.widget_4.setMaximumSize(QSize(16777215, 200))
+        self.widget_4.setMaximumSize(QSize(220, 200))
         self.widget_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_25 = QVBoxLayout(self.widget_4)
         self.verticalLayout_25.setObjectName(u"verticalLayout_25")
@@ -1018,10 +1014,10 @@ class Ui_transmission2(object):
         self.text_4 = QPlainTextEdit(self.page_19)
         self.text_4.setObjectName(u"text_4")
         self.text_4.setMaximumSize(QSize(16777215, 40))
-        font9 = QFont()
-        font9.setFamilies([u"Bahnschrift Light"])
-        font9.setUnderline(False)
-        self.text_4.setFont(font9)
+        font8 = QFont()
+        font8.setFamilies([u"Bahnschrift Light"])
+        font8.setUnderline(False)
+        self.text_4.setFont(font8)
         self.text_4.setStyleSheet(u"#text_4 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1034,7 +1030,7 @@ class Ui_transmission2(object):
         self.text_3 = QPlainTextEdit(self.page_19)
         self.text_3.setObjectName(u"text_3")
         self.text_3.setMaximumSize(QSize(16777215, 40))
-        self.text_3.setFont(font9)
+        self.text_3.setFont(font8)
         self.text_3.setStyleSheet(u"#text_3 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1043,12 +1039,6 @@ class Ui_transmission2(object):
 "}")
 
         self.verticalLayout_26.addWidget(self.text_3)
-
-        self.textBrowser = QTextBrowser(self.page_19)
-        self.textBrowser.setObjectName(u"textBrowser")
-        self.textBrowser.setMaximumSize(QSize(16777215, 40))
-
-        self.verticalLayout_26.addWidget(self.textBrowser)
 
         self.stackedWidget_6.addWidget(self.page_19)
         self.page_20 = QWidget()
@@ -1064,8 +1054,8 @@ class Ui_transmission2(object):
 
         self.text_8 = QPlainTextEdit(self.page_20)
         self.text_8.setObjectName(u"text_8")
-        self.text_8.setMaximumSize(QSize(16777215, 40))
-        self.text_8.setFont(font9)
+        self.text_8.setMaximumSize(QSize(16777215, 30))
+        self.text_8.setFont(font8)
         self.text_8.setStyleSheet(u"#text_8 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1077,8 +1067,8 @@ class Ui_transmission2(object):
 
         self.text_5 = QPlainTextEdit(self.page_20)
         self.text_5.setObjectName(u"text_5")
-        self.text_5.setMaximumSize(QSize(16777215, 40))
-        self.text_5.setFont(font9)
+        self.text_5.setMaximumSize(QSize(16777215, 30))
+        self.text_5.setFont(font8)
         self.text_5.setStyleSheet(u"#text_5 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1090,8 +1080,8 @@ class Ui_transmission2(object):
 
         self.text_9 = QPlainTextEdit(self.page_20)
         self.text_9.setObjectName(u"text_9")
-        self.text_9.setMaximumSize(QSize(16777215, 40))
-        self.text_9.setFont(font9)
+        self.text_9.setMaximumSize(QSize(16777215, 30))
+        self.text_9.setFont(font8)
         self.text_9.setStyleSheet(u"#text_9 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1103,8 +1093,8 @@ class Ui_transmission2(object):
 
         self.text_7 = QPlainTextEdit(self.page_20)
         self.text_7.setObjectName(u"text_7")
-        self.text_7.setMaximumSize(QSize(16777215, 40))
-        self.text_7.setFont(font9)
+        self.text_7.setMaximumSize(QSize(16777215, 30))
+        self.text_7.setFont(font8)
         self.text_7.setStyleSheet(u"#text_7 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1113,12 +1103,6 @@ class Ui_transmission2(object):
 "}")
 
         self.verticalLayout_27.addWidget(self.text_7)
-
-        self.textBrowser_2 = QTextBrowser(self.page_20)
-        self.textBrowser_2.setObjectName(u"textBrowser_2")
-        self.textBrowser_2.setMaximumSize(QSize(16777215, 40))
-
-        self.verticalLayout_27.addWidget(self.textBrowser_2)
 
         self.stackedWidget_6.addWidget(self.page_20)
 
@@ -1133,7 +1117,7 @@ class Ui_transmission2(object):
         self.frame_14 = QFrame(self.widget_2)
         self.frame_14.setObjectName(u"frame_14")
         self.frame_14.setMinimumSize(QSize(100, 0))
-        self.frame_14.setMaximumSize(QSize(140, 16777215))
+        self.frame_14.setMaximumSize(QSize(190, 16777215))
         self.frame_14.setFrameShape(QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QFrame.Raised)
         self.verticalLayout_40 = QVBoxLayout(self.frame_14)
@@ -1142,6 +1126,8 @@ class Ui_transmission2(object):
         self.verticalLayout_40.setContentsMargins(0, 0, 0, 0)
         self.preSPBtn = QPushButton(self.frame_14)
         self.preSPBtn.setObjectName(u"preSPBtn")
+        self.preSPBtn.setMinimumSize(QSize(190, 0))
+        self.preSPBtn.setMaximumSize(QSize(16777215, 16777215))
         self.preSPBtn.setFont(font1)
         self.preSPBtn.setStyleSheet(u"#preSPBtn:hover {\n"
 "	background-color: #acacac;\n"
@@ -1151,10 +1137,12 @@ class Ui_transmission2(object):
 
         self.preSMBtn = QPushButton(self.frame_14)
         self.preSMBtn.setObjectName(u"preSMBtn")
+        self.preSMBtn.setMinimumSize(QSize(190, 0))
         self.preSMBtn.setFont(font1)
         self.preSMBtn.setStyleSheet(u"#preSMBtn:hover {\n"
 "	background-color: #acacac;\n"
-"}")
+"}\n"
+"")
 
         self.verticalLayout_40.addWidget(self.preSMBtn, 0, Qt.AlignHCenter|Qt.AlignTop)
 
@@ -1245,10 +1233,10 @@ class Ui_transmission2(object):
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.mSim = QLCDNumber(self.frame_11)
         self.mSim.setObjectName(u"mSim")
-        font10 = QFont()
-        font10.setFamilies([u"Bahnschrift Light"])
-        font10.setPointSize(14)
-        self.mSim.setFont(font10)
+        font9 = QFont()
+        font9.setFamilies([u"Bahnschrift Light"])
+        font9.setPointSize(14)
+        self.mSim.setFont(font9)
         self.mSim.setFrameShape(QFrame.Panel)
         self.mSim.setFrameShadow(QFrame.Sunken)
         self.mSim.setLineWidth(0)
@@ -1266,10 +1254,7 @@ class Ui_transmission2(object):
 
         self.label_11 = QLabel(self.frame_7)
         self.label_11.setObjectName(u"label_11")
-        font11 = QFont()
-        font11.setFamilies([u"Bahnschrift Light"])
-        font11.setPointSize(8)
-        self.label_11.setFont(font11)
+        self.label_11.setFont(font3)
 
         self.horizontalLayout_8.addWidget(self.label_11)
 
@@ -1408,7 +1393,7 @@ class Ui_transmission2(object):
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.label_13 = QLabel(self.frame_25)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font3)
+        self.label_13.setFont(font2)
         self.label_13.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.horizontalLayout_23.addWidget(self.label_13)
@@ -1674,11 +1659,9 @@ class Ui_transmission2(object):
         self.text_5.setPlaceholderText(QCoreApplication.translate("transmission2", u"Escriba la base 2", None))
         self.text_9.setPlaceholderText(QCoreApplication.translate("transmission2", u"Escriba la base 3", None))
         self.text_7.setPlaceholderText(QCoreApplication.translate("transmission2", u"Escriba la base 4", None))
-        self.preSPBtn.setText(QCoreApplication.translate("transmission2", u"Graficar preview de \n"
-"Bits a transmitir", None))
-        self.preSMBtn.setText(QCoreApplication.translate("transmission2", u"Graficar preview de \n"
-"Se\u00f1al Banda Base \n"
-"y Pasa Banda ", None))
+        self.preSPBtn.setText(QCoreApplication.translate("transmission2", u"Graficar Bits a transmitir", None))
+        self.preSMBtn.setText(QCoreApplication.translate("transmission2", u"Graficar Se\u00f1al Banda-Base y \n"
+"Pasa-Banda ", None))
         self.ConfBtn.setText(QCoreApplication.translate("transmission2", u"Configurar Se\u00f1al", None))
         self.TransBtn.setText(QCoreApplication.translate("transmission2", u"Transmitir Se\u00f1al", None))
         self.simWarnTxt.setHtml(QCoreApplication.translate("transmission2", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
