@@ -709,12 +709,15 @@ class MainWindow(QMainWindow):
                 self.symbols_to_send_pluto = None #Se limpia señal anterior en caso que hubiera una ya configurada
                 MainWindow.transmit_signal(self)
                 print("Configuración PLUTO y Señal listas")
-                #MainFunctions.transmit_motion_btn(self, 30, True)
             
             except Exception as e:
                 self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
                 print(e)
                 self.configured_signal = False
+        
+        if self.configured_signal == True:
+            self.ui.simWarnTxt.setText("Ya la señal ha sido configurada")
+            
 
     
     
@@ -1088,14 +1091,16 @@ class MainWindow(QMainWindow):
                         offy = self.ui.doubleSpinBox_22.value()
 
     def transmit_signal_pluto(self):
-        print("Enviando...")                                                  
+        print("Enviando...")
+        self.configured_signal = False                                                  
         for packet_symbols in self.symbols_to_send_pluto:
             self.sdr.tx(packet_symbols)
+        
+        MainFunctions.transmit_motion_btn(self, 30, True) 
         print("Transmisión completada")                    
 
     def transmit_signal(self):
         print("Se llamo transmit signal")
-        self.configured_signal = False
         #MainFunctions.transmit_motion_btn(self, 30, True)
         print("Se llamo transmit_motion")
         self.ui.simWarnTxt.setText("")
