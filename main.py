@@ -393,7 +393,7 @@ class MainWindow(QMainWindow):
         self.ui.ConfBtn.clicked.connect(self.configure_signal)
         
         #TRANSMIT
-        self.ui.TransBtn.clicked.connect(self.transmit_signal)
+        self.ui.TransBtn.clicked.connect(self.transmit_signal_pluto)
         
             
         self.ventana.show()
@@ -506,7 +506,7 @@ class MainWindow(QMainWindow):
         self.ui.ConfBtn.clicked.connect(self.configure_signal)        
         
         #TRANSMIT
-        self.ui.TransBtn.clicked.connect(self.transmit_signal)
+        self.ui.TransBtn.clicked.connect(self.transmit_signal_pluto)
         
         
         #FBIT
@@ -706,10 +706,14 @@ class MainWindow(QMainWindow):
                 self.sdr.sample_rate = int(fsample)
                 self.sdr.tx_rf_bandwidth = int(fsample)
                 
-                MainFunctions.transmit_motion_btn(self, 30, True)
+                self.symbols_to_send_pluto = None #Se limpia señal anterior en caso que hubiera una ya configurada
+                MainWindow.transmit_signal(self)
+                print("Configuración PLUTO y Señal listas")
+                #MainFunctions.transmit_motion_btn(self, 30, True)
             
-            except:
+            except Exception as e:
                 self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
+                print(e)
                 self.configured_signal = False
 
     
@@ -1083,11 +1087,17 @@ class MainWindow(QMainWindow):
                         offx = self.ui.doubleSpinBox_21.value()
                         offy = self.ui.doubleSpinBox_22.value()
 
-                            
+    def transmit_signal_pluto(self):
+        print("Enviando...")                                                  
+        for packet_symbols in self.symbols_to_send_pluto:
+            self.sdr.tx(packet_symbols)
+        print("Transmisión completada")                    
 
     def transmit_signal(self):
+        print("Se llamo transmit signal")
         self.configured_signal = False
-        MainFunctions.transmit_motion_btn(self, 30, True)
+        #MainFunctions.transmit_motion_btn(self, 30, True)
+        print("Se llamo transmit_motion")
         self.ui.simWarnTxt.setText("")
             
         fsim = self.ui.fbit.value()
@@ -1145,14 +1155,17 @@ class MainWindow(QMainWindow):
                         if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                             add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                             symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                        now = time.time()
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
-                        print("ENVIANDO")
+                        #now = time.time()
+
+                        self.symbols_to_send_pluto = symbols_to_send
+                        
+                        #for packet_symbols in symbols_to_send:
+                        #    self.sdr.tx(packet_symbols)
+                        #print("ENVIANDO")
                         #print(int_message[0:10])
                         #print(int_message[-10:])
-                        after = time.time()
-                        print('Estimado {}', after-now)
+                        #after = time.time()
+                        #print('Estimado {}', after-now)
                     
                     
                 elif index_n_symbols == 2:
@@ -1190,12 +1203,14 @@ class MainWindow(QMainWindow):
                             add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                             symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
                         
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
-                        print("ENVIANDO")
+                        self.symbols_to_send_pluto = symbols_to_send
+                        
+                        #for packet_symbols in symbols_to_send:
+                        #    self.sdr.tx(packet_symbols)
+                        #print("ENVIANDO")
                         #print(int_message)
-                        after = time.time()
-                        print('Estimado {}', after-now)
+                        #after = time.time()
+                        #print('Estimado {}', after-now)
                     
                 elif index_n_symbols == 3:
                     index_8_symbols_type_of_modulation = self.ui.modBox_3.currentIndex()
@@ -1223,14 +1238,17 @@ class MainWindow(QMainWindow):
                             if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                 add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                 symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                            now = time.time()
-                            for packet_symbols in symbols_to_send:
-                                self.sdr.tx(packet_symbols)
-                            print("ENVIANDO")
+                                
+                            self.symbols_to_send_pluto = symbols_to_send
+                            
+                            #now = time.time()
+                            #for packet_symbols in symbols_to_send:
+                            #    self.sdr.tx(packet_symbols)
+                            #print("ENVIANDO")
                             #print(int_message[0:10])
                             #print(int_message[-10:])
-                            after = time.time()
-                            print('Estimado {}', after-now)
+                            #after = time.time()
+                            #print('Estimado {}', after-now)
                             
                         elif index_8_symbols_type_of_modulation == 3:
                             if self.ui.radioButton_2.isChecked() == True:
@@ -1251,14 +1269,17 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                                 
                             elif self.ui.radioButton_3.isChecked() == True:
                                 index_variant_8 = 2
@@ -1278,14 +1299,17 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                                 
                             elif self.ui.radioButton_4.isChecked() == True:
                                 index_variant_8 = 3
@@ -1305,14 +1329,17 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                             
                     
                 elif index_n_symbols == 4:
@@ -1341,14 +1368,17 @@ class MainWindow(QMainWindow):
                             if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                 add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                 symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                            now = time.time()
-                            for packet_symbols in symbols_to_send:
-                                self.sdr.tx(packet_symbols)
-                            print("ENVIANDO")
+                                
+                            self.symbols_to_send_pluto = symbols_to_send
+                            
+                            #now = time.time()
+                            #for packet_symbols in symbols_to_send:
+                            #    self.sdr.tx(packet_symbols)
+                            #print("ENVIANDO")
                             #print(int_message[0:10])
                             #print(int_message[-10:])
-                            after = time.time()
-                            print('Estimado {}', after-now)
+                            #after = time.time()
+                            #print('Estimado {}', after-now)
                         
                         elif index_16_symbols_type_of_modulation == 2:
                             if self.ui.radioButton_5.isChecked() == True:
@@ -1369,14 +1399,17 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                                 
                             elif self.ui.radioButton_6.isChecked() == True:
                                 index_variant_16 = 2
@@ -1396,14 +1429,17 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
 
                             elif self.ui.radioButton_7.isChecked() == True:
                                 index_variant_16 = 3
@@ -1423,15 +1459,18 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)     
-                    
+                                #after = time.time()
+                                #print('Estimado {}', after-now)     
+        
             
         ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)
                       
@@ -1462,9 +1501,11 @@ class MainWindow(QMainWindow):
                     if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                         add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                         symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-
-                    for packet_symbols in symbols_to_send:
-                        self.sdr.tx(packet_symbols)
+                        
+                    self.symbols_to_send_pluto = symbols_to_send
+                    
+                    #for packet_symbols in symbols_to_send:
+                    #    self.sdr.tx(packet_symbols)
                             
                 
                 elif index_n_symbols == 2:
@@ -1494,10 +1535,13 @@ class MainWindow(QMainWindow):
                     if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                         add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                         symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-
-                    for packet_symbols in symbols_to_send:
-                        self.sdr.tx(packet_symbols)
-
+                    
+                    self.symbols_to_send_pluto = symbols_to_send
+                    
+                    #for packet_symbols in symbols_to_send:
+                    #    self.sdr.tx(packet_symbols)
+                    
+        MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo            
 
 
     def graph_modulated_signal_prev(self):
