@@ -393,7 +393,7 @@ class MainWindow(QMainWindow):
         self.ui.ConfBtn.clicked.connect(self.configure_signal)
         
         #TRANSMIT
-        self.ui.TransBtn.clicked.connect(self.transmit_signal)
+        self.ui.TransBtn.clicked.connect(self.transmit_signal_pluto)
         
             
         self.ventana.show()
@@ -506,7 +506,7 @@ class MainWindow(QMainWindow):
         self.ui.ConfBtn.clicked.connect(self.configure_signal)        
         
         #TRANSMIT
-        self.ui.TransBtn.clicked.connect(self.transmit_signal)
+        self.ui.TransBtn.clicked.connect(self.transmit_signal_pluto)
         
         
         #FBIT
@@ -706,12 +706,15 @@ class MainWindow(QMainWindow):
                 self.sdr.sample_rate = int(fsample)
                 self.sdr.tx_rf_bandwidth = int(fsample)
                 
-                MainFunctions.transmit_motion_btn(self, 30, True)
+                self.symbols_to_send_pluto = None #Se limpia señal anterior en caso que hubiera una ya configurada
+                MainWindow.transmit_signal(self)
+                print("Configuración PLUTO y Señal listas")
+                #MainFunctions.transmit_motion_btn(self, 30, True)
             
-            except:
-                self.configured_signal = False
+            except Exception as e:
                 self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
-
+                print(e)
+                self.configured_signal = False
 
     
     
@@ -1084,60 +1087,150 @@ class MainWindow(QMainWindow):
                         offx = self.ui.doubleSpinBox_21.value()
                         offy = self.ui.doubleSpinBox_22.value()
 
-                            
+    def transmit_signal_pluto(self):
+        print("Enviando...")                                                  
+        for packet_symbols in self.symbols_to_send_pluto:
+            self.sdr.tx(packet_symbols)
+        print("Transmisión completada")                    
 
     def transmit_signal(self):
-        if self.configured_signal == True:
-            self.configured_signal = False
-            MainFunctions.transmit_motion_btn(self, 30, True)
-            self.ui.simWarnTxt.setText("")
-                
-            fsim = self.ui.fbit.value()
-            tsim = self.ui.tbit.value()
-            fport = self.ui.fport.value()
-            fsample = self.fsample   
+        print("Se llamo transmit signal")
+        self.configured_signal = False
+        #MainFunctions.transmit_motion_btn(self, 30, True)
+        print("Se llamo transmit_motion")
+        self.ui.simWarnTxt.setText("")
             
-            if self.text_flag_message == True:
-                message = self.ui.text.toPlainText()
+        fsim = self.ui.fbit.value()
+        tsim = self.ui.tbit.value()
+        fport = self.ui.fport.value()
+        fsample = self.fsample   
+        
+        if self.text_flag_message == True:
+            message = self.ui.text.toPlainText()
 
-            elif self.filepath_flag_message == True:
-                message = self.filePath[0]
+        elif self.filepath_flag_message == True:
+            message = self.filePath[0]
 
-                #message = np.fromfile(self.filePath[0], dtype=np.uint8)
-                #int_message = message
-                #message = np.unpackbits(message)
-                #message = np.asarray(message, dtype=bool)
+            #message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            #int_message = message
+            #message = np.unpackbits(message)
+            #message = np.asarray(message, dtype=bool)
+        
+        if message == "":
+            self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
+        
+        if message != "":
             
-            if message == "":
-                self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
+        ############# MODULACIÓN Y CONSTELACIONES PREDEFINIDAS
+#            if self.defined_const_flag == False or self.user_defined_const_flag == False:
+#                self.ui.simWarnTxt.setText("Hace falta definir el modo de configuración de la señal")
             
-            if message != "":
+            if self.defined_const_flag == True:
+                index_n_symbols = self.ui.simPBitBox.currentIndex()
+                print('Index modulacion elegido', self.ui.modBox.currentIndex())
+                print('Index n symbol es:',index_n_symbols)
+                if index_n_symbols == 0:
+                    self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
                 
-            ############# MODULACIÓN Y CONSTELACIONES PREDEFINIDAS
-                
-                if self.defined_const_flag == True:
-                    index_n_symbols = self.ui.simPBitBox.currentIndex()
-                    print('Index modulacion elegido', self.ui.modBox.currentIndex())
-                    print('Index n symbol es:',index_n_symbols)
-                    if index_n_symbols == 0:
-                        self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
+                elif index_n_symbols == 1:
+                    index_2_symbols_type_of_modulation = self.ui.modBox.currentIndex()
+                    print('El index es:',index_2_symbols_type_of_modulation)
+                    n_symbol = 2
+                    if index_2_symbols_type_of_modulation == 0:
+                        self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
                     
-                    elif index_n_symbols == 1:
-                        index_2_symbols_type_of_modulation = self.ui.modBox.currentIndex()
-                        print('El index es:',index_2_symbols_type_of_modulation)
-                        n_symbol = 2
-                        if index_2_symbols_type_of_modulation == 0:
-                            self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
+                    elif index_2_symbols_type_of_modulation != 0:
+                        #Creo la constelación
+                        constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
+                        #Le asigno símbolos a los bits. Los modulo
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        #print(message)
+                        self.ui.mSim.display(int(len(bits_array)))
+                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+
+                        for inx,packet in enumerate(symbols_to_send):
+                            symbols_to_send[inx] = np.multiply(packet,2**14)
                         
-                        elif index_2_symbols_type_of_modulation != 0:
+                        print(len(symbols_to_send))
+                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                        #now = time.time()
+
+                        self.symbols_to_send_pluto = symbols_to_send
+                        
+                        #for packet_symbols in symbols_to_send:
+                        #    self.sdr.tx(packet_symbols)
+                        #print("ENVIANDO")
+                        #print(int_message[0:10])
+                        #print(int_message[-10:])
+                        #after = time.time()
+                        #print('Estimado {}', after-now)
+                    
+                    
+                elif index_n_symbols == 2:
+                    index_4_symbols_type_of_modulation = self.ui.modBox_2.currentIndex()
+                    n_symbol = 4
+                    if index_4_symbols_type_of_modulation == 0:
+                        self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
+                    
+                    elif index_4_symbols_type_of_modulation != 0:
+                        now = time.time()
+                        #Creo la constelación
+                        constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_4_symbols_type_of_modulation)
+                        #Le asigno símbolos a los bits. Los modulo
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        self.ui.mSim.display(int(len(bits_array)))
+                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                        
+                        for inx,packet in enumerate(symbols_to_send):
+                            symbols_to_send[inx] = np.multiply(packet,2**14)
+                        
+                        #fig, ax = plt.subplots(3)
+                        #ax[0].plot(symbols_to_send[0].real)
+                        #ax[0].plot(symbols_to_send[0].imag)
+                        #ax[0].set_title('a')
+                        #ax[1].plot(symbols_to_send[1].real)
+                        #ax[1].plot(symbols_to_send[1].imag)
+                        #ax[1].set_title('b')
+                        #ax[2].plot(symbols_to_send[7].real)
+                        #ax[2].plot(symbols_to_send[7].imag)
+                        #plt.show()
+                        
+                        #El Buffer de muestras de envío se coloca automaticamente por el Pluto. Se debe mantener constante a lo largo de la transmisión. La última parte puede tener menos muestras que las anteriores, se le agregan cero para completar las muestras del buffer configurado.
+                        print(len(symbols_to_send))
+                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                        
+                        self.symbols_to_send_pluto = symbols_to_send
+                        
+                        #for packet_symbols in symbols_to_send:
+                        #    self.sdr.tx(packet_symbols)
+                        #print("ENVIANDO")
+                        #print(int_message)
+                        #after = time.time()
+                        #print('Estimado {}', after-now)
+                    
+                elif index_n_symbols == 3:
+                    index_8_symbols_type_of_modulation = self.ui.modBox_3.currentIndex()
+                    n_symbol = 8
+                    
+                    if index_8_symbols_type_of_modulation == 0:
+                        self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
+                    
+                    elif index_8_symbols_type_of_modulation != 0:
+                    
+                        if index_8_symbols_type_of_modulation == 1 or index_8_symbols_type_of_modulation == 2:
+                        
                             #Creo la constelación
-                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
+                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation)
                             #Le asigno símbolos a los bits. Los modulo
                             bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                             #print(message)
                             self.ui.mSim.display(int(len(bits_array)))
                             symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-
+    
                             for inx,packet in enumerate(symbols_to_send):
                                 symbols_to_send[inx] = np.multiply(packet,2**14)
                             
@@ -1145,71 +1238,24 @@ class MainWindow(QMainWindow):
                             if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                 add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                 symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                            now = time.time()
-                            for packet_symbols in symbols_to_send:
-                                self.sdr.tx(packet_symbols)
-                            print("ENVIANDO")
+                                
+                            self.symbols_to_send_pluto = symbols_to_send
+                            
+                            #now = time.time()
+                            #for packet_symbols in symbols_to_send:
+                            #    self.sdr.tx(packet_symbols)
+                            #print("ENVIANDO")
                             #print(int_message[0:10])
                             #print(int_message[-10:])
-                            after = time.time()
-                            print('Estimado {}', after-now)
-                        
-                        
-                    elif index_n_symbols == 2:
-                        index_4_symbols_type_of_modulation = self.ui.modBox_2.currentIndex()
-                        n_symbol = 4
-                        if index_4_symbols_type_of_modulation == 0:
-                            self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
-                        
-                        elif index_4_symbols_type_of_modulation != 0:
-                            now = time.time()
-                            #Creo la constelación
-                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_4_symbols_type_of_modulation)
-                            #Le asigno símbolos a los bits. Los modulo
-                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                            self.ui.mSim.display(int(len(bits_array)))
-                            symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                            #after = time.time()
+                            #print('Estimado {}', after-now)
                             
-                            for inx,packet in enumerate(symbols_to_send):
-                                symbols_to_send[inx] = np.multiply(packet,2**14)
-                            
-                            #fig, ax = plt.subplots(3)
-                            #ax[0].plot(symbols_to_send[0].real)
-                            #ax[0].plot(symbols_to_send[0].imag)
-                            #ax[0].set_title('a')
-                            #ax[1].plot(symbols_to_send[1].real)
-                            #ax[1].plot(symbols_to_send[1].imag)
-                            #ax[1].set_title('b')
-                            #ax[2].plot(symbols_to_send[7].real)
-                            #ax[2].plot(symbols_to_send[7].imag)
-                            #plt.show()
-                            
-                            #El Buffer de muestras de envío se coloca automaticamente por el Pluto. Se debe mantener constante a lo largo de la transmisión. La última parte puede tener menos muestras que las anteriores, se le agregan cero para completar las muestras del buffer configurado.
-                            print(len(symbols_to_send))
-                            if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                            
-                            for packet_symbols in symbols_to_send:
-                                self.sdr.tx(packet_symbols)
-                            print("ENVIANDO")
-                            #print(int_message)
-                            after = time.time()
-                            print('Estimado {}', after-now)
-                        
-                    elif index_n_symbols == 3:
-                        index_8_symbols_type_of_modulation = self.ui.modBox_3.currentIndex()
-                        n_symbol = 8
-                        
-                        if index_8_symbols_type_of_modulation == 0:
-                            self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
-                        
-                        elif index_8_symbols_type_of_modulation != 0:
-                        
-                            if index_8_symbols_type_of_modulation == 1 or index_8_symbols_type_of_modulation == 2:
-                            
+                        elif index_8_symbols_type_of_modulation == 3:
+                            if self.ui.radioButton_2.isChecked() == True:
+                                index_variant_8 = 1
+                                
                                 #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation)
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1223,281 +1269,279 @@ class MainWindow(QMainWindow):
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                                 
-                            elif index_8_symbols_type_of_modulation == 3:
-                                if self.ui.radioButton_2.isChecked() == True:
-                                    index_variant_8 = 1
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)
-                                    
-                                elif self.ui.radioButton_3.isChecked() == True:
-                                    index_variant_8 = 2
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)
-                                    
-                                elif self.ui.radioButton_4.isChecked() == True:
-                                    index_variant_8 = 3
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)
+                            elif self.ui.radioButton_3.isChecked() == True:
+                                index_variant_8 = 2
                                 
-                        
-                    elif index_n_symbols == 4:
-                        index_16_symbols_type_of_modulation = self.ui.modBox_4.currentIndex()
-                        n_symbol = 16
-                        
-                        if index_16_symbols_type_of_modulation == 0:
-                            self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
-                        
-                        elif index_16_symbols_type_of_modulation != 0:
-                        
-                            if index_16_symbols_type_of_modulation == 1:
-                            
                                 #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation)
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
+        
                                 for inx,packet in enumerate(symbols_to_send):
                                     symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
+                                
                                 print(len(symbols_to_send))
                                 if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
                                     add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
                                     symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                now = time.time()
-                                for packet_symbols in symbols_to_send:
-                                    self.sdr.tx(packet_symbols)
-                                print("ENVIANDO")
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
                                 #print(int_message[0:10])
                                 #print(int_message[-10:])
-                                after = time.time()
-                                print('Estimado {}', after-now)
-                            
-                            elif index_16_symbols_type_of_modulation == 2:
-                                if self.ui.radioButton_5.isChecked() == True:
-                                    index_variant_16 = 1
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)
-                                    
-                                elif self.ui.radioButton_6.isChecked() == True:
-                                    index_variant_16 = 2
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)
-
-                                elif self.ui.radioButton_7.isChecked() == True:
-                                    index_variant_16 = 3
-                                    
-                                    #Creo la constelación
-                                    constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                    #Le asigno símbolos a los bits. Los modulo
-                                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                    #print(message)
-                                    self.ui.mSim.display(int(len(bits_array)))
-                                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-            
-                                    for inx,packet in enumerate(symbols_to_send):
-                                        symbols_to_send[inx] = np.multiply(packet,2**14)
-                                    
-                                    print(len(symbols_to_send))
-                                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    now = time.time()
-                                    for packet_symbols in symbols_to_send:
-                                        self.sdr.tx(packet_symbols)
-                                    print("ENVIANDO")
-                                    #print(int_message[0:10])
-                                    #print(int_message[-10:])
-                                    after = time.time()
-                                    print('Estimado {}', after-now)     
-                        
-                
-            ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)
-                        
-                elif self.user_defined_const_flag == True:
-                    index_n_symbols = self.ui.simPBitBox_2.currentIndex()
-
-                    if index_n_symbols == 1:
-                        symbol1 = self.ui.text_3.toPlainText() #SIMBOLO 1
-                        symbol2 = self.ui.text_4.toPlainText() #SIMBOLO 2
-
-                        try:
-                            point1 = complex(symbol1) #Cuidado con los eval
-                            point2 = complex(symbol2)
-
-                        except:
-                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
-
-
-                        constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                        self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
-
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
                                 
+                            elif self.ui.radioButton_4.isChecked() == True:
+                                index_variant_8 = 3
+                                
+                                #Creo la constelación
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
+                                #Le asigno símbolos a los bits. Los modulo
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                #print(message)
+                                self.ui.mSim.display(int(len(bits_array)))
+                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+        
+                                for inx,packet in enumerate(symbols_to_send):
+                                    symbols_to_send[inx] = np.multiply(packet,2**14)
+                                
+                                print(len(symbols_to_send))
+                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
+                                #print(int_message[0:10])
+                                #print(int_message[-10:])
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
+                            
                     
-                    elif index_n_symbols == 2:
-                        symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
-                        symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
-                        symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
-                        symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+                elif index_n_symbols == 4:
+                    index_16_symbols_type_of_modulation = self.ui.modBox_4.currentIndex()
+                    n_symbol = 16
+                    
+                    if index_16_symbols_type_of_modulation == 0:
+                        self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
+                    
+                    elif index_16_symbols_type_of_modulation != 0:
+                    
+                        if index_16_symbols_type_of_modulation == 1:
+                        
+                            #Creo la constelación
+                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation)
+                            #Le asigno símbolos a los bits. Los modulo
+                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                            #print(message)
+                            self.ui.mSim.display(int(len(bits_array)))
+                            symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+        
+                            for inx,packet in enumerate(symbols_to_send):
+                                symbols_to_send[inx] = np.multiply(packet,2**14)
+                                
+                            print(len(symbols_to_send))
+                            if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                                add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                                symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                                
+                            self.symbols_to_send_pluto = symbols_to_send
+                            
+                            #now = time.time()
+                            #for packet_symbols in symbols_to_send:
+                            #    self.sdr.tx(packet_symbols)
+                            #print("ENVIANDO")
+                            #print(int_message[0:10])
+                            #print(int_message[-10:])
+                            #after = time.time()
+                            #print('Estimado {}', after-now)
+                        
+                        elif index_16_symbols_type_of_modulation == 2:
+                            if self.ui.radioButton_5.isChecked() == True:
+                                index_variant_16 = 1
+                                
+                                #Creo la constelación
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                #Le asigno símbolos a los bits. Los modulo
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                #print(message)
+                                self.ui.mSim.display(int(len(bits_array)))
+                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+        
+                                for inx,packet in enumerate(symbols_to_send):
+                                    symbols_to_send[inx] = np.multiply(packet,2**14)
+                                
+                                print(len(symbols_to_send))
+                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
+                                #print(int_message[0:10])
+                                #print(int_message[-10:])
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
+                                
+                            elif self.ui.radioButton_6.isChecked() == True:
+                                index_variant_16 = 2
+                                
+                                #Creo la constelación
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                #Le asigno símbolos a los bits. Los modulo
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                #print(message)
+                                self.ui.mSim.display(int(len(bits_array)))
+                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+        
+                                for inx,packet in enumerate(symbols_to_send):
+                                    symbols_to_send[inx] = np.multiply(packet,2**14)
+                                
+                                print(len(symbols_to_send))
+                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                                    
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
+                                #print(int_message[0:10])
+                                #print(int_message[-10:])
+                                #after = time.time()
+                                #print('Estimado {}', after-now)
 
-                        try:
-                            point1 = complex(symbol1) 
-                            point2 = complex(symbol2)
-                            point3 = complex(symbol3)
-                            point4 = complex(symbol4)
+                            elif self.ui.radioButton_7.isChecked() == True:
+                                index_variant_16 = 3
+                                
+                                #Creo la constelación
+                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                #Le asigno símbolos a los bits. Los modulo
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                #print(message)
+                                self.ui.mSim.display(int(len(bits_array)))
+                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+        
+                                for inx,packet in enumerate(symbols_to_send):
+                                    symbols_to_send[inx] = np.multiply(packet,2**14)
+                                
+                                print(len(symbols_to_send))
+                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                                
+                                self.symbols_to_send_pluto = symbols_to_send
+                                
+                                #now = time.time()
+                                #for packet_symbols in symbols_to_send:
+                                #    self.sdr.tx(packet_symbols)
+                                #print("ENVIANDO")
+                                #print(int_message[0:10])
+                                #print(int_message[-10:])
+                                #after = time.time()
+                                #print('Estimado {}', after-now)     
+        
+            
+        ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)
+                      
+            elif self.user_defined_const_flag == True:
+                index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
-                        except:
-                            print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
-                            self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                if index_n_symbols == 1:
+                    symbol1 = self.ui.text_3.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_4.toPlainText() #SIMBOLO 2
 
-                        constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                        self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                    try:
+                        point1 = complex(symbol1) #Cuidado con los eval
+                        point2 = complex(symbol2)
 
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
+                    except:
+                        print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
 
-                        for packet_symbols in symbols_to_send:
-                            self.sdr.tx(packet_symbols)
+                    constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
+                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                    self.ui.mSim.display(int(len(bits_array)))
+                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
 
+                    for inx,packet in enumerate(symbols_to_send):
+                        symbols_to_send[inx] = np.multiply(packet,2**14)
+
+                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                        
+                    self.symbols_to_send_pluto = symbols_to_send
+                    
+                    #for packet_symbols in symbols_to_send:
+                    #    self.sdr.tx(packet_symbols)
+                            
+                
+                elif index_n_symbols == 2:
+                    symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                    symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                    symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                    symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+
+                    try:
+                        point1 = complex(symbol1) 
+                        point2 = complex(symbol2)
+                        point3 = complex(symbol3)
+                        point4 = complex(symbol4)
+
+                    except:
+                        print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                        self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+
+                    constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
+                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                    self.ui.mSim.display(int(len(bits_array)))
+                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+
+                    for inx,packet in enumerate(symbols_to_send):
+                        symbols_to_send[inx] = np.multiply(packet,2**14)
+
+                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
+                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
+                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
+                    
+                    self.symbols_to_send_pluto = symbols_to_send
+                    
+                    #for packet_symbols in symbols_to_send:
+                    #    self.sdr.tx(packet_symbols)
+                    
+        MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo            
 
 
     def graph_modulated_signal_prev(self):
