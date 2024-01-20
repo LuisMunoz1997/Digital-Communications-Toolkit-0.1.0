@@ -135,8 +135,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self.ventana)
 
         # opening window in maximized size 
-        self.ventana.showMaximized() 
-        
+        #self.ventana.showMaximized() 
+        self.ventana.setFixedHeight(760)
         self.fsample = 522000
         
         #REAL TIME GRAPH NECESARY OBJECTS
@@ -857,22 +857,26 @@ class MainWindow(QMainWindow):
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
+                            MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                             point1 = complex(symbol1) #Cuidado con los eval
                             point2 = complex(symbol2)
                             esquema = 'CUSTOM'
-                            
+                            print("Puntos ingresados")
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=0, angle2=0)
-                            
+                            print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
-                            
-                            constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2)
-                            
-                            regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, constellation_rx)
+                            print("umbrales custom interpolados")
+                            self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2)
+                            print("constelacion custom creada")
+                            regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, self.constellation_rx)
+                            print("regiones custom creadas")
+                            print(regions)
                             
                             MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
 
-                        except:
+                        except Exception as e:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                            print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
@@ -1497,6 +1501,7 @@ class MainWindow(QMainWindow):
                 if index_n_symbols == 1:
                     symbol1 = self.ui.text_3.toPlainText() #SIMBOLO 1
                     symbol2 = self.ui.text_4.toPlainText() #SIMBOLO 2
+                    n_symbol = 2
 
                     try:
                         point1 = complex(symbol1) #Cuidado con los eval

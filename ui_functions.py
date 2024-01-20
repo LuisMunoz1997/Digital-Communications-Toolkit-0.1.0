@@ -1162,13 +1162,15 @@ class MainFunctions(MainWindow):
                         '0',
                         '1',
                     ]
+                    print("{} esta a la izquiera de umbral y es bit 0".format(constellation[0]))
                 else:
                     bits_save = [
                         '1', #En este condicional, region izquierda es 1 y derecha es 0
                         '0',
                     ]
+                    print("{} esta a la derecha de umbral y es bit 0".format(constellation[0]))
     
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 2: #Horizontal
                 regiones = [
@@ -1186,7 +1188,7 @@ class MainFunctions(MainWindow):
                         '1',
                         '0',
                         ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3: #Inclinada
                 regiones = [
@@ -1204,7 +1206,7 @@ class MainFunctions(MainWindow):
                         '1',
                         '0',
                         ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
         elif nsimb == 4: #2 umbrales
             if etiquetas[0] == 1 and etiquetas[1] == 2: #Linea Vertical con Horizontal
@@ -1220,7 +1222,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[1] == 1 and etiquetas[0] == 2: #Linea Horizontal con Vertical
                 regiones = [
@@ -1235,7 +1237,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 1 and etiquetas[1] == 3: #Linea Vertical con Inclinada
                 regiones = [
@@ -1250,7 +1252,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 1: #Linea Inclinada con Vertical
                 regiones = [
@@ -1265,7 +1267,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 2 and etiquetas[1] == 3: #Linea Horizontal con Inclinada
                 regiones = [
@@ -1280,7 +1282,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 2: #Linea Inclinada con Horizontal
                 regiones = [
@@ -1295,7 +1297,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 3: #Linea Inclinada con Inclinada
                 #hallar punto interseccion pues va a ayudar mucho
@@ -1324,7 +1326,7 @@ class MainFunctions(MainWindow):
                         ]
                     #result = np.select(regiones, bits_save, default=random.choice(bits_save))                              
             
-        return regiones, bits_save 
+        return str(regiones), (bits_save) 
     
     
     
@@ -1769,8 +1771,14 @@ class MainFunctions(MainWindow):
             mod_scheme = "QPSK"
         elif esquema == "CUSTOM":
             mod_scheme = "CUSTOM"
+            print("Esquema CUSTOM")
         
-        factor = np.max(MainFunctions.create_constellation_tx(self, nsimb,esquema).real) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
+        if esquema == "CUSTOM":
+            factor_real = np.max(abs(self.constellation_rx.real))
+            factor_imag = np.max(abs(self.constellation_rx.imag))
+        else:
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real)) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).imag))
         
         #(Linea para seleccion de esquema de modulación basado en nsimb y esquema de umbral elegido)
         print("6. INICIALIZANDO ESQUEMA CORRECCION Y DETECCION RX")
@@ -1794,21 +1802,28 @@ class MainFunctions(MainWindow):
             symbolindices = np.arange(0, len(filtered), sps) #Indices para tomar muestra cada Sps
             
             simbolos = filtered[symbolindices] #Señal sin muller, con coarse y fine freq
-            simbolos.real = simbolos.real/np.max(simbolos.real)
-            simbolos.imag = simbolos.imag/np.max(simbolos.imag)
-            simbolos = simbolos * factor
+            simbolos.real = simbolos.real/np.max(abs(simbolos.real))
+            simbolos.imag = simbolos.imag/np.max(abs(simbolos.imag))
+            simbolos.real = simbolos.real * factor_real
+            simbolos.imag = simbolos.imag * factor_imag
             
             simbolos_sin_nada = sin_nada[symbolindices] #Solo señal Filtrada
-            simbolos_sin_nada = simbolos_sin_nada / np.max(simbolos_sin_nada)
-            simbolos_sin_nada = simbolos_sin_nada * factor
+            simbolos_sin_nada.real = simbolos_sin_nada.real / np.max(abs(simbolos_sin_nada.real))
+            simbolos_sin_nada.imag = simbolos_sin_nada.imag / np.max(abs(simbolos_sin_nada.imag))
+            simbolos_sin_nada.real = simbolos_sin_nada.real * factor_real
+            simbolos_sin_nada.imag = simbolos_sin_nada.imag * factor_imag
             
             simbolos_solo_freq_coarse = solo_freq_coarse[symbolindices] #Señal con solo Frecuencia corregida
-            simbolos_solo_freq_coarse = simbolos_solo_freq_coarse / np.max(simbolos_solo_freq_coarse)
-            simbolos_solo_freq_coarse = simbolos_solo_freq_coarse * factor
+            simbolos_solo_freq_coarse.real = simbolos_solo_freq_coarse.real / np.max(abs(simbolos_solo_freq_coarse.real))
+            simbolos_solo_freq_coarse.imag = simbolos_solo_freq_coarse.imag / np.max(abs(simbolos_solo_freq_coarse.imag))
+            simbolos_solo_freq_coarse.real = simbolos_solo_freq_coarse.real * factor_real
+            simbolos_solo_freq_coarse.imag = simbolos_solo_freq_coarse.imag * factor_imag
             
             simbolos_phase_freq = filtered_phase[symbolindices] #Señal con Frecuencia y Fase corregida
-            simbolos_phase_freq = simbolos_phase_freq / np.max(simbolos_phase_freq)
-            simbolos_phase_freq = simbolos_phase_freq * factor
+            simbolos_phase_freq.real = simbolos_phase_freq.real / np.max(abs(simbolos_phase_freq.real))
+            simbolos_phase_freq.imag = simbolos_phase_freq.imag / np.max(abs(simbolos_phase_freq.imag))
+            simbolos_phase_freq.real = simbolos_phase_freq.real * factor_real
+            simbolos_phase_freq.imag = simbolos_phase_freq.imag * factor_imag
             
             #Sincronización en tiempo con Muller
             simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
