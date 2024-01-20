@@ -839,13 +839,14 @@ class MainWindow(QMainWindow):
             if n_symbol_index == 0:
                 self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")  
             
-            elif n_symbol_index == 1:
+            elif n_symbol_index == 1: #Dos simbolos
+                n_symbol = 2
                 geo_threshold_index = self.ui.codelineBox_4.currentIndex()
 
                 if geo_threshold_index == 0:
                     self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
                 
-                elif geo_threshold_index == 1:
+                elif geo_threshold_index == 1: #Linea vertical x=a
                     x = self.ui.doubleSpinBox_12.value()
                     off = self.ui.doubleSpinBox_13.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
@@ -858,13 +859,24 @@ class MainWindow(QMainWindow):
                         try:
                             point1 = complex(symbol1) #Cuidado con los eval
                             point2 = complex(symbol2)
+                            esquema = 'CUSTOM'
+                            
+                            thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=0, angle2=0)
+                            
+                            thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                            
+                            constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2)
+                            
+                            regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, constellation_rx)
+                            
+                            MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
 
                         except:
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                     
                     
-                elif geo_threshold_index == 2:
+                elif geo_threshold_index == 2: #Linea vertical x=-a
                     x = self.ui.doubleSpinBox_14.value()
                     off = self.ui.doubleSpinBox_15.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1

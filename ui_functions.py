@@ -551,7 +551,7 @@ class MainFunctions(MainWindow):
             
         return packets
     
-    #CUSTOM TX - Crea constelacion con información de fase y cuadratura dada por usuario.
+    #CUSTOM TX and RX - Crea constelacion con información de fase y cuadratura dada por usuario.
     def create_constellation_tx_user(self, nsimb, point1 = 0, point2 = 0, point3 = 0, point4 = 0):
         if nsimb == 2:
             constellation = np.array([point1,point2])
@@ -1143,7 +1143,193 @@ class MainFunctions(MainWindow):
                         ]
         
         return str(regiones), (bits_save)
-
+    
+    #CUSTOM RX - Define regiones y bits_save para función check conditions, para constelación definida por usuario
+    def check_regions_user(self, nsimb, etiquetas, umbrales, umbrales_i, umbrales_no, constellation): #entran umbrales inter, inter en Y y sin inter
+        #Se definen regiones y bits_save para la función ya hecha "check_conditions". PERO me parece que con la funcion "is_inside_sm" formando poligonos con: punto interseccion de los umbrales, punto extremo hacia un lado de un umbral, punto extremo hacia un lado del otro umbral, la función retorna directamente si el punto está dentro de la región formada
+        
+        #Se usa una constelación de referencia RX para definir a que región se traducen los simbolos a bits 0's o 1's
+        if nsimb == 2: #2 Regiones formadas por linea vertical u horizontal
+            if etiquetas[0] == 1: #Vertical
+            
+                regiones = [
+                    'samples.real < umbrales_no[0][0].real', #0 #Region izquierda es 0
+                    'samples.real > umbrales_no[0][0].real', #1
+                    ]
+                    
+                if constellation[0].real < umbrales_no[0][0].real: #Primer simbolo constelación es 0, el segundo es 1
+                    bits_save = [
+                        '0',
+                        '1',
+                    ]
+                else:
+                    bits_save = [
+                        '1', #En este condicional, region izquierda es 1 y derecha es 0
+                        '0',
+                    ]
+    
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 2: #Horizontal
+                regiones = [
+                    'samples.imag < umbrales_no[0][0].imag', #0 #Region arriba es 0
+                    'samples.imag > umbrales_no[0][0].imag', #1
+                    ]
+                    
+                if constellation[0].imag < umbrales_no[0][0].imag:
+                    bits_save = [
+                        '0',
+                        '1',
+                        ]
+                else:
+                    bits_save = [
+                        '1',
+                        '0',
+                        ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 3: #Inclinada
+                regiones = [
+                    'samples.imag > umbrales[0](samples.real)', #0 #Region arriba es 0, dependiendo del angulo de inclinacion, algo subjetivo
+                    'samples.imag < umbrales[0](samples.real)', #1
+                    ]
+                    
+                if constellation[0] > umbrales[0](samples.real):
+                    bits_save = [
+                        '0',
+                        '1',
+                        ]
+                else:
+                    bits_save = [
+                        '1',
+                        '0',
+                        ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+        elif nsimb == 4: #2 umbrales
+            if etiquetas[0] == 1 and etiquetas[1] == 2: #Linea Vertical con Horizontal
+                regiones = [
+                    '(samples.real < umbrales_no[0][0].real) & (samples.imag > umbrales_no[1][0].imag)', #00 Arriba izquierda
+                    '(samples.real > umbrales_no[0][0].real) & (samples.imag > umbrales_no[1][0].imag)', #01 Arriba derecha
+                    '(samples.real > umbrales_no[0][0].real) & (samples.imag < umbrales_no[1][0].imag)', #10 Abajo derecha
+                    '(samples.real < umbrales_no[0][0].real) & (samples.imag < umbrales_no[1][0].imag)', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[1] == 1 and etiquetas[0] == 2: #Linea Horizontal con Vertical
+                regiones = [
+                    '(samples.real < umbrales_no[1][0].real) & (samples.imag > umbrales_no[0][0].imag)', #00 Arriba izquierda
+                    '(samples.real > umbrales_no[1][0].real) & (samples.imag > umbrales_no[0][0].imag)', #01 Arriba derecha
+                    '(samples.real > umbrales_no[1][0].real) & (samples.imag < umbrales_no[0][0].imag)', #10 Abajo derecha
+                    '(samples.real < umbrales_no[1][0].real) & (samples.imag < umbrales_no[0][0].imag)', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 1 and etiquetas[1] == 3: #Linea Vertical con Inclinada
+                regiones = [
+                    '(samples.real < umbrales_no[0][0].real) & (samples.imag > umbrales[1](samples.real))', #00 Arriba izquierda (subjetivo al angulo)
+                    '(samples.real > umbrales_no[0][0].real) & (samples.imag > umbrales[1](samples.real))', #01 Arriba derecha
+                    '(samples.real > umbrales_no[0][0].real) & (samples.imag < umbrales[1](samples.real))', #10 Abajo derecha
+                    '(samples.real < umbrales_no[0][0].real) & (samples.imag < umbrales[1](samples.real))', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 3 and etiquetas[1] == 1: #Linea Inclinada con Vertical
+                regiones = [
+                    '(samples.real < umbrales_no[1][0].real) & (samples.imag > umbrales[0](samples.real))', #00 Arriba izquierda (subjetivo al angulo)
+                    '(samples.real > umbrales_no[1][0].real) & (samples.imag > umbrales[0](samples.real))', #01 Arriba derecha
+                    '(samples.real > umbrales_no[1][0].real) & (samples.imag < umbrales[0](samples.real))', #10 Abajo derecha
+                    '(samples.real < umbrales_no[1][0].real) & (samples.imag < umbrales[0](samples.real))', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 2 and etiquetas[1] == 3: #Linea Horizontal con Inclinada
+                regiones = [
+                    '(samples.imag > umbrales_no[0][0].imag) & (samples.real < umbrales_i[1](samples.imag))', #00 Arriba izquierda (subjetivo angulo)
+                    '(samples.imag > umbrales_no[0][0].imag) & (samples.real > umbrales_i[1](samples.imag))', #01 Arriba derecha
+                    '(samples.imag < umbrales_no[0][0].imag) & (samples.real > umbrales_i[1](samples.imag))', #10 Abajo derecha
+                    '(samples.imag < umbrales_no[0][0].imag) & (samples.real < umbrales_i[1](samples.imag))', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 3 and etiquetas[1] == 2: #Linea Inclinada con Horizontal
+                regiones = [
+                    '(samples.imag > umbrales_no[1][0].imag) & (samples.real < umbrales_i[0](samples.imag))', #00 Arriba izquierda (subjetivo angulo)
+                    '(samples.imag > umbrales_no[1][0].imag) & (samples.real > umbrales_i[0](samples.imag))', #01 Arriba derecha
+                    '(samples.imag < umbrales_no[1][0].imag) & (samples.real > umbrales_i[0](samples.imag))', #10 Abajo derecha
+                    '(samples.imag < umbrales_no[1][0].imag) & (samples.real < umbrales_i[0](samples.imag))', #11 Abajo izquierda
+                    ]
+                bits_save = [
+                        '00',
+                        '01',
+                        '10',
+                        '11',
+                    ]
+                result = np.select(regiones, bits_save, default=random.choice(bits_save))
+                
+            elif etiquetas[0] == 3 and etiquetas[1] == 3: #Linea Inclinada con Inclinada
+                #hallar punto interseccion pues va a ayudar mucho
+                #luego ver cual umbral es mayor o menor al otro a la izquierda, arriba, abajo y derecha, y a partir de alli definir las regiones
+                #para cumplir con el orden de asignación de bits a las regiones
+                #aunque creo que es mejor irse por los angulos... Que los ingresa el usuario pero para no extender mas la funcion se pueden calcular
+                
+                if np.angle(umbrales_no[0][1]) > np.angle(umbrales_no[1][1]): #Umbral 1 tiene mayor angulo que umbral 2
+                #Esto quiere decir que, a la derecha umbral1 > umbral2, y a la izquierda lo opuesto
+                #Arriba lo mas probable es que umbral2 este a la izquierda y umbral1 a la derecha, y abajo lo opuesto
+                
+                    point = find_intersection(umbrales_no[0].real, umbrales_no[0].imag, umbrales_no[1].real, umbrales_no[1].imag) #punto interseccion
+                
+                #ARREGLAR ESTAS REGIONES :((
+                    regiones = [
+                        '(samples.real < point.real) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real))', #00 Arriba izquierda (subjetivo angulo)
+                        '(samples.imag > point.imag) & (samples.real > umbrales_i[1](samples.imag)) & (samples.real < umbrales_i[0](samples.imag))',#01 Arriba derecha
+                        '(samples.imag < point.imag) & (samples.real < umbrales_i[1](samples.imag)) & (samples.real > umbrales_i[0](samples.imag))',   #10 Abajo derecha
+                        '(samples.imag < point.imag) & (samples.real < umbrales[1](samples.imag)) & (samples.real > umbrales[0](samples.imag))', #11 Abajo izquierda
+                        ]
+                    bits_save = [
+                            '00',
+                            '01',
+                            '10',
+                            '11',
+                        ]
+                    #result = np.select(regiones, bits_save, default=random.choice(bits_save))                              
+            
+        return regiones, bits_save 
+    
+    
+    
+    
+    
     def check_conditions(self, samples, regiones, bits_save, umbrales, umbrales_i, umbrales_no, nsimb, esquema): #Umbrales de entrada tienen que ser los umbrales interpolados
         
         if nsimb == 8 and esquema == 1: #Si hay circulo tengo que verificar sus condiciones antes. Toma más tiempo
@@ -1168,6 +1354,69 @@ class MainFunctions(MainWindow):
 
         return result
         
+    #Función para umbral definido por usuario. Retorna umbrales y etiquetas identificadoras 
+    def threshold_user(self, nsimb, selector1="vertical", selector2="vertical", offset_x=0, offset_y=0, angle=0, offset_x2=0, offset_y2=0, angle2=0): 
+
+        def linea_vertical(point):
+            real_domain = np.linspace(-20,20,num=2, dtype=complex) 
+            imag_domain = np.linspace(-20j,20j,num=2, dtype=complex)
+            umbral = imag_domain + real_domain * 0 + 1*point
+            return umbral
+
+        def linea_horizontal(point):
+            real_domain = np.linspace(-20,20,num=2, dtype=complex) 
+            imag_domain = np.linspace(-20j,20j,num=2, dtype=complex)
+            umbral = imag_domain * 0 + real_domain + 1j*point
+            return umbral
+
+        def linea_inclinada(angle, offset_x, offset_y):
+            real_domain = np.linspace(-500,500,num=2, dtype=complex) 
+            imag_domain = np.linspace(-500j,500j,num=2, dtype=complex) #Parece que si aumentas el numero extremo es mas preciso el calculo de algunas cosas???
+            umbral = imag_domain * MainFunctions.slope(self,angle) + real_domain + 1*offset_x + 1j*offset_y
+            return umbral
+
+        etiquetas = [] #Identificador del tipo de línea creado
+
+        if nsimb == 2: #Un solo umbral si 2 simbolos
+            if selector1 == "vertical":
+                umbrales = np.array([linea_vertical(offset_x)])
+                etiquetas.append(1)
+            elif selector1 == "horizontal":
+                umbrales = np.array([linea_horizontal(offset_y)])
+                etiquetas.append(2)
+            elif selector1 == "inclinada":
+                umbrales = np.array([linea_inclinada(angle, offset_x, offset_y)])
+                etiquetas.append(3)
+            else:
+                print("ERROR SELECCION DE LINEA PARA UMBRAL")
+            
+        elif nsimb == 4: #Aca creo que es mejor hacer que el usuario obligatoriamente defina 2 umbrales
+            if selector1 == "vertical":
+                umbral1 = np.array([linea_vertical(offset_x)])
+                etiquetas.append(1)
+            elif selector1 == "horizontal":
+                umbral1 = np.array([linea_horizontal(offset_y)])
+                etiquetas.append(2)
+            elif selector1 == "inclinada":
+                umbral1 = np.array([linea_inclinada(angle, offset_x, offset_y)])
+                print("Inclinada 1 lista")
+                etiquetas.append(3)
+            if selector2 == "vertical":
+                umbral2 = np.array([linea_vertical(offset_x2)])
+                etiquetas.append(1)
+            elif selector2 == "horizontal":
+                umbral2 = np.array([linea_horizontal(offset_y2)])
+                etiquetas.append(2)
+            elif selector2 == "inclinada":
+                umbral2 = np.array([linea_inclinada(angle2, offset_x2, offset_y2)])
+                print("inclinada 2 lista")
+                etiquetas.append(3)
+            umbrales = np.array([umbral1,umbral2])
+    
+        return umbrales, etiquetas #Se retornan los umbrales y las etiquetas que los identifican, necesarias para el chequeo de regiones formadas  
+   
+   
+   
     def bits_to_string(self,bits):
         binary_string = ''.join(bits)
         text = ''.join((chr(int(binary_string[i:i+8],2))) for i in range(0,len(binary_string),8))
@@ -1312,6 +1561,8 @@ class MainFunctions(MainWindow):
                 error[i] = MainFunctions.phase_detector_4(self,output_signal[i])
             elif modulation_scheme == '16PSK':
                 error[i] = MainFunctions.phase_detector_16psk(self,output_signal[i])
+            elif modulation_scheme == 'CUSTOM':
+                pass
     
             # Update the loop filter and VCO
             loop_filter[0] = loop_filter[0] + error[i]
@@ -1399,6 +1650,8 @@ class MainFunctions(MainWindow):
                 error = MainFunctions.phase_detector_4(self,out[i])
             elif modulation_scheme == '16PSK':
                 error = MainFunctions.phase_detector_16psk(self,out[i])
+            elif modulation_scheme == 'CUSTOM':
+                error = 0
             
             #print('error:',error)
         
@@ -1514,6 +1767,8 @@ class MainFunctions(MainWindow):
             mod_scheme = "BPSK"
         elif nsimb == 4 and esquema == 2: #QPSK normal
             mod_scheme = "QPSK"
+        elif esquema == "CUSTOM":
+            mod_scheme = "CUSTOM"
         
         factor = np.max(MainFunctions.create_constellation_tx(self, nsimb,esquema).real) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
         
