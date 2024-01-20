@@ -308,20 +308,32 @@ def check_conditions(samples, regiones, bits_save, umbrales, umbrales_i, umbrale
 
     return result
 
-def check_regions_user(nsimb, samples, etiquetas, umbrales, umbrales_i, umbrales_no): #entran umbrales inter, inter en Y y sin inter
+
+
+
+def check_regions_user(nsimb, samples, etiquetas, umbrales, umbrales_i, umbrales_no, constellation): #entran umbrales inter, inter en Y y sin inter
     #Se definen regiones y bits_save para la función ya hecha "check_conditions". PERO me parece que con la funcion "is_inside_sm" formando poligonos con: punto interseccion de los umbrales, punto extremo hacia un lado de un umbral, punto extremo hacia un lado del otro umbral, la función retorna directamente si el punto está dentro de la región formada
     
     #Se trata de dar prioridad al orden 00, 01, 10, 11 empezando por la region izquierda-arriba, luego derecha arriba, luego derecha abajo y asi (priorizando izquierda sobre arriba o abajo parece)
     if nsimb == 2: #2 Regiones formadas por linea vertical u horizontal
         if etiquetas[0] == 1: #Vertical
+        
             regiones = [
                    samples.real < umbrales_no[0][0].real, #0 #Region izquierda es 0
                    samples.real > umbrales_no[0][0].real, #1
                 ]
-            bits_save = [
+                
+            if constellation[0].real < umbrales_no[0][0].real: #Primer simbolo constelación es 0, el segundo es 1
+                bits_save = [
                     '0',
                     '1',
                 ]
+            else:
+                bits_save = [
+                    '1', #En este condicional, region izquierda es 1 y derecha es 0
+                    '0',
+                ]
+
             result = np.select(regiones, bits_save, default=random.choice(bits_save))
             
         elif etiquetas[0] == 2: #Horizontal
@@ -329,10 +341,17 @@ def check_regions_user(nsimb, samples, etiquetas, umbrales, umbrales_i, umbrales
                    samples.imag < umbrales_no[0][0].imag, #0 #Region arriba es 0
                    samples.imag > umbrales_no[0][0].imag, #1
                 ]
-            bits_save = [
+                
+            if constellation[0].imag < umbrales_no[0][0].imag:
+                bits_save = [
                     '0',
                     '1',
-                ]
+                    ]
+            else:
+                bits_save = [
+                    '1',
+                    '0',
+                    ]
             result = np.select(regiones, bits_save, default=random.choice(bits_save))
             
         elif etiquetas[0] == 3: #Inclinada
@@ -340,10 +359,17 @@ def check_regions_user(nsimb, samples, etiquetas, umbrales, umbrales_i, umbrales
                    samples.imag > umbrales[0](samples.real), #0 #Region arriba es 0, dependiendo del angulo de inclinacion, algo subjetivo
                    samples.imag < umbrales[0](samples.real), #1
                 ]
-            bits_save = [
+                
+            if constellation[0] > umbrales[0](samples.real):
+                bits_save = [
                     '0',
                     '1',
-                ]
+                    ]
+            else:
+                bits_save = [
+                    '1',
+                    '0',
+                    ]
             result = np.select(regiones, bits_save, default=random.choice(bits_save))
             
     elif nsimb == 4: #2 umbrales
