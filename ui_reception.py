@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionarzJSS.ui'
+## Form generated from reading UI file 'receptionpzKEso.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -2405,13 +2405,13 @@ class Ui_reception(object):
         self.label_27.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
         self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
         self.label_45.setText(QCoreApplication.translate("reception", u"Escriba a los simb, de la forma x + yj", None))
-        self.text_4.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
-        self.text_3.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
+        self.text_4.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 1", None))
+        self.text_3.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 2", None))
         self.label_46.setText(QCoreApplication.translate("reception", u"Escriba a los simb, de la forma x + yj", None))
-        self.text_8.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 1", None))
-        self.text_5.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 2", None))
-        self.text_9.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 3", None))
-        self.text_7.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba la base 4", None))
+        self.text_8.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 1", None))
+        self.text_5.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 2", None))
+        self.text_9.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 3", None))
+        self.text_7.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 4", None))
         self.recepBtn.setText(QCoreApplication.translate("reception", u"Habilitar estado de Recepci\u00f3n", None))
         self.stoprecBtn.setText(QCoreApplication.translate("reception", u"Detener estado de Recepci\u00f3n", None))
         self.recSBtn.setText(QCoreApplication.translate("reception", u"Visualizar Mensaje Recibido", None))

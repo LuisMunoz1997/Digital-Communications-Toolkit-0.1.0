@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1kDNNAs.ui'
+## Form generated from reading UI file 'transmission1MwPazH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1608,13 +1608,13 @@ class Ui_transmission1(object):
         self.radioButton_6.setText(QCoreApplication.translate("transmission1", u"Circular", None))
         self.radioButton_7.setText(QCoreApplication.translate("transmission1", u"Estrella", None))
         self.label_7.setText(QCoreApplication.translate("transmission1", u"Escriba a los simb, de la forma x + yj", None))
-        self.text_4.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 1", None))
-        self.text_3.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 2", None))
+        self.text_4.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 1", None))
+        self.text_3.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 2", None))
         self.label_20.setText(QCoreApplication.translate("transmission1", u"Escriba a los simb, de la forma x + yj", None))
-        self.text_8.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 1", None))
-        self.text_5.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 2", None))
-        self.text_9.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 3", None))
-        self.text_7.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba la base 4", None))
+        self.text_8.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 1", None))
+        self.text_5.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 2", None))
+        self.text_9.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 3", None))
+        self.text_7.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el simbolo 4", None))
         self.preSPBtn.setText(QCoreApplication.translate("transmission1", u"Graficar Bits a transmitir", None))
         self.preSMBtn.setText(QCoreApplication.translate("transmission1", u"Graficar Se\u00f1al Banda-Base \n"
 "y Pasa-Banda ", None))
