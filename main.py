@@ -135,8 +135,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self.ventana)
 
         # opening window in maximized size 
-        #self.ventana.showMaximized() 
-        self.ventana.setFixedHeight(760)
+        self.ventana.showMaximized() 
+        #self.ventana.setFixedHeight(760)
         self.fsample = 522000
         
         #REAL TIME GRAPH NECESARY OBJECTS
@@ -1997,7 +1997,7 @@ class MainWindow(QMainWindow):
         if self.user_defined_const_flag == True:
             index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
-        amplitude = 5
+        amplitude = 1.5
         codeline = self.ui.codeBox.currentIndex()
         
         if self.text_flag_message == True:
