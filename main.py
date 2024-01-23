@@ -819,7 +819,24 @@ class MainWindow(QMainWindow):
 
                 elif threshold_index != 0:
                     n_symbol = 8
-                
+                    esquema = threshold_index
+                    print("Esquema para umbrales es:", esquema)
+                    #Esquema = 1 - Dos rectas en los ejes y 1 circulo
+                    #Esquema = 5 - 6 Verticales - 8ASK Bipolar - Esquema 1 en constelación - Index 4 en interfaz
+                    #Esquema = 2 - 4 Diagonales - 8PSK - Esquema 2 en constelación - Index 2 en interfaz 
+                    #Esquema = 4 - 3 Verticales una Horizonal - 8QAM rectangular - Esquema 3,1 en constelación - Index 3 en interfaz
+                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
+
+                    if self.reception_configured == True:
+                        thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        print("Umbrales definidos listos")
+                        regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                        print("Regiones definidas listas")
+                        thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                        print("Umbrales interpolados listos")
+                        print("2- UMBRALES Y REGIONES CONFIGURADOS")
+                        print("3. RECIBIENDO...")
+                        MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                
 
                 
             elif n_symbol_index == 4:
@@ -833,7 +850,7 @@ class MainWindow(QMainWindow):
                     esquema = threshold_index
                     print("Esquema para umbrales es:", esquema)
                     #Esquema = 1 - 8 Diagonales - PSK
-                    #Para los QAM se utilizo otro valor de esquema ademas del threshold index, arreglar para estos casos
+                    #Para los QAM se utilizo otro valor de esquema ademas del threshold index para la constelación, arreglar para estos casos
                     
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
