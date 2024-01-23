@@ -318,11 +318,11 @@ class MainFunctions(MainWindow):
             else:
                 print("ERROR SELECCIÓN")
         elif nsimb == 4: #4ask 1, qpsk 2, qpsk_ejes 3. #SE PODRIA AGREGAR ASK BIPOLAR QUIZAS
-            if esquema == 1: #4ASK
+            if esquema == 3: #4ASK
                 constellation = np.array([1+0j, 2+0j, 3+0j, 4+0j]) # El orden es 00, 01, 10, 11 
             elif esquema == 2: #QPSK
                 constellation = np.array([-1-1j, -1+1j, 1-1j, 1+1j])
-            elif esquema == 3: #QPSK_EJES
+            elif esquema == 1: #QPSK_EJES
                 constellation = np.array([-1+0j, 1+0j, 0-1j, 0+1j])
             else:
                 print("ERROR SELECCIÓN")
@@ -346,7 +346,7 @@ class MainFunctions(MainWindow):
         elif nsimb == 16:  #16PSK 1, 16QAM 1 3 variantes
             if esquema == 1: #16PSK
                 psk16_domain= np.arange(0,16)
-                constellation = np.exp(2j*np.pi*psk16_domain/16)
+                constellation = 1*np.exp(2j*np.pi*psk16_domain/16)
                 #ORDEN 0000, 1000, 1001, 1011, 1010, 1110, 1111, 1101, 1100, 0100, 0101, 0111, 0110, 0010, 0011, 0001
             elif esquema == 2:
                 if qam16_selector == 1: #16QAM RECTANGULAR
@@ -496,7 +496,7 @@ class MainFunctions(MainWindow):
         print(len(t))
     
         return t[:n_graph], modulated
-    
+
     def add_padding_bits(self,message):
         indices = np.arange(len(message))
         insert_indices = indices % 8 == 0
@@ -548,7 +548,7 @@ class MainFunctions(MainWindow):
         return shaped
         
     def add_preamble(self,samples, fsample = 522000, freq = 80e3, n_samples = 100):
-        preambulo = 0.5*np.exp(2j*np.pi*freq*np.arange(n_samples) / fsample)
+        preambulo = 1*np.exp(2j*np.pi*freq*np.arange(n_samples) / fsample) #Esto estaba antes en 0.5
         return np.append(preambulo,samples)
 
     #Dividir por partes la señal a enviar. Cada parte con su preámbulo. Se divide por cantidad de símbolos.
@@ -572,7 +572,21 @@ class MainFunctions(MainWindow):
         else:
             print("ERROR CREACION CONSTELACION USUARIO")
         return constellation
-        
+    
+    #Método TX para normalizar símbolos en constelación antes de pulse shape y prepare to send, antes de enviarlos al Pluto. Entra la constelación apenas creada en TX
+    def normalize_constellation(self, constellation):
+        factor_real = np.max(abs(constellation.real))
+        factor_imag = np.max(abs(constellation.imag))
+        if factor_real != 0:
+            constellation.real = constellation.real / factor_real
+        else:
+            constellation.real = constellation.real
+        if factor_imag != 0:
+            constellation.imag = constellation.imag / factor_imag
+        else:
+            constellation.imag = constellation.imag
+        return constellation
+           
     
     #Método para pasar string a bits arreglo
     def string_to_bits(self, message):
@@ -770,22 +784,22 @@ class MainFunctions(MainWindow):
         real_circle = np.linspace(0,1, num=16, dtype=complex)
 
         if nsimb == 2: # 1 Pendiente, 2 X y 3 Y
-            if esquema == 1: #Inclinada 
+            if esquema == 4: #Inclinada 
                 umbral1 = imag_domain * MainFunctions.slope(self, 45) + real_domain
-            elif esquema == 2: #Horizontal
+            elif esquema == 5: #Horizontal
                 umbral1 = imag_domain * 0 + real_domain
-            elif esquema == 3: #Vertical
+            elif esquema == 3: #Vertical, sirve para BPSK
                 umbral1 = imag_domain + real_domain * 0
-            elif esquema == 4: #Para 2ASK
+            elif esquema == 1: #Para 2ASK
                 umbral1 = imag_domain + real_domain * 0 + 1.5
-            elif esquema == 5: #Para OOK
+            elif esquema == 2: #Para OOK
                 umbral1 = imag_domain + real_domain * 0 + 0.5
             else:
                 print("ERROR SELECCIÓN")
             umbrales = np.array([umbral1])
         
         elif nsimb == 4: #1 rectas 2 diagonales, 2 rectas 2 ejes
-            if esquema == 1: #2 Diagonales
+            if esquema == 1: #2 Diagonales - Se cambio numero esquema por correcion en define_regions y create constellation
                 umbral1 = imag_domain * MainFunctions.slope(self, 45) + real_domain
                 umbral2 = imag_domain * -MainFunctions.slope(self, 45) + real_domain
                 umbrales = np.array([umbral1, umbral2])
@@ -793,7 +807,7 @@ class MainFunctions(MainWindow):
                 umbral1 = imag_domain * 0 + real_domain
                 umbral2 = imag_domain + real_domain * 0
                 umbrales = np.array([umbral1, umbral2])
-            elif esquema == 3:  # AGREGAR OPCION UMBRALES ASK EN RX 4 NSIMB
+            elif esquema == 3:  # AGREGAR OPCION UMBRALES ASK EN RX 4 NSIMB - Verificar porque escribi esto o si ya se corrigio
                 umbral1 = imag_domain + real_domain * 0 + 1.5
                 umbral2 = imag_domain + real_domain * 0 + 2.5
                 umbral3 = imag_domain + real_domain * 0 + 3.5
@@ -1014,7 +1028,7 @@ class MainFunctions(MainWindow):
                         '10',
                         '11',
                     ]
-            elif esquema ==3: # Regiones 4ASK
+            elif esquema ==3: # Regiones 4ASK, se corrigió a esquema 1, en create constellation está asi y si se cambia alli es cambio interfaz
                 regiones = [
                     '(samples.real < 1.5)', #00
                     '(samples.real > 1.5) & (samples.real < 2.5)', #01
@@ -1115,9 +1129,9 @@ class MainFunctions(MainWindow):
                     '100',
                     '101',     
                     ]
-            elif nsimb == 16:
-                if esquema == 1: #Regiones 16PSK
-                    regiones = [
+        elif nsimb == 16:
+            if esquema == 1: #Regiones 16PSK
+                regiones = [
                         '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[6](samples.real))', #0000 1+0j
                         '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real))', #1000 0.9 + 0.3j
                         '(samples.real > 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[0](samples.real))', #1001 0.7+0.7j
@@ -1134,8 +1148,8 @@ class MainFunctions(MainWindow):
                         '(samples.real > 0) & (samples.imag < umbrales[4](samples.real)) & (samples.imag > umbrales[5](samples.real))', #0010 0.3-0.9j
                         '(samples.real > 0) & (samples.imag < umbrales[7](samples.real)) & (samples.imag > umbrales[4](samples.real))', #0011 0.7-0.7j
                         '(samples.real > 0) & (samples.imag < umbrales[6](samples.real)) & (samples.imag > umbrales[7](samples.real))', #0001 0.9-0.3j 
-                    ]
-                    bits_save = [
+                ]
+                bits_save = [
                         '0000',
                         '1000',
                         '1001',
@@ -1152,7 +1166,7 @@ class MainFunctions(MainWindow):
                         '0010',
                         '0011',
                         '0001',     
-                        ]
+                    ]
         
         return str(regiones), (bits_save)
     
@@ -1574,7 +1588,8 @@ class MainFunctions(MainWindow):
             elif modulation_scheme == 'QPSK':
                 error[i] = MainFunctions.phase_detector_4(self,output_signal[i])
             elif modulation_scheme == '16PSK':
-                error[i] = MainFunctions.phase_detector_16psk(self,output_signal[i])
+                #error[i] = MainFunctions.phase_detector_16psk(self,output_signal[i])
+                pass
             elif modulation_scheme == 'CUSTOM':
                 pass
     
@@ -1644,7 +1659,12 @@ class MainFunctions(MainWindow):
         error += np.sum(additional_terms)
         error_value = np.real(error)
         return error_value
-    
+        
+    def phase_detector_custom(self, sample):
+        constellation = self.constellation_rx
+        closest_point = constellation[np.argmin(np.abs(constellation - sample))]
+        error = closest_point.imag * sample.imag - closest_point.real * sample.real
+        return error
     
     def fine_frequency_correction2(self,samples, fs = 522000, modulation_scheme='QPSK', alpha=0.132, beta=0.00932, freq=0):
         N = len(samples)
@@ -1663,7 +1683,8 @@ class MainFunctions(MainWindow):
             elif modulation_scheme == 'QPSK':
                 error = MainFunctions.phase_detector_4(self,out[i])
             elif modulation_scheme == '16PSK':
-                error = MainFunctions.phase_detector_16psk(self,out[i])
+                #error = MainFunctions.phase_detector_16psk(self,out[i])
+                error = 0
             elif modulation_scheme == 'CUSTOM':
                 error = 0
             
@@ -1781,9 +1802,12 @@ class MainFunctions(MainWindow):
             mod_scheme = "BPSK"
         elif nsimb == 4 and esquema == 2: #QPSK normal
             mod_scheme = "QPSK"
+        elif nsimb == 16 and esquema == 1: #16PSK normal
+            mod_scheme = "16PSK"
         elif esquema == "CUSTOM":
             mod_scheme = "CUSTOM"
-            print("Esquema CUSTOM")
+        else:
+            mod_scheme = "CUSTOM"
         
         if esquema == "CUSTOM":
             factor_real = np.max(abs(self.constellation_rx.real))
@@ -1791,7 +1815,9 @@ class MainFunctions(MainWindow):
         else:
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real)) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).imag))
-        
+        print("Esquema es: ",esquema)
+        print("mod_scheme es: ", mod_scheme)
+        print("Factores normalización real - imag: ", factor_real, factor_imag)
         #(Linea para seleccion de esquema de modulación basado en nsimb y esquema de umbral elegido)
         print("6. INICIALIZANDO ESQUEMA CORRECCION Y DETECCION RX")
         for paquete in resultado_packets:
@@ -1889,6 +1915,7 @@ class MainFunctions(MainWindow):
             #Entonces, cada variable representa una fase de la recepción, las pasas por esas funciones y obtienes los resultados de cada fase correspondiente
             
             
+               
             #En este punto se obtuvieron un arreglos con strings de 1's y 0's, que representan el resultado del esquema RX para cada método
             #De allí se pueden convertir a texto, imagen, o el formato requerido
             #FIN DEL CICLO FOR
@@ -1900,29 +1927,30 @@ class MainFunctions(MainWindow):
             resultado_total4 = MainFunctions.remove_padding_bits(self,resultado_total4)
             resultado_total5 = MainFunctions.remove_padding_bits(self,resultado_total5)
             resultado_total6 = MainFunctions.remove_padding_bits(self,resultado_total6)
-            resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)    
+            resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)              
+            
             
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
         print("")
-        print("Resultado 1:")
+        print("Resultado 1: No Muller, Coarse y Fine")
         print(MainFunctions.bits_to_string(self,resultado_total))
         print("")
-        print("Resultado 2:")
+        print("Resultado 2: Muller, Coarse y Fine")
         print(MainFunctions.bits_to_string(self,resultado_total2))
         print("")
-        print("Resultado 3:")
+        print("Resultado 3: Solo Filtrada")
         print(MainFunctions.bits_to_string(self,resultado_total3))
         print("")
-        print("Resultado 4:")
+        print("Resultado 4: Solo Coarse")
         print(MainFunctions.bits_to_string(self,resultado_total4))
         print("")
-        print("Resultado 5:")
+        print("Resultado 5: Coarse y Phase")
         print(MainFunctions.bits_to_string(self,resultado_total5))
         print("")
-        print("Resultado 6:")
+        print("Resultado 6: Coarse, Phase y Fine")
         print(MainFunctions.bits_to_string(self,resultado_total6))
         print("")
-        print("Resultado 7:")
+        print("Resultado 7: Coarse, Phase y Fine GPT")
         print(MainFunctions.bits_to_string(self,resultado_total7))
         print("")
 

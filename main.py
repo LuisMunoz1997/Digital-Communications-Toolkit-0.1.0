@@ -763,6 +763,7 @@ class MainWindow(QMainWindow):
                     print("Entro segundo condicional")
                     n_symbol = 2
                     esquema = threshold_index
+                    print("Esquema para umbrales es:", esquema)
                     #Esquema = 1 - Recta inclinada - FSK probablemente
                     #Esquema = 2 - Recta paralela eje X - BPSK con simbolos arriba y abajo
                     #Esquema = 3 - Recta paralela eje Y - BPSK normal
@@ -791,9 +792,10 @@ class MainWindow(QMainWindow):
                 elif threshold_index != 0:
                     n_symbol = 4
                     esquema = threshold_index
-                    #Esquema = 1 - Rectas diagonales - QPSK en ejes
+                    print("Esquema para umbrales es:", esquema)
+                    #Esquema = 3 - Rectas diagonales - QPSK en ejes
                     #Esquema = 2 - Rectas paralelas ejes - QPSK normal
-                    #Esquema = 3 - Rectas verticales - 4ASK normal
+                    #Esquema = 1 - Rectas verticales - 4ASK normal
 
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                     
@@ -828,6 +830,25 @@ class MainWindow(QMainWindow):
 
                 elif threshold_index != 0:
                     n_symbol = 16
+                    esquema = threshold_index
+                    print("Esquema para umbrales es:", esquema)
+                    #Esquema = 1 - 8 Diagonales - PSK
+                    #Para los QAM se utilizo otro valor de esquema ademas del threshold index, arreglar para estos casos
+                    
+                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
+
+                    if self.reception_configured == True:
+                        thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        print("Umbrales definidos listos")
+                        regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
+                        print("Regiones definidas listas")
+                        thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                        print("Umbrales interpolados listos")
+                        print("2- UMBRALES Y REGIONES CONFIGURADOS")
+                        print("3. RECIBIENDO...")
+                        MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                    
+                    
+                    
 
                 
                 
@@ -1163,6 +1184,7 @@ class MainWindow(QMainWindow):
                     elif index_2_symbols_type_of_modulation != 0:
                         #Creo la constelación
                         constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
+                        constellation = MainFunctions.normalize_constellation(self, constellation)
                         #Le asigno símbolos a los bits. Los modulo
                         bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                         #print(message)
@@ -1199,6 +1221,7 @@ class MainWindow(QMainWindow):
                         now = time.time()
                         #Creo la constelación
                         constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_4_symbols_type_of_modulation)
+                        constellation = MainFunctions.normalize_constellation(self, constellation)
                         #Le asigno símbolos a los bits. Los modulo
                         bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                         self.ui.mSim.display(int(len(bits_array)))
@@ -1246,6 +1269,7 @@ class MainWindow(QMainWindow):
                         
                             #Creo la constelación
                             constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation)
+                            constellation = MainFunctions.normalize_constellation(self, constellation)
                             #Le asigno símbolos a los bits. Los modulo
                             bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                             #print(message)
@@ -1277,6 +1301,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1307,6 +1332,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1337,6 +1363,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1376,6 +1403,7 @@ class MainWindow(QMainWindow):
                         
                             #Creo la constelación
                             constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation)
+                            constellation = MainFunctions.normalize_constellation(self, constellation)
                             #Le asigno símbolos a los bits. Los modulo
                             bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                             #print(message)
@@ -1407,6 +1435,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1437,6 +1466,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1467,6 +1497,7 @@ class MainWindow(QMainWindow):
                                 
                                 #Creo la constelación
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
+                                constellation = MainFunctions.normalize_constellation(self, constellation)
                                 #Le asigno símbolos a los bits. Los modulo
                                 bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                                 #print(message)
@@ -1513,6 +1544,7 @@ class MainWindow(QMainWindow):
 
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
+                    constellation = MainFunctions.normalize_constellation(self, constellation)
                     bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                     self.ui.mSim.display(int(len(bits_array)))
                     symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
@@ -1547,6 +1579,7 @@ class MainWindow(QMainWindow):
                         self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
+                    constellation = MainFunctions.normalize_constellation(self, constellation)
                     bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                     self.ui.mSim.display(int(len(bits_array)))
                     symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
