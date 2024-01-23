@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1MwPazH.ui'
+## Form generated from reading UI file 'transmission1YaQcyL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1493,6 +1493,7 @@ class Ui_transmission1(object):
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
         self.stackedWidget_4.setCurrentIndex(1)
+        self.stackedWidget_5.setCurrentIndex(2)
         self.stackedWidget_8.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(1)
@@ -1581,9 +1582,9 @@ class Ui_transmission1(object):
 
         self.label_15.setText(QCoreApplication.translate("transmission1", u"Escoja el tipo de Modulaci\u00f3n:", None))
         self.modBox_2.setItemText(0, "")
-        self.modBox_2.setItemText(1, QCoreApplication.translate("transmission1", u"4-ASK (Amplitude Shift Keying) ", None))
+        self.modBox_2.setItemText(1, QCoreApplication.translate("transmission1", u"QPSK - Variante de simbolos sobre los ejes", None))
         self.modBox_2.setItemText(2, QCoreApplication.translate("transmission1", u"QPSK (Phase Shift Keying)", None))
-        self.modBox_2.setItemText(3, QCoreApplication.translate("transmission1", u"QPSK - Variante de simbolos sobre los ejes", None))
+        self.modBox_2.setItemText(3, QCoreApplication.translate("transmission1", u"4-ASK (Amplitude Shift Keying) ", None))
 
         self.label_17.setText(QCoreApplication.translate("transmission1", u"Escoja el tipo de Modulaci\u00f3n:", None))
         self.modBox_3.setItemText(0, "")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionpzKEso.ui'
+## Form generated from reading UI file 'receptionyetLWS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -742,7 +742,7 @@ class Ui_reception(object):
         self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.label_18 = QLabel(self.frame_6)
         self.label_18.setObjectName(u"label_18")
-        self.label_18.setFont(font1)
+        self.label_18.setFont(font3)
 
         self.verticalLayout_23.addWidget(self.label_18)
 
@@ -781,7 +781,7 @@ class Ui_reception(object):
         self.verticalLayout_25.setContentsMargins(0, 0, 0, 0)
         self.label_19 = QLabel(self.frame_7)
         self.label_19.setObjectName(u"label_19")
-        self.label_19.setFont(font1)
+        self.label_19.setFont(font3)
 
         self.verticalLayout_25.addWidget(self.label_19)
 
@@ -818,7 +818,7 @@ class Ui_reception(object):
         self.verticalLayout_26.setContentsMargins(0, 0, 0, 0)
         self.label_20 = QLabel(self.frame_11)
         self.label_20.setObjectName(u"label_20")
-        self.label_20.setFont(font1)
+        self.label_20.setFont(font3)
 
         self.verticalLayout_26.addWidget(self.label_20)
 
@@ -2216,8 +2216,8 @@ class Ui_reception(object):
         self.TranBtn.setDefault(False)
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
-        self.stackedWidget_4.setCurrentIndex(1)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget_4.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_5.setCurrentIndex(1)
         self.stackedWidget_7.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
@@ -2326,11 +2326,11 @@ class Ui_reception(object):
         self.ArchiveBtn.setText("")
         self.label_18.setText(QCoreApplication.translate("reception", u"Defina la geometr\u00eda del umbral:", None))
         self.geoBox_1.setItemText(0, "")
-        self.geoBox_1.setItemText(1, QCoreApplication.translate("reception", u"Recta Inclinada (pendiente positiva)", None))
-        self.geoBox_1.setItemText(2, QCoreApplication.translate("reception", u"Recta paralela al eje X", None))
+        self.geoBox_1.setItemText(1, QCoreApplication.translate("reception", u"Recta en el eje Y = 1.5", None))
+        self.geoBox_1.setItemText(2, QCoreApplication.translate("reception", u"Recta en el eje Y = 0.5", None))
         self.geoBox_1.setItemText(3, QCoreApplication.translate("reception", u"Recta paralela al eje Y", None))
-        self.geoBox_1.setItemText(4, QCoreApplication.translate("reception", u"Recta en el eje Y = 1.5", None))
-        self.geoBox_1.setItemText(5, QCoreApplication.translate("reception", u"Recta en el eje Y = 0.5", None))
+        self.geoBox_1.setItemText(4, QCoreApplication.translate("reception", u"Recta Inclinada (pendiente positiva)", None))
+        self.geoBox_1.setItemText(5, QCoreApplication.translate("reception", u"Recta paralela al eje X", None))
 
         self.label_19.setText(QCoreApplication.translate("reception", u"Defina la geometr\u00eda del umbral:", None))
         self.geoBox_2.setItemText(0, "")
