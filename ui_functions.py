@@ -589,11 +589,17 @@ class MainFunctions(MainWindow):
            
     
     #Método para pasar string a bits arreglo
+    #def string_to_bits(self, message):
+    #    message = message.encode('utf-8')
+    #    message = np.frombuffer(message, dtype=np.uint8)
+    #    message = np.unpackbits(message)
+    #    message = np.asarray(message, dtype=bool)
+    #    return message
+        
     def string_to_bits(self, message):
-        message = message.encode('utf-8')
-        message = np.frombuffer(message, dtype=np.uint8)
-        message = np.unpackbits(message)
-        message = np.asarray(message, dtype=bool)
+        message_iterator = (ord(char) for char in message)
+        message = np.fromiter(message_iterator, dtype=np.uint8)
+        message = np.unpackbits(message).astype(bool)
         return message
 
                        
@@ -1089,10 +1095,10 @@ class MainFunctions(MainWindow):
                 pass
             elif esquema == 4: #Regiones 8QAM Rectangular
                 regiones = [
-                    '(samples.real > 0) & (samples.real < umbral_no[1][0].real) & (samples.imag < 0)', #111 1-1j
-                    '(samples.real > 0) & (samples.real < umbral_no[1][0].real) & (samples.imag > 0)', #110 1+1j
-                    '(samples.real < 0) & (samples.real > umbral_no[2][0].real) & (samples.imag > 0)', #010 -1+1j
-                    '(samples.real < 0) & (samples.real > umbral_no[2][0].real) & (samples.imag < 0)', #011 -1-1j
+                    '(samples.real > 0) & (samples.real < umbrales_no[1][0].real) & (samples.imag < 0)', #111 1-1j
+                    '(samples.real > 0) & (samples.real < umbrales_no[1][0].real) & (samples.imag > 0)', #110 1+1j
+                    '(samples.real < 0) & (samples.real > umbrales_no[2][0].real) & (samples.imag > 0)', #010 -1+1j
+                    '(samples.real < 0) & (samples.real > umbrales_no[2][0].real) & (samples.imag < 0)', #011 -1-1j
                     '(samples.real < umbrales_no[2][0].real) & (samples.imag < 0)', #001 -3-1j
                     '(samples.real < umbrales_no[2][0].real) & (samples.imag > 0)', #000 -3+1j
                     '(samples.real > umbrales_no[1][0].real) & (samples.imag > 0)', #100 3+1j
@@ -1361,9 +1367,10 @@ class MainFunctions(MainWindow):
     def check_conditions(self, samples, regiones, bits_save, umbrales, umbrales_i, umbrales_no, nsimb, esquema): #Umbrales de entrada tienen que ser los umbrales interpolados
         
         if nsimb == 8 and esquema == 1: #Si hay circulo tengo que verificar sus condiciones antes. Toma más tiempo
+            print("Circulo activo")
             circle = np.empty(len(samples), dtype=bool)
             for i, point in enumerate(samples):
-                print(point)
+                #print(point)
                 circle[i] = MainFunctions.is_inside_sm(self, umbrales_no[2], point)
         #print(circle)
 
@@ -1806,6 +1813,8 @@ class MainFunctions(MainWindow):
             mod_scheme = "CUSTOM"
         elif nsimb == 8 and esquema == "8QAM-RECTANGULAR": #8QAM RECTANGULAR
             mod_scheme = "CUSTOM"
+        elif nsimb == 8 and esquema == "8ASK-BIPOLAR": #8ASK BIPOLAR
+            mod_scheme = "CUSTOM"
         elif nsimb == 16 and esquema == 1: #16PSK normal
             mod_scheme = "16PSK"
         elif esquema == "CUSTOM":
@@ -1813,7 +1822,7 @@ class MainFunctions(MainWindow):
         else:
             mod_scheme = "CUSTOM"
         #Para 8QAM-CIRCULAR SE USAN MISMOS UMBRALES QUE 8PSK, esto es esquema = 2 nsimb=8, pero pilas con las regiones para check_conditions
-        
+        print("Esquema es: ",esquema)
             
         if esquema == "CUSTOM":
             factor_real = np.max(abs(self.constellation_rx.real))
@@ -1821,16 +1830,22 @@ class MainFunctions(MainWindow):
         elif esquema == "8QAM-DIAGONAL": 
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).imag))
-            esquema = None #Se modifica para utilizar el esquema correspondiente en regiones y check_conditions
+            esquema = 1 #Se modifica para utilizar el esquema correspondiente en check_conditions, activa los circulos
         elif esquema == "8QAM-RECTANGULAR":
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 1).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 1).imag))
-            esquema = None #Se modifica para utilizar el esquema correspondiente en regiones y check_conditions            
+        elif esquema == "8ASK-BIPOLAR":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb, 1).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb, 1).imag))        
         else:
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).imag))
-            
-        print("Esquema es: ",esquema)
+        
+        if factor_real == 0:
+            factor_real = 1
+        elif factor_imag == 0:
+            factor_imag = 1    
+        
         print("mod_scheme es: ", mod_scheme)
         print("Factores normalización real - imag: ", factor_real, factor_imag)
         #(Linea para seleccion de esquema de modulación basado en nsimb y esquema de umbral elegido)
@@ -1890,7 +1905,7 @@ class MainFunctions(MainWindow):
             
             simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = mod_scheme) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
-            esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
+            #esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
             
             #Se acumulan los resultados obtenidos de todas las partes luego de aplicar esquema RX.
             resultado_total = np.append(resultado_total,MainFunctions.check_conditions(self,simbolos, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con coarse y fine freq
@@ -1936,6 +1951,7 @@ class MainFunctions(MainWindow):
             #FIN DEL CICLO FOR
             
         if nsimb == 8: #Si la modulacion es de 8 simbolos, se elimina el padding en los bits recuperados antes de convertirlos a string
+            print("Removiendo padding")
             resultado_total = MainFunctions.remove_padding_bits(self,resultado_total)
             resultado_total2 = MainFunctions.remove_padding_bits(self,resultado_total2)
             resultado_total3 = MainFunctions.remove_padding_bits(self,resultado_total3)

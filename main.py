@@ -820,7 +820,6 @@ class MainWindow(QMainWindow):
                 elif threshold_index != 0:
                     n_symbol = 8
                     esquema = threshold_index
-                    print("Esquema para umbrales es:", esquema)
                     #EsquemaTX = 3,C - Dos rectas en los ejes y 1 circulo - 8QAM Diagonal - Esquema 3,3 en constelación - Index 1 en interfazRX
                     #EsquemaTX = 1 - 6 Verticales - 8ASK Bipolar - Esquema 1 en constelación - Index 4 en interfaz RX
                     #EsquemaTX = 2 - 4 Diagonales - 8PSK - Esquema 2 en constelación - Index 2 en interfaz RX
@@ -832,6 +831,7 @@ class MainWindow(QMainWindow):
                         esquema = "8QAM-RECTANGULAR"
                     elif esquema == 4:
                         esquema = "8ASK-BIPOLAR"
+                    print("Esquema para umbrales es:", esquema)
                     #Para el 8QAM-CIRCULAR se usan mismos umbrales que 8PSK
                     
                     #Esquemas para definir umbrales con threshold_defined:
