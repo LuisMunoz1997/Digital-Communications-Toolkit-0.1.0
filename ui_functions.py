@@ -821,7 +821,7 @@ class MainFunctions(MainWindow):
                 print("ERROR SELECCIÓN")
         
         elif nsimb == 8:
-            if esquema == 1: #2 Diagonales y 1 Circulo
+            if esquema == 1: #2 Rectas Ejes y 1 Circulo
                 umbral1 = imag_domain * 0 + real_domain
                 umbral2 = imag_domain + real_domain * 0
                 umbral3 = 2.5 * np.exp(2j*np.pi*real_circle) #Pendiente con los circulos y la detección
@@ -1478,7 +1478,7 @@ class MainFunctions(MainWindow):
         return received, preamble #Retorna lo recibido filtrado sin preambulo, y el preambulo solito filtrado
 
     """
-    def coarse_frequency_correction(self,preamble, referencia = 80e3, Fs = 522000): #Corrijo offset frecuencia en base a la frecuencia del preambulo
+    def coarse_preamble_frequency_correction(self,preamble, referencia = 80e3, Fs = 522000): #Corrijo offset frecuencia en base a la frecuencia del preambulo
         #Entre el preambulo y le calculo su offset en frecuencia en función a la frecuencia fijada para el preambulo
         # Calculate the FFT of the signal
         signal_fft = np.fft.fft(preamble)
@@ -1802,19 +1802,34 @@ class MainFunctions(MainWindow):
             mod_scheme = "BPSK"
         elif nsimb == 4 and esquema == 2: #QPSK normal
             mod_scheme = "QPSK"
+        elif nsimb == 8 and esquema == "8QAM-DIAGONAL": #8QAM DIAGONAL
+            mod_scheme = "CUSTOM"
+        elif nsimb == 8 and esquema == "8QAM-RECTANGULAR": #8QAM RECTANGULAR
+            mod_scheme = "CUSTOM"
         elif nsimb == 16 and esquema == 1: #16PSK normal
             mod_scheme = "16PSK"
         elif esquema == "CUSTOM":
             mod_scheme = "CUSTOM"
         else:
             mod_scheme = "CUSTOM"
+        #Para 8QAM-CIRCULAR SE USAN MISMOS UMBRALES QUE 8PSK, esto es esquema = 2 nsimb=8, pero pilas con las regiones para check_conditions
         
+            
         if esquema == "CUSTOM":
             factor_real = np.max(abs(self.constellation_rx.real))
             factor_imag = np.max(abs(self.constellation_rx.imag))
+        elif esquema == "8QAM-DIAGONAL": 
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).imag))
+            esquema = None #Se modifica para utilizar el esquema correspondiente en regiones y check_conditions
+        elif esquema == "8QAM-RECTANGULAR":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 1).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 1).imag))
+            esquema = None #Se modifica para utilizar el esquema correspondiente en regiones y check_conditions            
         else:
-            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real)) #Verificar si para nsimb 8 o 16 hace falta cambiar algo acá, como poner más condicionales
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).imag))
+            
         print("Esquema es: ",esquema)
         print("mod_scheme es: ", mod_scheme)
         print("Factores normalización real - imag: ", factor_real, factor_imag)

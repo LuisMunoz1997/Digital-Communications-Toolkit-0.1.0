@@ -821,10 +821,36 @@ class MainWindow(QMainWindow):
                     n_symbol = 8
                     esquema = threshold_index
                     print("Esquema para umbrales es:", esquema)
-                    #Esquema = 1 - Dos rectas en los ejes y 1 circulo
-                    #Esquema = 5 - 6 Verticales - 8ASK Bipolar - Esquema 1 en constelación - Index 4 en interfaz
-                    #Esquema = 2 - 4 Diagonales - 8PSK - Esquema 2 en constelación - Index 2 en interfaz 
-                    #Esquema = 4 - 3 Verticales una Horizonal - 8QAM rectangular - Esquema 3,1 en constelación - Index 3 en interfaz
+                    #EsquemaTX = 3,C - Dos rectas en los ejes y 1 circulo - 8QAM Diagonal - Esquema 3,3 en constelación - Index 1 en interfazRX
+                    #EsquemaTX = 1 - 6 Verticales - 8ASK Bipolar - Esquema 1 en constelación - Index 4 en interfaz RX
+                    #EsquemaTX = 2 - 4 Diagonales - 8PSK - Esquema 2 en constelación - Index 2 en interfaz RX
+                    #EsquemaTX = 3,A - 3 Verticales una Horizonal - 8QAM rectangular - Esquema 3,1 en constelación - Index 3 en interfaz RX
+                    
+                    if esquema == 1: #Se configuran los distintos esquemas para 8 símbolos, pues estos usan esquemas distintos y otro adicional
+                        esquema = "8QAM-DIAGONAL"
+                    elif esquema == 3:
+                        esquema = "8QAM-RECTANGULAR"
+                    elif esquema == 4:
+                        esquema = "8ASK-BIPOLAR"
+                    #Para el 8QAM-CIRCULAR se usan mismos umbrales que 8PSK
+                    
+                    #Esquemas para definir umbrales con threshold_defined:
+                    # 1 - 2 Rectas Ejes 1 Circulo
+                    # 2 - 4 Diagonales - 8PSK & 8QAM-CIRCULAR
+                    # 3 - 3 Horizontales 1 Vertical
+                    # 4 - 3 Verticales 1 Horizontal - 8QAM-RECTANGULAR
+                    # 5 - 7 Verticales - 8ASK Bipolar
+                    #Estos esquemas coinciden para los umbrales y regiones
+                    
+                    if threshold_index == 1:
+                        threshold_index = 1
+                    elif threshold_index == 2: #Recordar acomodar regiones y bits_save para 8QAM-CIRCULAR para que coincidan con las de 8PSK 
+                        threshold_index = 2
+                    elif threshold_index == 3: #Este umbral es para 8QAM-RECTANGULAR, que en threshold_defined es el esquema 4
+                        threshold_index = 4
+                    elif threshold_index == 4: #Este umbral es para 8ASK BIPOLAR, que en threshold_defined es el esquema 5
+                        threshold_index = 5
+                    
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
                     if self.reception_configured == True:
