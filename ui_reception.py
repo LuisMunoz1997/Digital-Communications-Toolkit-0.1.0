@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionyetLWS.ui'
+## Form generated from reading UI file 'receptionmmOwyq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1162,6 +1162,7 @@ class Ui_reception(object):
         self.verticalLayout_45.setContentsMargins(5, -1, 6, -1)
         self.label_28 = QLabel(self.page_20)
         self.label_28.setObjectName(u"label_28")
+        self.label_28.setMaximumSize(QSize(16777215, 35))
         self.label_28.setFont(font3)
 
         self.verticalLayout_45.addWidget(self.label_28)
@@ -1173,19 +1174,6 @@ class Ui_reception(object):
 
         self.verticalLayout_45.addWidget(self.doubleSpinBox_12)
 
-        self.label_29 = QLabel(self.page_20)
-        self.label_29.setObjectName(u"label_29")
-        self.label_29.setFont(font3)
-
-        self.verticalLayout_45.addWidget(self.label_29)
-
-        self.doubleSpinBox_13 = QDoubleSpinBox(self.page_20)
-        self.doubleSpinBox_13.setObjectName(u"doubleSpinBox_13")
-        self.doubleSpinBox_13.setFont(font3)
-        self.doubleSpinBox_13.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_45.addWidget(self.doubleSpinBox_13)
-
         self.stackedWidget_7.addWidget(self.page_20)
         self.page_21 = QWidget()
         self.page_21.setObjectName(u"page_21")
@@ -1194,6 +1182,7 @@ class Ui_reception(object):
         self.verticalLayout_46.setContentsMargins(5, -1, 5, -1)
         self.label_30 = QLabel(self.page_21)
         self.label_30.setObjectName(u"label_30")
+        self.label_30.setMaximumSize(QSize(16777215, 35))
         self.label_30.setFont(font3)
 
         self.verticalLayout_46.addWidget(self.label_30)
@@ -1205,19 +1194,6 @@ class Ui_reception(object):
 
         self.verticalLayout_46.addWidget(self.doubleSpinBox_14)
 
-        self.label_31 = QLabel(self.page_21)
-        self.label_31.setObjectName(u"label_31")
-        self.label_31.setFont(font3)
-
-        self.verticalLayout_46.addWidget(self.label_31)
-
-        self.doubleSpinBox_15 = QDoubleSpinBox(self.page_21)
-        self.doubleSpinBox_15.setObjectName(u"doubleSpinBox_15")
-        self.doubleSpinBox_15.setFont(font3)
-        self.doubleSpinBox_15.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_46.addWidget(self.doubleSpinBox_15)
-
         self.stackedWidget_7.addWidget(self.page_21)
         self.page_22 = QWidget()
         self.page_22.setObjectName(u"page_22")
@@ -1226,6 +1202,7 @@ class Ui_reception(object):
         self.verticalLayout_47.setContentsMargins(5, -1, 5, -1)
         self.label_32 = QLabel(self.page_22)
         self.label_32.setObjectName(u"label_32")
+        self.label_32.setMaximumSize(QSize(16777215, 35))
         self.label_32.setFont(font3)
 
         self.verticalLayout_47.addWidget(self.label_32)
@@ -1237,19 +1214,6 @@ class Ui_reception(object):
 
         self.verticalLayout_47.addWidget(self.doubleSpinBox_16)
 
-        self.label_33 = QLabel(self.page_22)
-        self.label_33.setObjectName(u"label_33")
-        self.label_33.setFont(font3)
-
-        self.verticalLayout_47.addWidget(self.label_33)
-
-        self.doubleSpinBox_17 = QDoubleSpinBox(self.page_22)
-        self.doubleSpinBox_17.setObjectName(u"doubleSpinBox_17")
-        self.doubleSpinBox_17.setFont(font3)
-        self.doubleSpinBox_17.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_47.addWidget(self.doubleSpinBox_17)
-
         self.stackedWidget_7.addWidget(self.page_22)
         self.page_23 = QWidget()
         self.page_23.setObjectName(u"page_23")
@@ -1258,6 +1222,7 @@ class Ui_reception(object):
         self.verticalLayout_48.setContentsMargins(5, -1, 5, -1)
         self.label_34 = QLabel(self.page_23)
         self.label_34.setObjectName(u"label_34")
+        self.label_34.setMaximumSize(QSize(16777215, 35))
         self.label_34.setFont(font3)
 
         self.verticalLayout_48.addWidget(self.label_34)
@@ -1268,19 +1233,6 @@ class Ui_reception(object):
         self.doubleSpinBox_18.setStyleSheet(u"color: rgb(255, 255, 255);")
 
         self.verticalLayout_48.addWidget(self.doubleSpinBox_18)
-
-        self.label_35 = QLabel(self.page_23)
-        self.label_35.setObjectName(u"label_35")
-        self.label_35.setFont(font3)
-
-        self.verticalLayout_48.addWidget(self.label_35)
-
-        self.doubleSpinBox_19 = QDoubleSpinBox(self.page_23)
-        self.doubleSpinBox_19.setObjectName(u"doubleSpinBox_19")
-        self.doubleSpinBox_19.setFont(font3)
-        self.doubleSpinBox_19.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_48.addWidget(self.doubleSpinBox_19)
 
         self.stackedWidget_7.addWidget(self.page_23)
         self.page_24 = QWidget()
@@ -1373,6 +1325,7 @@ class Ui_reception(object):
         self.verticalLayout_39.setContentsMargins(9, 0, 6, 15)
         self.label_12 = QLabel(self.page_15)
         self.label_12.setObjectName(u"label_12")
+        self.label_12.setMaximumSize(QSize(16777215, 35))
         self.label_12.setFont(font3)
 
         self.verticalLayout_39.addWidget(self.label_12)
@@ -1384,19 +1337,6 @@ class Ui_reception(object):
 
         self.verticalLayout_39.addWidget(self.doubleSpinBox)
 
-        self.label_6 = QLabel(self.page_15)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setFont(font3)
-
-        self.verticalLayout_39.addWidget(self.label_6)
-
-        self.doubleSpinBox_2 = QDoubleSpinBox(self.page_15)
-        self.doubleSpinBox_2.setObjectName(u"doubleSpinBox_2")
-        self.doubleSpinBox_2.setFont(font3)
-        self.doubleSpinBox_2.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_39.addWidget(self.doubleSpinBox_2)
-
         self.stackedWidget_6.addWidget(self.page_15)
         self.page_16 = QWidget()
         self.page_16.setObjectName(u"page_16")
@@ -1405,6 +1345,7 @@ class Ui_reception(object):
         self.verticalLayout_40.setContentsMargins(-1, -1, -1, 15)
         self.label_13 = QLabel(self.page_16)
         self.label_13.setObjectName(u"label_13")
+        self.label_13.setMaximumSize(QSize(16777215, 35))
         self.label_13.setFont(font3)
 
         self.verticalLayout_40.addWidget(self.label_13)
@@ -1416,19 +1357,6 @@ class Ui_reception(object):
 
         self.verticalLayout_40.addWidget(self.doubleSpinBox_4)
 
-        self.label_14 = QLabel(self.page_16)
-        self.label_14.setObjectName(u"label_14")
-        self.label_14.setFont(font3)
-
-        self.verticalLayout_40.addWidget(self.label_14)
-
-        self.doubleSpinBox_3 = QDoubleSpinBox(self.page_16)
-        self.doubleSpinBox_3.setObjectName(u"doubleSpinBox_3")
-        self.doubleSpinBox_3.setFont(font3)
-        self.doubleSpinBox_3.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_40.addWidget(self.doubleSpinBox_3)
-
         self.stackedWidget_6.addWidget(self.page_16)
         self.page_17 = QWidget()
         self.page_17.setObjectName(u"page_17")
@@ -1437,6 +1365,7 @@ class Ui_reception(object):
         self.verticalLayout_41.setContentsMargins(-1, -1, -1, 15)
         self.label_15 = QLabel(self.page_17)
         self.label_15.setObjectName(u"label_15")
+        self.label_15.setMaximumSize(QSize(16777215, 35))
         self.label_15.setFont(font3)
 
         self.verticalLayout_41.addWidget(self.label_15)
@@ -1448,19 +1377,6 @@ class Ui_reception(object):
 
         self.verticalLayout_41.addWidget(self.doubleSpinBox_6)
 
-        self.label_22 = QLabel(self.page_17)
-        self.label_22.setObjectName(u"label_22")
-        self.label_22.setFont(font3)
-
-        self.verticalLayout_41.addWidget(self.label_22)
-
-        self.doubleSpinBox_5 = QDoubleSpinBox(self.page_17)
-        self.doubleSpinBox_5.setObjectName(u"doubleSpinBox_5")
-        self.doubleSpinBox_5.setFont(font3)
-        self.doubleSpinBox_5.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_41.addWidget(self.doubleSpinBox_5)
-
         self.stackedWidget_6.addWidget(self.page_17)
         self.page_19 = QWidget()
         self.page_19.setObjectName(u"page_19")
@@ -1469,6 +1385,7 @@ class Ui_reception(object):
         self.verticalLayout_42.setContentsMargins(-1, -1, -1, 15)
         self.label_23 = QLabel(self.page_19)
         self.label_23.setObjectName(u"label_23")
+        self.label_23.setMaximumSize(QSize(16777215, 35))
         self.label_23.setFont(font3)
 
         self.verticalLayout_42.addWidget(self.label_23)
@@ -1479,19 +1396,6 @@ class Ui_reception(object):
         self.doubleSpinBox_8.setStyleSheet(u"color: rgb(255, 255, 255);")
 
         self.verticalLayout_42.addWidget(self.doubleSpinBox_8)
-
-        self.label_24 = QLabel(self.page_19)
-        self.label_24.setObjectName(u"label_24")
-        self.label_24.setFont(font3)
-
-        self.verticalLayout_42.addWidget(self.label_24)
-
-        self.doubleSpinBox_7 = QDoubleSpinBox(self.page_19)
-        self.doubleSpinBox_7.setObjectName(u"doubleSpinBox_7")
-        self.doubleSpinBox_7.setFont(font3)
-        self.doubleSpinBox_7.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.verticalLayout_42.addWidget(self.doubleSpinBox_7)
 
         self.stackedWidget_6.addWidget(self.page_19)
         self.page_18 = QWidget()
@@ -2382,25 +2286,17 @@ class Ui_reception(object):
         self.label_44.setText(QCoreApplication.translate("reception", u"Defina la ganancia de recepci\u00f3n (dB - Max: 50)", None))
         self.label_52.setText("")
         self.label_28.setText(QCoreApplication.translate("reception", u"Para x = a, defina el valor de a", None))
-        self.label_29.setText(QCoreApplication.translate("reception", u"Defina el valor del offset", None))
         self.label_30.setText(QCoreApplication.translate("reception", u"Para x = -a, defina el valor de a", None))
-        self.label_31.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_32.setText(QCoreApplication.translate("reception", u"Para y = b, defina el valor de b", None))
-        self.label_33.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_34.setText(QCoreApplication.translate("reception", u"Para y = -b, defina el valor de b", None))
-        self.label_35.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_36.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
         self.label_37.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
         self.label_38.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
         self.label_39.setText("")
         self.label_12.setText(QCoreApplication.translate("reception", u"Para x = a, defina el valor de a", None))
-        self.label_6.setText(QCoreApplication.translate("reception", u"Defina el valor del offset", None))
         self.label_13.setText(QCoreApplication.translate("reception", u"Para x = -a, defina el valor de a", None))
-        self.label_14.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_15.setText(QCoreApplication.translate("reception", u"Para y = b, defina el valor de b", None))
-        self.label_22.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_23.setText(QCoreApplication.translate("reception", u"Para y = -b, defina el valor de b", None))
-        self.label_24.setText(QCoreApplication.translate("reception", u"Definal el valor del offset", None))
         self.label_25.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
         self.label_27.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
         self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))

@@ -912,7 +912,6 @@ class MainWindow(QMainWindow):
                 
                 elif geo_threshold_index == 1: #Linea vertical x=a
                     x = self.ui.doubleSpinBox_12.value()
-                    off = self.ui.doubleSpinBox_13.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
@@ -946,7 +945,6 @@ class MainWindow(QMainWindow):
                     
                 elif geo_threshold_index == 2: #Linea vertical x=-a
                     x = self.ui.doubleSpinBox_14.value()
-                    off = self.ui.doubleSpinBox_15.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
@@ -966,7 +964,6 @@ class MainWindow(QMainWindow):
                     
                 elif geo_threshold_index == 3:
                     y = self.ui.doubleSpinBox_16.value()
-                    off = self.ui.doubleSpinBox_17.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
@@ -985,7 +982,6 @@ class MainWindow(QMainWindow):
                     
                 elif geo_threshold_index == 4:
                     y = self.ui.doubleSpinBox_18.value()
-                    off = self.ui.doubleSpinBox_19.value()
                     symbol1 = self.ui.text_3.toPlainText() #Simbolo 1
                     symbol2 = self.ui.text_4.toPlainText() #Simbolo 2
 
@@ -1034,10 +1030,8 @@ class MainWindow(QMainWindow):
 
                     if geo_threshold_index3 == 1:
                         x = self.ui.doubleSpinBox_12.value()
-                        off = self.ui.doubleSpinBox_13.value()
 
                         if geo_threshold_index2 == 1:
-                            off2 = self.ui.doubleSpinBox_2.value()
                             x2 = self.ui.doubleSpinBox.value()
                             symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
                             symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
@@ -1060,7 +1054,6 @@ class MainWindow(QMainWindow):
                                 
                                 
                         elif geo_threshold_index2 == 2:
-                            off2 = self.ui.doubleSpinBox_3.value()
                             x2 = self.ui.doubleSpinBox_4.value()
                             symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
                             symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
@@ -1083,7 +1076,6 @@ class MainWindow(QMainWindow):
                                 
                                 
                         elif geo_threshold_index2 == 3:
-                            off2 = self.ui.doubleSpinBox_5.value()
                             y2 = self.ui.doubleSpinBox_6.value()
                             symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
                             symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
@@ -1106,7 +1098,6 @@ class MainWindow(QMainWindow):
                                 
                                 
                         elif geo_threshold_index2 == 4:
-                            off2 = self.ui.doubleSpinBox_7.value()
                             y2 = self.ui.doubleSpinBox_8.value()
                             symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
                             symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
@@ -1150,20 +1141,16 @@ class MainWindow(QMainWindow):
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
-                                
-                            
+                                    
 
                     elif geo_threshold_index3 == 2:
                         x = self.ui.doubleSpinBox_14.value()
-                        off = self.ui.doubleSpinBox_15.value()
 
                     elif geo_threshold_index3 == 3:
                         y = self.ui.doubleSpinBox_16.value()
-                        off = self.ui.doubleSpinBox_17.value()
 
                     elif geo_threshold_index3 == 4:
                         y = self.ui.doubleSpinBox_18.value()
-                        off = self.ui.doubleSpinBox_19.value()
 
                     elif geo_threshold_index3 == 5:
                         ang = self.ui.doubleSpinBox_20.value()
