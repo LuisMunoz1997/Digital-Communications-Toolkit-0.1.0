@@ -2076,6 +2076,10 @@ class MainFunctions(MainWindow):
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
+        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
+        self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_27)
+        self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
+
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
 

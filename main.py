@@ -637,6 +637,8 @@ class MainWindow(QMainWindow):
 
     def recep_error_correc_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
+        self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_28)
+        self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
 
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
@@ -670,6 +672,8 @@ class MainWindow(QMainWindow):
         self.ui.Constlayout.addWidget(self.toolbar3)
         self.ui.recBBlayout.addWidget(self.grafica4)
         self.ui.recBBlayout.addWidget(self.toolbar4)
+
+        self.ui.label_40.text(self.string_resultado)
 
     
     def retrieve_message(self):
@@ -718,8 +722,7 @@ class MainWindow(QMainWindow):
         if self.configured_signal == True:
             self.ui.simWarnTxt.setText("Ya la señal ha sido configurada")
             
-
-    
+  
     
     def graph_received_result(self):
         t = np.arange(0,len(self.muestras))
@@ -881,6 +884,10 @@ class MainWindow(QMainWindow):
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
                     if self.reception_configured == True:
+                        self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
+                        self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_27)
+                        self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
+
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
