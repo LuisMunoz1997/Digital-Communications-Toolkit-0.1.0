@@ -1804,6 +1804,8 @@ class MainFunctions(MainWindow):
         self.graph_sincro = np.array([])
         self.graph_sincro_corrected = np.array([])
         
+        self.string_resultado = "" #Contendrá resultado final todos los métodos mensaje string
+        
         #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
         if nsimb == 2 and esquema == 3: #BPSK normal
             mod_scheme = "BPSK"
@@ -1959,8 +1961,7 @@ class MainFunctions(MainWindow):
             resultado_total5 = MainFunctions.remove_padding_bits(self,resultado_total5)
             resultado_total6 = MainFunctions.remove_padding_bits(self,resultado_total6)
             resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)              
-            
-            
+        """  
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
         print("")
         print("Resultado 1: No Muller, Coarse y Fine")
@@ -1981,9 +1982,19 @@ class MainFunctions(MainWindow):
         print("Resultado 6: Coarse, Phase y Fine")
         print(MainFunctions.bits_to_string(self,resultado_total6))
         print("")
-        print("Resultado 7: Coarse, Phase y Fine GPT")
+        print("Resultado 7: Coarse, Phase y Fine 2")
         print(MainFunctions.bits_to_string(self,resultado_total7))
         print("")
+        """
+        self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
+        self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n\n"
+        self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n\n"
+        self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n\n"
+        self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
+        self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
+        self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
+        
+        print(self.string_resultado)
 
         #Cuarto paso: Verificar y seleccionar mejor resultado
         
