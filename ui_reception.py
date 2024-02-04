@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionmmOwyq.ui'
+## Form generated from reading UI file 'receptionQVLgKU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1630,15 +1630,6 @@ class Ui_reception(object):
 
         self.verticalLayout_11.addWidget(self.stoprecBtn, 0, Qt.AlignHCenter)
 
-        self.recSBtn = QPushButton(self.frame_15)
-        self.recSBtn.setObjectName(u"recSBtn")
-        self.recSBtn.setMinimumSize(QSize(175, 0))
-        self.recSBtn.setMaximumSize(QSize(16777215, 16777215))
-        self.recSBtn.setFont(font1)
-        self.recSBtn.setStyleSheet(u"")
-
-        self.verticalLayout_11.addWidget(self.recSBtn, 0, Qt.AlignHCenter)
-
         self.simWarnTxt = QTextBrowser(self.frame_15)
         self.simWarnTxt.setObjectName(u"simWarnTxt")
         self.simWarnTxt.setMaximumSize(QSize(16777215, 90))
@@ -2130,7 +2121,7 @@ class Ui_reception(object):
         self.stackedWidget_22.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
         self.stackedWidget_25.setCurrentIndex(1)
-        self.stackedWidget_3.setCurrentIndex(0)
+        self.stackedWidget_3.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(reception)
@@ -2310,7 +2301,6 @@ class Ui_reception(object):
         self.text_7.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 4", None))
         self.recepBtn.setText(QCoreApplication.translate("reception", u"Habilitar estado de Recepci\u00f3n", None))
         self.stoprecBtn.setText(QCoreApplication.translate("reception", u"Detener estado de Recepci\u00f3n", None))
-        self.recSBtn.setText(QCoreApplication.translate("reception", u"Visualizar Mensaje Recibido", None))
         self.simWarnTxt.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

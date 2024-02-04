@@ -1725,6 +1725,7 @@ class MainFunctions(MainWindow):
         
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_29)
 
+
         self.timer.stop()
 
         #self.ui.SRlayout.removeWidget(self.graphWidget_2)
@@ -1805,7 +1806,9 @@ class MainFunctions(MainWindow):
         self.graph_sincro_corrected = np.array([])
         
         self.string_resultado = "" #Contendrá resultado final todos los métodos mensaje string
-        
+        message_format = self.ui.formatBox.currentIndex()
+        filePath = self.filePath_message_received
+
         #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
         if nsimb == 2 and esquema == 3: #BPSK normal
             mod_scheme = "BPSK"
@@ -2079,6 +2082,7 @@ class MainFunctions(MainWindow):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
         self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_27)
         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
+        self.final_reception_fase = False
 
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False

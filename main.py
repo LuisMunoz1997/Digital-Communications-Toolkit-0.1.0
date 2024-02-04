@@ -199,6 +199,7 @@ class MainWindow(QMainWindow):
         self.ui.fileBtn_2.clicked.connect(self.open_transmission2)
         self.ui.fileBtn_2.clicked.connect(self.close)
 
+
 #####################################################################################
         #RECEPTION GRAPHS BUTTONS
         self.ui.graph_recep.clicked.connect(self.recep_filter_signal)
@@ -249,7 +250,6 @@ class MainWindow(QMainWindow):
         
         self.ui.stoprecBtn.clicked.connect(self.check_reception_state)
 
-        self.ui.recSBtn.clicked.connect(self.retrieve_message)
         
         ## SYMBOL DETECTION
 ###########################################################################################################
@@ -523,7 +523,6 @@ class MainWindow(QMainWindow):
 #######################################################################################################################################
 #METHODS
 ####################################################################################################################################### 
-        
 
     def recep_filter_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
@@ -639,6 +638,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_36)
         self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_28)
         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
+        n_format = self.ui.formatBox.currentIndex()
 
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
@@ -673,18 +673,15 @@ class MainWindow(QMainWindow):
         self.ui.recBBlayout.addWidget(self.grafica4)
         self.ui.recBBlayout.addWidget(self.toolbar4)
 
-        self.ui.label_40.text(self.string_resultado)
 
-    
-    def retrieve_message(self):
-        n_format = self.ui.formatBox.currentIndex()
+        if n_format == 1:
+            self.ui.label_40.setText(self.string_resultado)
 
-        if n_format == 0:
-            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje para recuperarlo")
+        elif n_format == 2 or n_format == 3:
+            self.ui.label_40.setPixmap(self.string_resultado)
 
-        elif n_format != 0:
+        elif n_format > 3:
             pass
-
 
 
     def check_reception_state(self):
@@ -743,11 +740,14 @@ class MainWindow(QMainWindow):
         gain_rx = self.ui.gananRx.value()
         buffer = 30000
         
+
+        if message_format == 0:
+            self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje")
+
+        elif self.ui.UmbPreBtn.isChecked() == False and self.ui.UmbDisBtn.isChecked() == False:
+            self.ui.simWarnTxt.setText("Hace falta definir el modo de trabajo del receptor")
+
         ######## UMBRALES PREDEFINIDOS
-
-        if self.ui.UmbPreBtn.isChecked() == False and self.ui.UmbDisBtn.isChecked() == False:
-            self.ui.simWarnTxt.setText("Hace falta definir el número de bits codificados por simbolo y tipo de modulación correspondiente")
-
         elif self.ui.UmbPreBtn.isChecked() == True:
             print("Entró condicional inicio recepcion")
             n_symbol_index = self.ui.simPBitBox.currentIndex()
@@ -2123,7 +2123,9 @@ class MainWindow(QMainWindow):
             self.ui.archivePath.setText(self.filePath[0])
             
     def setArchive(self):
-        filePath = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open file', 'C:\\')
+        self.filePath_message_received = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open file', 'C:\\')
+        filePath = self.filePath_message_received
+
         if filePath:
             self.ui.archivePath.setText(filePath)
             
