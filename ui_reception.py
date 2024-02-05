@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionQVLgKU.ui'
+## Form generated from reading UI file 'receptionYXYzlk.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1895,7 +1895,7 @@ class Ui_reception(object):
         self.label_40.setObjectName(u"label_40")
         self.label_40.setFont(font3)
 
-        self.verticalLayout_52.addWidget(self.label_40)
+        self.verticalLayout_52.addWidget(self.label_40, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
 
         self.verticalLayout_14.addWidget(self.frame_18)
