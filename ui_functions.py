@@ -396,8 +396,13 @@ class MainFunctions(MainWindow):
         #Qué pasa si envío 3 bits por simbolo, y resulta que en los ultimos bits a enviar solo me faltan 2 o 1? Por no ser par
         #Acá si se quiere no se trabaja con nsimb sino con len(constellation)
         #Si el mensaje no es de np.fromfile dtype=bool, es string, convierto a bits sin comprimir, o buscar forma de comprimir.
-        if type(message)is str:
+        if type(message)is str and self.text_flag_message:
             message = MainFunctions.string_to_bits(self, message)
+        else:
+            print("Se enviará archivo no string")
+            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            message = np.unpackbits(message)
+            message = np.asarray(message, dtype=bool)
 
         if nsimb == 2:
             bits_condition = [~(message), (message)] #Bit 0, Bit 1
@@ -1560,7 +1565,7 @@ class MainFunctions(MainWindow):
         
         #Estimados desfase
         delta_phi = np.angle(np.mean(preambulo * np.conj(preambulo_original)))
-        print("Desfase coarse estimado ", delta_phi)
+        #print("Desfase coarse estimado ", delta_phi)
         
         #Se corrige esa fase estimada en la señal de interes
         signal_interes = signal_interes * np.exp(-1j*delta_phi)
@@ -1806,8 +1811,10 @@ class MainFunctions(MainWindow):
         self.graph_sincro_corrected = np.array([])
         
         self.string_resultado = "" #Contendrá resultado final todos los métodos mensaje string
+        
         message_format = self.ui.formatBox.currentIndex()
         filePath = self.filePath_message_received
+        print("File path es: ", filePath)
 
         #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
         if nsimb == 2 and esquema == 3: #BPSK normal
@@ -1989,15 +1996,45 @@ class MainFunctions(MainWindow):
         print(MainFunctions.bits_to_string(self,resultado_total7))
         print("")
         """
-        self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
-        self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n\n"
-        self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n\n"
-        self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n\n"
-        self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
-        self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
-        self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
         
-        print(self.string_resultado)
+        if message_format == 1: #String
+            self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
+            self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n\n"
+            self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n\n"
+            self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n\n"
+            self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
+            self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
+            self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
+            print(self.string_resultado)
+        
+        if message_format == 2: #Imagen jpg
+            print("Procesando imagenes...")
+            resultado_correcto = False
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7], dtype=object)
+            
+            for index,image in enumerate(images):
+                try:
+                    resultado_imagen = np.packbits(image.astype(np.uint8))
+                    resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    
+                    im = Image.open(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    im.verify()
+                    #im.load()
+                    im.close()
+                    resultado_correcto = True
+                    print("Imagen CORRECTA")
+                except Exception as e:
+                    if resultado_correcto:
+                        #print("Imagen CORRECTA")
+                        resultado_correcto = False
+                        #break
+                    else:
+                        resultado_correcto = False
+                        print("Imagen erronea...")
+                        print(e)
+                    
+        
+                    
 
         #Cuarto paso: Verificar y seleccionar mejor resultado
         

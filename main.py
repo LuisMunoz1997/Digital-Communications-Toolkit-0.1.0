@@ -32,6 +32,7 @@ import math
 from commpy.filters import rrcosfilter
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from PIL import Image
 
 import random
 from random import randint
@@ -678,7 +679,14 @@ class MainWindow(QMainWindow):
             self.ui.label_40.setText(self.string_resultado)
 
         elif n_format == 2 or n_format == 3:
-            self.ui.label_40.setPixmap(self.string_resultado)
+            try:
+                pixmap = QPixmap("/home/lubuntu/Desktop/Recibidos/imagen_recibida5.jpg")
+                self.ui.label_40.setPixmap(pixmap)
+                print("Imagen en interfaz")
+            except Exception as e:
+                self.ui.label_40.setText("Algo ha salido mal...")
+                print("NO imagen en interfaz")
+            
 
         elif n_format > 3:
             pass
@@ -1182,7 +1190,7 @@ class MainWindow(QMainWindow):
         fsim = self.ui.fbit.value()
         tsim = self.ui.tbit.value()
         fport = self.ui.fport.value()
-        fsample = self.fsample   
+        fsample = self.fsample
         
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
