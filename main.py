@@ -211,6 +211,7 @@ class MainWindow(QMainWindow):
 #####################################################################################
 
         #CHOOSE PATH
+        self.filePath_message_received = ""
         self.ui.ArchiveBtn.clicked.connect(self.setArchive)
 
         #RECEIVED MESSAGE FORMAT
