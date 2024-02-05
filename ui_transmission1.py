@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1YaQcyL.ui'
+## Form generated from reading UI file 'transmission1RUeHaJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -856,6 +856,7 @@ class Ui_transmission1(object):
         self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.widget_32 = QWidget(self.frame_15)
         self.widget_32.setObjectName(u"widget_32")
+        self.widget_32.setMinimumSize(QSize(0, 174))
         self.widget_32.setMaximumSize(QSize(220, 200))
         self.widget_32.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.verticalLayout_41 = QVBoxLayout(self.widget_32)
@@ -879,6 +880,7 @@ class Ui_transmission1(object):
         self.page_25 = QWidget()
         self.page_25.setObjectName(u"page_25")
         self.verticalLayout_67 = QVBoxLayout(self.page_25)
+        self.verticalLayout_67.setSpacing(20)
         self.verticalLayout_67.setObjectName(u"verticalLayout_67")
         self.label_23 = QLabel(self.page_25)
         self.label_23.setObjectName(u"label_23")
@@ -908,6 +910,7 @@ class Ui_transmission1(object):
         self.page_26 = QWidget()
         self.page_26.setObjectName(u"page_26")
         self.verticalLayout_66 = QVBoxLayout(self.page_26)
+        self.verticalLayout_66.setSpacing(20)
         self.verticalLayout_66.setObjectName(u"verticalLayout_66")
         self.label_22 = QLabel(self.page_26)
         self.label_22.setObjectName(u"label_22")
@@ -935,7 +938,7 @@ class Ui_transmission1(object):
 
         self.stackedWidget_8.addWidget(self.page_26)
 
-        self.verticalLayout_41.addWidget(self.stackedWidget_8)
+        self.verticalLayout_41.addWidget(self.stackedWidget_8, 0, Qt.AlignVCenter)
 
 
         self.verticalLayout_23.addWidget(self.widget_32)
@@ -947,6 +950,7 @@ class Ui_transmission1(object):
         self.widget_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_25 = QVBoxLayout(self.widget_4)
         self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.verticalLayout_25.setContentsMargins(-1, 9, -1, -1)
         self.stackedWidget_6 = QStackedWidget(self.widget_4)
         self.stackedWidget_6.setObjectName(u"stackedWidget_6")
         self.page_21 = QWidget()
@@ -968,6 +972,7 @@ class Ui_transmission1(object):
         self.page_19 = QWidget()
         self.page_19.setObjectName(u"page_19")
         self.verticalLayout_26 = QVBoxLayout(self.page_19)
+        self.verticalLayout_26.setSpacing(6)
         self.verticalLayout_26.setObjectName(u"verticalLayout_26")
         self.verticalLayout_26.setContentsMargins(0, 0, 0, 0)
         self.label_7 = QLabel(self.page_19)
@@ -975,7 +980,7 @@ class Ui_transmission1(object):
         self.label_7.setMaximumSize(QSize(16777215, 20))
         self.label_7.setFont(font1)
 
-        self.verticalLayout_26.addWidget(self.label_7)
+        self.verticalLayout_26.addWidget(self.label_7, 0, Qt.AlignLeft|Qt.AlignTop)
 
         self.text_4 = QPlainTextEdit(self.page_19)
         self.text_4.setObjectName(u"text_4")
@@ -991,7 +996,7 @@ class Ui_transmission1(object):
 "\n"
 "}")
 
-        self.verticalLayout_26.addWidget(self.text_4)
+        self.verticalLayout_26.addWidget(self.text_4, 0, Qt.AlignTop)
 
         self.text_3 = QPlainTextEdit(self.page_19)
         self.text_3.setObjectName(u"text_3")
@@ -1004,7 +1009,7 @@ class Ui_transmission1(object):
 "\n"
 "}")
 
-        self.verticalLayout_26.addWidget(self.text_3)
+        self.verticalLayout_26.addWidget(self.text_3, 0, Qt.AlignTop)
 
         self.stackedWidget_6.addWidget(self.page_19)
         self.page_20 = QWidget()
@@ -1092,29 +1097,39 @@ class Ui_transmission1(object):
         self.verticalLayout_40.setContentsMargins(0, 0, 0, 0)
         self.preSPBtn = QPushButton(self.frame_14)
         self.preSPBtn.setObjectName(u"preSPBtn")
-        self.preSPBtn.setMinimumSize(QSize(190, 0))
+        self.preSPBtn.setMinimumSize(QSize(175, 0))
         self.preSPBtn.setFont(font1)
         self.preSPBtn.setStyleSheet(u"#preSPBtn:hover {\n"
 "	background-color: #acacac;\n"
+"}\n"
+"\n"
+"#preSPBtn {\n"
+"	text-align: center\n"
 "}")
 
         self.verticalLayout_40.addWidget(self.preSPBtn, 0, Qt.AlignHCenter)
 
         self.preSMBtn = QPushButton(self.frame_14)
         self.preSMBtn.setObjectName(u"preSMBtn")
-        self.preSMBtn.setMinimumSize(QSize(190, 0))
+        self.preSMBtn.setMinimumSize(QSize(175, 0))
         self.preSMBtn.setFont(font1)
         self.preSMBtn.setStyleSheet(u"#preSMBtn:hover {\n"
 "	background-color: #acacac;\n"
+"}\n"
+"\n"
+"#preSMBtn {\n"
+"	text-align: center\n"
 "}")
 
         self.verticalLayout_40.addWidget(self.preSMBtn, 0, Qt.AlignHCenter|Qt.AlignTop)
 
         self.ConfBtn = QPushButton(self.frame_14)
         self.ConfBtn.setObjectName(u"ConfBtn")
-        self.ConfBtn.setFont(font2)
+        self.ConfBtn.setMinimumSize(QSize(175, 0))
+        self.ConfBtn.setFont(font1)
         self.ConfBtn.setStyleSheet(u"#ConfBtn {\n"
 "	background-color: rgb(238, 146, 143);\n"
+"	text-align: center\n"
 "}\n"
 "\n"
 "#ConfBtn:hover {\n"
@@ -1358,7 +1373,7 @@ class Ui_transmission1(object):
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.label_13 = QLabel(self.frame_25)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font2)
+        self.label_13.setFont(font3)
         self.label_13.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.horizontalLayout_23.addWidget(self.label_13)
