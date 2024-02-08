@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionYXYzlk.ui'
+## Form generated from reading UI file 'receptionLVdUxF.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -2112,8 +2112,8 @@ class Ui_reception(object):
         self.RecepBtn.setDefault(False)
         self.InfoBtn.setDefault(False)
         self.stackedWidget_4.setCurrentIndex(0)
-        self.stackedWidget.setCurrentIndex(3)
-        self.stackedWidget_5.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget_5.setCurrentIndex(0)
         self.stackedWidget_7.setCurrentIndex(0)
         self.stackedWidget_6.setCurrentIndex(0)
         self.stackedWidget_8.setCurrentIndex(0)
@@ -2221,11 +2221,11 @@ class Ui_reception(object):
         self.ArchiveBtn.setText("")
         self.label_18.setText(QCoreApplication.translate("reception", u"Defina la geometr\u00eda del umbral:", None))
         self.geoBox_1.setItemText(0, "")
-        self.geoBox_1.setItemText(1, QCoreApplication.translate("reception", u"Recta en el eje Y = 1.5", None))
-        self.geoBox_1.setItemText(2, QCoreApplication.translate("reception", u"Recta en el eje Y = 0.5", None))
-        self.geoBox_1.setItemText(3, QCoreApplication.translate("reception", u"Recta paralela al eje Y", None))
+        self.geoBox_1.setItemText(1, QCoreApplication.translate("reception", u"Recta en el eje X = 1.5 (Paralela al eje Y)", None))
+        self.geoBox_1.setItemText(2, QCoreApplication.translate("reception", u"Recta en el eje X = 0.5 (Paralela al eje Y)", None))
+        self.geoBox_1.setItemText(3, QCoreApplication.translate("reception", u"Recta paralela al eje Y (X = 0)", None))
         self.geoBox_1.setItemText(4, QCoreApplication.translate("reception", u"Recta Inclinada (pendiente positiva)", None))
-        self.geoBox_1.setItemText(5, QCoreApplication.translate("reception", u"Recta paralela al eje X", None))
+        self.geoBox_1.setItemText(5, QCoreApplication.translate("reception", u"Recta paralela al eje X (Y = 0)", None))
 
         self.label_19.setText(QCoreApplication.translate("reception", u"Defina la geometr\u00eda del umbral:", None))
         self.geoBox_2.setItemText(0, "")
@@ -2244,7 +2244,7 @@ class Ui_reception(object):
         self.geoBox_4.setItemText(0, "")
         self.geoBox_4.setItemText(1, QCoreApplication.translate("reception", u"8 Rectas Diagonales", None))
         self.geoBox_4.setItemText(2, QCoreApplication.translate("reception", u"4 Rectas Diagonales y Un Circulo (Radio = 2.5)", None))
-        self.geoBox_4.setItemText(3, QCoreApplication.translate("reception", u"4 Rectas Diagonales y Un Circulos (Radio = 1.5)", None))
+        self.geoBox_4.setItemText(3, QCoreApplication.translate("reception", u"4 Rectas Diagonales y Un Circulo (Radio = 1.5)", None))
         self.geoBox_4.setItemText(4, QCoreApplication.translate("reception", u"6 Rectas: 3 Horizontales y 3 Verticales", None))
 
         self.label_5.setText(QCoreApplication.translate("reception", u"Umbral 1: Escoja la geometr\u00eda del umbral que desea agregar:", None))
