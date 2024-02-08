@@ -1253,12 +1253,35 @@ class MainFunctions(MainWindow):
                     '(samples.real > umbrales_no[0][0].real) & (samples.imag < umbrales_no[1][0].imag)', #10 Abajo derecha
                     '(samples.real < umbrales_no[0][0].real) & (samples.imag < umbrales_no[1][0].imag)', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+                #Creo que hay una forma de hacerlo aumatico con un ciclo for conociendo ya las regiones, por constellacion, se van guardando cuando se detecte que un simbolo cae en una región, y se guarda el orden por así decirlo.
+                
+                #bits_save_estandar = ['00','01','10','11'] #Bits de respaldo solo por si se decide modificar esto después
+                bits_save = ['','','','']
+                
+                #Entonces, el index 0 es el primer simbolo que corresponde a 00, y así se va modificando bits_save
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    #Por cada simbolo en constelación ingresada, en orden, pregunto a que region de los umbrales pertenece.
+                    #Como el primer simbolo de la constelación es 00, pregunta si el index es 0 para escribir en el bits_save de la región
+                    #que corresponde ese valor, y la región se determina con estos condicionales. 
+                    if (symbol.real < umbrales_no[0][0].real) & (symbol.imag > umbrales_no[1][0].imag):
+                        bits_save[0] = bits_write
+                    elif (symbol.real > umbrales_no[0][0].real) & (symbol.imag > umbrales_no[1][0].imag):
+                        bits_save[1] = bits_write
+                    elif (symbol.real > umbrales_no[0][0].real) & (symbol.imag < umbrales_no[1][0].imag):
+                        bits_save[2] = bits_write
+                    elif (symbol.real < umbrales_no[0][0].real) & (symbol.imag < umbrales_no[1][0].imag):
+                        bits_save[3] = bits_write
+                    
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[1] == 1 and etiquetas[0] == 2: #Linea Horizontal con Vertical
@@ -1268,12 +1291,29 @@ class MainFunctions(MainWindow):
                     '(samples.real > umbrales_no[1][0].real) & (samples.imag < umbrales_no[0][0].imag)', #10 Abajo derecha
                     '(samples.real < umbrales_no[1][0].real) & (samples.imag < umbrales_no[0][0].imag)', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+                    
+                bits_save = ['','','','']
+                
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    if (symbol.real < umbrales_no[1][0].real) & (symbol.imag > umbrales_no[0][0].imag):
+                        bits_save[0] = bits_write
+                    elif (symbol.real > umbrales_no[1][0].real) & (symbol.imag > umbrales_no[0][0].imag):
+                        bits_save[1] = bits_write
+                    elif (symbol.real > umbrales_no[1][0].real) & (symbol.imag < umbrales_no[0][0].imag):
+                        bits_save[2] = bits_write
+                    elif (symbol.real < umbrales_no[1][0].real) & (symbol.imag < umbrales_no[0][0].imag):
+                        bits_save[3] = bits_write
+                        
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 1 and etiquetas[1] == 3: #Linea Vertical con Inclinada
@@ -1283,12 +1323,29 @@ class MainFunctions(MainWindow):
                     '(samples.real > umbrales_no[0][0].real) & (samples.imag < umbrales[1](samples.real))', #10 Abajo derecha
                     '(samples.real < umbrales_no[0][0].real) & (samples.imag < umbrales[1](samples.real))', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+
+                bits_save = ['','','','']
+                
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    if (symbol.real < umbrales_no[0][0].real) & (symbol.imag > umbrales[1](symbol.real)):
+                        bits_save[0] = bits_write
+                    elif (symbol.real > umbrales_no[0][0].real) & (symbol.imag > umbrales[1](symbol.real)):
+                        bits_save[1] = bits_write
+                    elif (symbol.real > umbrales_no[0][0].real) & (symbol.imag < umbrales[1](symbol.real)):
+                        bits_save[2] = bits_write
+                    elif (symbol.real < umbrales_no[0][0].real) & (symbol.imag < umbrales[1](symbol.real)):
+                        bits_save[3] = bits_write
+                        
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 1: #Linea Inclinada con Vertical
@@ -1298,12 +1355,29 @@ class MainFunctions(MainWindow):
                     '(samples.real > umbrales_no[1][0].real) & (samples.imag < umbrales[0](samples.real))', #10 Abajo derecha
                     '(samples.real < umbrales_no[1][0].real) & (samples.imag < umbrales[0](samples.real))', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+
+                bits_save = ['','','','']
+                
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    if (symbol.real < umbrales_no[1][0].real) & (symbol.imag > umbrales[0](symbol.real)):
+                        bits_save[0] = bits_write
+                    elif (symbol.real > umbrales_no[1][0].real) & (symbol.imag > umbrales[0](symbol.real)):
+                        bits_save[1] = bits_write
+                    elif (symbol.real > umbrales_no[1][0].real) & (symbol.imag < umbrales[0](symbol.real)):
+                        bits_save[2] = bits_write
+                    elif (symbol.real < umbrales_no[1][0].real) & (symbol.imag < umbrales[0](symbol.real)):
+                        bits_save[3] = bits_write
+                        
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 2 and etiquetas[1] == 3: #Linea Horizontal con Inclinada
@@ -1313,12 +1387,29 @@ class MainFunctions(MainWindow):
                     '(samples.imag < umbrales_no[0][0].imag) & (samples.real > umbrales_i[1](samples.imag))', #10 Abajo derecha
                     '(samples.imag < umbrales_no[0][0].imag) & (samples.real < umbrales_i[1](samples.imag))', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+
+                bits_save = ['','','','']
+                
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    if (symbol.imag > umbrales_no[0][0].imag) & (symbol.real < umbrales_i[1](symbol.imag)):
+                        bits_save[0] = bits_write
+                    elif (symbol.imag > umbrales_no[0][0].imag) & (symbol.real > umbrales_i[1](symbol.imag)):
+                        bits_save[1] = bits_write
+                    elif (symbol.imag < umbrales_no[0][0].imag) & (symbol.real > umbrales_i[1](symbol.imag)):
+                        bits_save[2] = bits_write
+                    elif (symbol.imag < umbrales_no[0][0].imag) & (symbol.real < umbrales_i[1](symbol.imag)):
+                        bits_save[3] = bits_write
+                        
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 2: #Linea Inclinada con Horizontal
@@ -1328,12 +1419,29 @@ class MainFunctions(MainWindow):
                     '(samples.imag < umbrales_no[1][0].imag) & (samples.real > umbrales_i[0](samples.imag))', #10 Abajo derecha
                     '(samples.imag < umbrales_no[1][0].imag) & (samples.real < umbrales_i[0](samples.imag))', #11 Abajo izquierda
                     ]
-                bits_save = [
-                        '00',
-                        '01',
-                        '10',
-                        '11',
-                    ]
+
+                bits_save = ['','','','']
+                
+                for index,symbol in enumerate(constellation):
+                    
+                    if index == 0:
+                        bits_write = '00'
+                    elif index == 1:
+                        bits_write = '01'
+                    elif index == 2:
+                        bits_write = '10'
+                    elif index == 3:
+                        bits_write = '11'
+                        
+                    if (symbol.imag > umbrales_no[1][0].imag) & (symbol.real < umbrales_i[0](symbol.imag)):
+                        bits_save[0] = bits_write
+                    elif (symbol.imag > umbrales_no[1][0].imag) & (symbol.real > umbrales_i[0](symbol.imag)):
+                        bits_save[1] = bits_write
+                    elif (symbol.imag < umbrales_no[1][0].imag) & (symbol.real > umbrales_i[0](symbol.imag)):
+                        bits_save[2] = bits_write
+                    elif (symbol.imag < umbrales_no[1][0].imag) & (symbol.real < umbrales_i[0](symbol.imag)):
+                        bits_save[3] = bits_write
+
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 3: #Linea Inclinada con Inclinada
