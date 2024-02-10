@@ -1300,31 +1300,31 @@ class MainWindow(QMainWindow):
                             
                         else:
                         
-                        	if geo_threshold_index2 == 1: #linea vertical x=-a con vertical x=a
-                            	selector2 = "vertical"
-                            	offx2 = None
-                            	offy2 = None
-                            	ang2 = None
-                        	elif geo_threshold_index2 == 2: #linea vertical x=-a con vertical x=-a
-                            	selector2 = "vertical"
-                            	offx2 = None
-                            	offy2 = None
-                            	ang2 = None
-                        	elif geo_threshold_index2 == 3: #linea vertical x=-a con horizontal y=b
-                            	selector2 = "horizontal"
-                            	offx2 = None
-                            	offy2 = None
-                            	ang2 = None
-                        	elif geo_threshold_index2 == 4: #linea vertical x=-a con horizontal y=-b
-                            	selector2 = "horizontal"
-                            	offx2 = None
-                            	offy2 = None
-                            	ang2 = None
-                        	elif geo_threshold_index2 == 5: #linea vertical x=-a con horizontal y=b
-                            	selector2 = "inclinada"
-                            	offx2 = None
-                            	offy2 = None
-                            	ang2 = None
+                            if geo_threshold_index2 == 1: #linea vertical x=-a con vertical x=a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 2: #linea vertical x=-a con vertical x=-a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox_4.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 3: #linea vertical x=-a con horizontal y=b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_6.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 4: #linea vertical x=-a con horizontal y=-b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_8.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 5: #linea vertical x=-a con inclinada
+                                selector2 = "inclinada"
+                                offx2 = self.ui.doubleSpinBox_11.value()
+                                offy2 = self.ui.doubleSpinBox_9.value()
+                                ang2 = self.ui.doubleSpinBox_10.value()
                         
                             try:
                                 point1 = complex(symbol1) 
@@ -1335,6 +1335,7 @@ class MainWindow(QMainWindow):
                                 print("Puntos ingresados")
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=x, offset_y=0, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
                                 print("umbrales custom creados")
+                                print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
                                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                 print("umbrales custom interpolados")
                                 self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
@@ -1353,16 +1354,201 @@ class MainWindow(QMainWindow):
                             
                         
 
-                    elif geo_threshold_index3 == 3:
+                    elif geo_threshold_index3 == 3: #Primer umbral linea horizontal y=b
                         y = self.ui.doubleSpinBox_16.value()
+                        symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                        symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                        symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                        symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+                        selector1 = "horizontal"
+                        
+                        if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            
+                        else:
+                        
+                            if geo_threshold_index2 == 1: #linea horizontal y=b con vertical x=a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 2: #linea horizontal y=b con vertical x=-a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox_4.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 3: #linea horizontal y=b con horizontal y=b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_6.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 4: #linea horizontal y=b con horizontal y=-b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_8.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 5: #linea horizontal y=b con inclinada
+                                selector2 = "inclinada"
+                                offx2 = self.ui.doubleSpinBox_11.value()
+                                offy2 = self.ui.doubleSpinBox_9.value()
+                                ang2 = self.ui.doubleSpinBox_10.value()
+                        
+                            try:
+                                point1 = complex(symbol1) 
+                                point2 = complex(symbol2)
+                                point3 = complex(symbol3)
+                                point4 = complex(symbol4)
+                                esquema = 'CUSTOM'
+                                print("Puntos ingresados")
+                                thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                print("umbrales custom creados")
+                                print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
+                                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                                print("umbrales custom interpolados")
+                                self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
+                                print("constelacion custom creada")
+                                regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, self.constellation_rx)
+                                print("regiones custom creadas")
+                                print(regions)
+                            
+                                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
+                            
+                            except Exception as e:
+                                print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                print(e)
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")                                
+                                
 
-                    elif geo_threshold_index3 == 4:
+                    elif geo_threshold_index3 == 4: #Primer umbral horizontal y=-b
                         y = self.ui.doubleSpinBox_18.value()
+                        symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                        symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                        symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                        symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+                        selector1 = "horizontal"
+                        
+                        if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            
+                        else:
+                        
+                            if geo_threshold_index2 == 1: #linea horizontal y=-b con vertical x=a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 2: #linea horizontal y=-b con vertical x=-a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox_4.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 3: #linea horizontal y=-b con horizontal y=b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_6.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 4: #linea horizontal y=-b con horizontal y=-b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_8.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 5: #linea horizontal y=-b con inclinada
+                                selector2 = "inclinada"
+                                offx2 = self.ui.doubleSpinBox_11.value()
+                                offy2 = self.ui.doubleSpinBox_9.value()
+                                ang2 = self.ui.doubleSpinBox_10.value()
+                        
+                            try:
+                                point1 = complex(symbol1) 
+                                point2 = complex(symbol2)
+                                point3 = complex(symbol3)
+                                point4 = complex(symbol4)
+                                esquema = 'CUSTOM'
+                                print("Puntos ingresados")
+                                thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                print("umbrales custom creados")
+                                print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
+                                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                                print("umbrales custom interpolados")
+                                self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
+                                print("constelacion custom creada")
+                                regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, self.constellation_rx)
+                                print("regiones custom creadas")
+                                print(regions)
+                            
+                                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
+                            
+                            except Exception as e:
+                                print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                print(e)
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
-                    elif geo_threshold_index3 == 5:
+                    elif geo_threshold_index3 == 5: #Primer umbral linea inclinada
                         ang = self.ui.doubleSpinBox_20.value()
                         offx = self.ui.doubleSpinBox_21.value()
                         offy = self.ui.doubleSpinBox_22.value()
+                        symbol1 = self.ui.text_5.toPlainText() #SIMBOLO 1
+                        symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
+                        symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
+                        symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+                        selector1 = "inclinada"
+                        
+                        if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
+                            self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            
+                        else:
+                        
+                            if geo_threshold_index2 == 1: #linea inclinadacon vertical x=a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 2: #linea inclinada con vertical x=-a
+                                selector2 = "vertical"
+                                offx2 = self.ui.doubleSpinBox_4.value()
+                                offy2 = 0
+                                ang2 = 0
+                            elif geo_threshold_index2 == 3: #linea inclinada con horizontal y=b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_6.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 4: #linea inclinada con horizontal y=-b
+                                selector2 = "horizontal"
+                                offx2 = 0
+                                offy2 = self.ui.doubleSpinBox_8.value()
+                                ang2 = 0
+                            elif geo_threshold_index2 == 5: #linea inclinadacon inclinada
+                                selector2 = "inclinada"
+                                offx2 = self.ui.doubleSpinBox_11.value()
+                                offy2 = self.ui.doubleSpinBox_9.value()
+                                ang2 = self.ui.doubleSpinBox_10.value()
+                        
+                            try:
+                                point1 = complex(symbol1) 
+                                point2 = complex(symbol2)
+                                point3 = complex(symbol3)
+                                point4 = complex(symbol4)
+                                esquema = 'CUSTOM'
+                                print("Puntos ingresados")
+                                thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=offx, offset_y=offy, angle=ang, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                print("umbrales custom creados")
+                                print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
+                                thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
+                                print("umbrales custom interpolados")
+                                self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
+                                print("constelacion custom creada")
+                                regions, bits_save = MainFunctions.check_regions_user(self, n_symbol, etiquetas, thresholds_interpolate, thresholds_interpolate_i, thresholds, self.constellation_rx)
+                                print("regiones custom creadas")
+                                print(regions)
+                            
+                                MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)
+                            
+                            except Exception as e:
+                                print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                print(e)
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                
 
     def transmit_signal_pluto(self):
         print("Enviando...")
