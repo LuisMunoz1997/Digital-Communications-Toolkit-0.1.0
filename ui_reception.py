@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionLVdUxF.ui'
+## Form generated from reading UI file 'receptionGpuUUh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1127,7 +1127,7 @@ class Ui_reception(object):
         self.verticalLayout_56.setContentsMargins(0, 0, 0, 0)
         self.widget_11 = QWidget(self.frame_30)
         self.widget_11.setObjectName(u"widget_11")
-        self.widget_11.setMinimumSize(QSize(0, 160))
+        self.widget_11.setMinimumSize(QSize(220, 160))
         self.widget_11.setMaximumSize(QSize(16777215, 16777215))
         self.widget_11.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_44 = QVBoxLayout(self.widget_11)
@@ -1288,7 +1288,7 @@ class Ui_reception(object):
 
         self.widget_4 = QWidget(self.frame_30)
         self.widget_4.setObjectName(u"widget_4")
-        self.widget_4.setMinimumSize(QSize(0, 0))
+        self.widget_4.setMinimumSize(QSize(220, 0))
         self.widget_4.setMaximumSize(QSize(16777215, 16777215))
         self.widget_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.verticalLayout_37 = QVBoxLayout(self.widget_4)
@@ -2281,16 +2281,16 @@ class Ui_reception(object):
         self.label_32.setText(QCoreApplication.translate("reception", u"Para y = b, defina el valor de b", None))
         self.label_34.setText(QCoreApplication.translate("reception", u"Para y = -b, defina el valor de b", None))
         self.label_36.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
-        self.label_37.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
-        self.label_38.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
+        self.label_37.setText(QCoreApplication.translate("reception", u"Defina el valor del offset para el eje x", None))
+        self.label_38.setText(QCoreApplication.translate("reception", u"Defina el valor del offset para el eje y", None))
         self.label_39.setText("")
         self.label_12.setText(QCoreApplication.translate("reception", u"Para x = a, defina el valor de a", None))
         self.label_13.setText(QCoreApplication.translate("reception", u"Para x = -a, defina el valor de a", None))
         self.label_15.setText(QCoreApplication.translate("reception", u"Para y = b, defina el valor de b", None))
         self.label_23.setText(QCoreApplication.translate("reception", u"Para y = -b, defina el valor de b", None))
         self.label_25.setText(QCoreApplication.translate("reception", u"Defina el \u00e1ngulo de Inclinaci\u00f3n", None))
-        self.label_27.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje x", None))
-        self.label_26.setText(QCoreApplication.translate("reception", u"Definal el valor del offset para el eje y", None))
+        self.label_27.setText(QCoreApplication.translate("reception", u"Defina el valor del offset para el eje x", None))
+        self.label_26.setText(QCoreApplication.translate("reception", u"Defina el valor del offset para el eje y", None))
         self.label_45.setText(QCoreApplication.translate("reception", u"Escriba a los simb, de la forma x + yj", None))
         self.text_4.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 1", None))
         self.text_3.setPlaceholderText(QCoreApplication.translate("reception", u"Escriba el simbolo 2", None))
