@@ -1597,29 +1597,29 @@ class MainFunctions(MainWindow):
         preamble = signal.filtfilt(b_preamble, a_preamble, preamble)
         return received, preamble #Retorna lo recibido filtrado sin preambulo, y el preambulo solito filtrado
 
-    """
-    def coarse_preamble_frequency_correction(self,preamble, referencia = 80e3, Fs = 522000): #Corrijo offset frecuencia en base a la frecuencia del preambulo
+    #Corregir frecuencia en base al preambulo
+    def coarse_preamble_frequency_correction(self,preamble, signal, referencia = 80e3, Fs = 522000): #Corrijo offset frecuencia en base a la frecuencia del preambulo
         #Entre el preambulo y le calculo su offset en frecuencia en función a la frecuencia fijada para el preambulo
-        # Calculate the FFT of the signal
-        signal_fft = np.fft.fft(preamble)
+        # Calculate the FFT of the preamble
+        preamble_fft = np.fft.fftshift(np.abs(np.fft.fft(preamble)))
 
         # Find the peak frequency
-        peak_freq = np.argmax(np.abs(signal_fft))
+        peak_freq = np.argmax(np.abs(preamble_fft))
 
         # Convert the peak frequency to Hz
-        peak_freq_hz = peak_freq * Fs / len(preamble)
+        #peak_freq_hz = peak_freq * Fs / len(preamble) #Esto no va
     
         #referencia = 80e3
-        diferencia = referencia - peak_freq_hz
+        diferencia = referencia - peak_freq
 
         # Create a frequency correction signal
-        correction_signal = np.exp(1j * 2 * np.pi * diferencia * np.arange(len(preamble)) / Fs)
+        correction_signal = np.exp(-1j * 2 * np.pi * diferencia * np.arange(len(signal)) / Fs)
 
         # Apply the correction
         corrected_signal = signal * correction_signal
 
-        return corrected_signal, peak_freq_hz, diferencia #Retorna el preambulo corregido, la frecuencia maxima detectada y el offset en frecuencia
-    """
+        return corrected_signal, peak_freq, diferencia #Retorna el preambulo corregido, la frecuencia maxima detectada y el offset en frecuencia
+    
     
     def coarse_frequency_correction(self,signal, Fs, nsimb = 4):
 
@@ -1982,9 +1982,13 @@ class MainFunctions(MainWindow):
             filtered, peak_hz = MainFunctions.coarse_frequency_correction(self, filtered, fsample, nsimb) #Se aplica correción de Frecuencia Portadora
             #Verificar la formula con nsimb para esta función, por favor. Documentación en pysdr.org
             
-            solo_freq_coarse = filtered #Muestras para señal con solo Frecuencia corregida
+            filtered_onlycoarse_preamble, peak_freq_pre, diferencia = MainFunctions.coarse_preamble_frequency_correction(self,preambulo, sin_nada)
+ 
+            solo_freq_coarse = filtered #Muestras para señal con solo Frecuencia corregida no por preambulo
             
             filtered_phase, delta_phi = MainFunctions.coarse_phase_correction(self, filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
+            
+            filtered_onlycoarse_preamble, delta_phi2 = MainFunctions.coarse_phase_correction(self, filtered_onlycoarse_preamble, preambulo, peak_freq_pre, fsample)
             
             #Sincronización en tiempo (No Muller). RECORDAR QUE LA NORMALIZACIÓN VARÍA CON LA CONSTELACIÓN
             symbolindices = np.arange(0, len(filtered), sps) #Indices para tomar muestra cada Sps
@@ -2013,6 +2017,12 @@ class MainFunctions(MainWindow):
             simbolos_phase_freq.real = simbolos_phase_freq.real * factor_real
             simbolos_phase_freq.imag = simbolos_phase_freq.imag * factor_imag
             
+            simbolos_onlycoarse_preamble = filtered_onlycoarse_preamble[symbolindices] #Señal con coarse preamble, fase corregida y fine freq
+            simbolos_onlycoarse_preamble.real = simbolos_onlycoarse_preamble.real / np.max(abs(simbolos_onlycoarse_preamble.real))
+            simbolos_onlycoarse_preamble.imag = simbolos_onlycoarse_preamble.imag / np.max(abs(simbolos_onlycoarse_preamble.imag))
+            simbolos_onlycoarse_preamble.real = simbolos_onlycoarse_preamble.real * factor_real
+            simbolos_onlycoarse_preamble.imag = simbolos_onlycoarse_preamble.imag * factor_imag
+            
             #Sincronización en tiempo con Muller
             simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
             
@@ -2024,6 +2034,8 @@ class MainFunctions(MainWindow):
             simbolos3, freq_log3 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
             
             simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = mod_scheme) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            
+            simbolos5, freq_log4 = MainFunctions.fine_frequency_correction2(self, simbolos_onlycoarse_preamble, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Señal con coarse preamble, fase corregida y fine freq
             
             #esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
             
@@ -2041,6 +2053,8 @@ class MainFunctions(MainWindow):
             resultado_total6 = np.append(resultado_total6,MainFunctions.check_conditions(self,simbolos3, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
     
             resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            
+            resultado_total8 = np.append(resultado_total8,MainFunctions.check_conditions(self,simbolos5, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema))
             
             self.graph_filtered = np.append(self.graph_filtered, sin_nada) #Señal tiempo filtrada
             
@@ -2078,7 +2092,8 @@ class MainFunctions(MainWindow):
             resultado_total4 = MainFunctions.remove_padding_bits(self,resultado_total4)
             resultado_total5 = MainFunctions.remove_padding_bits(self,resultado_total5)
             resultado_total6 = MainFunctions.remove_padding_bits(self,resultado_total6)
-            resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)              
+            resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)
+            resultado_total8 = MainFucntions.remove_padding_bits(self,resultado_total8)              
         """  
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
         print("")
@@ -2113,12 +2128,13 @@ class MainFunctions(MainWindow):
             self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
             self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
             self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
+            self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n\n"
             print(self.string_resultado)
         
         if message_format == 2: #Imagen jpg
             print("Procesando imagenes...")
             resultado_correcto = False
-            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7], dtype=object)
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
             
             for index,image in enumerate(images):
                 try:
