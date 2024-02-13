@@ -1095,6 +1095,7 @@ class MainWindow(QMainWindow):
             elif n_symbol_index == 2:
                 geo_threshold_index2 = self.ui.codelineBox_2.currentIndex()
                 geo_threshold_index3 = self.ui.codelineBox_3.currentIndex()
+                n_symbol = 4
 
                 if geo_threshold_index2 == 0 or geo_threshold_index3 == 0:
                     self.ui.simWarnTxt.setText("Hace falta definir la geometría de uno de los umbrales")
@@ -1333,6 +1334,7 @@ class MainWindow(QMainWindow):
                                 point4 = complex(symbol4)
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
+                                MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=x, offset_y=0, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
@@ -1400,9 +1402,15 @@ class MainWindow(QMainWindow):
                                 point4 = complex(symbol4)
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
+                                MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
+                                print("umbrales:",thresholds)
+                                print("umbrales[0]",thresholds[0])
+                                print("umbrales[1]",thresholds[1])
+                                thresholds = np.array([thresholds[0][0], thresholds[1][0]])
+                                print("umbrales modificado:",thresholds)
                                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                 print("umbrales custom interpolados")
                                 self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
@@ -1990,6 +1998,7 @@ class MainWindow(QMainWindow):
                     symbol2 = self.ui.text_7.toPlainText() #SIMBOLO 2
                     symbol3 = self.ui.text_8.toPlainText() #SIMBOLO 3
                     symbol4 = self.ui.text_9.toPlainText() #SIMBOLO 4
+                    n_symbol = 4
 
                     try:
                         point1 = complex(symbol1) 

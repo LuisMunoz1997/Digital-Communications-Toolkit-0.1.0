@@ -1912,6 +1912,7 @@ class MainFunctions(MainWindow):
         resultado_total5 = np.array([]) #Solo freq coarse y phase "coarse"
         resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
         resultado_total7 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+        resultado_total8 = np.array([]) #Con preamble coarse, phase y fin freq
         
         self.graph_filtered = np.array([])
         self.graph_corrected = np.array([])
@@ -2139,6 +2140,10 @@ class MainFunctions(MainWindow):
             for index,image in enumerate(images):
                 try:
                     resultado_imagen = np.packbits(image.astype(np.uint8))
+                    resultado_imagen[0] = 255 #Se fuerzan bytes de inicio y fin del formato jpeg
+                    resultado_imagen[1] = 216
+                    resultado_imagen[-2] = 255
+                    resultado_imagen[-1] = 217 
                     resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
                     
                     im = Image.open(filePath + '/imagen_recibida' + str(index) + '.jpg')
