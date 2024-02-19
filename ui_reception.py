@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionGpuUUh.ui'
+## Form generated from reading UI file 'receptionEzJrkZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -11,6 +11,7 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+
 
 import icons_rc
 import images_rc
@@ -2183,7 +2184,7 @@ class Ui_reception(object):
         self.formatBox.setItemText(7, QCoreApplication.translate("reception", u"Documento PDF (*.pdf)", None))
         self.formatBox.setItemText(8, QCoreApplication.translate("reception", u"Archivo Excel (*.xlsx)", None))
         self.formatBox.setItemText(9, QCoreApplication.translate("reception", u"Diapositivas PP (*.pptx)", None))
-        self.formatBox.setItemText(10, "")
+        self.formatBox.setItemText(10, QCoreApplication.translate("reception", u"Imagen en escala de grises (*.F)", None))
 
         self.label_17.setText(QCoreApplication.translate("reception", u"Escoja el tipo de c\u00f3digo de l\u00ednea (Solo referencial):", None))
         self.codelineBox.setItemText(0, "")
