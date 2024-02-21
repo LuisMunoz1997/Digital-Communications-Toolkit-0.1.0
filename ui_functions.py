@@ -398,9 +398,62 @@ class MainFunctions(MainWindow):
         #Si el mensaje no es de np.fromfile dtype=bool, es string, convierto a bits sin comprimir, o buscar forma de comprimir.
         if type(message)is str and self.text_flag_message:
             message = MainFunctions.string_to_bits(self, message)
+            
+        elif self.filePath[0][:-4][-6:] == 'gris_#' or self.filePath[0][:-5][-6:] == 'gris_#' or self.filePath[0].find("gris_#") != -1 and not self.text_flag_message: #Imagen escala gris
+            try:
+                print("Se enviará imagen escala grises")
+                image = Image.open(self.filePath[0]).convert("L")
+                pixels = np.array(image, dtype=np.uint8)
+                pixels_message = pixels.flatten() #Se reconstruye con reshape(heigth,width)
+                pixels_message_bits = np.unpackbits(pixels_message)
+                width_heigth = np.array([image.size[0], image.size[1]], dtype= '>i2') 
+                width_heigth_16bits = np.unpackbits(width_heigth.view(np.uint8)) #Widht y Heigth de la imagen se pasan a numeros de 16 bits, total 32 bits
+                image.close()
+                message = np.insert(pixels_message_bits, 0, width_heigth_16bits)
+                message = np.asarray(message, dtype=bool) #Mensaje cuyos primeros 32 bits son el width (16bits) y heigth(16bits) de la imagen  
+            except Exception as e:
+                print("Error al preparar imagen escala gris")
+                print(e)     
+            
+        elif self.filePath[0][-4:] == '.jpg' or self.filePath[0][-5:] == '.jpeg'and not self.text_flag_message: #Imagen jpg
+            print("Se enviará imagen")
+            image = Image.open(self.filePath[0])
+            #image.save('here.jpg', "JPEG", quality=35, optimize=False, progressive=True) #Si se quiere comprimir antes de enviar
+            #image = Image.open('here.jpg')
+            pixels = np.array(image, dtype=np.uint8)
+            pixels_message = pixels.flatten() #Se reconstruye con reshape(width,heigth,3)
+            pixels_message_bits = np.unpackbits(pixels_message)
+            width_heigth = np.array([image.size[0], image.size[1]], dtype= '>i2') 
+            width_heigth_16bits = np.unpackbits(width_heigth.view(np.uint8)) #Widht y Heigth de la imagen se pasan a numeros de 16 bits, total 32 bits
+            image.close()
+            message = np.insert(pixels_message_bits, 0, width_heigth_16bits)
+            message = np.asarray(message, dtype=bool) #Mensaje cuyos primeros 32 bits son el width (16bits) y heigth(16bits) de la imagen
+            
+        elif self.filePath[0][-4:] == '.png': #Imagen PNG
+            print("Se enviará imagen PNG bajada de calidad comprimida")
+            image = Image.open(self.filePath[0])
+            image.save("compress.jpg", quality=22,optimize=False,progressive=False)
+            image.close()
+            zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
+            zip.write("compress.jpg")
+            zip.close()
+            message = np.fromfile("compress.zip", dtype=np.uint8)
+            print(message[0:10])
+            print(message[-10:])
+            message = np.unpackbits(message)
+            message = np.asarray(message, dtype=bool)
+            
         else:
-            print("Se enviará archivo no string")
-            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            extension_index = self.filePath[0][::-1].find('.')
+            extension = self.filePath[0][::-1][0:extension_index+1]
+            extension = extension[::-1]
+            print("Se enviará archivo {}".format(extension))
+            zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
+            zip.write("compress{}".format(extension))
+            zip.close()
+            message = np.fromfile("compress.zip", dtype=np.uint8)
+            print(message[0:10])
+            print(message[-15:])
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
 
@@ -1830,6 +1883,11 @@ class MainFunctions(MainWindow):
         delta_phi = np.angle(np.mean(preambulo * np.conj(preambulo_original)))
         return signal * np.exp(-1j*delta_phi)
         
+    def join_bits(self,bits): #Convierte el arreglo de ceros y unos del estilo '111', '00', '1', '10', etc, a arreglo [1,0,1,0...]
+        bits_join = ''.join(bits)
+        bits_result = np.frombuffer(bits_join.encode('utf-8'), dtype=np.uint8) - 48
+        return bits_result
+        
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
         self.stop_realtime_flag = True
@@ -2132,39 +2190,188 @@ class MainFunctions(MainWindow):
             self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n\n"
             print(self.string_resultado)
         
-        if message_format == 2: #Imagen jpg
+        elif message_format == 2: #Imagen jpg
             print("Procesando imagenes...")
             resultado_correcto = False
             images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
             
             for index,image in enumerate(images):
                 try:
-                    resultado_imagen = np.packbits(image.astype(np.uint8))
-                    resultado_imagen[0] = 255 #Se fuerzan bytes de inicio y fin del formato jpeg
-                    resultado_imagen[1] = 216
-                    resultado_imagen[-2] = 255
-                    resultado_imagen[-1] = 217 
-                    resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    image_bits = MainFunctions.join_bits(self,image) #Paso los strings '00', '101', '01', etc a [1,0,1...]
+                    print("\nMetodo {}".format(index + 1))
+                    width_heigth = image_bits[0:32] #Recordar que toma el primer indice pero el ultimo no [a,b]
+                    print("width y height bits:", width_heigth)
+                    resultado_imagen = image_bits[32:]
+                        
+                    resultado_imagen = np.packbits(resultado_imagen.astype(np.uint8))
                     
-                    im = Image.open(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    #https://stackoverflow.com/questions/49791312/numpy-packbits-pack-to-uint16-array
+                    #Convierto los 16 bits de width y heigth a un numero entero de 16 bits
+                    width_heigth_int16 = np.packbits(width_heigth.astype(np.uint8).reshape(-1, 2, 8)[:, ::-1]).view(np.uint16)
+                    width_image = width_heigth_int16[0]
+                    heigth_image = width_heigth_int16[1]
+                    print("width y height int: {} {}".format(width_image, heigth_image))
+                    print("len arreglo: ", len(resultado_imagen))
+                    
+                    if len(resultado_imagen) % (width_image * heigth_image) != 0 and (width_image and heigth_image) <= 4000: #Esto definiria maxima imagen a tx 4000x4000. Aquí falta agregar el valor del 3, de los colores para que sea más correcto
+                        print("Añadiendo muestras de 'correccion'")
+                        residuo = len(resultado_imagen) % (width_image * heigth_image)
+                        append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
+                        resultado_imagen = np.append(resultado_imagen, append_zeros)
+                                     
+                    resultado_imagen = resultado_imagen.reshape(heigth_image, width_image, 3) #El 3 es por 3 canales de color RGB
+                    resultado_imagen = resultado_imagen.astype(np.uint8)
+                    #print(resultado_imagen)
+                    
+                    image_resultado = Image.fromarray(resultado_imagen)
+                    
+                    if image_resultado.mode == 'F':
+                        print("Error imagen modo F")
+                        image_resultado = image_resultado.convert("RGB")
+                        
+                    image_resultado.save(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    
+                    #resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    
+                    #im = Image.open(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    #im.verify()
+                    #im.load()
+                    #im.close()
+                    resultado_correcto = True
+                    print("Imagen CORRECTA")
+                    image_resultado.close()
+                except Exception as e:
+                    resultado_correcto = False
+                    print("Imagen erronea...")
+                    print(e)
+        
+        elif message_format == 10: #Imagen a escala de grises
+            print("Procesando imagenes escala grises...")
+            resultado_correcto = False
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            
+            for index,image in enumerate(images):
+                try:
+                    image_bits = MainFunctions.join_bits(self,image) #Paso los strings '00', '101', '01', etc a [1,0,1...]
+                    print("\nMetodo {}".format(index + 1))   
+                    resultado_imagen = np.packbits(resultado_imagen.astype(np.uint8))
+                    
+                    #https://stackoverflow.com/questions/49791312/numpy-packbits-pack-to-uint16-array
+                    #Convierto los 16 bits de width y heigth a un numero entero de 16 bits
+                    width_heigth_int16 = np.packbits(width_heigth.astype(np.uint8).reshape(-1, 2, 8)[:, ::-1]).view(np.uint16)
+                    width_image = width_heigth_int16[0]
+                    heigth_image = width_heigth_int16[1]
+                    print("width y height int: {} {}".format(width_image, heigth_image))
+                    print("len arreglo: ", len(resultado_imagen))
+                    
+                    if len(resultado_imagen) % (width_image * heigth_image) != 0 and (width_image and heigth_image) <= 4000: #Esto definiria maxima imagen a tx 4000x4000
+                        print("Añadiendo muestras de 'correccion'")
+                        residuo = len(resultado_imagen) % (width_image * heigth_image)
+                        append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
+                        resultado_imagen = np.append(resultado_imagen, append_zeros)
+                                     
+                    resultado_imagen = resultado_imagen.reshape(heigth_image, width_image)
+                    resultado_imagen = resultado_imagen.astype(np.uint8)
+                    #print(resultado_imagen)
+                    
+                    image_resultado = Image.fromarray(resultado_imagen)
+                        
+                    image_resultado.save(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    
+                    #resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    
+                    #im = Image.open(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    #im.verify()
+                    #im.load()
+                    #im.close()
+                    resultado_correcto = True
+                    print("Imagen CORRECTA")
+                    image_resultado.close()
+                except Exception as e:
+                    resultado_correcto = False
+                    print("Imagen erronea...")
+                    print(e)           
+        
+        elif message_format == 3: #Imagen PNG
+            print("Procesando imagenes PNG...")
+            resultado_correcto = False
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            
+            for index,image in enumerate(images):
+                try:
+                    print("\nMetodo " +str(index))
+                    image_bits = MainFunctions.join_bits(self,image)
+                    resultado_compress = np.packbits(image_bits.astype(np.uint8))
+                    print(resultado_compress[0:7])
+                    print(resultado_compress[-7:])
+                    #resultado_compress[0:4] = [80,75,3,4]  #Se fuerzan bytes de inicio y fin archivo zip
+                    #resultado_compress[-4:] = [80,75,5,6]
+                    resultado_compress.tofile(filePath + '/imagen_recibida' + str(index) + '.zip')
+                    
+                    print("descomprimiendo...")
+                    with zipfile.ZipFile(filePath + '/imagen_recibida' + str(index) + '.zip', 'r') as zip_ref:
+                        for file_info in zip_ref.infolist():
+                            try:
+                                zip_ref.extract(file_info, path=filePath+"/Imagen_Recibida_"+ str(index))
+                            except Exception as e:
+                                print("Error extranting file {}: {}".format(file_info.filename,e))
+                    print("Verificando con PIL...")
+                    im = Image.open(filePath + '/Imagen_Recibida_' + str(index) + '/compress.png')
                     im.verify()
                     #im.load()
                     im.close()
                     resultado_correcto = True
                     print("Imagen CORRECTA")
+                    print("")
                 except Exception as e:
-                    if resultado_correcto:
-                        #print("Imagen CORRECTA")
-                        resultado_correcto = False
-                        #break
-                    else:
-                        resultado_correcto = False
-                        print("Imagen erronea...")
-                        print(e)
+                    resultado_correcto = False
+                    #print("Imagen erronea...")
+                    print(e)
                     
-        
+        else: #4 mp3, 5 mp4, 6 docx, 7 pdf, 8 xlsx, 9 pptx
+            if message_format == 4: #mp3
+                file_extension = ".mp3"
+            elif message_format == 5: #mp4
+                file_extension = ".mp4"
+            elif message_format == 6: #docx
+                file_extension = ".docx"
+            elif message_format == 7: #pdf
+                file_extension = ".pdf"                    
+            elif message_format == 8: #excel
+                file_extension = ".xlsx"
+            elif message_format == 9: #power point
+                file_extension = ".pptx"
+                
+            print("Procesando archivos {}...".format(file_extension))
+            resultado_correcto = False
+            files = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            
+            for index,file in enumerate(files):
+                try:
+                    print("\nMetodo " +str(index))
+                    file_bits = MainFunctions.join_bits(self,file)
+                    resultado_compress = np.packbits(file_bits.astype(np.uint8))
+                    print(resultado_compress[0:7])
+                    print(resultado_compress[-7:])
+                    #resultado_compress[0:4] = [80,75,3,4]  #Se fuerzan bytes de inicio y fin archivo zip
+                    #resultado_compress[-4:] = [80,75,5,6]
+                    resultado_compress.tofile(filePath + '/imagen_recibida' + str(index) + '.zip')
                     
-
+                    print("descomprimiendo...")
+                    with zipfile.ZipFile(filePath + '/imagen_recibida' + str(index) + '.zip', 'r') as zip_ref:
+                        for file_info in zip_ref.infolist():
+                            try:
+                                zip_ref.extract(file_info, path=filePath+"/Imagen_Recibida_"+ str(index))
+                            except Exception as e:
+                                print("Error extranting file {}: {}".format(file_info.filename,e))
+                    resultado_correcto = True
+                    print("Imagen CORRECTA")
+                    print("")
+                except Exception as e:
+                    resultado_correcto = False
+                    #print("Imagen erronea...")
+                    print(e)
+                
         #Cuarto paso: Verificar y seleccionar mejor resultado
         
         #Quinto paso: Se crean las gráficas para todo
