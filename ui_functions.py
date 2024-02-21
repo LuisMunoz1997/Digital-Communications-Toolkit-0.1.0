@@ -1037,10 +1037,10 @@ class MainFunctions(MainWindow):
                         'False',
                         'True',
                     ]
-            elif esquema ==2: #Regiones no Usadas de momento
+            elif esquema ==2: #Regiones para OOK COMPROBAR
                 regiones = [
-                    'samples.imag < umbrales[0](samples.real)', #0
-                    'samples.imag > umbrales[0](samples.real)', #1
+                    'samples.real < umbrales_no[0][0].real', #0
+                    'samples.real > umbrales_no[0][0].real', #1
                     ]
                 bits_save = [
                         '0',
@@ -2371,7 +2371,7 @@ class MainFunctions(MainWindow):
                     resultado_correcto = False
                     #print("Imagen erronea...")
                     print(e)
-                
+
         #Cuarto paso: Verificar y seleccionar mejor resultado
         
         #Quinto paso: Se crean las gráficas para todo
