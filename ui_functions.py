@@ -2138,7 +2138,16 @@ class MainFunctions(MainWindow):
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 1).imag))
         elif esquema == "8ASK-BIPOLAR":
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb, 1).real))
-            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb, 1).imag))        
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb, 1).imag))
+        elif esquema == "16QAM-CIRCULAR":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 2).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 2).imag))
+        elif esquema == "16QAM-DIAGONAL":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 3).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 3).imag))
+        elif esquema == "16QAM-RECTANGULAR":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 1).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 1).imag))         
         else:
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,esquema).imag))

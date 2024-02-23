@@ -887,9 +887,16 @@ class MainWindow(QMainWindow):
                 elif threshold_index != 0:
                     n_symbol = 16
                     esquema = threshold_index
-                    print("Esquema para umbrales es:", esquema)
                     #Esquema = 1 - 8 Diagonales - PSK
                     #Para los QAM se utilizo otro valor de esquema ademas del threshold index para la constelación, arreglar para estos casos
+                    
+                    if esquema == 2: #Se configuran los distintos esquemas para 16 símbolos, pues estos usan esquemas distintos y otro adicional
+                        esquema = "16QAM-CIRCULAR"
+                    elif esquema == 3:
+                        esquema = "16QAM-DIAGONAL"
+                    elif esquema == 4:
+                        esquema = "16QAM-RECTANGULAR"
+                    print("Esquema para umbrales es:", esquema)
                     
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
