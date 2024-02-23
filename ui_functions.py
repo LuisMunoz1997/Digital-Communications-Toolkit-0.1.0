@@ -944,7 +944,7 @@ class MainFunctions(MainWindow):
                 umbral4 = imag_domain * MainFunctions.slope(self, angles_reference_16[3]-22.5) + real_domain
                 umbral5 = 2.5 * np.exp(2j*np.pi*real_circle)
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5], dtype=object)
-            elif esquema == 3:
+            elif esquema == 3: #4 Diagonales 1 Circulo R=1.5
                 reference_domain_16 = np.arange(0,8)
                 reference_16 = np.exp(2j*np.pi*reference_domain_16/8)
                 angles_reference_16 = np.angle(reference_16, deg=True)
@@ -1231,7 +1231,124 @@ class MainFunctions(MainWindow):
                         '0011',
                         '0001',     
                     ]
-        
+            
+            elif esquema == 2: #Regiones 16QAM Circular - 4 Diagonales 1 Circulo R=2.5
+                regiones = [
+                 '(samples.real < 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[1](samples.real)) & (circle)', #0000
+                 '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real)) & (circle)', #1000
+                 '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real)) & ~(circle)', #1001
+                 '(samples.real < 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real)) & ~(circle)', #1011
+                 '(samples.real < 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real)) & (circle)', #1010
+                 '(samples.real > 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[3](samples.real)) & (circle)', #1110
+                 '(samples.real > 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[3](samples.real)) & ~(circle)', #1111
+                 '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real)) & ~(circle)', #1101
+                 '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real)) & (circle)', #1100
+                 '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[2](samples.real)) & (circle)', #0100
+                 '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[2](samples.real)) & ~(circle)', #0101
+                 '(samples.imag < 0) & (samples.real < umbrales_i[3](samples.imag)) & (samples.real > umbrales_i[0](samples.imag)) & ~(circle)', #0111
+                 '(samples.imag < 0) & (samples.real < umbrales_i[3](samples.imag)) & (samples.real > umbrales_i[0](samples.imag)) & (circle)', #0110
+                 '(samples.imag > 0) & (samples.real < umbrales_i[0](samples.imag)) & (samples.real > umbrales_i[3](samples.imag)) & (circle)', #0010
+                 '(samples.imag > 0) & (samples.real < umbrales_i[0](samples.imag)) & (samples.real > umbrales_i[3](samples.imag)) & ~(circle)', #0011
+                 '(samples.real < 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[1](samples.real)) & ~(circle)', #0001
+                        
+                ]
+                bits_save = [
+                        '0000',
+                        '1000',
+                        '1001',
+                        '1011',
+                        '1010',
+                        '1110',
+                        '1111',
+                        '1101',
+                        '1100',
+                        '0100',
+                        '0101',
+                        '0111',
+                        '0110',
+                        '0010',
+                        '0011',
+                        '0001',     
+                    ]
+                    
+            elif esquema == 3: #Regiones 16QAM Circular - 4 Diagonales 1 Circulo R=1.5
+                regiones = [
+                 '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[2](samples.real)) & (circle)', #0000
+                 '(samples.real > 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[3](samples.real)) & (circle)', #1000
+                 '(samples.real > 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[3](samples.real)) & ~(circle)', #1001
+                 '(samples.real < 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[1](samples.real)) & ~(circle)', #1011
+                 '(samples.real < 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[1](samples.real)) & (circle)', #1010
+                 '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real)) & (circle)', #1110
+                 '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real)) & ~(circle)', #1111
+                 '(samples.imag < 0) & (samples.real < umbrales_i[3](samples.imag)) & (samples.real > umbrales_i[0](samples.imag)) & ~(circle)', #1101
+                 '(samples.imag < 0) & (samples.real < umbrales_i[3](samples.imag)) & (samples.real > umbrales_i[0](samples.imag)) & (circle)', #1100
+                 '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real)) & (circle)', #0100
+                 '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real)) & ~(circle)', #0101
+                 '(samples.imag > 0) & (samples.real < umbrales_i[0](samples.imag)) & (samples.real > umbrales_i[3](samples.imag)) & ~(circle)', #0111
+                 '(samples.imag > 0) & (samples.real < umbrales_i[0](samples.imag)) & (samples.real > umbrales_i[3](samples.imag)) & (circle)', #0110
+                 '(samples.real < 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real)) & (circle)', #0010
+                 '(samples.real < 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real)) & ~(circle)', #0011
+                 '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[2](samples.real)) & ~(circle)', #0001
+                        
+                ]
+                bits_save = [
+                        '0000',
+                        '1000',
+                        '1001',
+                        '1011',
+                        '1010',
+                        '1110',
+                        '1111',
+                        '1101',
+                        '1100',
+                        '0100',
+                        '0101',
+                        '0111',
+                        '0110',
+                        '0010',
+                        '0011',
+                        '0001',     
+                    ]
+                    
+            elif esquema == 4: #Regiones 16QAM Rectangular - 3 Horizontales 3 Verticales
+                regiones = [
+                 '(samples.real < umbrales_no[5][0].real) & (samples.imag > umbrales_no[1][0].imag)', #0000
+                 '(samples.real > umbrales_no[4][0].real) & (samples.imag > umbrales_no[1][0].imag)', #1000
+                 '(samples.real > umbrales_no[4][0].real) & (samples.imag < umbrales_no[1][0].imag) & (samples.imag > umbrales_no[0][0].imag)', #1001
+                 '(samples.real > umbrales_no[4][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[2][0].imag)', #1011
+                 '(samples.real > umbrales_no[4][0].real) & (samples.imag < umbrales_no[2][0].imag)', #1010
+                 '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag < umbrales_no[2][0].imag)', #1110
+                 '(samples.real > umbrales_no[3][0].real & (samples.real < umbrales_no[4][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[0][2].imag))', #1111
+                 '(samples.real > umbrales_no[3][0].real & (samples.real < umbrales_no[4][0].real) & (samples.imag > umbrales_no[0][0].imag) & (samples.imag < umbrales_no[1][2].imag))', #1101
+                 '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag > umbrales_no[1][0].imag)', #1100
+                 '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag > umbrales_no[1][0].imag)', #0100
+                 '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag < umbrales_no[1][0].imag) & (samples.imag > umbrales_no[0][0].imag)', #0101
+                 '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[3][0].imag)', #0111
+                 '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag < umbrales_no[2][0].imag)', #0110
+                 '(samples.real < umbrales_no[5][0].real) & (samples.imag < umbrales_no[2][0].imag)', #0010
+                 '(samples.real < umbrales_no[5][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[2][0].imag)', #0011
+                 '(samples.real < umbrales_no[5][0].real) & (samples.imag < umbrales_no[1][0].imag) & (samples.imag > umbrales_no[0][0].imag)', #0001
+                        
+                ]
+                bits_save = [
+                        '0000',
+                        '1000',
+                        '1001',
+                        '1011',
+                        '1010',
+                        '1110',
+                        '1111',
+                        '1101',
+                        '1100',
+                        '0100',
+                        '0101',
+                        '0111',
+                        '0110',
+                        '0010',
+                        '0011',
+                        '0001',     
+                    ]
+            
         return str(regiones), (bits_save)
     
     #CUSTOM RX - Define regiones y bits_save para función check conditions, para constelación definida por usuario
@@ -1539,6 +1656,12 @@ class MainFunctions(MainWindow):
                 #print(point)
                 circle[i] = MainFunctions.is_inside_sm(self, umbrales_no[2], point)
         #print(circle)
+        
+        elif nsimb == 16 and (esquema ==2 or esquema ==3):
+            print("Circulo activo 16QAM Circular o 16QAM Diagonal")
+            circle = np.empty(len(samples), dtype=bool)
+            for i, point in enumerate(samples):
+                circle[i] = MainFunctions.is_inside_sm(self, umbrales_no[4], point)
 
         regiones = eval(regiones)
         for index,region in enumerate(regiones):
