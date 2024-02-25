@@ -2018,7 +2018,12 @@ class MainFunctions(MainWindow):
         self.realtime_buffer.join()
         
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_29)
-
+        
+        self.cantidad_bits = 0
+        
+        self.bits_recibidos = 0
+        
+        self.cantidad_simbolos = 0
 
         self.timer.stop()
 
@@ -2310,6 +2315,11 @@ class MainFunctions(MainWindow):
         print(MainFunctions.bits_to_string(self,resultado_total7))
         print("")
         """
+        
+        self.bits_recibidos = MainFunctions.join_bits(self,resultado_total6)
+        self.cantidad_bits = len(bits_recibidos)
+        self.cantidad_simbolos = len(resultado_total6)
+        
         
         if message_format == 1: #String
             self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
