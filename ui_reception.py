@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionEzJrkZ.ui'
+## Form generated from reading UI file 'receptionzssMcI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -11,7 +11,6 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
 
 import icons_rc
 import images_rc
@@ -2080,7 +2079,10 @@ class Ui_reception(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.finalInfo_2 = QTextBrowser(self.widget_10)
         self.finalInfo_2.setObjectName(u"finalInfo_2")
-        self.finalInfo_2.setFont(font3)
+        font8 = QFont()
+        font8.setFamilies([u"Bahnschrift Light"])
+        font8.setPointSize(18)
+        self.finalInfo_2.setFont(font8)
 
         self.horizontalLayout_11.addWidget(self.finalInfo_2)
 
@@ -2120,7 +2122,7 @@ class Ui_reception(object):
         self.stackedWidget_8.setCurrentIndex(0)
         self.stackedWidget_15.setCurrentIndex(5)
         self.stackedWidget_22.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(1)
         self.stackedWidget_25.setCurrentIndex(1)
         self.stackedWidget_3.setCurrentIndex(2)
 
@@ -2184,7 +2186,7 @@ class Ui_reception(object):
         self.formatBox.setItemText(7, QCoreApplication.translate("reception", u"Documento PDF (*.pdf)", None))
         self.formatBox.setItemText(8, QCoreApplication.translate("reception", u"Archivo Excel (*.xlsx)", None))
         self.formatBox.setItemText(9, QCoreApplication.translate("reception", u"Diapositivas PP (*.pptx)", None))
-        self.formatBox.setItemText(10, QCoreApplication.translate("reception", u"Imagen en escala de grises (*.F)", None))
+        self.formatBox.setItemText(10, QCoreApplication.translate("reception", u"Imagen en escala de grises (gris_#)", None))
 
         self.label_17.setText(QCoreApplication.translate("reception", u"Escoja el tipo de c\u00f3digo de l\u00ednea (Solo referencial):", None))
         self.codelineBox.setItemText(0, "")
@@ -2380,5 +2382,13 @@ class Ui_reception(object):
         self.ConstBtn.setText(QCoreApplication.translate("reception", u"Constelaci\u00f3n de la S.R.", None))
         self.DEPBtn_2.setText(QCoreApplication.translate("reception", u"D.E.P", None))
         self.ConstBtn_2.setText(QCoreApplication.translate("reception", u"Constelaci\u00f3n de la S.R.", None))
+        self.finalInfo_2.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
     # retranslateUi
 

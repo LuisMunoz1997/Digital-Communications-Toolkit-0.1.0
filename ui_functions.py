@@ -660,7 +660,24 @@ class MainFunctions(MainWindow):
         message = np.unpackbits(message).astype(bool)
         return message
 
-                       
+    def graph_original_bits_reception(self):
+
+        message = self.bits_recibidos
+
+        if self.ui.UmbPreBtn.isChecked() == True:
+            index_n_symbols = self.ui.simPBitBox.currentIndex()
+
+        if self.ui.UmbDisBtn.isChecked() == True:
+            index_n_symbols = self.ui.simPBitBox_2.currentIndex()
+
+        amplitude = 1.5
+        codeline = self.ui.codelineBox.currentIndex()
+        fsample = self.fsample
+        tsim = self.ui.tbit.value() 
+
+        MainFunctions.graph_original_bits(self, message, fsample, amplitude, codeline, index_n_symbols, tsim)     
+
+
     def graph_original_bits(self, bits, fs, amplitude, codeline, index_n_symbol, tsim):
 
         if index_n_symbol == 1:
@@ -733,18 +750,18 @@ class MainFunctions(MainWindow):
             self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
-            self.ui.prevPBlayout.addWidget(self.grafica)
-            self.ui.prevPBlayout.addWidget(self.toolbar)
+            self.ui.recBBlayout.addWidget(self.grafica)
+            self.ui.recBBlayout.addWidget(self.toolbar)
 
         else:
-            self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevPBlayout.itemAt(1).widget().deleteLater()
+            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
 
             self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
 
-            self.ui.prevPBlayout.addWidget(self.grafica)
-            self.ui.prevPBlayout.addWidget(self.toolbar)
+            self.ui.recBBlayout.addWidget(self.grafica)
+            self.ui.recBBlayout.addWidget(self.toolbar)
 
                      
                         
@@ -775,8 +792,8 @@ class MainFunctions(MainWindow):
             self.grafica4 = plt_modulated_signal4(t2, modulated) #Modulada al aire referencia
             self.toolbar4 = NavigationToolbar(self.grafica4, self)
             
-            self.ui.prevBBlayout.addWidget(self.grafica1)
-            self.ui.prevBBlayout.addWidget(self.toolbar1)
+            self.ui.prevPBlayout.addWidget(self.grafica1)
+            self.ui.prevPBlayout.addWidget(self.toolbar1)
             self.ui.prevDEPlayout.addWidget(self.grafica2)
             self.ui.prevDEPlayout.addWidget(self.toolbar2)
             self.ui.prevConstlayout.addWidget(self.grafica3)
@@ -785,10 +802,10 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
         else:
-            self.ui.prevBBlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevBBlayout.itemAt(1).widget().deleteLater()    
-            #self.ui.prevBBlayout.removeWidget(self.grafica1)
-            #self.ui.prevBBlayout.removeWidget(self.toolbar1)
+            self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
+            self.ui.prevPBlayout.itemAt(1).widget().deleteLater()    
+            #self.ui.prevPBlayout.removeWidget(self.grafica1)
+            #self.ui.prevPBlayoutt.removeWidget(self.toolbar1)
 
             self.ui.prevDEPlayout.itemAt(0).widget().deleteLater()
             self.ui.prevDEPlayout.itemAt(1).widget().deleteLater()
@@ -828,8 +845,8 @@ class MainFunctions(MainWindow):
             self.grafica4 = plt_modulated_signal4(t2, modulated) 
             self.toolbar4 = NavigationToolbar(self.grafica4, self)
             
-            self.ui.prevBBlayout.addWidget(self.grafica1)
-            self.ui.prevBBlayout.addWidget(self.toolbar1)
+            self.ui.prevPBlayout.addWidget(self.grafica1)
+            self.ui.prevPBlayout.addWidget(self.toolbar1)
             self.ui.prevDEPlayout.addWidget(self.grafica2)
             self.ui.prevDEPlayout.addWidget(self.toolbar2)
             self.ui.prevConstlayout.addWidget(self.grafica3)
@@ -2317,8 +2334,10 @@ class MainFunctions(MainWindow):
         """
         
         self.bits_recibidos = MainFunctions.join_bits(self,resultado_total6)
-        self.cantidad_bits = len(bits_recibidos)
-        self.cantidad_simbolos = len(resultado_total6)
+        #self.bits_recibidos = np.asarray(self.bits_recibidos)
+
+        self.cantidad_bits = str(len(self.bits_recibidos))
+        self.cantidad_simbolos = str(len(resultado_total6))
         
         
         if message_format == 1: #String
@@ -2597,7 +2616,8 @@ class MainFunctions(MainWindow):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
         self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_27)
         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
-        self.final_reception_fase = False
+        self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11)
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
 
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
@@ -2638,7 +2658,6 @@ class MainFunctions(MainWindow):
         
         if self.reception_initiated == False:
             self.reception_initiated = True
-            #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
             
             #Creo que va a ser mejor tener el buffer en hilo normal, y el plot en hilo controlador por timer cada 30ms por ejemplo
             self.realtime_buffer = threading.Thread(target=MainFunctions.get_buffer_sdr, args=(self,), daemon=True)
@@ -2670,25 +2689,21 @@ class MainFunctions(MainWindow):
         else:
             self.ui.DEPlayout.itemAt(0).widget().deleteLater()
             self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-            #self.ui.DEPlayout.removeWidget(self.grafica1)
-            #self.ui.DEPlayout.removeWidget(self.toolbar1)
-
-            #self.ui.SRlayout.removeWidget(self.grafica2)
-            #self.ui.SRlayout.removeWidget(self.toolbar2)
 
             self.ui.Constlayout.itemAt(0).widget().deleteLater()
             self.ui.Constlayout.itemAt(1).widget().deleteLater()
-            #self.ui.Constlayout.removeWidget(self.grafica3)
-            #self.ui.Constlayout.removeWidget(self.toolbar3)
 
             self.ui.recBBlayout.itemAt(0).widget().deleteLater()
             self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-            #self.ui.recBBlayout.removeWidget(self.grafica4)
-            #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
-            self.ui.finalInfo_2.setText("")           
+            self.ui.finalInfo_2.setText("")
+
+            if self.graphics_final_fase == True:
+                self.graphics_final_fase = False
+                
+                self.ui.SRlayout.itemAt(0).widget().deleteLater()
+                self.ui.SRlayout.itemAt(1).widget().deleteLater()          
             
-            #MainFunctions.plt_signal_real_time(self, t, samples.real, fsample)
             self.timer.setInterval(10)
             self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
             self.timer.start()
@@ -2696,24 +2711,12 @@ class MainFunctions(MainWindow):
 ######################################################################################################## REAL TIME BUTTONS
             #STOP RECEPTION
             self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
-        
-            #DATA SIGNAL RECEIVED 
-            #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
       
             #DEP
             self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
 
             #CONSTELATION
             self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
-
-
-
-    def plt_signal_real_time(self, t, samples, fsample):
-        
-        self.timer.setInterval(10)
-        self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
-        self.timer.start()
-        
 
 
     def update_plot_data(self, buffer, fsample):

@@ -165,7 +165,13 @@ class MainWindow(QMainWindow):
         
         self.reception_initiated = False
         self.reception_configured = False
+        self.graphics_final_fase = False
         
+        #self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
+        #self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
+        #                            "Cantidad total de bits recibidos: " + "12222" + "\n\n" +
+        #                            "Cantidad total de simbolos recibidos: " + "40000")
+
         #WINDOW ICON
         self.ventana.setWindowTitle("Digital Comunications Toolkit - Reception Mode")
         
@@ -344,10 +350,10 @@ class MainWindow(QMainWindow):
         
         
         #PREV BASE BAND
-        self.ui.prevBBBTN.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))
+        self.ui.prevBBBTN.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4))
         
         #PREV BAND PASS
-        self.ui.prevPBBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4))
+        self.ui.prevPBBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))
         
         #PREV MODULATED SIGNAL
         self.ui.prevMSBtn.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
@@ -468,10 +474,10 @@ class MainWindow(QMainWindow):
         self.ui.ArchiveBtn.clicked.connect(self.getArchive)
         
         #PREV BASE BAND
-        self.ui.prevBBBTN.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))
+        self.ui.prevBBBTN.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4))
         
         #PREV CARRIER
-        self.ui.prevPBBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4))
+        self.ui.prevPBBtn.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3))
         
         #PREV MODULATED SIGNAL
         self.ui.prevMSBtn.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
@@ -642,6 +648,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_28)
         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
         n_format = self.ui.formatBox.currentIndex()
+        self.graphics_final_fase = True
 
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
@@ -658,6 +665,12 @@ class MainWindow(QMainWindow):
         #self.ui.recBBlayout.removeWidget(self.grafica4)
         #self.ui.recBBlayout.removeWidget(self.toolbar4)
 
+        MainFunctions.graph_original_bits_reception(self)
+
+        self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
+                                    "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +
+                                    "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos)
+
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
         self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
@@ -673,8 +686,8 @@ class MainWindow(QMainWindow):
         self.ui.DEPlayout.addWidget(self.toolbar1)
         self.ui.Constlayout.addWidget(self.grafica3)
         self.ui.Constlayout.addWidget(self.toolbar3)
-        self.ui.recBBlayout.addWidget(self.grafica4)
-        self.ui.recBBlayout.addWidget(self.toolbar4)
+        self.ui.SRlayout.addWidget(self.grafica4)
+        self.ui.SRlayout.addWidget(self.toolbar4)
 
 
         if n_format == 1:
@@ -743,7 +756,15 @@ class MainWindow(QMainWindow):
     def reception_signal(self):
         message_format = self.ui.formatBox.currentIndex()
         self.muestras = np.array([])
-        
+
+        if self.reception_configured == True:
+            self.reception_configured = False
+            self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
+            self.ui.stackedWidget_22.setCurrentWidget(self.ui.page_27)
+            self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
+            self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11)
+            self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
+
         fsample = self.fsample
         frequency_carrier = self.ui.fport.value()
         tsim = self.ui.tbit.value()
@@ -786,6 +807,7 @@ class MainWindow(QMainWindow):
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
                     if self.reception_configured == True:
+
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
@@ -2457,7 +2479,7 @@ class MainWindow(QMainWindow):
         if index == 9 and self.format_path_flag_received == False:
             MainFunctions.format_rec(self, 70, True)
             self.format_path_flag_received = True
-        
+      
         
     def graph_original_bits(self):
 

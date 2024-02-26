@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2zQosem.ui'
+## Form generated from reading UI file 'transmission2HlrkdP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1361,11 +1361,11 @@ class Ui_transmission2(object):
         self.horizontalLayout_20.setSpacing(0)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
         self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
-        self.prevBBlayout = QVBoxLayout()
-        self.prevBBlayout.setSpacing(7)
-        self.prevBBlayout.setObjectName(u"prevBBlayout")
+        self.recBBlayout = QVBoxLayout()
+        self.recBBlayout.setSpacing(7)
+        self.recBBlayout.setObjectName(u"recBBlayout")
 
-        self.horizontalLayout_20.addLayout(self.prevBBlayout)
+        self.horizontalLayout_20.addLayout(self.recBBlayout)
 
 
         self.verticalLayout_14.addWidget(self.frame_18)
