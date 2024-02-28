@@ -432,10 +432,10 @@ class MainFunctions(MainWindow):
         elif self.filePath[0][-4:] == '.png': #Imagen PNG
             print("Se enviará imagen PNG bajada de calidad comprimida")
             image = Image.open(self.filePath[0])
-            image.save("compress.jpg", quality=22,optimize=False,progressive=False)
+            image.save("compress.png", quality=22,optimize=False,progressive=False)
             image.close()
             zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
-            zip.write("compress.jpg")
+            zip.write("compress.png")
             zip.close()
             message = np.fromfile("compress.zip", dtype=np.uint8)
             print(message[0:10])
@@ -448,6 +448,8 @@ class MainFunctions(MainWindow):
             extension = self.filePath[0][::-1][0:extension_index+1]
             extension = extension[::-1]
             print("Se enviará archivo {}".format(extension))
+            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            message.tofile("compress{}".format(extension))
             zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
             zip.write("compress{}".format(extension))
             zip.close()
