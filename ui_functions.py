@@ -336,7 +336,8 @@ class MainFunctions(MainWindow):
                 if qam8_selector == 1: #8QAM "RECTANGULAR"
                     constellation = np.array([1-1j, 1+1j, -1+1j, -1-1j, -3-1j, -3+1j, 3+1j, 3-1j])
                 elif qam8_selector == 2: #8QAM CIRCULAR
-                    constellation = np.array([-1-1j, -1-np.sqrt(3)+0j, -1+1j, 0+(1+np.sqrt(3))*1j, 1+1j, 1+np.sqrt(3)+0j, 1-1j, 0-(1+np.sqrt(3))*1j])
+                    #constellation = np.array([-1-1j, -1-np.sqrt(3)+0j, -1+1j, 0+(1+np.sqrt(3))*1j, 1+1j, 1+np.sqrt(3)+0j, 1-1j, 0-(1+np.sqrt(3))*1j])
+                    constellation = np.array([1+np.sqrt(3)+0j, 1+1j,0+(1+np.sqrt(3))*1j, -1+1j, -1-np.sqrt(3)+0j, -1-1j, 0-(1+np.sqrt(3))*1j, 1-1j])
                 elif qam8_selector == 3: #8QAM DIAGONAL
                     constellation = np.array([3+3j, 1+1j, 1-1j, 3-3j, -3-3j, -1-1j, -1+1j, -3+3j])
                 else:
@@ -873,10 +874,13 @@ class MainFunctions(MainWindow):
                 umbral1 = imag_domain * 0 + real_domain
             elif esquema == 3: #Vertical, sirve para BPSK
                 umbral1 = imag_domain + real_domain * 0
+                print("Umbrales BPSK")
             elif esquema == 1: #Para 2ASK
                 umbral1 = imag_domain + real_domain * 0 + 1.5
+                print("Umbrales 2ASK")
             elif esquema == 2: #Para OOK
                 umbral1 = imag_domain + real_domain * 0 + 0.5
+                print("Umbrales OOK")
             else:
                 print("ERROR SELECCIÓN")
             umbrales = np.array([umbral1])
@@ -886,10 +890,12 @@ class MainFunctions(MainWindow):
                 umbral1 = imag_domain * MainFunctions.slope(self, 45) + real_domain
                 umbral2 = imag_domain * -MainFunctions.slope(self, 45) + real_domain
                 umbrales = np.array([umbral1, umbral2])
+                print("Umbrales QPSK Variante")
             elif esquema == 2: #2 Rectas Ejes
                 umbral1 = imag_domain * 0 + real_domain
                 umbral2 = imag_domain + real_domain * 0
                 umbrales = np.array([umbral1, umbral2])
+                print("Umbrales QPSK")
             elif esquema == 3:  # AGREGAR OPCION UMBRALES ASK EN RX 4 NSIMB - Verificar porque escribi esto o si ya se corrigio
                 umbral1 = imag_domain + real_domain * 0 + 1.5
                 umbral2 = imag_domain + real_domain * 0 + 2.5
@@ -900,6 +906,7 @@ class MainFunctions(MainWindow):
                 umbral2 = imag_domain + real_domain * 0 + 2.5
                 umbral1 = imag_domain + real_domain * 0 + 3.5
                 umbrales = np.array([umbral1, umbral2, umbral3])
+                print("Umbrales 4ASK")
             else:
                 print("ERROR SELECCIÓN")
         
@@ -909,12 +916,14 @@ class MainFunctions(MainWindow):
                 umbral2 = imag_domain + real_domain * 0
                 umbral3 = 2.5 * np.exp(2j*np.pi*real_circle) #Pendiente con los circulos y la detección
                 umbrales = np.array([umbral1, umbral2, umbral3], dtype = object)
+                print("Umbrales 8QAM Diagonal")
             elif esquema == 2: #4 Diagonales. Sirve para 8psk y un 8qam
                 umbral1 = imag_domain * MainFunctions.slope(self, 45+22.5) + real_domain
                 umbral2 = imag_domain * MainFunctions.slope(self, 45-22.5) + real_domain
                 umbral3 = imag_domain * MainFunctions.slope(self, -45-22.5) + real_domain
                 umbral4 = imag_domain * MainFunctions.slope(self, -45+22.5) + real_domain
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4])
+                print("Umbrales 8PSK o 8QAM Circular")
             elif esquema == 3: #3 Horizontales 1 Vertical --------- NO ESTA EN TX
                 umbral1 = imag_domain * 0 + real_domain
                 umbral2 = imag_domain * 0 + real_domain + 2j
@@ -927,6 +936,7 @@ class MainFunctions(MainWindow):
                 umbral3 = imag_domain + real_domain * 0 - 2
                 umbral4 = imag_domain * 0 + real_domain
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4])
+                print("Umbrales 8QAM Rectangular")
             elif esquema == 5: #Para 8ASK Bipolar
                 umbral1 = imag_domain + real_domain * 0 + 1.5
                 umbral2 = imag_domain + real_domain * 0 + 2.5
@@ -936,6 +946,7 @@ class MainFunctions(MainWindow):
                 umbral6 = imag_domain + real_domain * 0 - 3.5
                 umbral7 = imag_domain + real_domain * 0
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5, umbral6, umbral7])
+                print("Umbrales 8ASK Bipolar")
             else:
                 print("ERROR SELECCIÓN")
 
@@ -953,6 +964,7 @@ class MainFunctions(MainWindow):
                 umbral7 = imag_domain * MainFunctions.slope(self, angles_reference_16[7]+11.25) + real_domain
                 umbral8 = imag_domain * MainFunctions.slope(self, angles_reference_16[7]-11.25) + real_domain            
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5, umbral6, umbral7, umbral8])
+                print("Umbrales 16PSK")
             elif esquema == 2: #4 Diagonales 1 Circulo R=2.5
                 reference_domain_16 = np.arange(0,8)
                 reference_16 = np.exp(2j*np.pi*reference_domain_16/8)
@@ -963,6 +975,7 @@ class MainFunctions(MainWindow):
                 umbral4 = imag_domain * MainFunctions.slope(self, angles_reference_16[3]-22.5) + real_domain
                 umbral5 = 2.5 * np.exp(2j*np.pi*real_circle)
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5], dtype=object)
+                print("Umbrales 16QAM Circular")
             elif esquema == 3: #4 Diagonales 1 Circulo R=1.5
                 reference_domain_16 = np.arange(0,8)
                 reference_16 = np.exp(2j*np.pi*reference_domain_16/8)
@@ -972,7 +985,8 @@ class MainFunctions(MainWindow):
                 umbral3 = imag_domain * MainFunctions.slope(self, angles_reference_16[3]+22.5) + real_domain
                 umbral4 = imag_domain * MainFunctions.slope(self, angles_reference_16[3]-22.5) + real_domain
                 umbral5 = 1.5 * np.exp(2j*np.pi*real_circle)
-                umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5], dtype=object)           
+                umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5], dtype=object)
+                print("Umbrales 16QAM Diagonal")        
             elif esquema == 4: #3 Horizontales y 3 Verticales
                 umbral1 = imag_domain * 0 + real_domain
                 umbral2 = imag_domain * 0 + real_domain + 2j
@@ -981,6 +995,7 @@ class MainFunctions(MainWindow):
                 umbral5 = imag_domain + real_domain * 0 + 2
                 umbral6 = imag_domain + real_domain * 0 - 2
                 umbrales = np.array([umbral1, umbral2, umbral3, umbral4, umbral5, umbral6])
+                print("Umbrales 16QAM Rectangular")
             else:
                 print("ERROR SELECCIÓN")
         return umbrales
@@ -1168,8 +1183,27 @@ class MainFunctions(MainWindow):
                     '100',
                     '101',     
                     ]
-            elif esquema == 3: #NO TIENE USO DE MOMENTO
-                pass
+            elif esquema == 3: #Regiones para 8QAM Circular. Obtenido modificando de arriba. Ver comentarios bits_save. Aunque al final se acomodo constelación 8QAM Circular para que coincidiera con bits_save de 8PSK
+                regiones = [
+                        '(samples.real > 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[3](samples.real))', #111 
+                        '(samples.real > 0) & (samples.imag < umbrales[0](samples.real)) & (samples.imag > umbrales[1](samples.real))', #110 
+                        '(samples.imag > 0) & (samples.real < umbrales_i[0](samples.imag)) & (samples.real > umbrales_i[2](samples.imag))', #010
+                        '(samples.real < 0) & (samples.imag < umbrales[2](samples.real)) & (samples.imag > umbrales[3](samples.real))', #011 
+                        '(samples.real < 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[1](samples.real))', #001 
+                        '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real))', #000 
+                        '(samples.imag < 0) & (samples.real < umbrales_i[2](samples.imag)) & (samples.real > umbrales_i[0](samples.imag))', #100
+                        '(samples.real > 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real))', #101 
+                ]
+                bits_save = [
+                    '000', #Antes 111
+                    '001', #Antes 110
+                    '011', #Antes 010
+                    '010', #Antes 011
+                    '110', #Antes 001
+                    '111', #Antes 000
+                    '101', #Antes 100
+                    '100', #Antes 101    
+                    ]
             elif esquema == 4: #Regiones 8QAM Rectangular
                 regiones = [
                     '(samples.real > 0) & (samples.real < umbrales_no[1][0].real) & (samples.imag < 0)', #111 1-1j
