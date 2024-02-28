@@ -244,8 +244,9 @@ print("Nsimb = 4 - Esquema = 2 - 2 Rectas Ejes - QPSK NORMAL")
 print("Nsimb = 4 - Esquema = 3 - 2 Rectas Ejes -  4ASK")
 print("(Esquema 3 y 4 son el mismo umbral, se puede usar uno para implementar 4ASK Bipolar si queremos)")
 print("")
-print("Nsimb = 8 - Esquema = 1 - 2 Ejes y 1 Circulo - 8QAM Circular")
+print("Nsimb = 8 - Esquema = 1 - 2 Ejes y 1 Circulo - 8QAM Diagonal")
 print("Nsimb = 8 - Esquema = 2 - 4 Diagonales - 8PSK")
+print("Nsimb = 8 - Esquema = 3 - 2 Ejes y 1 Circulo - 8QAM Circular")
 print("Nsimb = 8 - Esquema = 4 - 3 Verticales 1 Horizontal - 8QAM rectangular")
 print("Nsimb = 8 - Esquema = 5 - 7 Rectas Verticales - 8ASK Bipolar")
 print("")
@@ -305,13 +306,21 @@ elif nsimb == 8:
     umbrales = threshold_defined(nsimb, esquema)
     
     if esquema == 1:
-        constellation = create_constellation_tx(nsimb,3,qam8_selector = 2,qam16_selector = 1)
+        constellation = create_constellation_tx(nsimb,3,qam8_selector = 3,qam16_selector = 1)
     elif esquema == 2:
         constellation = create_constellation_tx(nsimb,2)
+    elif esquema ==3:
+        constellation = create_constellation_tx(nsimb,3,qam8_selector = 2,qam16_selector = 1)
+        umbrales = threshold_defined(nsimb, 2)
     elif esquema == 4:
         constellation = create_constellation_tx(nsimb,3,qam8_selector = 1,qam16_selector = 1)
     elif esquema == 5:
         constellation = create_constellation_tx(nsimb,1)
+        
+    legend = []
+    for index,umbral in enumerate(umbrales):
+	    plt.plot(np.real(umbral), np.imag(umbral),'-', color='green')
+	    legend.append("umbral {}".format(index))
         
     for symbol in constellation:
         plt.plot(np.real(symbol), np.imag(symbol), '.', color='blue', markersize=20) #Markersize define el tamaño del punto
@@ -320,9 +329,7 @@ elif nsimb == 8:
     for symbol in constellation:
         plt.text(symbol.real, symbol.imag+0.2, '{}'.format(bits[bits_index]), horizontalalignment='center', fontsize='large', bbox = dict(facecolor = 'white'))
         bits_index += 1
-        
-    for umbral in umbrales:
-	    plt.plot(np.real(umbral), np.imag(umbral),'-', color='green')	
+        	
 
 
 
@@ -339,6 +346,11 @@ elif nsimb == 16:
         constellation = create_constellation_tx(nsimb,2,qam8_selector = 1,qam16_selector = 3)
     elif esquema == 4:
         constellation = create_constellation_tx(nsimb,2,qam8_selector = 1,qam16_selector = 1)
+        
+    legend = []
+    for index,umbral in enumerate(umbrales):
+	    plt.plot(np.real(umbral), np.imag(umbral),'-')
+	    legend.append("umbral {}".format(index))
 
     for symbol in constellation:
         plt.plot(np.real(symbol), np.imag(symbol), '.', color='blue', markersize=20) #Markersize define el tamaño del punto
@@ -348,9 +360,8 @@ elif nsimb == 16:
         plt.text(symbol.real, symbol.imag+0.2, '{}'.format(bits[bits_index]), horizontalalignment='center', fontsize='large', bbox = dict(facecolor = 'white'))
         bits_index += 1
         
-    for umbral in umbrales:
-	    plt.plot(np.real(umbral), np.imag(umbral),'-', color='green')
 
+#plt.legend(legend)
 
 if np.max(constellation.real) >= np.max(constellation.imag):
     max_limit = abs(np.max(constellation.real)) + 1
