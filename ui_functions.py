@@ -1364,6 +1364,7 @@ class MainFunctions(MainWindow):
                     ]
                     
             elif esquema == 4: #Regiones 16QAM Rectangular - 3 Horizontales 3 Verticales
+                print("Regiones 16QAM Rectangular")
                 regiones = [
                  '(samples.real < umbrales_no[5][0].real) & (samples.imag > umbrales_no[1][0].imag)', #0000
                  '(samples.real > umbrales_no[4][0].real) & (samples.imag > umbrales_no[1][0].imag)', #1000
@@ -1371,8 +1372,8 @@ class MainFunctions(MainWindow):
                  '(samples.real > umbrales_no[4][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[2][0].imag)', #1011
                  '(samples.real > umbrales_no[4][0].real) & (samples.imag < umbrales_no[2][0].imag)', #1010
                  '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag < umbrales_no[2][0].imag)', #1110
-                 '(samples.real > umbrales_no[3][0].real & (samples.real < umbrales_no[4][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[0][2].imag))', #1111
-                 '(samples.real > umbrales_no[3][0].real & (samples.real < umbrales_no[4][0].real) & (samples.imag > umbrales_no[0][0].imag) & (samples.imag < umbrales_no[1][2].imag))', #1101
+                 '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag < umbrales_no[0][0].imag) & (samples.imag > umbrales_no[2][0].imag)', #1111
+                 '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag > umbrales_no[0][0].imag) & (samples.imag < umbrales_no[1][0].imag)', #1101
                  '(samples.real > umbrales_no[3][0].real) & (samples.real < umbrales_no[4][0].real) & (samples.imag > umbrales_no[1][0].imag)', #1100
                  '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag > umbrales_no[1][0].imag)', #0100
                  '(samples.real > umbrales_no[5][0].real) & (samples.real < umbrales_no[3][0].real) & (samples.imag < umbrales_no[1][0].imag) & (samples.imag > umbrales_no[0][0].imag)', #0101
@@ -1718,6 +1719,7 @@ class MainFunctions(MainWindow):
 
         regiones = eval(regiones)
         for index,region in enumerate(regiones):
+            #print("procesando eval region {}".format(index))
             regiones[index] = eval(region)
 
         #bits_save = eval(bits_save)
@@ -2064,6 +2066,30 @@ class MainFunctions(MainWindow):
         bits_result = np.frombuffer(bits_join.encode('utf-8'), dtype=np.uint8) - 48
         return bits_result
         
+    def calculate_error_probability(self,received_samples, thresholds, thresholds_i, umbral = 0.15):
+        num_samples = len(received_samples)
+        
+        #Possible symbols with errors   
+        error_symbols = np.array([], dtype=complex)
+        
+        
+        for index,threshold in enumerate(thresholds): #Acá hay que acomodar si umbral es linea recta
+            try:
+                for sample in received_samples:
+                    distance_y = np.abs(sample.imag - thresholds[index](sample.real))
+                    distance_x = np.abs(sample.real - thresholds_i[index](sample.imag))
+                    if distance_y <= umbral or distance_x <= umbral:
+                        error_symbols = np.append(error_symbols, sample)
+            except Exception as e:
+                pass
+        # Count the symbol errors
+        num_errors = len(error_symbols)
+    
+        # Calculate the symbol error rate (SER)
+        ser = num_errors / num_samples
+        
+        return ser, num_errors, error_symbols
+        
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
         self.stop_realtime_flag = True
@@ -2374,6 +2400,12 @@ class MainFunctions(MainWindow):
 
         self.cantidad_bits = str(len(self.bits_recibidos))
         self.cantidad_simbolos = str(len(resultado_total6))
+        
+        self.ser, self.num_errors, self.error_symbols = MainFunctions.calculate_error_probability(self, self.graph_sincro_corrected, umbrales_interpolate, umbrales_interpolate_i, umbral = 0.15)
+        #self.graph_sincro_corrected #Entra a función para calcular errores
+        print("SER: ", self.ser)
+        print("Num Errores: ", self.num_errors)
+        print("Cantidad simbolos: ", self.cantidad_simbolos)
         
         
         if message_format == 1: #String
@@ -2905,7 +2937,7 @@ class plt_received_signal2(FigureCanvas):
         
 class plt_received_signal3(FigureCanvas):
      
-    def __init__(self, x, y, parent = None):  
+    def __init__(self, x, y, thresholds=np.array([0]), parent = None):  
         self.fig3 , self.ax3 = plt.subplots()
         super().__init__(self.fig3)
         #self.fig3.clf()
@@ -2913,6 +2945,16 @@ class plt_received_signal3(FigureCanvas):
         #self.fig3.close()
         
         self.ax3.plot(x, y, "*", linewidth = 58)
+        for threshold in thresholds:
+            self.ax3.plot(threshold.real,threshold.imag,color='green',alpha=0.35)
+        max_x = np.max(x.real)
+        max_y = np.max(y.real)
+        if max_x > max_y:
+            max_y = max_x
+        else:
+            max_x = max_y
+        self.ax3.set_xlim(-max_x-1,max_x+1)
+        self.ax3.set_ylim(-max_y-1,max_y+1)
         self.ax3.grid()
         
 class plt_received_signal4(FigureCanvas):

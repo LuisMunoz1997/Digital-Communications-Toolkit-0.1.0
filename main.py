@@ -630,7 +630,7 @@ class MainWindow(QMainWindow):
         self.grafica1 = plt_received_signal(self.graph_sincro, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
 
-        self.grafica3 = plt_received_signal3(self.graph_sincro.real, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.grafica3 = plt_received_signal3(self.graph_sincro.real, self.graph_sincro.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
         self.grafica4 = plt_received_signal2(t, self.graph_sincro.real, t, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
@@ -676,7 +676,7 @@ class MainWindow(QMainWindow):
         self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
 
-        self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
+        self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
         self.grafica4 = plt_received_signal2(t, self.graph_sincro_corrected.real, t, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
@@ -809,6 +809,7 @@ class MainWindow(QMainWindow):
                     if self.reception_configured == True:
 
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        self.thresholds_plot = thresholds
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
                         print("Regiones definidas listas")
@@ -836,6 +837,7 @@ class MainWindow(QMainWindow):
                     
                     if self.reception_configured == True:
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        self.thresholds_plot = thresholds
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
                         print("Regiones definidas listas")
@@ -890,6 +892,7 @@ class MainWindow(QMainWindow):
 
                     if self.reception_configured == True:
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        self.thresholds_plot = thresholds
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
                         print("Regiones definidas listas")
@@ -928,6 +931,7 @@ class MainWindow(QMainWindow):
                         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
 
                         thresholds = MainFunctions.threshold_defined(self, n_symbol, threshold_index)
+                        self.thresholds_plot = thresholds
                         print("Umbrales definidos listos")
                         regions, bits_save = MainFunctions.define_regions(self, n_symbol, threshold_index)
                         print("Regiones definidas listas")
@@ -972,6 +976,7 @@ class MainWindow(QMainWindow):
                             esquema = 'CUSTOM'
                             print("Puntos ingresados")
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=0, angle2=0)
+                            self.thresholds_plot = thresholds
                             print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                             print("umbrales custom interpolados")
@@ -1005,6 +1010,7 @@ class MainWindow(QMainWindow):
                             esquema = 'CUSTOM'
                             print("Puntos ingresados")
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=0, angle2=0)
+                            self.thresholds_plot = thresholds
                             print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                             print("umbrales custom interpolados")
@@ -1038,6 +1044,7 @@ class MainWindow(QMainWindow):
                             print("Puntos ingresados")
                             esquema = 'CUSTOM'
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="horizontal", selector2="horizontal", offset_x=0, offset_y=y, angle=0, offset_x2=0, offset_y2=0, angle2=0)
+                            self.thresholds_plot = thresholds
                             print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                             print("umbrales custom interpolados")
@@ -1070,6 +1077,7 @@ class MainWindow(QMainWindow):
                             esquema = 'CUSTOM'
                             print("Puntos ingresados")
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="horizontal", selector2="vertical", offset_x=0, offset_y=y, angle=0, offset_x2=0, offset_y2=0, angle2=0)
+                            self.thresholds_plot = thresholds
                             print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                             print("umbrales custom interpolados")
@@ -1104,6 +1112,7 @@ class MainWindow(QMainWindow):
                             esquema = 'CUSTOM'
                             print("Puntos ingresados")
                             thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="inclinada", selector2="vertical", offset_x=offx, offset_y=offy, angle=ang, offset_x2=0, offset_y2=0, angle2=0)
+                            self.thresholds_plot = thresholds
                             print("umbrales custom creados")
                             thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                             print("umbrales custom interpolados")
@@ -1155,6 +1164,7 @@ class MainWindow(QMainWindow):
                                     esquema = 'CUSTOM'
                                     print("Puntos ingresados")
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=x2, offset_y2=0, angle2=0)
+                                    self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
@@ -1192,6 +1202,7 @@ class MainWindow(QMainWindow):
                                     esquema = 'CUSTOM'
                                     print("Puntos ingresados")
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="vertical", offset_x=x, offset_y=0, angle=0, offset_x2=x2, offset_y2=0, angle2=0)
+                                    self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
@@ -1228,6 +1239,7 @@ class MainWindow(QMainWindow):
                                     esquema = 'CUSTOM'
                                     print("Puntos ingresados")
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="horizontal", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=y2, angle2=0)
+                                    self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
@@ -1263,6 +1275,7 @@ class MainWindow(QMainWindow):
                                     esquema = 'CUSTOM'
                                     print("Puntos ingresados")
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="horizontal", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=y2, angle2=0)
+                                    self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
@@ -1301,6 +1314,7 @@ class MainWindow(QMainWindow):
                                     esquema = 'CUSTOM'
                                     print("Puntos ingresados")
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="inclinada", offset_x=x, offset_y=0, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                    self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
@@ -1366,6 +1380,7 @@ class MainWindow(QMainWindow):
                                 print("Puntos ingresados")
                                 MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=x, offset_y=0, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                self.thresholds_plot = thresholds
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
                                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
@@ -1434,6 +1449,7 @@ class MainWindow(QMainWindow):
                                 print("Puntos ingresados")
                                 MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                self.thresholds_plot = thresholds
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
                                 print("umbrales:",thresholds)
@@ -1504,6 +1520,7 @@ class MainWindow(QMainWindow):
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                self.thresholds_plot = thresholds
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
                                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
@@ -1570,6 +1587,7 @@ class MainWindow(QMainWindow):
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=offx, offset_y=offy, angle=ang, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
+                                self.thresholds_plot = thresholds
                                 print("umbrales custom creados")
                                 print("offx2, offy2, ang2: {}, {}, {}".format(offx2,offy2,ang2))
                                 thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
