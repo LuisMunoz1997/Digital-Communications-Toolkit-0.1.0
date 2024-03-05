@@ -757,6 +757,8 @@ class MainFunctions(MainWindow):
             self.ui.recBBlayout.addWidget(self.toolbar)
 
         else:
+            self.grafica.fig.clf()
+            self.toolbar.close()
             self.ui.recBBlayout.itemAt(0).widget().deleteLater()
             self.ui.recBBlayout.itemAt(1).widget().deleteLater()
 
@@ -805,21 +807,29 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
         else:
+            self.grafica1.fig.clf()
+            self.toolbar1.close()
             self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
             self.ui.prevPBlayout.itemAt(1).widget().deleteLater()    
             #self.ui.prevPBlayout.removeWidget(self.grafica1)
             #self.ui.prevPBlayoutt.removeWidget(self.toolbar1)
 
+            self.grafica2.fig.clf()
+            self.toolbar2.close()
             self.ui.prevDEPlayout.itemAt(0).widget().deleteLater()
             self.ui.prevDEPlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevDEPlayout.removeWidget(self.grafica2)
             #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
 
+            self.grafica3.fig.clf()
+            self.toolbar3.close()
             self.ui.prevConstlayout.itemAt(0).widget().deleteLater()
             self.ui.prevConstlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevConstlayout.removeWidget(self.grafica3)
             #self.ui.prevConstlayout.removeWidget(self.toolbar3)
 
+            self.grafica4.fig.clf()
+            self.toolbar4.close()
             self.ui.prevMSlayout.itemAt(0).widget().deleteLater()
             self.ui.prevMSlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevMSlayout.removeWidget(self.grafica4)
@@ -2752,12 +2762,18 @@ class MainFunctions(MainWindow):
         if self.reception_initiated_prev == True:
             self.reception_initiated_prev = False
 
+            self.grafica1.fig.clf()
+            self.toolbar1.close()
             self.ui.DEPlayout.itemAt(0).widget().deleteLater()
             self.ui.DEPlayout.itemAt(1).widget().deleteLater()
 
+            self.grafica3.fig3.clf()
+            self.toolbar3.close()
             self.ui.Constlayout.itemAt(0).widget().deleteLater()
             self.ui.Constlayout.itemAt(1).widget().deleteLater()
 
+            self.grafica4.fig2.clf()
+            self.toolbar4.close()
             self.ui.recBBlayout.itemAt(0).widget().deleteLater()
             self.ui.recBBlayout.itemAt(1).widget().deleteLater()
 
@@ -2796,18 +2812,18 @@ class MainFunctions(MainWindow):
         pen1 = pg.mkPen(color=(255, 0, 0), style = QtCore.Qt.NoPen)
         pen2 = pg.mkPen(color=(255, 0, 0))  
         
-        self.graphWidget = pg.PlotWidget(background="w")
+        #self.graphWidget = pg.PlotWidget(background="w")
         self.ui.Constlayout.addWidget(self.graphWidget) 
         self.data_line1 =  self.graphWidget.plot(self.x, self.y, pen=pen1, symbol='+', symbolSize=5, symbolBrush=('b'))
         
         #self.ui.SRlayout.addWidget(self.graphWidget_2)
         #self.data_line2 =  self.graphWidget_2.plot(self.x, self.y, pen=pen2)
         
-        self.graphWidget_3 = pg.PlotWidget(background="w")
+        #self.graphWidget_3 = pg.PlotWidget(background="w")
         self.ui.DEPlayout.addWidget(self.graphWidget_3)
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
 
-        self.graphWidget_4 = pg.PlotWidget(background="w")
+        #self.graphWidget_4 = pg.PlotWidget(background="w")
         self.ui.recBBlayout.addWidget(self.graphWidget_4)
         self.data_line4 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
         
@@ -2922,6 +2938,7 @@ class plt_bits_coded(FigureCanvas):
     
         plt.plot(x[0:40000], y[0:40000])
         plt.grid()
+
         self.ax.set_title("Primeros bits que componen el mensaje (tbit aprox = " + str(tbit) + ")")
         #self.ax.set_ylabel("Amplitud (Referencial)")
         #self.ax.set_xlabel("Tiempo")

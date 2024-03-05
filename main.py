@@ -536,16 +536,22 @@ class MainWindow(QMainWindow):
     def recep_filter_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
 
+        self.grafica1.fig.clf()
+        self.toolbar1.close()
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
         #self.ui.DEPlayout.removeWidget(self.grafica1)
         #self.ui.DEPlayout.removeWidget(self.toolbar1)
 
+        self.grafica3.fig3.clf()
+        self.toolbar3.close()
         self.ui.Constlayout.itemAt(0).widget().deleteLater()
         self.ui.Constlayout.itemAt(1).widget().deleteLater()
         #self.ui.Constlayout.removeWidget(self.grafica3)
         #self.ui.Constlayout.removeWidget(self.toolbar3)
 
+        self.grafica4.fig2.clf()
+        self.toolbar4.close()
         self.ui.recBBlayout.itemAt(0).widget().deleteLater()
         self.ui.recBBlayout.itemAt(1).widget().deleteLater()
         #self.ui.recBBlayout.removeWidget(self.grafica4)
@@ -574,16 +580,22 @@ class MainWindow(QMainWindow):
     def recep_freq_fase_signal(self):      
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
 
+        self.grafica1.fig.clf()
+        self.toolbar1.close()
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
         #self.ui.DEPlayout.removeWidget(self.grafica1)
         #self.ui.DEPlayout.removeWidget(self.toolbar1)
 
+        self.grafica3.fig3.clf()
+        self.toolbar3.close()
         self.ui.Constlayout.itemAt(0).widget().deleteLater()
         self.ui.Constlayout.itemAt(1).widget().deleteLater()
         #self.ui.Constlayout.removeWidget(self.grafica3)
         #self.ui.Constlayout.removeWidget(self.toolbar3)
 
+        self.grafica4.fig2.clf()
+        self.toolbar4.close()
         self.ui.recBBlayout.itemAt(0).widget().deleteLater()
         self.ui.recBBlayout.itemAt(1).widget().deleteLater()
         #self.ui.recBBlayout.removeWidget(self.grafica4)
@@ -610,16 +622,22 @@ class MainWindow(QMainWindow):
     def recep_time_sync_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_35)
 
+        self.grafica1.fig.clf()
+        self.toolbar1.close()
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
         #self.ui.DEPlayout.removeWidget(self.grafica1)
         #self.ui.DEPlayout.removeWidget(self.toolbar1)
 
+        self.grafica3.fig3.clf()
+        self.toolbar3.close()
         self.ui.Constlayout.itemAt(0).widget().deleteLater()
         self.ui.Constlayout.itemAt(1).widget().deleteLater()
         #self.ui.Constlayout.removeWidget(self.grafica3)
         #self.ui.Constlayout.removeWidget(self.toolbar3)
 
+        self.grafica4.fig2.clf()
+        self.toolbar4.close()
         self.ui.recBBlayout.itemAt(0).widget().deleteLater()
         self.ui.recBBlayout.itemAt(1).widget().deleteLater()
         #self.ui.recBBlayout.removeWidget(self.grafica4)
@@ -650,16 +668,22 @@ class MainWindow(QMainWindow):
         n_format = self.ui.formatBox.currentIndex()
         self.graphics_final_fase = True
 
+        self.grafica1.fig.clf()
+        self.toolbar1.close()
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
         self.ui.DEPlayout.itemAt(1).widget().deleteLater()
         #self.ui.DEPlayout.removeWidget(self.grafica1)
         #self.ui.DEPlayout.removeWidget(self.toolbar1)
 
+        self.grafica3.fig3.clf()
+        self.toolbar3.close()
         self.ui.Constlayout.itemAt(0).widget().deleteLater()
         self.ui.Constlayout.itemAt(1).widget().deleteLater()
         #self.ui.Constlayout.removeWidget(self.grafica3)
         #self.ui.Constlayout.removeWidget(self.toolbar3)
 
+        self.grafica4.fig2.clf()
+        self.toolbar4.close()
         self.ui.recBBlayout.itemAt(0).widget().deleteLater()
         self.ui.recBBlayout.itemAt(1).widget().deleteLater()
         #self.ui.recBBlayout.removeWidget(self.grafica4)
@@ -757,6 +781,10 @@ class MainWindow(QMainWindow):
         message_format = self.ui.formatBox.currentIndex()
         self.muestras = np.array([])
 
+        self.graphWidget = pg.PlotWidget(background="w")
+        self.graphWidget_3 = pg.PlotWidget(background="w")
+        self.graphWidget_4 = pg.PlotWidget(background="w")
+
         if self.reception_configured == True:
             self.reception_configured = False
             self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_39)
@@ -764,6 +792,7 @@ class MainWindow(QMainWindow):
             self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_38)
             self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11)
             self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
+
 
         fsample = self.fsample
         frequency_carrier = self.ui.fport.value()
@@ -2076,7 +2105,7 @@ class MainWindow(QMainWindow):
                     #for packet_symbols in symbols_to_send:
                     #    self.sdr.tx(packet_symbols)
                     
-        MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo            
+        MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo       
 
 
     def graph_modulated_signal_prev(self):
@@ -2086,8 +2115,7 @@ class MainWindow(QMainWindow):
         fsim = self.ui.fbit.value()
         tsim = self.ui.tbit.value()
         fport = self.ui.fport.value()
-        
-        
+
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
 
