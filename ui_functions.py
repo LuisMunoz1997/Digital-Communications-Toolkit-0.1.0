@@ -1997,11 +1997,42 @@ class MainFunctions(MainWindow):
         closest_point = constellation[np.argmin(np.abs(constellation - sample))]
         
         #error = np.angle(closest_point * np.conj(sample))
-        
-        error = closest_point.imag * sample.imag - closest_point.real * sample.real 
+        error = sample - closest_point
+        #error = closest_point.imag * sample.imag - closest_point.real * sample.real 
         #print(error)
         
         return error
+        
+    def calculate_combined_error(self,received_sample):
+        psk16_domain = np.arange(0,16)
+        constellation_symbols = np.exp(2j* np.pi * psk16_domain / 16)
+        # MPE calculation
+        phase_estimation = np.angle(received_sample)
+        symbol_distances = np.abs(constellation_symbols - received_sample)
+        estimated_symbol_index = np.argmin(symbol_distances)
+        estimated_symbol = constellation_symbols[estimated_symbol_index]
+        phase_error_mpe = np.angle(estimated_symbol) - phase_estimation
+    
+        # Joint phase and amplitude estimation
+        phase_estimation_joint = np.angle(received_sample)
+        amplitude_estimation_joint = np.abs(received_sample)
+        symbol_distances_joint = np.abs(constellation_symbols - received_sample)
+        estimated_symbol_index_joint = np.argmin(symbol_distances_joint)
+        estimated_symbol_joint = constellation_symbols[estimated_symbol_index_joint]
+        phase_error_joint = np.angle(estimated_symbol_joint) - phase_estimation_joint
+        amplitude_error_joint = np.abs(estimated_symbol_joint) - amplitude_estimation_joint
+    
+        # Phase interpolation
+        distances = np.angle(constellation_symbols) - np.angle(received_sample)
+        nearest_symbols = np.argsort(np.abs(distances))[:4]  # Obtener los 4 símbolos más cercanos
+        phase_interpolated = np.angle(received_sample) + np.mean(np.angle(constellation_symbols[nearest_symbols] - received_sample))
+    
+        # Combine errors with weighted average
+        phase_error_combined = (phase_error_mpe + phase_error_joint + phase_interpolated) / 3.0
+        amplitude_error_combined = amplitude_error_joint
+    
+        #return phase_error_combined, amplitude_error_combined
+        return phase_error_mpe, amplitude_error_combined
     
     def phase_detector_16psk_2(self,sample, estimated_phase, loop_filter_coeffs):
         error = 0.5 * sample * np.exp(-1j * estimated_phase)
@@ -2034,8 +2065,8 @@ class MainFunctions(MainWindow):
             elif modulation_scheme == 'QPSK':
                 error = MainFunctions.phase_detector_4(self,out[i])
             elif modulation_scheme == '16PSK':
-                #error = MainFunctions.phase_detector_16psk(self,out[i])
-                error = 0
+                error, amplitude_error = MainFunctions.calculate_combined_error(self,out[i])
+                #error = 0
             elif modulation_scheme == 'CUSTOM':
                 error = 0
             
@@ -2109,12 +2140,15 @@ class MainFunctions(MainWindow):
         #self.ui.SRlayout.removeWidget(self.graphWidget_2)
 
         self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+        #self.ui.DEPlayout.itemAt(1).widget().deleteLater()
         #self.ui.DEPlayout.removeWidget(self.graphWidget_3)
 
         self.ui.Constlayout.itemAt(0).widget().deleteLater()
+        #self.ui.Constlayout.itemAt(1).widget().deleteLater()
         #self.ui.Constlayout.removeWidget(self.graphWidget)
 
         self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+        #self.ui.recBBlayout.itemAt(1).widget().deleteLater()
         #self.ui.recBBlayout.removeWidget(self.graphWidget_4)
 
 
@@ -2152,7 +2186,7 @@ class MainFunctions(MainWindow):
         
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
-        margen = 4
+        margen = 3
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
         print(resultado)
         print(self.muestras)
@@ -2169,6 +2203,8 @@ class MainFunctions(MainWindow):
         resultado_packets = np.split(resultado_interes, np.arange(size, len(resultado_interes), size))
         print("5- SE RECIBIERON {} PARTES".format(len(resultado_packets)))
         
+        self.symbols_indices_plot = np.array([],dtype=int) #Acumular indices sync time solo para plot
+        
         #Tercer paso: Realizo esquema RX para cada "paquete" recibido. Se juntan al final.
         resultado_total = np.array([]) #Sin muller, con coarse y fine freq
         resultado_total2 = np.array([]) #Con muller, con coarse y fine freq
@@ -2178,6 +2214,7 @@ class MainFunctions(MainWindow):
         resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
         resultado_total7 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
         resultado_total8 = np.array([]) #Con preamble coarse, phase y fin freq
+        resultado_total9 = np.array([]) #Con solo phase
         
         self.graph_filtered = np.array([])
         self.graph_corrected = np.array([])
@@ -2245,6 +2282,8 @@ class MainFunctions(MainWindow):
         print("Factores normalización real - imag: ", factor_real, factor_imag)
         #(Linea para seleccion de esquema de modulación basado en nsimb y esquema de umbral elegido)
         print("6. INICIALIZANDO ESQUEMA CORRECCION Y DETECCION RX")
+        first_packet = True #Bandera utilizada en el plot de indices sync time
+        cont = 0
         for paquete in resultado_packets:
             resultado = paquete[100:] #Se separa el preambulo y la señal de "datos"
             preambulo = paquete[0:100]
@@ -2259,6 +2298,8 @@ class MainFunctions(MainWindow):
             
             filtered_onlycoarse_preamble, peak_freq_pre, diferencia = MainFunctions.coarse_preamble_frequency_correction(self,preambulo, sin_nada)
  
+            solo_phase, delta_phi2 = MainFunctions.coarse_phase_correction(self, sin_nada, preambulo, 0, fsample) #Solo phase
+ 
             solo_freq_coarse = filtered #Muestras para señal con solo Frecuencia corregida no por preambulo
             
             filtered_phase, delta_phi = MainFunctions.coarse_phase_correction(self, filtered, preambulo, peak_hz, fsample) #Muestras para Freq Coarse y Phase Coarse
@@ -2267,6 +2308,15 @@ class MainFunctions(MainWindow):
             
             #Sincronización en tiempo (No Muller). RECORDAR QUE LA NORMALIZACIÓN VARÍA CON LA CONSTELACIÓN
             symbolindices = np.arange(0, len(filtered), sps) #Indices para tomar muestra cada Sps
+            
+            if first_packet: #Solo para graficar indices sync time. La primera vez no edebe super sps*100
+                first_packet = False
+                self.symbols_indices_plot = np.append(self.symbols_indices_plot, symbolindices)
+                cont += 1
+            else:
+                self.symbols_indices_plot = np.append(self.symbols_indices_plot, symbolindices + sps*100*cont)
+                cont += 1
+            
             
             simbolos = filtered[symbolindices] #Señal sin muller, con coarse y fine freq
             simbolos.real = simbolos.real/np.max(abs(simbolos.real))
@@ -2297,6 +2347,13 @@ class MainFunctions(MainWindow):
             simbolos_onlycoarse_preamble.imag = simbolos_onlycoarse_preamble.imag / np.max(abs(simbolos_onlycoarse_preamble.imag))
             simbolos_onlycoarse_preamble.real = simbolos_onlycoarse_preamble.real * factor_real
             simbolos_onlycoarse_preamble.imag = simbolos_onlycoarse_preamble.imag * factor_imag
+            
+            simbolos_onlyphase = solo_phase[symbolindices] #Simbolos solo phase
+            simbolos_onlyphase.real = simbolos_onlyphase.real / np.max(abs(simbolos_onlyphase.real))
+            simbolos_onlyphase.imag = simbolos_onlyphase.imag / np.max(abs(simbolos_onlyphase.imag))
+            simbolos_onlyphase.real = simbolos_onlyphase.real * factor_real
+            simbolos_onlyphase.imag = simbolos_onlyphase.imag * factor_imag
+            
             
             #Sincronización en tiempo con Muller
             simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
@@ -2330,6 +2387,8 @@ class MainFunctions(MainWindow):
             resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
             resultado_total8 = np.append(resultado_total8,MainFunctions.check_conditions(self,simbolos5, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema))
+            
+            resultado_total9 = np.append(resultado_total9,MainFunctions.check_conditions(self,simbolos_onlyphase, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema))
             
             self.graph_filtered = np.append(self.graph_filtered, sin_nada) #Señal tiempo filtrada
             
@@ -2368,7 +2427,8 @@ class MainFunctions(MainWindow):
             resultado_total5 = MainFunctions.remove_padding_bits(self,resultado_total5)
             resultado_total6 = MainFunctions.remove_padding_bits(self,resultado_total6)
             resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)
-            resultado_total8 = MainFucntions.remove_padding_bits(self,resultado_total8)              
+            resultado_total8 = MainFunctions.remove_padding_bits(self,resultado_total8)
+            resultado_total9 = MainFunctions.remove_padding_bits(self,resultado_total9)              
         """  
         print("6- ESQUEMA CORRECIONES RX REALIZADO")
         print("")
@@ -2406,7 +2466,7 @@ class MainFunctions(MainWindow):
         print("SER: ", self.ser)
         print("Num Errores: ", self.num_errors)
         print("Cantidad simbolos: ", self.cantidad_simbolos)
-        
+        print("Samples per Symbol: ", sps)
         
         if message_format == 1: #String
             self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
@@ -2417,12 +2477,14 @@ class MainFunctions(MainWindow):
             self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
             self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
             self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n\n"
+            self.string_resultado += "Resultado 9: Solo Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total9) + "\n\n"
             print(self.string_resultado)
+            #print("symbols indices: ", self.symbols_indices_plot)
         
         elif message_format == 2: #Imagen jpg
             print("Procesando imagenes...")
             resultado_correcto = False
-            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8,resultado_total9], dtype=object)
             
             for index,image in enumerate(images):
                 try:
@@ -2477,7 +2539,7 @@ class MainFunctions(MainWindow):
         elif message_format == 10: #Imagen a escala de grises
             print("Procesando imagenes escala grises...")
             resultado_correcto = False
-            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8,resultado_total9], dtype=object)
             
             for index,image in enumerate(images):
                 try:
@@ -2524,7 +2586,7 @@ class MainFunctions(MainWindow):
         elif message_format == 3: #Imagen PNG
             print("Procesando imagenes PNG...")
             resultado_correcto = False
-            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            images = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8,resultado_total9], dtype=object)
             
             for index,image in enumerate(images):
                 try:
@@ -2573,7 +2635,7 @@ class MainFunctions(MainWindow):
                 
             print("Procesando archivos {}...".format(file_extension))
             resultado_correcto = False
-            files = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8], dtype=object)
+            files = np.array([resultado_total,resultado_total2,resultado_total3,resultado_total4,resultado_total5,resultado_total6,resultado_total7,resultado_total8,resultado_total9], dtype=object)
             
             for index,file in enumerate(files):
                 try:
@@ -2687,6 +2749,30 @@ class MainFunctions(MainWindow):
         self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11)
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_4)
 
+        if self.reception_initiated_prev == True:
+            self.reception_initiated_prev = False
+
+            self.ui.DEPlayout.itemAt(0).widget().deleteLater()
+            self.ui.DEPlayout.itemAt(1).widget().deleteLater()
+
+            self.ui.Constlayout.itemAt(0).widget().deleteLater()
+            self.ui.Constlayout.itemAt(1).widget().deleteLater()
+
+            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
+            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+
+            self.ui.finalInfo_2.setText("")
+            
+            #self.graphWidget = pg.PlotWidget(background="w")
+            #self.graphWidget_3 = pg.PlotWidget(background="w")
+            #self.graphWidget_4 = pg.PlotWidget(background="w")
+
+            if self.graphics_final_fase == True:
+                self.graphics_final_fase = False
+                    
+                self.ui.SRlayout.itemAt(0).widget().deleteLater()
+                self.ui.SRlayout.itemAt(1).widget().deleteLater()          
+            
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
 
@@ -2710,22 +2796,25 @@ class MainFunctions(MainWindow):
         pen1 = pg.mkPen(color=(255, 0, 0), style = QtCore.Qt.NoPen)
         pen2 = pg.mkPen(color=(255, 0, 0))  
         
+        self.graphWidget = pg.PlotWidget(background="w")
         self.ui.Constlayout.addWidget(self.graphWidget) 
         self.data_line1 =  self.graphWidget.plot(self.x, self.y, pen=pen1, symbol='+', symbolSize=5, symbolBrush=('b'))
         
         #self.ui.SRlayout.addWidget(self.graphWidget_2)
         #self.data_line2 =  self.graphWidget_2.plot(self.x, self.y, pen=pen2)
         
+        self.graphWidget_3 = pg.PlotWidget(background="w")
         self.ui.DEPlayout.addWidget(self.graphWidget_3)
         self.data_line3 =  self.graphWidget_3.plot(self.x, self.y, pen=pen2)
 
+        self.graphWidget_4 = pg.PlotWidget(background="w")
         self.ui.recBBlayout.addWidget(self.graphWidget_4)
         self.data_line4 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
         
         self.muestras = np.array([], dtype=complex)
         
-        if self.reception_initiated == False:
-            self.reception_initiated = True
+        if self.reception_initiated_prev == False:
+            self.reception_initiated_prev = True
             
             #Creo que va a ser mejor tener el buffer en hilo normal, y el plot en hilo controlador por timer cada 30ms por ejemplo
             self.realtime_buffer = threading.Thread(target=MainFunctions.get_buffer_sdr, args=(self,), daemon=True)
@@ -2747,38 +2836,8 @@ class MainFunctions(MainWindow):
         
             #DATA SIGNAL RECEIVED 
             #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
-      
-            #DEP
-            self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
 
-            #CONSTELATION
-            self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
-            
-        else:
-            self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-            self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-
-            self.ui.Constlayout.itemAt(0).widget().deleteLater()
-            self.ui.Constlayout.itemAt(1).widget().deleteLater()
-
-            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-
-            self.ui.finalInfo_2.setText("")
-
-            if self.graphics_final_fase == True:
-                self.graphics_final_fase = False
-                
-                self.ui.SRlayout.itemAt(0).widget().deleteLater()
-                self.ui.SRlayout.itemAt(1).widget().deleteLater()          
-            
-            self.timer.setInterval(10)
-            self.timer.timeout.connect(lambda: MainFunctions.update_plot_data(self, buffer, fsample))
-            self.timer.start()
-            
-######################################################################################################## REAL TIME BUTTONS
-            #STOP RECEPTION
-            self.ui.stoprecBtn.clicked.connect(lambda: MainFunctions.real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema))
+            self.ui.recepBtn.clicked.connect(lambda: self.ui.simWarnTxt.setText("El proceso de recepción ya fue inicializado. Esperar a que termine el proceso de recepción"))
       
             #DEP
             self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
@@ -2925,14 +2984,27 @@ class plt_received_signal(FigureCanvas):
         
 class plt_received_signal2(FigureCanvas):
      
-    def __init__(self, x, y, x2, y2, parent = None):  
+    def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
         self.fig2 , self.ax2 = plt.subplots()
         super().__init__(self.fig2)
         #self.fig2.clf()
         #self.fig2.cla()
         #self.fig2.close()
         
-        self.ax2.plot(x, y, x2, y2)
+        if len(plot_sync_time) > 0 and len(plot_sync_time) <= 40: #Solo grafica la referencia si hay 40 simbolos max, si hay mas la grafica se ve muy saturada
+           if np.max(y) >= np.max(y2):
+               ymax = np.max(y)
+           else:
+               ymax = np.max(y2)
+           if np.min(y) <= np.min(y2):
+               ymin = np.min(y)
+           else:
+               ymin = np.min(y2)
+               
+           self.ax2.plot(x, y, x2, y2)
+           self.ax2.vlines(x[plot_sync_time], ymin=ymin, ymax=ymax, colors='r', linestyle='dashed', alpha=0.45)
+        else:
+            self.ax2.plot(x, y, x2, y2)
         self.ax2.grid()
         
 class plt_received_signal3(FigureCanvas):

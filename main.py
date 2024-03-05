@@ -143,10 +143,10 @@ class MainWindow(QMainWindow):
         
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
-        self.graphWidget = pg.PlotWidget(background= "w")
-        self.graphWidget_2 = pg.PlotWidget(background= "w")
-        self.graphWidget_3 = pg.PlotWidget(background= "w")
-        self.graphWidget_4 = pg.PlotWidget(background= "w")
+        #self.graphWidget = pg.PlotWidget(background= "w")
+        #self.graphWidget_2 = pg.PlotWidget(background= "w")
+        #self.graphWidget_3 = pg.PlotWidget(background= "w")
+        #self.graphWidget_4 = pg.PlotWidget(background= "w")
         
         #FLAGS
         self.BB_graph_flag = False
@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
         self.add_threshold_4_symbols_flag = False
         self.add_threshold_4_symbols_2_flag = False
         
-        self.reception_initiated = False
+        self.reception_initiated_prev = False
         self.reception_configured = False
         self.graphics_final_fase = False
         
@@ -559,7 +559,7 @@ class MainWindow(QMainWindow):
         self.grafica3 = plt_received_signal3(self.graph_filtered.real, self.graph_filtered.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
-        self.grafica4 = plt_received_signal2(t, self.graph_filtered.real, t, self.graph_filtered.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.grafica4 = plt_received_signal2(t, self.graph_filtered.real, t, self.graph_filtered.imag, plot_sync_time=self.symbols_indices_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
 
         self.ui.DEPlayout.addWidget(self.grafica1)
@@ -597,7 +597,7 @@ class MainWindow(QMainWindow):
         self.grafica3 = plt_received_signal3(self.graph_corrected.real, self.graph_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
-        self.grafica4 = plt_received_signal2(t, self.graph_corrected.real, t, self.graph_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.grafica4 = plt_received_signal2(t, self.graph_corrected.real, t, self.graph_corrected.imag, plot_sync_time=self.symbols_indices_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
 
         self.ui.DEPlayout.addWidget(self.grafica1)
