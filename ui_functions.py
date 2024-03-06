@@ -757,8 +757,8 @@ class MainFunctions(MainWindow):
             self.ui.recBBlayout.addWidget(self.toolbar)
 
         else:
-            self.grafica.fig.clf()
-            self.toolbar.close()
+            #self.grafica.fig.clf()
+            #self.toolbar.close()
             self.ui.recBBlayout.itemAt(0).widget().deleteLater()
             self.ui.recBBlayout.itemAt(1).widget().deleteLater()
 
@@ -807,29 +807,29 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
         else:
-            self.grafica1.fig.clf()
-            self.toolbar1.close()
+            #self.grafica1.fig.clf()
+            #self.toolbar1.close()
             self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
             self.ui.prevPBlayout.itemAt(1).widget().deleteLater()    
             #self.ui.prevPBlayout.removeWidget(self.grafica1)
             #self.ui.prevPBlayoutt.removeWidget(self.toolbar1)
 
-            self.grafica2.fig.clf()
-            self.toolbar2.close()
+            #self.grafica2.fig.clf()
+            #self.toolbar2.close()
             self.ui.prevDEPlayout.itemAt(0).widget().deleteLater()
             self.ui.prevDEPlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevDEPlayout.removeWidget(self.grafica2)
             #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
 
-            self.grafica3.fig.clf()
-            self.toolbar3.close()
+            #self.grafica3.fig.clf()
+            #self.toolbar3.close()
             self.ui.prevConstlayout.itemAt(0).widget().deleteLater()
             self.ui.prevConstlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevConstlayout.removeWidget(self.grafica3)
             #self.ui.prevConstlayout.removeWidget(self.toolbar3)
 
-            self.grafica4.fig.clf()
-            self.toolbar4.close()
+            #self.grafica4.fig.clf()
+            #self.toolbar4.close()
             self.ui.prevMSlayout.itemAt(0).widget().deleteLater()
             self.ui.prevMSlayout.itemAt(1).widget().deleteLater()
             #self.ui.prevMSlayout.removeWidget(self.grafica4)
@@ -2767,18 +2767,18 @@ class MainFunctions(MainWindow):
         if self.reception_initiated_prev == True:
             self.reception_initiated_prev = False
 
-            self.grafica1.fig.clf()
-            self.toolbar1.close()
+            #self.grafica1.fig.clf()
+            #self.toolbar1.close()
             self.ui.DEPlayout.itemAt(0).widget().deleteLater()
             self.ui.DEPlayout.itemAt(1).widget().deleteLater()
 
-            self.grafica3.fig3.clf()
-            self.toolbar3.close()
+            #self.grafica3.fig3.clf()
+            #self.toolbar3.close()
             self.ui.Constlayout.itemAt(0).widget().deleteLater()
             self.ui.Constlayout.itemAt(1).widget().deleteLater()
 
-            self.grafica4.fig2.clf()
-            self.toolbar4.close()
+            #self.grafica4.fig2.clf()
+            #self.toolbar4.close()
             self.ui.recBBlayout.itemAt(0).widget().deleteLater()
             self.ui.recBBlayout.itemAt(1).widget().deleteLater()
 
