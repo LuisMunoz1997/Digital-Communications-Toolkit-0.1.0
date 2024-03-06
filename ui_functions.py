@@ -1072,7 +1072,7 @@ class MainFunctions(MainWindow):
 
     def define_regions(self, nsimb, esquema):
         if nsimb == 2:
-            if esquema == 1: #Regiones FSK
+            if esquema == 4: #Regiones FSK
                 regiones = [
                     'samples.imag < umbrales[0](samples.real)', #0
                     'samples.imag > umbrales[0](samples.real)', #1
@@ -1099,7 +1099,7 @@ class MainFunctions(MainWindow):
                         '0',
                         '1',
                     ]
-            elif esquema ==4: # Regiones 2ASK
+            elif esquema ==1: # Regiones 2ASK
                 regiones = [
                     'samples.real < umbrales_no[0][0].real', #0
                     'samples.real > umbrales_no[0][0].real', #1
@@ -2240,6 +2240,8 @@ class MainFunctions(MainWindow):
         #Selección del esquema acorde a la modulación utilizada, para la corrección de errores y normalización de los símbolos.
         if nsimb == 2 and esquema == 3: #BPSK normal
             mod_scheme = "BPSK"
+        elif nsimb == 2 and esquema == 1: #2ASK
+            mod_scheme = "CUSTOM"
         elif nsimb == 4 and esquema == 2: #QPSK normal
             mod_scheme = "QPSK"
         elif nsimb == 8 and esquema == "8QAM-DIAGONAL": #8QAM DIAGONAL
@@ -2260,6 +2262,9 @@ class MainFunctions(MainWindow):
         if esquema == "CUSTOM":
             factor_real = np.max(abs(self.constellation_rx.real))
             factor_imag = np.max(abs(self.constellation_rx.imag))
+        elif esquema == "2ASK":
+            factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,1).real))
+            factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,1).imag))
         elif esquema == "8QAM-DIAGONAL": 
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,3, qam8_selector = 3).imag))
@@ -2933,7 +2938,7 @@ class MainFunctions(MainWindow):
 class plt_bits_coded(FigureCanvas):
      
     def __init__(self, y, x, tbit, parent = None):        
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=1, clear=True)
         super().__init__(self.fig)
     
         plt.plot(x[0:40000], y[0:40000])
@@ -2950,7 +2955,7 @@ class plt_bits_coded(FigureCanvas):
 class plt_modulated_signal(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=1, clear=True)
         super().__init__(self.fig)
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear', Fc = 0)
@@ -2961,7 +2966,7 @@ class plt_modulated_signal(FigureCanvas):
 class plt_modulated_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, parent = None):  
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=2, clear=True)
         super().__init__(self.fig)
         
         self.ax.plot(x, y, x2, y2)
@@ -2970,7 +2975,7 @@ class plt_modulated_signal2(FigureCanvas):
 class plt_modulated_signal3(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=3, clear=True)
         super().__init__(self.fig)
         
         self.ax.plot(x, y, "*", linewidth = 58)
@@ -2979,7 +2984,7 @@ class plt_modulated_signal3(FigureCanvas):
 class plt_modulated_signal4(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=4, clear=True)
         super().__init__(self.fig)
         
         self.ax.plot(x, y)
@@ -2991,7 +2996,7 @@ class plt_modulated_signal4(FigureCanvas):
 class plt_received_signal(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots()
+        self.fig , self.ax = plt.subplots(num=5, clear=True)
         super().__init__(self.fig)
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
@@ -3002,7 +3007,7 @@ class plt_received_signal(FigureCanvas):
 class plt_received_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
-        self.fig2 , self.ax2 = plt.subplots()
+        self.fig2 , self.ax2 = plt.subplots(num=6, clear=True)
         super().__init__(self.fig2)
         #self.fig2.clf()
         #self.fig2.cla()
@@ -3027,7 +3032,7 @@ class plt_received_signal2(FigureCanvas):
 class plt_received_signal3(FigureCanvas):
      
     def __init__(self, x, y, thresholds=np.array([0]), parent = None):  
-        self.fig3 , self.ax3 = plt.subplots()
+        self.fig3 , self.ax3 = plt.subplots(num=7, clear=True)
         super().__init__(self.fig3)
         #self.fig3.clf()
         #self.fig3.cla()
@@ -3049,7 +3054,7 @@ class plt_received_signal3(FigureCanvas):
 class plt_received_signal4(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig4 , self.ax4 = plt.subplots()
+        self.fig4 , self.ax4 = plt.subplots(num=8, clear=True)
         super().__init__(self.fig4)
         #self.fig4.clf()
         #self.fig4.cla()

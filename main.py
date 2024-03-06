@@ -832,6 +832,12 @@ class MainWindow(QMainWindow):
                     #Esquema = 3 - Recta paralela eje Y - BPSK normal
                     #Esquema = 4 - Recta eje Y=1.5 - ASK normal
                     #Esquema = 5 - Recta eje Y=0.5 - OOK normal, probablemente no se use
+                    
+                    if esquema == 1: #Umbrales 2ASK
+                        esquema = "2ASK"
+                        
+                    if threshold_index == 1:
+                        threshold_index = 1 #En este caso se acomodo en threshold_defined, regiones es 4 para 2ask
 
                     MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
 
