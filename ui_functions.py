@@ -757,10 +757,13 @@ class MainFunctions(MainWindow):
             self.ui.recBBlayout.addWidget(self.toolbar)
 
         else:
-            #self.grafica.fig.clf()
-            #self.toolbar.close()
-            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+
+
+            for i in reversed(range(self.ui.recBBlayout.count())):
+                
+                widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+                self.ui.recBBlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
 
             self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
@@ -807,40 +810,67 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
         else:
-            #self.grafica1.fig.clf()
-            #self.toolbar1.close()
-            self.ui.prevPBlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevPBlayout.itemAt(1).widget().deleteLater()    
-            #self.ui.prevPBlayout.removeWidget(self.grafica1)
-            #self.ui.prevPBlayoutt.removeWidget(self.toolbar1)
 
-            #self.grafica2.fig.clf()
-            #self.toolbar2.close()
-            self.ui.prevDEPlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevDEPlayout.itemAt(1).widget().deleteLater()
-            #self.ui.prevDEPlayout.removeWidget(self.grafica2)
-            #self.ui.prevDEPlayout.removeWidget(self.toolbar2)
+            for i in reversed(range(self.ui.prevPBlayout.count())):
+                
+                widgetToRemove = self.ui.prevPBlayout.itemAt(i).widget()
+                self.ui.prevPBlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
 
-            #self.grafica3.fig.clf()
-            #self.toolbar3.close()
-            self.ui.prevConstlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevConstlayout.itemAt(1).widget().deleteLater()
-            #self.ui.prevConstlayout.removeWidget(self.grafica3)
-            #self.ui.prevConstlayout.removeWidget(self.toolbar3)
+            #AwidgetToRemove0 = self.ui.prevPBlayout.itemAt(0).widget()
+            #AwidgetToRemove1 = self.ui.prevPBlayout.itemAt(1).widget()
+            #self.ui.prevPBlayout.removeWidget(AwidgetToRemove0)
+            #self.ui.prevPBlayout.removeWidget(AwidgetToRemove1)
+            #AwidgetToRemove0.deleteLater()
+            #AwidgetToRemove1.deleteLater()
 
-            #self.grafica4.fig.clf()
-            #self.toolbar4.close()
-            self.ui.prevMSlayout.itemAt(0).widget().deleteLater()
-            self.ui.prevMSlayout.itemAt(1).widget().deleteLater()
-            #self.ui.prevMSlayout.removeWidget(self.grafica4)
-            #self.ui.prevMSlayout.removeWidget(self.toolbar4)
+            for i in reversed(range(self.ui.prevDEPlayout.count())):
+                
+                widgetToRemove = self.ui.prevDEPlayout.itemAt(i).widget()
+                self.ui.prevDEPlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
+
+            #BwidgetToRemove0 = self.ui.prevDEPlayout.itemAt(0).widget()
+            #BwidgetToRemove1 = self.ui.prevDEPlayout.itemAt(1).widget()
+            #self.ui.prevDEPlayout.removeWidget(BwidgetToRemove0)
+            #self.ui.prevDEPlayout.removeWidget(BwidgetToRemove1)
+            #BwidgetToRemove0.deleteLater()
+            #BwidgetToRemove1.deleteLater()
+
+            for i in reversed(range(self.ui.prevConstlayout.count())):
+                
+                widgetToRemove = self.ui.prevConstlayout.itemAt(i).widget()
+                self.ui.prevConstlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
+
+            #CwidgetToRemove0 = self.ui.prevConstlayout.itemAt(0).widget()
+            #CwidgetToRemove1 = self.ui.prevConstlayout.itemAt(1).widget()
+            #self.ui.prevConstlayout.removeWidget(CwidgetToRemove0)
+            #self.ui.prevConstlayout.removeWidget(CwidgetToRemove1)
+            #CwidgetToRemove0.deleteLater()
+            #CwidgetToRemove1.deleteLater()
+
+
+            for i in reversed(range(self.ui.prevMSlayout.count())):
+                
+                widgetToRemove = self.ui.prevMSlayout.itemAt(i).widget()
+                self.ui.prevMSlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
+
+            #DwidgetToRemove0 = self.ui.prevMSlayout.itemAt(0).widget()
+            #DwidgetToRemove1 = self.ui.prevMSlayout.itemAt(1).widget()
+            #self.ui.prevMSlayout.removeWidget(DwidgetToRemove0)
+            #self.ui.prevMSlayout.removeWidget(DwidgetToRemove1)
+            #DwidgetToRemove0.deleteLater()
+            #DwidgetToRemove1.deleteLater()
             
             
             #estimated_time = (len(symbols) / fsample)
             #t1 = np.arange(0, estimated_time, 1/fsample)
             #if len(t1) > len(symbols):
             #    t1 = t1[:-1]
-            
+
+                
             t1 = np.arange(len(symbols)) / fsample
 
             t2, modulated = MainFunctions.plot_modulated(self, tsim, fsample, symbols)
@@ -867,7 +897,9 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.grafica4)
             self.ui.prevMSlayout.addWidget(self.toolbar4)    
         
+        
 
+    
     def slope(self, a):
         radians = a*np.pi/180
         return np.tan(radians)
@@ -2149,17 +2181,35 @@ class MainFunctions(MainWindow):
 
         #self.ui.SRlayout.removeWidget(self.graphWidget_2)
 
-        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-        #self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-        #self.ui.DEPlayout.removeWidget(self.graphWidget_3)
+        for i in reversed(range(self.ui.DEPlayout.count())):
+                
+            widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+            self.ui.DEPlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        self.ui.Constlayout.itemAt(0).widget().deleteLater()
-        #self.ui.Constlayout.itemAt(1).widget().deleteLater()
-        #self.ui.Constlayout.removeWidget(self.graphWidget)
+        #AwidgetToRemove = self.ui.DEPlayout.itemAt(0).widget()
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove)
+        #AwidgetToRemove.deleteLater()
+            
+        for i in reversed(range(self.ui.Constlayout.count())):
+                
+            widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+            self.ui.Constlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-        #self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-        #self.ui.recBBlayout.removeWidget(self.graphWidget_4)
+        #BwidgetToRemove = self.ui.Constlayout.itemAt(0).widget()
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove)
+        #BwidgetToRemove.deleteLater()
+            
+        for i in reversed(range(self.ui.recBBlayout.count())):
+                
+            widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+            self.ui.recBBlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
+
+        #CwidgetToRemove = self.ui.recBBlayout.itemAt(0).widget()
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove)
+        #CwidgetToRemove.deleteLater()
 
 
 
@@ -2767,20 +2817,47 @@ class MainFunctions(MainWindow):
         if self.reception_initiated_prev == True:
             self.reception_initiated_prev = False
 
-            #self.grafica1.fig.clf()
-            #self.toolbar1.close()
-            self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-            self.ui.DEPlayout.itemAt(1).widget().deleteLater()
 
-            #self.grafica3.fig3.clf()
-            #self.toolbar3.close()
-            self.ui.Constlayout.itemAt(0).widget().deleteLater()
-            self.ui.Constlayout.itemAt(1).widget().deleteLater()
+            for i in reversed(range(self.ui.DEPlayout.count())):
+                    
+                widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+                self.ui.DEPlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
 
-            #self.grafica4.fig2.clf()
-            #self.toolbar4.close()
-            self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-            self.ui.recBBlayout.itemAt(1).widget().deleteLater()
+            #AwidgetToRemove0 = self.ui.DEPlayout.itemAt(0).widget()
+            #AwidgetToRemove1 = self.ui.DEPlayout.itemAt(1).widget()
+            #self.ui.DEPlayout.removeWidget(AwidgetToRemove0)
+            #self.ui.DEPlayout.removeWidget(AwidgetToRemove1)
+            #AwidgetToRemove0.deleteLater()
+            #AwidgetToRemove1.deleteLater()
+                
+            print("PRUEBAAAAAAAAAA")
+                
+            for i in reversed(range(self.ui.Constlayout.count())):
+                    
+                widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+                self.ui.Constlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
+
+            #BwidgetToRemove0 = self.ui.Constlayout.itemAt(0).widget()
+            #BwidgetToRemove1 = self.ui.Constlayout.itemAt(1).widget()
+            #self.ui.Constlayout.removeWidget(BwidgetToRemove0)
+            #self.ui.Constlayout.removeWidget(BwidgetToRemove1)
+            #BwidgetToRemove0.deleteLater()
+            #BwidgetToRemove1.deleteLater()
+
+            for i in reversed(range(self.ui.recBBlayout.count())):
+                    
+                widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+                self.ui.recBBlayout.removeWidget(widgetToRemove)
+                widgetToRemove.deleteLater()
+
+            #CwidgetToRemove0 = self.ui.recBBlayout.itemAt(0).widget()
+            #CwidgetToRemove1 = self.ui.recBBlayout.itemAt(1).widget()
+            #self.ui.recBBlayout.removeWidget(CwidgetToRemove0)
+            #self.ui.recBBlayout.removeWidget(CwidgetToRemove1)
+            #CwidgetToRemove0.deleteLater()
+            #CwidgetToRemove1.deleteLater()
 
             self.ui.finalInfo_2.setText("")
             
@@ -2790,9 +2867,20 @@ class MainFunctions(MainWindow):
 
             if self.graphics_final_fase == True:
                 self.graphics_final_fase = False
+                
+                for i in reversed(range(self.ui.SRlayout.count())):
                     
-                self.ui.SRlayout.itemAt(0).widget().deleteLater()
-                self.ui.SRlayout.itemAt(1).widget().deleteLater()          
+                    widgetToRemove = self.ui.SRlayout.itemAt(i).widget()
+                    self.ui.SRlayout.removeWidget(widgetToRemove)
+                    widgetToRemove.deleteLater()
+
+                #DwidgetToRemove0 = self.ui.SRlayout.itemAt(0).widget()
+                #DwidgetToRemove1 = self.ui.SRlayout.itemAt(1).widget()
+                #self.ui.SRlayout.removeWidget(DwidgetToRemove0)
+                #self.ui.SRlayout.removeWidget(DwidgetToRemove1)
+                #DwidgetToRemove0.deleteLater()
+                #DwidgetToRemove1.deleteLater() 
+     
             
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
@@ -2938,7 +3026,7 @@ class MainFunctions(MainWindow):
 class plt_bits_coded(FigureCanvas):
      
     def __init__(self, y, x, tbit, parent = None):        
-        self.fig , self.ax = plt.subplots(num=1, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
     
         plt.plot(x[0:40000], y[0:40000])
@@ -2955,7 +3043,7 @@ class plt_bits_coded(FigureCanvas):
 class plt_modulated_signal(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots(num=1, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear', Fc = 0)
@@ -2966,7 +3054,7 @@ class plt_modulated_signal(FigureCanvas):
 class plt_modulated_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, parent = None):  
-        self.fig , self.ax = plt.subplots(num=2, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         self.ax.plot(x, y, x2, y2)
@@ -2975,7 +3063,7 @@ class plt_modulated_signal2(FigureCanvas):
 class plt_modulated_signal3(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots(num=3, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         self.ax.plot(x, y, "*", linewidth = 58)
@@ -2984,7 +3072,7 @@ class plt_modulated_signal3(FigureCanvas):
 class plt_modulated_signal4(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots(num=4, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         self.ax.plot(x, y)
@@ -2996,7 +3084,7 @@ class plt_modulated_signal4(FigureCanvas):
 class plt_received_signal(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig , self.ax = plt.subplots(num=5, clear=True)
+        self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
@@ -3007,7 +3095,7 @@ class plt_received_signal(FigureCanvas):
 class plt_received_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
-        self.fig2 , self.ax2 = plt.subplots(num=6, clear=True)
+        self.fig2 , self.ax2 = plt.subplots()
         super().__init__(self.fig2)
         #self.fig2.clf()
         #self.fig2.cla()
@@ -3032,7 +3120,7 @@ class plt_received_signal2(FigureCanvas):
 class plt_received_signal3(FigureCanvas):
      
     def __init__(self, x, y, thresholds=np.array([0]), parent = None):  
-        self.fig3 , self.ax3 = plt.subplots(num=7, clear=True)
+        self.fig3 , self.ax3 = plt.subplots()
         super().__init__(self.fig3)
         #self.fig3.clf()
         #self.fig3.cla()
@@ -3054,7 +3142,7 @@ class plt_received_signal3(FigureCanvas):
 class plt_received_signal4(FigureCanvas):
      
     def __init__(self, x, y, parent = None):  
-        self.fig4 , self.ax4 = plt.subplots(num=8, clear=True)
+        self.fig4 , self.ax4 = plt.subplots()
         super().__init__(self.fig4)
         #self.fig4.clf()
         #self.fig4.cla()

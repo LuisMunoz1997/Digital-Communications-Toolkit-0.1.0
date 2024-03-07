@@ -536,27 +536,46 @@ class MainWindow(QMainWindow):
     def recep_filter_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
 
-        #self.grafica1.fig.clf()
-        #self.toolbar1.close()
-        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-        #self.ui.DEPlayout.removeWidget(self.grafica1)
-        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+        for i in reversed(range(self.ui.DEPlayout.count())):
+                
+            widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+            self.ui.DEPlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica3.fig3.clf()
-        #self.toolbar3.close()
-        self.ui.Constlayout.itemAt(0).widget().deleteLater()
-        self.ui.Constlayout.itemAt(1).widget().deleteLater()
-        #self.ui.Constlayout.removeWidget(self.grafica3)
-        #self.ui.Constlayout.removeWidget(self.toolbar3)
+        #AwidgetToRemove0 = self.ui.DEPlayout.itemAt(0).widget()
+        #AwidgetToRemove1 = self.ui.DEPlayout.itemAt(1).widget()
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove0)
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove1)
+        #AwidgetToRemove0.deleteLater()
+        #AwidgetToRemove1.deleteLater()
+            
+        for i in reversed(range(self.ui.Constlayout.count())):
+                
+            widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+            self.ui.Constlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica4.fig2.clf()
-        #self.toolbar4.close()
-        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-        #self.ui.recBBlayout.removeWidget(self.grafica4)
-        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+        #BwidgetToRemove0 = self.ui.Constlayout.itemAt(0).widget()
+        #BwidgetToRemove1 = self.ui.Constlayout.itemAt(1).widget()
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove0)
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove1)
+        #BwidgetToRemove0.deleteLater()
+        #BwidgetToRemove1.deleteLater()
 
+        for i in reversed(range(self.ui.recBBlayout.count())):
+                
+            widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+            self.ui.recBBlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
+
+        #CwidgetToRemove0 = self.ui.recBBlayout.itemAt(0).widget()
+        #CwidgetToRemove1 = self.ui.recBBlayout.itemAt(1).widget()
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove0)
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove1)
+        #CwidgetToRemove0.deleteLater()
+        #CwidgetToRemove1.deleteLater()
+
+        
         t = np.arange(len(self.graph_filtered)) / 522000
 
         self.grafica1 = plt_received_signal(self.graph_filtered, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
@@ -573,33 +592,52 @@ class MainWindow(QMainWindow):
         self.ui.Constlayout.addWidget(self.grafica3)
         self.ui.Constlayout.addWidget(self.toolbar3)
         self.ui.recBBlayout.addWidget(self.grafica4)
-        self.ui.recBBlayout.addWidget(self.toolbar4)
+        self.ui.recBBlayout.addWidget(self.toolbar4) 
 
         
 
     def recep_freq_fase_signal(self):      
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
 
-        #self.grafica1.fig.clf()
-        #self.toolbar1.close()
-        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-        #self.ui.DEPlayout.removeWidget(self.grafica1)
-        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+        for i in reversed(range(self.ui.DEPlayout.count())):
+                
+            widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+            self.ui.DEPlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica3.fig3.clf()
-        #self.toolbar3.close()
-        self.ui.Constlayout.itemAt(0).widget().deleteLater()
-        self.ui.Constlayout.itemAt(1).widget().deleteLater()
-        #self.ui.Constlayout.removeWidget(self.grafica3)
-        #self.ui.Constlayout.removeWidget(self.toolbar3)
+        #AwidgetToRemove0 = self.ui.DEPlayout.itemAt(0).widget()
+        #AwidgetToRemove1 = self.ui.DEPlayout.itemAt(1).widget()
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove0)
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove1)
+        #AwidgetToRemove0.deleteLater()
+        #AwidgetToRemove1.deleteLater()
+            
+        for i in reversed(range(self.ui.Constlayout.count())):
+                
+            widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+            self.ui.Constlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica4.fig2.clf()
-        #self.toolbar4.close()
-        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-        #self.ui.recBBlayout.removeWidget(self.grafica4)
-        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+        #BwidgetToRemove0 = self.ui.Constlayout.itemAt(0).widget()
+        #BwidgetToRemove1 = self.ui.Constlayout.itemAt(1).widget()
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove0)
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove1)
+        #BwidgetToRemove0.deleteLater()
+        #BwidgetToRemove1.deleteLater()
+
+        for i in reversed(range(self.ui.recBBlayout.count())):
+                
+            widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+            self.ui.recBBlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
+
+        #CwidgetToRemove0 = self.ui.recBBlayout.itemAt(0).widget()
+        #CwidgetToRemove1 = self.ui.recBBlayout.itemAt(1).widget()
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove0)
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove1)
+        #CwidgetToRemove0.deleteLater()
+        #CwidgetToRemove1.deleteLater()
+
 
         t = np.arange(len(self.graph_corrected)) / 522000
 
@@ -622,26 +660,45 @@ class MainWindow(QMainWindow):
     def recep_time_sync_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_35)
 
-        #self.grafica1.fig.clf()
-        #self.toolbar1.close()
-        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-        #self.ui.DEPlayout.removeWidget(self.grafica1)
-        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+        for i in reversed(range(self.ui.DEPlayout.count())):
+                
+            widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+            self.ui.DEPlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica3.fig3.clf()
-        #self.toolbar3.close()
-        self.ui.Constlayout.itemAt(0).widget().deleteLater()
-        self.ui.Constlayout.itemAt(1).widget().deleteLater()
-        #self.ui.Constlayout.removeWidget(self.grafica3)
-        #self.ui.Constlayout.removeWidget(self.toolbar3)
+        #AwidgetToRemove0 = self.ui.DEPlayout.itemAt(0).widget()
+        #AwidgetToRemove1 = self.ui.DEPlayout.itemAt(1).widget()
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove0)
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove1)
+        #AwidgetToRemove0.deleteLater()
+        #AwidgetToRemove1.deleteLater()
+            
+        for i in reversed(range(self.ui.Constlayout.count())):
+                
+            widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+            self.ui.Constlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica4.fig2.clf()
-        #self.toolbar4.close()
-        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-        #self.ui.recBBlayout.removeWidget(self.grafica4)
-        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+        #BwidgetToRemove0 = self.ui.Constlayout.itemAt(0).widget()
+        #BwidgetToRemove1 = self.ui.Constlayout.itemAt(1).widget()
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove0)
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove1)
+        #BwidgetToRemove0.deleteLater()
+        #BwidgetToRemove1.deleteLater()
+
+        for i in reversed(range(self.ui.recBBlayout.count())):
+                
+            widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+            self.ui.recBBlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
+
+        #CwidgetToRemove0 = self.ui.recBBlayout.itemAt(0).widget()
+        #CwidgetToRemove1 = self.ui.recBBlayout.itemAt(1).widget()
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove0)
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove1)
+        #CwidgetToRemove0.deleteLater()
+        #CwidgetToRemove1.deleteLater()
+
 
         t = np.arange(len(self.graph_sincro)) / 522000
 
@@ -668,26 +725,45 @@ class MainWindow(QMainWindow):
         n_format = self.ui.formatBox.currentIndex()
         self.graphics_final_fase = True
 
-        #self.grafica1.fig.clf()
-        #self.toolbar1.close()
-        self.ui.DEPlayout.itemAt(0).widget().deleteLater()
-        self.ui.DEPlayout.itemAt(1).widget().deleteLater()
-        #self.ui.DEPlayout.removeWidget(self.grafica1)
-        #self.ui.DEPlayout.removeWidget(self.toolbar1)
+        for i in reversed(range(self.ui.DEPlayout.count())):
+                
+            widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
+            self.ui.DEPlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica3.fig3.clf()
-        #self.toolbar3.close()
-        self.ui.Constlayout.itemAt(0).widget().deleteLater()
-        self.ui.Constlayout.itemAt(1).widget().deleteLater()
-        #self.ui.Constlayout.removeWidget(self.grafica3)
-        #self.ui.Constlayout.removeWidget(self.toolbar3)
+        #AwidgetToRemove0 = self.ui.DEPlayout.itemAt(0).widget()
+        #AwidgetToRemove1 = self.ui.DEPlayout.itemAt(1).widget()
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove0)
+        #self.ui.DEPlayout.removeWidget(AwidgetToRemove1)
+        #AwidgetToRemove0.deleteLater()
+        #AwidgetToRemove1.deleteLater()
+            
+        for i in reversed(range(self.ui.Constlayout.count())):
+                
+            widgetToRemove = self.ui.Constlayout.itemAt(i).widget()
+            self.ui.Constlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
 
-        #self.grafica4.fig2.clf()
-        #self.toolbar4.close()
-        self.ui.recBBlayout.itemAt(0).widget().deleteLater()
-        self.ui.recBBlayout.itemAt(1).widget().deleteLater()
-        #self.ui.recBBlayout.removeWidget(self.grafica4)
-        #self.ui.recBBlayout.removeWidget(self.toolbar4)
+        #BwidgetToRemove0 = self.ui.Constlayout.itemAt(0).widget()
+        #BwidgetToRemove1 = self.ui.Constlayout.itemAt(1).widget()
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove0)
+        #self.ui.Constlayout.removeWidget(BwidgetToRemove1)
+        #BwidgetToRemove0.deleteLater()
+        #BwidgetToRemove1.deleteLater()
+
+        for i in reversed(range(self.ui.recBBlayout.count())):
+                
+            widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
+            self.ui.recBBlayout.removeWidget(widgetToRemove)
+            widgetToRemove.deleteLater()
+
+        #CwidgetToRemove0 = self.ui.recBBlayout.itemAt(0).widget()
+        #CwidgetToRemove1 = self.ui.recBBlayout.itemAt(1).widget()
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove0)
+        #self.ui.recBBlayout.removeWidget(CwidgetToRemove1)
+        #CwidgetToRemove0.deleteLater()
+        #CwidgetToRemove1.deleteLater()
+
 
         MainFunctions.graph_original_bits_reception(self)
 
