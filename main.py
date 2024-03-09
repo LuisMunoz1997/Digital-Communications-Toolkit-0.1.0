@@ -34,6 +34,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from PIL import Image
 import zipfile
+import gc
 
 import random
 from random import randint
@@ -536,6 +537,14 @@ class MainWindow(QMainWindow):
     def recep_filter_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_30)
 
+        #self.grafica1.ax.cla()
+        #self.grafica1.fig.clf()
+        #self.grafica3.ax3.cla()
+        #self.grafica3.fig3.clf()
+        #self.grafica4.ax2.cla()
+        #self.grafica4.fig2.clf()
+        plt.close("all")
+
         for i in reversed(range(self.ui.DEPlayout.count())):
                 
             widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
@@ -599,6 +608,14 @@ class MainWindow(QMainWindow):
     def recep_freq_fase_signal(self):      
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_31)
 
+        #self.grafica1.ax.cla()
+        #self.grafica1.fig.clf()
+        #self.grafica3.ax3.cla()
+        #self.grafica3.fig3.clf()
+        #self.grafica4.ax2.cla()
+        #self.grafica4.fig2.clf()
+        plt.close("all")
+
         for i in reversed(range(self.ui.DEPlayout.count())):
                 
             widgetToRemove = self.ui.DEPlayout.itemAt(i).widget()
@@ -659,6 +676,14 @@ class MainWindow(QMainWindow):
 
     def recep_time_sync_signal(self):
         self.ui.stackedWidget_15.setCurrentWidget(self.ui.page_35)
+
+        #self.grafica1.ax.cla()
+        #self.grafica1.fig.clf()
+        #self.grafica3.ax3.cla()
+        #self.grafica3.fig3.clf()
+        #self.grafica4.ax2.cla()
+        #self.grafica4.fig2.clf()
+        plt.close("all")
 
         for i in reversed(range(self.ui.DEPlayout.count())):
                 
@@ -724,6 +749,14 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
         n_format = self.ui.formatBox.currentIndex()
         self.graphics_final_fase = True
+
+        #self.grafica1.ax.cla()
+        #self.grafica1.fig.clf()
+        #self.grafica3.ax3.cla()
+        #self.grafica3.fig3.clf()
+        #self.grafica4.ax2.cla()
+        #self.grafica4.fig2.clf()
+        plt.close("all")
 
         for i in reversed(range(self.ui.DEPlayout.count())):
                 
@@ -805,6 +838,9 @@ class MainWindow(QMainWindow):
 
         elif n_format > 3:
             pass
+            
+        gc.collect() #Verificar si esto afecta negativamente. Se llama al Garbage Collector al final de que se tenga en pantalla toda la info final de la señal
+        del self.muestras #Borra el arreglo de muestras completas recibidas
 
 
     def check_reception_state(self):
@@ -2620,7 +2656,7 @@ class MainWindow(QMainWindow):
         if self.user_defined_const_flag == True:
             index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
-        amplitude = 1.5
+        amplitude = 2
         codeline = self.ui.codeBox.currentIndex()
         
         if self.text_flag_message == True:

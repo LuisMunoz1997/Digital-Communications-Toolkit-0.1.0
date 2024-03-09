@@ -673,7 +673,7 @@ class MainFunctions(MainWindow):
         if self.ui.UmbDisBtn.isChecked() == True:
             index_n_symbols = self.ui.simPBitBox_2.currentIndex()
 
-        amplitude = 1.5
+        amplitude = 2
         codeline = self.ui.codelineBox.currentIndex()
         fsample = self.fsample
         tsim = self.ui.tbit.value() 
@@ -730,7 +730,7 @@ class MainFunctions(MainWindow):
 
                 if (ami[i]==1) and (previousOne==0):
                     ami[i] = amplitude
-                    previousOne=1
+                    previousOne = 1
                 
                 if (ami[i]==1) and (previousOne==1):
                     ami[i]= -amplitude
@@ -758,12 +758,19 @@ class MainFunctions(MainWindow):
 
         else:
 
+            #self.grafica.ax.cla()
+            #self.grafica.fig.clf()
+            plt.close("all")
 
             for i in reversed(range(self.ui.recBBlayout.count())):
                 
                 widgetToRemove = self.ui.recBBlayout.itemAt(i).widget()
                 self.ui.recBBlayout.removeWidget(widgetToRemove)
                 widgetToRemove.deleteLater()
+
+            #self.grafica.ax.cla()
+            #self.grafica.fig.clf()
+            plt.close("all")
 
             self.grafica = plt_bits_coded(coded_bits, t, tbit) #Banda Base
             self.toolbar = NavigationToolbar(self.grafica, self)
@@ -810,6 +817,16 @@ class MainFunctions(MainWindow):
             self.ui.prevMSlayout.addWidget(self.toolbar4)
             
         else:
+
+            #self.grafica1.ax.cla()
+            #self.grafica1.fig.clf()
+            #self.grafica2.ax.cla()
+            #self.grafica2.fig.clf()
+            #self.grafica3.ax3.cla()
+            #self.grafica3.fig3.clf()
+            #self.grafica4.ax2.cla()
+            #self.grafica4.fig2.clf()
+            plt.close("all")
 
             for i in reversed(range(self.ui.prevPBlayout.count())):
                 
@@ -2248,6 +2265,7 @@ class MainFunctions(MainWindow):
         print("4. OBTENIENDO SEÑAL DE INTERES")
         margen = 3
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
+        #resultado = self.muestras
         print(resultado)
         print(self.muestras)
         start = resultado[0][0]
@@ -2760,10 +2778,13 @@ class MainFunctions(MainWindow):
 
     def get_buffer_sdr(self):
         print("Realtime buffer started")
-        margen = 4
+        margen = 3
         while True:
             if not self.stop_realtime_flag:
                 self.buffer_plot = self.sdr.rx()
+                
+                #if ~(self.buffer_plot.any() <=margen) | ~(self.buffer_plot.any() >=-margen) | ~(self.buffer_plot.any() <=margen) | ~(self.buffer_plot.any() >=-margen):
+                    #self.muestras = np.append(self.muestras, self.buffer_plot)
                 #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
                 
                 #if len(resultado) >= 2:
@@ -2817,6 +2838,15 @@ class MainFunctions(MainWindow):
         if self.reception_initiated_prev == True:
             self.reception_initiated_prev = False
 
+            #self.grafica1.ax.cla()
+            #self.grafica1.fig.clf()
+            #self.grafica2.ax.cla()
+            #self.grafica2.fig.clf()
+            #self.grafica3.ax3.cla()
+            #self.grafica3.fig3.clf()
+            #self.grafica4.ax2.cla()
+            #self.grafica4.fig2.clf()
+            plt.close("all")
 
             for i in reversed(range(self.ui.DEPlayout.count())):
                     
