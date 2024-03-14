@@ -2166,8 +2166,14 @@ class MainFunctions(MainWindow):
         for index,threshold in enumerate(thresholds): #Acá hay que acomodar si umbral es linea recta
             try:
                 for sample in received_samples:
-                    distance_y = np.abs(sample.imag - thresholds[index](sample.real))
-                    distance_x = np.abs(sample.real - thresholds_i[index](sample.imag))
+                    try:
+                        distance_y = np.abs(sample.imag - thresholds[index](sample.real)) #Si linea no es Vertical -> Inclinada
+                    except:
+                        distance_y = np.abs(sample.real - thresholds_i[index](sample.imag)) #Si linea es Vertical
+                    try:
+                        distance_x = np.abs(sample.real - thresholds_i[index](sample.imag)) #Si linea no es Horizontal -> Inclinada
+                    except:
+                        distance_x = np.abs(sample.imag - thresholds[index](sample.real)) #Si linea es Horizontal
                     if distance_y <= umbral or distance_x <= umbral:
                         error_symbols = np.append(error_symbols, sample)
             except Exception as e:
@@ -2264,8 +2270,8 @@ class MainFunctions(MainWindow):
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
         margen = 3
+        #Aca se puede insertar 0+0j y apendar 0+0j a self.muestras para evitar comernos señal con la línea de abajo
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
-        #resultado = self.muestras
         print(resultado)
         print(self.muestras)
         start = resultado[0][0]
@@ -2783,8 +2789,8 @@ class MainFunctions(MainWindow):
             if not self.stop_realtime_flag:
                 self.buffer_plot = self.sdr.rx()
                 
-                #if ~(self.buffer_plot.any() <=margen) | ~(self.buffer_plot.any() >=-margen) | ~(self.buffer_plot.any() <=margen) | ~(self.buffer_plot.any() >=-margen):
-                    #self.muestras = np.append(self.muestras, self.buffer_plot)
+                if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
+                    self.muestras = np.append(self.muestras, self.buffer_plot)
                 #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
                 
                 #if len(resultado) >= 2:
@@ -2794,7 +2800,7 @@ class MainFunctions(MainWindow):
                     #resultado_interes = self.muestras[start:end]
                     #self.muestras = np.append(self.muestras, resultado_interes)
                 
-                self.muestras = np.append(self.muestras, self.buffer_plot)
+                #self.muestras = np.append(self.muestras, self.buffer_plot)
                 self.buffer_ready_flag = True
             else:
                 self.buffer_ready_flag = False
