@@ -828,7 +828,7 @@ class MainWindow(QMainWindow):
 
         elif n_format == 2 or n_format == 3:
             try:
-                pixmap = QPixmap("/home/lubuntu/Desktop/Recibidos/imagen_recibida5.jpg")
+                pixmap = QPixmap("imagen_recibida5.jpg")
                 self.ui.label_40.setPixmap(pixmap)
                 print("Imagen en interfaz")
             except Exception as e:
