@@ -2595,16 +2595,16 @@ class MainFunctions(MainWindow):
                     
                     if len(resultado_imagen) % (width_image * heigth_image * 3) != 0 and (width_image and heigth_image) <= 4000: #Esto definiria maxima imagen a tx 4000x4000. Aquí falta agregar el valor del 3, de los colores para que sea más correcto
                         print("Añadiendo muestras de 'correccion'")
-                        residuo = len(resultado_imagen) % (width_image * heigth_image)
-                        append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
+                        residuo = len(resultado_imagen) % (width_image * heigth_image * 3)
+                        append_zeros = np.random.randint(0,255,(width_image * heigth_image * 3) - residuo)
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
                         
                     else: #ESTO ES UNA PRUEBA
                         print("Añadiendo muestras de 'correccion' con ERRORES")
                         width_image = 4000
                         heigth_image = 4000
-                        residuo = len(resultado_imagen) % (width_image * heigth_image)
-                        append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
+                        residuo = len(resultado_imagen) % (width_image * heigth_image * 3)
+                        append_zeros = np.random.randint(0,255,(width_image * heigth_image * 3) - residuo)
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
                                      
                     resultado_imagen = resultado_imagen.reshape(heigth_image, width_image, 3) #El 3 es por 3 canales de color RGB
@@ -2626,11 +2626,11 @@ class MainFunctions(MainWindow):
                     #im.verify()
                     #im.load()
                     #im.close()
-                    resultado_correcto = True
+                    #resultado_correcto = True
                     print("Imagen CORRECTA")
                     image_resultado.close()
                 except Exception as e:
-                    resultado_correcto = False
+                    #resultado_correcto = False
                     print("Imagen erronea...")
                     print(e)
         
