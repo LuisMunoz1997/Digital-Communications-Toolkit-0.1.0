@@ -616,11 +616,20 @@ class MainFunctions(MainWindow):
     def define_parts(self, samples_symbols, tsim, fsample, n_sym_parts = 100): #Recibe los pulsos de los simbolos sin añadir tiempo simb creo
         #Crea arreglo que cada volumna contiene un arreglo que representa la parte a enviar
         packets = np.split(samples_symbols, np.arange(n_sym_parts,len(samples_symbols),n_sym_parts))
-        
+
+        i = 'Preparing part {} of {}'
+        a = []
+
         #Por cada parte, se realiza el pulse shape y se le agrega un preambulo. Se prueba con 1 solo preambulo con duration tsimb tambien a ver.
-        for inx,part in enumerate(packets):
-             print('Preparing part {} of {}'.format(inx, len(packets)-1))
-             packets[inx] = MainFunctions.add_preamble(self,MainFunctions.pulse_shape(self, part, tsim, fsample, beta=0.35), fsample = 522000, freq = 80e3, n_samples = 100)
+        for inx, part in enumerate(packets):
+            i = i.format(inx, len(packets)-1) + "\n"
+            a.append(i)
+
+            for h in a:
+                #print(h)
+                self.ui.ConfigSig.setText(h)
+
+            packets[inx] = MainFunctions.add_preamble(self,MainFunctions.pulse_shape(self, part, tsim, fsample, beta=0.35), fsample = 522000, freq = 80e3, n_samples = 100)
             
         return packets
     
@@ -2552,10 +2561,13 @@ class MainFunctions(MainWindow):
         
         self.ser, self.num_errors, self.error_symbols = MainFunctions.calculate_error_probability(self, self.graph_sincro_corrected, umbrales_interpolate, umbrales_interpolate_i, umbral = 0.15)
         #self.graph_sincro_corrected #Entra a función para calcular errores
+
+        self.sps = sps
+
         print("SER: ", self.ser)
         print("Num Errores: ", self.num_errors)
         print("Cantidad simbolos: ", self.cantidad_simbolos)
-        print("Samples per Symbol: ", sps)
+        print("Samples per Symbol: ", self.sps)
         
         if message_format == 1: #String
             self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
@@ -2601,8 +2613,8 @@ class MainFunctions(MainWindow):
                         
                     else: #ESTO ES UNA PRUEBA
                         print("Añadiendo muestras de 'correccion' con ERRORES")
-                        width_image = 4000
-                        heigth_image = 4000
+                        width_image = 600
+                        heigth_image = 600
                         residuo = len(resultado_imagen) % (width_image * heigth_image * 3)
                         append_zeros = np.random.randint(0,255,(width_image * heigth_image * 3) - residuo)
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
@@ -2999,6 +3011,16 @@ class MainFunctions(MainWindow):
             #CONSTELATION
             self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
 
+    def prueba1A(self):
+        house = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+        b = 0
+        a = ""
+        for i in house:
+            a = a + str(i) + "\n\n"
+            self.ui.ConfigSig.setText(a)
+            b = b + 1    
+
+
 
     def update_plot_data(self, buffer, fsample):
         self.plot = self.sdr.rx()
@@ -3195,3 +3217,58 @@ class plt_received_signal4(FigureCanvas):
         
         self.ax4.plot(x, y)
         self.ax4.grid()
+
+############################################################################################################################################################################
+################
+
+class Worker_config_signal(QRunnable):
+
+    def __init__(self, flag, fsample, tsim, fport, fsim):
+        super(Worker_config_signal, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.fsim = fsim
+        self.tsim = tsim
+        self.fport = fport
+        self.fsample = fsample
+        self.flag = flag
+
+        self.signals = WorkerSignals()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+        
+        if self.flag == False:
+            self.flag = True
+            
+            print('fsample configurada', self.fsample)
+            print('tsim elegido:', self.tsim)
+
+            try:        
+                self.sdr = adi.Pluto("ip:192.168.2.1")        
+                self.sdr.tx_hardwaregain_chan0 = 0
+                self.sdr.tx_lo = int(self.fport*1e6)
+                self.sdr.sample_rate = int(self.fsample)
+                self.sdr.tx_rf_bandwidth = int(self.fsample)
+                    
+                MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
+                print("Configuración PLUTO y Señal listas")
+                
+            except Exception as e:
+                print(e)
+                warning_text = "Hace falta conectar el módulo ADALM - PLUTO"
+                print(warning_text)
+                self.flag = False  
+
+            finally:
+                self.signals.finished.emit(self.flag)  # Done
+
+
+class WorkerSignals(QObject):
+
+    finished = Signal(object)  # QtCore.Signal
+    error = Signal(tuple)
+
+
+
+

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionzssMcI.ui'
+## Form generated from reading UI file 'receptionYngfgu.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1912,6 +1912,8 @@ class Ui_reception(object):
 
         self.frame_23 = QFrame(self.mainBodySubRightContainer)
         self.frame_23.setObjectName(u"frame_23")
+        self.frame_23.setMinimumSize(QSize(0, 440))
+        self.frame_23.setMaximumSize(QSize(16777215, 440))
         self.frame_23.setFrameShape(QFrame.StyledPanel)
         self.frame_23.setFrameShadow(QFrame.Raised)
         self.verticalLayout_20 = QVBoxLayout(self.frame_23)

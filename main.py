@@ -1,6 +1,12 @@
 #Animation Libraries
 import platform
 from PySide2 import QtCore, QtGui, QtWidgets
+
+from PySide2.QtCore import QRunnable, Slot, QThreadPool
+import traceback, sys
+from PySide2.QtGui import QIcon
+
+
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -12,14 +18,10 @@ from ui_transmission1 import Ui_transmission1
 from ui_transmission2 import Ui_transmission2
 from ui_functions import *
 
-#Other libraries
-#import ctypes
-#myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
-#ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-
 import pyqtgraph as pg
 import time
 import threading
+import os
 
 import adi
 
@@ -49,7 +51,7 @@ class MainWindow(QMainWindow):
         self.showMaximized() 
         
         self.setWindowTitle("Digital Comunications Toolkit")
-        
+
         
         ## TOGGLE/MENU
         ########################################################################
@@ -314,6 +316,7 @@ class MainWindow(QMainWindow):
         self.filepath_flag_message = False
         
         self.configured_signal = False
+        self.setting_in_process = False
         
         #WINDOW ICON
         self.ventana.setWindowTitle("Digital Comunications Toolkit - Transmition Mode")
@@ -434,6 +437,7 @@ class MainWindow(QMainWindow):
         self.filepath_flag_message = True
         
         self.configured_signal = False
+        self.setting_in_process = False
         
         #WINDOW ICON
         self.ventana.setWindowTitle("Digital Comunications Toolkit - Transmition Mode")
@@ -529,7 +533,7 @@ class MainWindow(QMainWindow):
         self.ui.preSPBtn.clicked.connect(self.graph_original_bits)
              
         self.ventana.show()
-        
+
 #######################################################################################################################################
 #METHODS
 ####################################################################################################################################### 
@@ -802,7 +806,10 @@ class MainWindow(QMainWindow):
 
         self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
                                     "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +
-                                    "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos)
+                                    "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
+                                    "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
+                                    "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
+                                    "Número de muestras por simbolo: " + str(self.sps))
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
@@ -844,41 +851,39 @@ class MainWindow(QMainWindow):
 
 
     def check_reception_state(self):
+        self.ui.recepBtn.setEnabled(True)
         if self.reception_configured == False:
             self.ui.simWarnTxt.setText("Debe primero inicializar el estado de recepción")
             
 
     def configure_signal(self):
-        if self.configured_signal == False:
-            self.configured_signal = True
-            
-            fsim = self.ui.fbit.value()
-            tsim = self.ui.tbit.value()
-            fport = self.ui.fport.value()
-            fsample = self.fsample
-            print('fsample configurada', fsample)
-            print('tsim elegido:', tsim)   
-
-            try:        
-                self.sdr = adi.Pluto("ip:192.168.2.1")        
-                self.sdr.tx_hardwaregain_chan0 = 0
-                self.sdr.tx_lo = int(fport*1e6)
-                self.sdr.sample_rate = int(fsample)
-                self.sdr.tx_rf_bandwidth = int(fsample)
-                
-                self.symbols_to_send_pluto = None #Se limpia señal anterior en caso que hubiera una ya configurada
-                MainWindow.transmit_signal(self)
-                print("Configuración PLUTO y Señal listas")
-            
-            except Exception as e:
-                self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
-                print(e)
-                self.configured_signal = False
         
-        if self.configured_signal == True:
-            self.ui.simWarnTxt.setText("Ya la señal ha sido configurada")
-            
-  
+        fsim = self.ui.fbit.value()
+        tsim = self.ui.tbit.value()
+        fport = self.ui.fport.value()
+        fsample = self.fsample
+        flag = self.configured_signal
+
+        self.threadpool = QThreadPool()
+        worker = Worker_config_signal(flag, fsample, tsim, fport, fsim)
+        worker.signals.finished.connect(self.configure_signal_action)
+
+        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
+        self.threadpool.start(worker)
+        self.ui.ConfBtn.setEnabled(False)
+
+        #self.ui.ConfigSig.setText("")
+
+    def configure_signal_action(self, flag):
+
+        if flag == True:
+            self.ui.simWarnTxt.setText("Configuración Lista")
+
+        else: 
+            self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
+            self.ui.ConfBtn.setEnabled(True)
+
+        
     
     def graph_received_result(self):
         t = np.arange(0,len(self.muestras))
@@ -892,6 +897,7 @@ class MainWindow(QMainWindow):
     def reception_signal(self):
         message_format = self.ui.formatBox.currentIndex()
         self.muestras = np.array([])
+        self.ui.recepBtn.setEnabled(False)
 
         self.graphWidget = pg.PlotWidget(background="w")
         self.graphWidget_3 = pg.PlotWidget(background="w")
@@ -1760,18 +1766,15 @@ class MainWindow(QMainWindow):
             self.sdr.tx(packet_symbols)
         
         MainFunctions.transmit_motion_btn(self, 30, True) 
-        print("Transmisión completada")                    
+        print("Transmisión completada")
+        self.ui.ConfBtn.setEnabled(True)                    
 
-    def transmit_signal(self):
+    def transmit_signal(self,  fsample, tsim, fport, fsim):
+        self.symbols_to_send_pluto = None
+
         print("Se llamo transmit signal")
-        #MainFunctions.transmit_motion_btn(self, 30, True)
         print("Se llamo transmit_motion")
         self.ui.simWarnTxt.setText("")
-            
-        fsim = self.ui.fbit.value()
-        tsim = self.ui.tbit.value()
-        fport = self.ui.fport.value()
-        fsample = self.fsample
         
         if self.text_flag_message == True:
             message = self.ui.text.toPlainText()
@@ -2953,8 +2956,11 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     
-    app.setWindowIcon(QtGui.QIcon(r'C:/Users/edmun/Desktop/Programas/QT pruebas/Principal/prof_blue.png'))
-    window.setWindowIcon(QtGui.QIcon (r'C:/Users/edmun/Desktop/Programas/QT pruebas/Principal/prof_blue.png'))
+    dirname = os.path.abspath(os.getcwd())
+    filename = os.path.join(dirname, '/prof_blue.ico')
+
+    app.setWindowIcon(QIcon(filename))
+    window.setWindowIcon(QIcon (filename))
     
     sys.exit(app.exec_())
     

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1bLNkwt.ui'
+## Form generated from reading UI file 'transmission1LpDbTH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1148,12 +1148,14 @@ class Ui_transmission1(object):
         self.verticalLayout_39.setContentsMargins(0, 0, 0, 0)
         self.TransBtn = QPushButton(self.widget_5)
         self.TransBtn.setObjectName(u"TransBtn")
-        self.TransBtn.setFont(font3)
+        self.TransBtn.setMinimumSize(QSize(175, 0))
+        self.TransBtn.setFont(font1)
         self.TransBtn.setStyleSheet(u"#TransBtn {\n"
 "	background-color: rgb(238, 146, 143);\n"
+"	text-align: center\n"
 "}\n"
 "\n"
-"#Trans:hover {\n"
+"#TransBtn:hover {\n"
 "	background-color: #acacac;\n"
 "}\n"
 "")
@@ -1170,6 +1172,22 @@ class Ui_transmission1(object):
         self.simWarnTxt.setStyleSheet(u"color: rgb(255, 0, 0)")
 
         self.verticalLayout_40.addWidget(self.simWarnTxt)
+
+        self.widget_6 = QWidget(self.frame_14)
+        self.widget_6.setObjectName(u"widget_6")
+        self.widget_6.setMaximumSize(QSize(16777215, 140))
+        self.verticalLayout_33 = QVBoxLayout(self.widget_6)
+        self.verticalLayout_33.setSpacing(0)
+        self.verticalLayout_33.setObjectName(u"verticalLayout_33")
+        self.ConfigSig = QTextBrowser(self.widget_6)
+        self.ConfigSig.setObjectName(u"ConfigSig")
+        self.ConfigSig.setFont(font3)
+        self.ConfigSig.setStyleSheet(u"color: rgb(0, 0, 255);")
+
+        self.verticalLayout_33.addWidget(self.ConfigSig)
+
+
+        self.verticalLayout_40.addWidget(self.widget_6)
 
 
         self.horizontalLayout_9.addWidget(self.frame_14, 0, Qt.AlignTop)
@@ -1644,6 +1662,14 @@ class Ui_transmission1(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
+        self.ConfigSig.setHtml(QCoreApplication.translate("transmission1", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;\"><br /></p></body></html>", None))
         self.label_11.setText(QCoreApplication.translate("transmission1", u"Cantidad de M-Simbolos", None))
         self.label_12.setText(QCoreApplication.translate("transmission1", u"Previsualizaci\u00f3n:", None))
         self.prevBBBTN.setText(QCoreApplication.translate("transmission1", u"Se\u00f1al Banda - Base IQ", None))
