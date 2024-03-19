@@ -141,7 +141,7 @@ class MainWindow(QMainWindow):
 
         # opening window in maximized size 
         self.ventana.showMaximized() 
-        #self.ventana.setFixedHeight(760)
+        #self.ventana.setFixedHeight(800)
         self.fsample = 522000
         
         #REAL TIME GRAPH NECESARY OBJECTS
@@ -296,7 +296,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self.ventana)
 
         # opening window in maximized size 
-        self.ventana.showMaximized() 
+        self.ventana.showMaximized()
+        #self.ventana.setFixedHeight(820)
         
         self.filePath = ["", ""]
         self.fsample = 522000
@@ -874,13 +875,19 @@ class MainWindow(QMainWindow):
 
         #self.ui.ConfigSig.setText("")
 
-    def configure_signal_action(self, flag):
+    def configure_signal_action(self, flag, sdr):
+
+        self.sdr = sdr
+        fsim = self.ui.fbit.value()
+        tsim = self.ui.tbit.value()
+        fport = self.ui.fport.value()
+        fsample = self.fsample
 
         if flag == True:
-            MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
+            MainWindow.transmit_signal(self, fsample, tsim, fport, fsim)
 
             MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo
-              
+
             print("Configuración PLUTO y Señal listas")
             self.ui.simWarnTxt.setText("Configuración PLUTO y Señal listas")
 
@@ -2231,7 +2238,7 @@ class MainWindow(QMainWindow):
                     #for packet_symbols in symbols_to_send:
                     #    self.sdr.tx(packet_symbols)
                     
-     
+        #MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo       
 
 
     def graph_modulated_signal_prev(self):

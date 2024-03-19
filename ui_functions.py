@@ -622,12 +622,12 @@ class MainFunctions(MainWindow):
 
         #Por cada parte, se realiza el pulse shape y se le agrega un preambulo. Se prueba con 1 solo preambulo con duration tsimb tambien a ver.
         for inx, part in enumerate(packets):
-            i = i.format(inx, len(packets)-1) + "\n"
-            a.append(i)
+            #i = i.format(inx, len(packets)-1) + "\n"
+            #a.append(i)
 
-            for h in a:
+            #for h in a:
                 #print(h)
-                self.ui.ConfigSig.setText(h)
+                #self.ui.ConfigSig.setText(h)
 
             packets[inx] = MainFunctions.add_preamble(self,MainFunctions.pulse_shape(self, part, tsim, fsample, beta=0.35), fsample = 522000, freq = 80e3, n_samples = 100)
             
@@ -2195,6 +2195,25 @@ class MainFunctions(MainWindow):
         
         return ser, num_errors, error_symbols
         
+    def calculate_snr(self, received_samples):
+    
+        signal_pw = np.sum(np.abs(received_samples) ** 2) / len(received_samples) #Potencia promedio estimada de la señal
+        snr = signal_pw / self.noise_pw #Calcula SNR estimado, noise_pw se calcula en hilo realtime plot
+        snr_db = 10 * np.log10(snr)
+        return snr_db, snr, signal_pw
+        
+    def calculate_bw(self, received_samples, fs=522000):
+        psd = np.abs(np.fft.fftshift(np.fft.fft(received_samples)))**2
+        psd_normalizado = psd / np.max(psd)
+        
+        indices = np.where(psd_normalizado >= 0.20 * np.max(psd_normalizado))[0] #Estima BW para potencias 20% del máximo
+        #print("indices para bw: ",indices)
+        
+        bw_estimado = (indices[-1] - indices[0]) * fs / len(received_samples)
+        
+        return bw_estimado
+        
+        
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
         self.stop_realtime_flag = True
@@ -2279,6 +2298,7 @@ class MainFunctions(MainWindow):
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
         margen = 3
+        #self.muestras = np.fromfile('muestras.iq', dtype=complex)
         #Aca se puede insertar 0+0j y apendar 0+0j a self.muestras para evitar comernos señal con la línea de abajo
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
         print(resultado)
@@ -2561,6 +2581,9 @@ class MainFunctions(MainWindow):
         
         self.ser, self.num_errors, self.error_symbols = MainFunctions.calculate_error_probability(self, self.graph_sincro_corrected, umbrales_interpolate, umbrales_interpolate_i, umbral = 0.15)
         #self.graph_sincro_corrected #Entra a función para calcular errores
+        
+        self.snr_db, self.snr, self.signal_pw = MainFunctions.calculate_snr(self, self.graph_corrected)
+        self.bw_estimated = MainFunctions.calculate_bw(self, self.graph_corrected, fs=522000)
 
         self.sps = sps
 
@@ -2568,6 +2591,11 @@ class MainFunctions(MainWindow):
         print("Num Errores: ", self.num_errors)
         print("Cantidad simbolos: ", self.cantidad_simbolos)
         print("Samples per Symbol: ", self.sps)
+        print("Potencia señal NO CALIBRADO: ", self.signal_pw)
+        print("Potencia ruido NO CALIBRADO: ", self.noise_pw)
+        print("SNR: ", self.snr)
+        print("SNR dB: ", self.snr_db)
+        print("BW Estimado: ", self.bw_estimated)
         
         if message_format == 1: #String
             self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
@@ -2806,12 +2834,16 @@ class MainFunctions(MainWindow):
     def get_buffer_sdr(self):
         print("Realtime buffer started")
         margen = 3
-        while True:
-            if not self.stop_realtime_flag:
-                self.buffer_plot = self.sdr.rx()
+        self.noise_flag = True
+        #file = open('muestras.iq','ab')
+        while not self.stop_realtime_flag:
+            self.buffer_plot = self.sdr.rx()
+            #file.write(self.buffer_plot)
                 
-                if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
-                    self.muestras = np.append(self.muestras, self.buffer_plot)
+            if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
+                self.muestras = np.append(self.muestras, self.buffer_plot)
+                self.noise_flag = False
+                    
                 #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
                 
                 #if len(resultado) >= 2:
@@ -2822,37 +2854,48 @@ class MainFunctions(MainWindow):
                     #self.muestras = np.append(self.muestras, resultado_interes)
                 
                 #self.muestras = np.append(self.muestras, self.buffer_plot)
-                self.buffer_ready_flag = True
-            else:
-                self.buffer_ready_flag = False
-                print("Realtime Buffer Stopped")
-                break
+            self.buffer_ready_flag = True
+            
+        self.buffer_ready_flag = False
+        print("Realtime Buffer Stopped")
+        #file.close()
+        #break
      
     def realtime_plot(self):
         print("Realtime plotting started")
-        while True:
-            if not self.stop_realtime_flag:
-                if self.buffer_ready_flag:
-                    self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
-                    self.y1 = self.buffer_plot.real
+        margen = 3
+        self.noise_pw = 0
+        noise_pw_index = [0,6000,12000,18000,24000,29999]
+        cont = 0
+        while not self.stop_realtime_flag:
+            if self.buffer_ready_flag:
+                self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+                self.y1 = self.buffer_plot.real
         
-                    self.y2 = self.buffer_plot.imag
-                    self.x2 = self.buffer_plot.real
+                self.y2 = self.buffer_plot.imag
+                self.x2 = self.buffer_plot.real
         
-                    self.plot2 = self.buffer_plot[:16384]
-                    #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
-                    self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
-                    self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
+                self.plot2 = self.buffer_plot[:16384]
+                #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
+                self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
+                self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
         
-                    self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
-                    self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
-                    self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
-                    
-                    self.buffer_ready_flag = False
-            else:
-                print("Realtime plotting Stopped")
+                self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
+                self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
+                self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
+                
+                if self.noise_flag:
+                    cont += 6
+                    for index in noise_pw_index:
+                        self.noise_pw += np.abs(self.buffer_plot[index] ** 2) #Calcula potencia ruido de 6 muestras
+                    self.noise_flag = False
+                          
                 self.buffer_ready_flag = False
-                break
+            
+        print("Realtime plotting Stopped")
+        self.noise_pw = self.noise_pw / cont #Calcula potencia promedio ruido
+        self.buffer_ready_flag = False
+        #break
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
@@ -2976,6 +3019,7 @@ class MainFunctions(MainWindow):
         #self.graphWidget_4 = pg.PlotWidget(background="w")
         self.ui.recBBlayout.addWidget(self.graphWidget_4)
         self.data_line4 =  self.graphWidget_4.plot(self.x, self.y, pen=pen2)
+        #self.graphWidget_4.setYRange(-5, 5)
         
         self.muestras = np.array([], dtype=complex)
         
@@ -3012,11 +3056,11 @@ class MainFunctions(MainWindow):
             self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
 
     def prueba1A(self):
-        house = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20, ]
+        house = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
         b = 0
         a = ""
         for i in house:
-            a = a + str(i) + "\n"
+            a = a + str(i) + "\n\n"
             self.ui.ConfigSig.setText(a)
             b = b + 1    
 
@@ -3202,8 +3246,8 @@ class plt_received_signal3(FigureCanvas):
             max_y = max_x
         else:
             max_x = max_y
-        self.ax3.set_xlim(-max_x-1,max_x+1)
-        self.ax3.set_ylim(-max_y-1,max_y+1)
+        self.ax3.set_xlim(-max_x-0.5,max_x+0.5)
+        self.ax3.set_ylim(-max_y-0.5,max_y+0.5)
         self.ax3.grid()
         
 class plt_received_signal4(FigureCanvas):
@@ -3250,6 +3294,9 @@ class Worker_config_signal(QRunnable):
                 self.sdr.tx_lo = int(self.fport*1e6)
                 self.sdr.sample_rate = int(self.fsample)
                 self.sdr.tx_rf_bandwidth = int(self.fsample)
+                    
+                #MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
+                #print("Configuración PLUTO y Señal listas")
                 
             except Exception as e:
                 print(e)
@@ -3258,12 +3305,12 @@ class Worker_config_signal(QRunnable):
                 self.flag = False  
 
             finally:
-                self.signals.finished.emit(self.flag)  # Done
+                self.signals.finished.emit(self.flag, self.sdr)  # Done
 
 
 class WorkerSignals(QObject):
 
-    finished = Signal(object)  # QtCore.Signal
+    finished = Signal(object, object)  # QtCore.Signal
     error = Signal(tuple)
 
 
