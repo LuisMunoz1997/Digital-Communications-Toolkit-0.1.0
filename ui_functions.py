@@ -3012,11 +3012,11 @@ class MainFunctions(MainWindow):
             self.ui.ConstBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_9))
 
     def prueba1A(self):
-        house = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+        house = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20, ]
         b = 0
         a = ""
         for i in house:
-            a = a + str(i) + "\n\n"
+            a = a + str(i) + "\n"
             self.ui.ConfigSig.setText(a)
             b = b + 1    
 
@@ -3250,9 +3250,6 @@ class Worker_config_signal(QRunnable):
                 self.sdr.tx_lo = int(self.fport*1e6)
                 self.sdr.sample_rate = int(self.fsample)
                 self.sdr.tx_rf_bandwidth = int(self.fsample)
-                    
-                MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
-                print("Configuración PLUTO y Señal listas")
                 
             except Exception as e:
                 print(e)

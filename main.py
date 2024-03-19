@@ -877,7 +877,12 @@ class MainWindow(QMainWindow):
     def configure_signal_action(self, flag):
 
         if flag == True:
-            self.ui.simWarnTxt.setText("Configuración Lista")
+            MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
+
+            MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo
+              
+            print("Configuración PLUTO y Señal listas")
+            self.ui.simWarnTxt.setText("Configuración PLUTO y Señal listas")
 
         else: 
             self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
@@ -2226,7 +2231,7 @@ class MainWindow(QMainWindow):
                     #for packet_symbols in symbols_to_send:
                     #    self.sdr.tx(packet_symbols)
                     
-        MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo       
+     
 
 
     def graph_modulated_signal_prev(self):
