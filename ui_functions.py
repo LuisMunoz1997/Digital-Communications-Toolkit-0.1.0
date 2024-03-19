@@ -3276,8 +3276,9 @@ class Worker_config_signal(QRunnable):
         self.fport = fport
         self.fsample = fsample
         self.flag = flag
+        self.sdr = None
 
-        self.signals = WorkerSignals()
+        self.signals = WorkerSignals1()
 
     @Slot()  # QtCore.Slot
     def run(self):
@@ -3308,7 +3309,42 @@ class Worker_config_signal(QRunnable):
                 self.signals.finished.emit(self.flag, self.sdr)  # Done
 
 
-class WorkerSignals(QObject):
+
+class Worker_transmit_signal(QRunnable):
+
+    def __init__(self, symbols_to_send_pluto, sdr):
+        super(Worker_transmit_signal, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.sdr = sdr
+        self.symbols_to_send_pluto = symbols_to_send_pluto
+        self.signals = WorkerSignals2()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+            for packet_symbols in self.symbols_to_send_pluto:
+                self.sdr.tx(packet_symbols)
+                    
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit()  # Done
+
+
+
+
+class WorkerSignals2(QObject):
+
+    finished = Signal()  # QtCore.Signal
+    error = Signal(tuple)
+
+
+class WorkerSignals1(QObject):
 
     finished = Signal(object, object)  # QtCore.Signal
     error = Signal(tuple)

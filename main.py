@@ -891,7 +891,7 @@ class MainWindow(QMainWindow):
             print("Configuración PLUTO y Señal listas")
             self.ui.simWarnTxt.setText("Configuración PLUTO y Señal listas")
 
-        else: 
+        else:
             self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
             self.ui.ConfBtn.setEnabled(True)
 
@@ -933,9 +933,11 @@ class MainWindow(QMainWindow):
 
         if message_format == 0:
             self.ui.simWarnTxt.setText("Hace falta definir el formato del mensaje")
+            self.ui.recepBtn.setEnabled(True)
 
         elif self.ui.UmbPreBtn.isChecked() == False and self.ui.UmbDisBtn.isChecked() == False:
             self.ui.simWarnTxt.setText("Hace falta definir el modo de trabajo del receptor")
+            self.ui.recepBtn.setEnabled(True)
 
         ######## UMBRALES PREDEFINIDOS
         elif self.ui.UmbPreBtn.isChecked() == True:
@@ -944,13 +946,15 @@ class MainWindow(QMainWindow):
             print("n_symbol_index es:", n_symbol_index)    
 
             if n_symbol_index == 0:
-                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")            
+                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")
+                self.ui.recepBtn.setEnabled(True)            
             
             elif n_symbol_index == 1:
                 threshold_index = self.ui.geoBox_1.currentIndex()
 
                 if threshold_index == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                    self.ui.recepBtn.setEnabled(True)    
 
                 elif threshold_index != 0:
                     print("Entro segundo condicional")
@@ -988,7 +992,8 @@ class MainWindow(QMainWindow):
                 threshold_index = self.ui.geoBox_2.currentIndex()
 
                 if threshold_index == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                    self.ui.recepBtn.setEnabled(True)   
 
                 elif threshold_index != 0:
                     n_symbol = 4
@@ -1017,7 +1022,8 @@ class MainWindow(QMainWindow):
                 threshold_index = self.ui.geoBox_3.currentIndex()
 
                 if threshold_index == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                    self.ui.recepBtn.setEnabled(True)   
 
                 elif threshold_index != 0:
                     n_symbol = 8
@@ -1072,7 +1078,8 @@ class MainWindow(QMainWindow):
                 threshold_index = self.ui.geoBox_4.currentIndex()
 
                 if threshold_index == 0:
-                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")    
+                    self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                    self.ui.recepBtn.setEnabled(True)    
 
                 elif threshold_index != 0:
                     n_symbol = 16
@@ -1116,7 +1123,8 @@ class MainWindow(QMainWindow):
             n_symbol_index = self.ui.simPBitBox_2.currentIndex()
 
             if n_symbol_index == 0:
-                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")  
+                self.ui.simWarnTxt.setText("Hace falta definir la cantidad de bits codificados por simbolo")
+                self.ui.recepBtn.setEnabled(True)  
             
             elif n_symbol_index == 1: #Dos simbolos
                 n_symbol = 2
@@ -1124,6 +1132,8 @@ class MainWindow(QMainWindow):
 
                 if geo_threshold_index == 0:
                     self.ui.simWarnTxt.setText("Hace falta definir la geometría del umbral")
+                    self.ui.recepBtn.setEnabled(True)
+
                 
                 elif geo_threshold_index == 1: #Linea vertical x=a
                     x = self.ui.doubleSpinBox_12.value()
@@ -1132,6 +1142,7 @@ class MainWindow(QMainWindow):
 
                     if symbol1 == "" or symbol2 == "":
                         self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                        self.ui.recepBtn.setEnabled(True)
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -1157,6 +1168,7 @@ class MainWindow(QMainWindow):
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                            self.ui.recepBtn.setEnabled(True)
                     
                     
                 elif geo_threshold_index == 2: #Linea vertical x=-a
@@ -1166,6 +1178,7 @@ class MainWindow(QMainWindow):
 
                     if symbol1 == "" or symbol2 == "":
                         self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                        self.ui.recepBtn.setEnabled(True)
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -1191,6 +1204,7 @@ class MainWindow(QMainWindow):
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                            self.ui.recepBtn.setEnabled(True)
 
                     
                     
@@ -1201,6 +1215,7 @@ class MainWindow(QMainWindow):
 
                     if symbol1 == "" or symbol2 == "":
                         self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                        self.ui.recepBtn.setEnabled(True)
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -1225,6 +1240,8 @@ class MainWindow(QMainWindow):
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                            self.ui.recepBtn.setEnabled(True)
+
                     
                     
                 elif geo_threshold_index == 4: #Linea Horizontal y=-b
@@ -1234,6 +1251,7 @@ class MainWindow(QMainWindow):
 
                     if symbol1 == "" or symbol2 == "":
                         self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                        self.ui.recepBtn.setEnabled(True)
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -1258,6 +1276,7 @@ class MainWindow(QMainWindow):
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                            self.ui.recepBtn.setEnabled(True)
                     
                     
                 elif geo_threshold_index == 5: #Linea inclinada
@@ -1269,6 +1288,7 @@ class MainWindow(QMainWindow):
 
                     if symbol1 == "" or symbol2 == "":
                         self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                        self.ui.recepBtn.setEnabled(True)
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
@@ -1293,6 +1313,7 @@ class MainWindow(QMainWindow):
                             print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                             print(e)
                             self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                            self.ui.recepBtn.setEnabled(True)
                     
                                  
                 
@@ -1303,6 +1324,7 @@ class MainWindow(QMainWindow):
 
                 if geo_threshold_index2 == 0 or geo_threshold_index3 == 0:
                     self.ui.simWarnTxt.setText("Hace falta definir la geometría de uno de los umbrales")
+                    self.ui.recepBtn.setEnabled(True)
 
                 elif geo_threshold_index2 != 0 or geo_threshold_index3 != 0:
 
@@ -1319,6 +1341,7 @@ class MainWindow(QMainWindow):
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                                self.ui.recepBtn.setEnabled(True)
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1345,6 +1368,7 @@ class MainWindow(QMainWindow):
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     print(e)
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.recepBtn.setEnabled(True)
                                 
                                 
                         elif geo_threshold_index2 == 2: #linea vertical x=a y linea vertical x=-a
@@ -1357,6 +1381,7 @@ class MainWindow(QMainWindow):
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                                self.ui.recepBtn.setEnabled(True)
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1383,6 +1408,7 @@ class MainWindow(QMainWindow):
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     print(e)
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.recepBtn.setEnabled(True)
                                 
                                 
                         elif geo_threshold_index2 == 3: #linea vertical x=a y linea horizontal y=b
@@ -1394,6 +1420,7 @@ class MainWindow(QMainWindow):
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                                self.ui.recepBtn.setEnabled(True)
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1419,6 +1446,7 @@ class MainWindow(QMainWindow):
                                 except:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.recepBtn.setEnabled(True)
                                 
                                 
                         elif geo_threshold_index2 == 4: #linea vertical x=a y linea horizontal y=-b
@@ -1430,6 +1458,7 @@ class MainWindow(QMainWindow):
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                                self.ui.recepBtn.setEnabled(True)
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1456,6 +1485,7 @@ class MainWindow(QMainWindow):
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     print(e)
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.recepBtn.setEnabled(True)
                                 
                                 
                         elif geo_threshold_index2 == 5: #linea vertical x=a y linea inclinada
@@ -1469,6 +1499,7 @@ class MainWindow(QMainWindow):
 
                             if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                                self.ui.recepBtn.setEnabled(True)
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
@@ -1495,6 +1526,7 @@ class MainWindow(QMainWindow):
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                     print(e)
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                    self.ui.recepBtn.setEnabled(True)
                                     
 
                     elif geo_threshold_index3 == 2: #primer umbral Linea vertical x=-a
@@ -1507,6 +1539,7 @@ class MainWindow(QMainWindow):
                         
                         if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                             self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            self.ui.recepBtn.setEnabled(True)
                             
                         else:
                         
@@ -1561,7 +1594,8 @@ class MainWindow(QMainWindow):
                             except Exception as e:
                                 print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                 print(e)
-                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")                                
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                self.ui.recepBtn.setEnabled(True)                               
                             
                             
                         
@@ -1576,6 +1610,7 @@ class MainWindow(QMainWindow):
                         
                         if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                             self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            self.ui.recepBtn.setEnabled(True)
                             
                         else:
                         
@@ -1635,7 +1670,8 @@ class MainWindow(QMainWindow):
                             except Exception as e:
                                 print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                 print(e)
-                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")                                
+                                self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                self.ui.recepBtn.setEnabled(True)                                
                                 
 
                     elif geo_threshold_index3 == 4: #Primer umbral horizontal y=-b
@@ -1648,6 +1684,7 @@ class MainWindow(QMainWindow):
                         
                         if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                             self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            self.ui.recepBtn.setEnabled(True)
                             
                         else:
                         
@@ -1702,6 +1739,7 @@ class MainWindow(QMainWindow):
                                 print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                 print(e)
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                self.ui.recepBtn.setEnabled(True)
 
                     elif geo_threshold_index3 == 5: #Primer umbral linea inclinada
                         ang = self.ui.doubleSpinBox_20.value()
@@ -1715,6 +1753,7 @@ class MainWindow(QMainWindow):
                         
                         if symbol1 == "" or symbol2 == "" or symbol3 == "" or symbol4 == "":
                             self.ui.simWarnTxt.setText("Alguno de los simbolos no está escrito. Por favor revise")
+                            self.ui.recepBtn.setEnabled(True)
                             
                         else:
                         
@@ -1769,17 +1808,34 @@ class MainWindow(QMainWindow):
                                 print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                                 print(e)
                                 self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
+                                self.ui.recepBtn.setEnabled(True)
                                 
+
 
     def transmit_signal_pluto(self):
         print("Enviando...")
-        self.configured_signal = False                                                  
-        for packet_symbols in self.symbols_to_send_pluto:
-            self.sdr.tx(packet_symbols)
-        
+        self.configured_signal = False
+
+        threadpool = QThreadPool()
+        worker = Worker_transmit_signal(self.symbols_to_send_pluto, self.sdr)
+        worker.signals.finished.connect(self.transmit_signal_pluto_action)
+
+        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
+        threadpool.start(worker)
+
+
+    def transmit_signal_pluto_action(self):
+
         MainFunctions.transmit_motion_btn(self, 30, True) 
         print("Transmisión completada")
-        self.ui.ConfBtn.setEnabled(True)                    
+        self.ui.simWarnTxt.setText("Transmisión completada")
+        self.ui.ConfBtn.setEnabled(True)       
+
+
+
+
+
+
 
     def transmit_signal(self,  fsample, tsim, fport, fsim):
         self.symbols_to_send_pluto = None

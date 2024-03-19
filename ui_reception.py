@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionYngfgu.ui'
+## Form generated from reading UI file 'receptionNuCvou.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -19,7 +19,7 @@ class Ui_reception(object):
     def setupUi(self, reception):
         if not reception.objectName():
             reception.setObjectName(u"reception")
-        reception.resize(1607, 929)
+        reception.resize(1607, 998)
         reception.setStyleSheet(u"*{\n"
 "	background-color: transparent;\n"
 "	background: transparent;\n"
@@ -1663,7 +1663,7 @@ class Ui_reception(object):
         self.verticalLayout_16.setContentsMargins(9, -1, -1, -1)
         self.frame_9 = QFrame(self.mainBodySubRightContainer)
         self.frame_9.setObjectName(u"frame_9")
-        self.frame_9.setMinimumSize(QSize(0, 450))
+        self.frame_9.setMinimumSize(QSize(0, 0))
         self.frame_9.setStyleSheet(u"	color: #000000;")
         self.frame_9.setFrameShape(QFrame.StyledPanel)
         self.frame_9.setFrameShadow(QFrame.Raised)
@@ -1795,7 +1795,7 @@ class Ui_reception(object):
 
         self.frame_21 = QFrame(self.frame_9)
         self.frame_21.setObjectName(u"frame_21")
-        self.frame_21.setMinimumSize(QSize(0, 200))
+        self.frame_21.setMinimumSize(QSize(0, 450))
         self.frame_21.setMaximumSize(QSize(16777215, 16777215))
         self.frame_21.setFrameShape(QFrame.StyledPanel)
         self.frame_21.setFrameShadow(QFrame.Raised)
@@ -1912,8 +1912,8 @@ class Ui_reception(object):
 
         self.frame_23 = QFrame(self.mainBodySubRightContainer)
         self.frame_23.setObjectName(u"frame_23")
-        self.frame_23.setMinimumSize(QSize(0, 440))
-        self.frame_23.setMaximumSize(QSize(16777215, 440))
+        self.frame_23.setMinimumSize(QSize(0, 0))
+        self.frame_23.setMaximumSize(QSize(16777215, 16777215))
         self.frame_23.setFrameShape(QFrame.StyledPanel)
         self.frame_23.setFrameShadow(QFrame.Raised)
         self.verticalLayout_20 = QVBoxLayout(self.frame_23)
@@ -1996,7 +1996,7 @@ class Ui_reception(object):
 
         self.stackedWidget_3 = QStackedWidget(self.frame_24)
         self.stackedWidget_3.setObjectName(u"stackedWidget_3")
-        self.stackedWidget_3.setMinimumSize(QSize(0, 250))
+        self.stackedWidget_3.setMinimumSize(QSize(0, 400))
         self.page_10 = QWidget()
         self.page_10.setObjectName(u"page_10")
         self.page_10.setMinimumSize(QSize(0, 250))
