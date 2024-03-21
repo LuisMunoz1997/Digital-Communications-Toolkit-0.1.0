@@ -810,7 +810,12 @@ class MainWindow(QMainWindow):
                                     "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
                                     "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
                                     "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
-                                    "Número de muestras por simbolo: " + str(self.sps))
+                                    "Número de muestras por simbolo: " + str(self.sps) +
+                                    "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
+                                    "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" +
+                                    "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
+                                    #"Potencia de la señal estimada (referencial - NO REAL) en Watts: " + str(self.signal_pw) + "\n\n" +
+                                    #"Potencia de Ruido estimada (referencial - NO REAL) en Watts: " + str(self.noise_pw) + "\n\n")
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
@@ -856,44 +861,6 @@ class MainWindow(QMainWindow):
         if self.reception_configured == False:
             self.ui.simWarnTxt.setText("Debe primero inicializar el estado de recepción")
             
-
-    def configure_signal(self):
-        
-        fsim = self.ui.fbit.value()
-        tsim = self.ui.tbit.value()
-        fport = self.ui.fport.value()
-        fsample = self.fsample
-        flag = self.configured_signal
-
-        self.threadpool = QThreadPool()
-        worker = Worker_config_signal(flag, fsample, tsim, fport, fsim)
-        worker.signals.finished.connect(self.configure_signal_action)
-
-        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
-        self.threadpool.start(worker)
-        self.ui.ConfBtn.setEnabled(False)
-
-        #self.ui.ConfigSig.setText("")
-
-    def configure_signal_action(self, flag, sdr):
-
-        self.sdr = sdr
-        fsim = self.ui.fbit.value()
-        tsim = self.ui.tbit.value()
-        fport = self.ui.fport.value()
-        fsample = self.fsample
-
-        if flag == True:
-            MainWindow.transmit_signal(self, fsample, tsim, fport, fsim)
-
-            MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo
-
-            print("Configuración PLUTO y Señal listas")
-            self.ui.simWarnTxt.setText("Configuración PLUTO y Señal listas")
-
-        else:
-            self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
-            self.ui.ConfBtn.setEnabled(True)
 
         
     
@@ -1812,6 +1779,49 @@ class MainWindow(QMainWindow):
                                 
 
 
+
+
+    def configure_signal(self):
+        
+        fsim = self.ui.fbit.value()
+        tsim = self.ui.tbit.value()
+        fport = self.ui.fport.value()
+        fsample = self.fsample
+        flag = self.configured_signal
+
+        self.threadpool = QThreadPool()
+        worker = Worker_config_signal(flag, fsample, tsim, fport, fsim)
+        worker.signals.finished.connect(self.configure_signal_action)
+
+        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
+        self.threadpool.start(worker)
+        self.ui.ConfBtn.setEnabled(False)
+
+        #self.ui.ConfigSig.setText("")
+
+    def configure_signal_action(self, flag, sdr):
+
+        self.sdr = sdr
+        fsim = self.ui.fbit.value()
+        tsim = self.ui.tbit.value()
+        fport = self.ui.fport.value()
+        fsample = self.fsample
+
+        if flag == True:
+            MainWindow.transmit_signal(self, fsample, tsim, fport, fsim)
+
+            MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo
+
+            print("Configuración PLUTO y Señal listas")
+            self.ui.simWarnTxt.setText("Configuración PLUTO y Señal listas")
+
+        else:
+            self.ui.simWarnTxt.setText("Hace falta conectar el módulo ADALM - PLUTO")
+            self.ui.ConfBtn.setEnabled(True)
+
+
+
+
     def transmit_signal_pluto(self):
         print("Enviando...")
         self.configured_signal = False
@@ -1833,11 +1843,29 @@ class MainWindow(QMainWindow):
 
 
 
+    def transmit_signal_setting_1(self, bits_array):
+
+        fsample = self.fsample
+        tsim = self.ui.tbit.value()
+
+        self.ui.mSim.display(int(len(bits_array)))
+
+        threadpool = QThreadPool()
+        worker = Worker_set_message_up_tx2(bits_array, tsim, fsample)
+        worker.signals.finished.connect(self.transmit_signal_setting_2)
+
+        threadpool.start(worker)
+
+
+    def transmit_signal_setting_2(self, symbols_to_send):
+
+        self.symbols_to_send_pluto = symbols_to_send
 
 
 
 
-    def transmit_signal(self,  fsample, tsim, fport, fsim):
+
+    def transmit_signal(self, fsample, tsim, fport, fsim):
         self.symbols_to_send_pluto = None
 
         print("Se llamo transmit signal")
@@ -1879,34 +1907,13 @@ class MainWindow(QMainWindow):
                         self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
                     
                     elif index_2_symbols_type_of_modulation != 0:
-                        #Creo la constelación
-                        constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
-                        constellation = MainFunctions.normalize_constellation(self, constellation)
-                        #Le asigno símbolos a los bits. Los modulo
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                        #print(message)
-                        self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
 
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
-                        
-                        print(len(symbols_to_send))
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                        #now = time.time()
+                        threadpool = QThreadPool()
+                        worker = Worker_set_message_up_tx1(n_symbol, index_2_symbols_type_of_modulation, message, self.text_flag_message)
+                        worker.signals.finished.connect(self.transmit_signal_setting_1)
 
-                        self.symbols_to_send_pluto = symbols_to_send
-                        
-                        #for packet_symbols in symbols_to_send:
-                        #    self.sdr.tx(packet_symbols)
-                        #print("ENVIANDO")
-                        #print(int_message[0:10])
-                        #print(int_message[-10:])
-                        #after = time.time()
-                        #print('Estimado {}', after-now)
-                    
+                        threadpool.start(worker)
+      
                     
                 elif index_n_symbols == 2:
                     index_4_symbols_type_of_modulation = self.ui.modBox_2.currentIndex()
@@ -1915,43 +1922,14 @@ class MainWindow(QMainWindow):
                         self.ui.simWarnTxt.setText("Hace falta definir el tipo de modulación correspondiente")
                     
                     elif index_4_symbols_type_of_modulation != 0:
-                        now = time.time()
-                        #Creo la constelación
-                        constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_4_symbols_type_of_modulation)
-                        constellation = MainFunctions.normalize_constellation(self, constellation)
-                        #Le asigno símbolos a los bits. Los modulo
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                        self.ui.mSim.display(int(len(bits_array)))
-                        symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-                        
-                        for inx,packet in enumerate(symbols_to_send):
-                            symbols_to_send[inx] = np.multiply(packet,2**14)
-                        
-                        #fig, ax = plt.subplots(3)
-                        #ax[0].plot(symbols_to_send[0].real)
-                        #ax[0].plot(symbols_to_send[0].imag)
-                        #ax[0].set_title('a')
-                        #ax[1].plot(symbols_to_send[1].real)
-                        #ax[1].plot(symbols_to_send[1].imag)
-                        #ax[1].set_title('b')
-                        #ax[2].plot(symbols_to_send[7].real)
-                        #ax[2].plot(symbols_to_send[7].imag)
-                        #plt.show()
-                        
-                        #El Buffer de muestras de envío se coloca automaticamente por el Pluto. Se debe mantener constante a lo largo de la transmisión. La última parte puede tener menos muestras que las anteriores, se le agregan cero para completar las muestras del buffer configurado.
-                        print(len(symbols_to_send))
-                        if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                            add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                            symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                        
-                        self.symbols_to_send_pluto = symbols_to_send
-                        
-                        #for packet_symbols in symbols_to_send:
-                        #    self.sdr.tx(packet_symbols)
-                        #print("ENVIANDO")
-                        #print(int_message)
-                        #after = time.time()
-                        #print('Estimado {}', after-now)
+
+                        threadpool = QThreadPool()
+                        worker = Worker_set_message_up_tx1(n_symbol, index_4_symbols_type_of_modulation, message, self.text_flag_message)
+                        worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                        threadpool.start(worker)
+
+
                     
                 elif index_n_symbols == 3:
                     index_8_symbols_type_of_modulation = self.ui.modBox_3.currentIndex()
@@ -1963,129 +1941,45 @@ class MainWindow(QMainWindow):
                     elif index_8_symbols_type_of_modulation != 0:
                     
                         if index_8_symbols_type_of_modulation == 1 or index_8_symbols_type_of_modulation == 2:
-                        
-                            #Creo la constelación
-                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation)
-                            constellation = MainFunctions.normalize_constellation(self, constellation)
-                            #Le asigno símbolos a los bits. Los modulo
-                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                            #print(message)
-                            self.ui.mSim.display(int(len(bits_array)))
-                            symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-    
-                            for inx,packet in enumerate(symbols_to_send):
-                                symbols_to_send[inx] = np.multiply(packet,2**14)
-                            
-                            print(len(symbols_to_send))
-                            if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                
-                            self.symbols_to_send_pluto = symbols_to_send
-                            
-                            #now = time.time()
-                            #for packet_symbols in symbols_to_send:
-                            #    self.sdr.tx(packet_symbols)
-                            #print("ENVIANDO")
-                            #print(int_message[0:10])
-                            #print(int_message[-10:])
-                            #after = time.time()
-                            #print('Estimado {}', after-now)
+
+
+                            threadpool = QThreadPool()
+                            worker = Worker_set_message_up_tx1(n_symbol, index_8_symbols_type_of_modulation, message, self.text_flag_message)
+                            worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                            threadpool.start(worker)
+
                             
                         elif index_8_symbols_type_of_modulation == 3:
                             if self.ui.radioButton_2.isChecked() == True:
                                 index_variant_8 = 1
+
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_1(n_symbol, index_8_symbols_type_of_modulation, message, self.text_flag_message, index_variant_8)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)
                                 
                             elif self.ui.radioButton_3.isChecked() == True:
                                 index_variant_8 = 2
+
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_1(n_symbol, index_8_symbols_type_of_modulation, message, self.text_flag_message, index_variant_8)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)
                                 
                             elif self.ui.radioButton_4.isChecked() == True:
                                 index_variant_8 = 3
+
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_1(n_symbol, index_8_symbols_type_of_modulation, message, self.text_flag_message, index_variant_8)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)
-                            
                     
                 elif index_n_symbols == 4:
                     index_16_symbols_type_of_modulation = self.ui.modBox_4.currentIndex()
@@ -2097,128 +1991,41 @@ class MainWindow(QMainWindow):
                     elif index_16_symbols_type_of_modulation != 0:
                     
                         if index_16_symbols_type_of_modulation == 1:
+
+                            threadpool = QThreadPool()
+                            worker = Worker_set_message_up_tx1(n_symbol, index_16_symbols_type_of_modulation, message, self.text_flag_message)
+                            worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                            threadpool.start(worker)
                         
-                            #Creo la constelación
-                            constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation)
-                            constellation = MainFunctions.normalize_constellation(self, constellation)
-                            #Le asigno símbolos a los bits. Los modulo
-                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                            #print(message)
-                            self.ui.mSim.display(int(len(bits_array)))
-                            symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                            for inx,packet in enumerate(symbols_to_send):
-                                symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                            print(len(symbols_to_send))
-                            if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                
-                            self.symbols_to_send_pluto = symbols_to_send
-                            
-                            #now = time.time()
-                            #for packet_symbols in symbols_to_send:
-                            #    self.sdr.tx(packet_symbols)
-                            #print("ENVIANDO")
-                            #print(int_message[0:10])
-                            #print(int_message[-10:])
-                            #after = time.time()
-                            #print('Estimado {}', after-now)
                         
                         elif index_16_symbols_type_of_modulation == 2:
                             if self.ui.radioButton_5.isChecked() == True:
                                 index_variant_16 = 1
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_2(n_symbol, index_16_symbols_type_of_modulation, message, self.text_flag_message, index_variant_16)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)
                                 
                             elif self.ui.radioButton_6.isChecked() == True:
                                 index_variant_16 = 2
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                    
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_2(n_symbol, index_16_symbols_type_of_modulation, message, self.text_flag_message, index_variant_16)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)
 
                             elif self.ui.radioButton_7.isChecked() == True:
                                 index_variant_16 = 3
                                 
-                                #Creo la constelación
-                                constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                constellation = MainFunctions.normalize_constellation(self, constellation)
-                                #Le asigno símbolos a los bits. Los modulo
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                                #print(message)
-                                self.ui.mSim.display(int(len(bits_array)))
-                                symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-        
-                                for inx,packet in enumerate(symbols_to_send):
-                                    symbols_to_send[inx] = np.multiply(packet,2**14)
-                                
-                                print(len(symbols_to_send))
-                                if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                                    add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                                    symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                                
-                                self.symbols_to_send_pluto = symbols_to_send
-                                
-                                #now = time.time()
-                                #for packet_symbols in symbols_to_send:
-                                #    self.sdr.tx(packet_symbols)
-                                #print("ENVIANDO")
-                                #print(int_message[0:10])
-                                #print(int_message[-10:])
-                                #after = time.time()
-                                #print('Estimado {}', after-now)     
+                                threadpool = QThreadPool()
+                                worker = Worker_set_message_up_tx1_2(n_symbol, index_16_symbols_type_of_modulation, message, self.text_flag_message, index_variant_16)
+                                worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                                threadpool.start(worker)    
         
             
         ############ CONSTELACIÓN DEFINIDA POR EL USUARIO (HACE FALTA AGREGAR LA OPCIÓN DE SI EL USUARIO NO ESCRIBE EN EL FORMATO QUE CORRESPONDE, LANZAR EL AVISO PARA QUE NO PUEDA TRASNMITIR Y AVISE AL USUARIO)
@@ -2240,23 +2047,11 @@ class MainWindow(QMainWindow):
                         self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
 
-                    constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
-                    constellation = MainFunctions.normalize_constellation(self, constellation)
-                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                    self.ui.mSim.display(int(len(bits_array)))
-                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
+                    threadpool = QThreadPool()
+                    worker = Worker_set_message_up_tx1_user_2(n_symbol, point1, point2, message, self.text_flag_message)
+                    worker.signals.finished.connect(self.transmit_signal_setting_1)
 
-                    for inx,packet in enumerate(symbols_to_send):
-                        symbols_to_send[inx] = np.multiply(packet,2**14)
-
-                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                        
-                    self.symbols_to_send_pluto = symbols_to_send
-                    
-                    #for packet_symbols in symbols_to_send:
-                    #    self.sdr.tx(packet_symbols)
+                    threadpool.start(worker)
                             
                 
                 elif index_n_symbols == 2:
@@ -2276,7 +2071,15 @@ class MainWindow(QMainWindow):
                         print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
                         self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
 
-                    constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
+                    threadpool = QThreadPool()
+                    worker = Worker_set_message_up_tx1_user_4(n_symbol, point1, point2, point3, point4, message, self.text_flag_message)
+                    worker.signals.finished.connect(self.transmit_signal_setting_1)
+
+                    threadpool.start(worker)
+
+
+                    """
+                    constellation = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3=point3, point4=point4)
                     constellation = MainFunctions.normalize_constellation(self, constellation)
                     bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
                     self.ui.mSim.display(int(len(bits_array)))
@@ -2290,11 +2093,8 @@ class MainWindow(QMainWindow):
                         symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
                     
                     self.symbols_to_send_pluto = symbols_to_send
-                    
-                    #for packet_symbols in symbols_to_send:
-                    #    self.sdr.tx(packet_symbols)
-                    
-        #MainFunctions.transmit_motion_btn(self, 30, True) #Muestra boton de Transmitir señal luego de haberla configurado por completo       
+                    """
+
 
 
     def graph_modulated_signal_prev(self):

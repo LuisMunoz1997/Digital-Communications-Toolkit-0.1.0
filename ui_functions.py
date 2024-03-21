@@ -3263,13 +3263,14 @@ class plt_received_signal4(FigureCanvas):
         self.ax4.grid()
 
 ############################################################################################################################################################################
-################
+############################################################################################################################################################################
 
 class Worker_config_signal(QRunnable):
 
     def __init__(self, flag, fsample, tsim, fport, fsim):
         super(Worker_config_signal, self).__init__()
         # Store constructor arguments (re-used for processing)
+        #import numpy as np
 
         self.fsim = fsim
         self.tsim = tsim
@@ -3336,6 +3337,236 @@ class Worker_transmit_signal(QRunnable):
             self.signals.finished.emit()  # Done
 
 
+
+
+
+class Worker_set_message_up_tx1(QRunnable):
+
+    def __init__(self, n_symbol, index_symbols_type_of_modulation, message, text_flag_message):
+        super(Worker_set_message_up_tx1, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.n_symbol = n_symbol
+        self.index_symbols_type_of_modulation = index_symbols_type_of_modulation
+        self.message = message
+        self.text_flag_message = text_flag_message
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            #Creo la constelación
+            constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation)
+            constellation = MainFunctions.normalize_constellation(self, constellation)
+            #Le asigno símbolos a los bits. Los modulo
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            self.bits_array = bits_array
+
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.bits_array)  # Done
+
+
+class Worker_set_message_up_tx1_1(QRunnable):
+
+    def __init__(self, n_symbol, index_symbols_type_of_modulation, message, text_flag_message, index_variant):
+        super(Worker_set_message_up_tx1, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.index_variant = index_variant
+        self.n_symbol = n_symbol
+        self.index_symbols_type_of_modulation = index_symbols_type_of_modulation
+        self.message = message
+        self.text_flag_message = text_flag_message
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            #Creo la constelación
+            constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation, self.index_variant)
+            constellation = MainFunctions.normalize_constellation(self, constellation)
+            #Le asigno símbolos a los bits. Los modulo
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            self.bits_array = bits_array
+
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.bits_array)  # Done
+
+
+class Worker_set_message_up_tx1_2(QRunnable):
+
+    def __init__(self, n_symbol, index_symbols_type_of_modulation, message, text_flag_message, index_variant):
+        super(Worker_set_message_up_tx1, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.index_variant = index_variant
+        self.n_symbol = n_symbol
+        self.index_symbols_type_of_modulation = index_symbols_type_of_modulation
+        self.message = message
+        self.text_flag_message = text_flag_message
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            #Creo la constelación
+            constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation, qam16_selector = self.index_variant)
+            constellation = MainFunctions.normalize_constellation(self, constellation)
+            #Le asigno símbolos a los bits. Los modulo
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            self.bits_array = bits_array
+
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.bits_array)  # Done
+
+
+class Worker_set_message_up_tx1_user_2(QRunnable):
+
+    def __init__(self, n_symbol, point1, point2, message, text_flag_message):
+        super(Worker_set_message_up_tx1, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.point1 = point1
+        self.point2 = point2
+        self.n_symbol = n_symbol
+        self.message = message
+        self.text_flag_message = text_flag_message
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            #Creo la constelación
+            constellation = MainFunctions.create_constellation_tx_user(self, self.n_symbol, point1 = self.point1, point2 = self.point2)
+            constellation = MainFunctions.normalize_constellation(self, constellation)
+            #Le asigno símbolos a los bits. Los modulo
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            self.bits_array = bits_array
+
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.bits_array)  # Done
+
+
+class Worker_set_message_up_tx1_user_4(QRunnable):
+
+    def __init__(self, n_symbol, point1, point2, point3, point4, message, text_flag_message):
+        super(Worker_set_message_up_tx1, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.point1 = point1
+        self.point2 = point2
+        self.point3 = point3
+        self.point4 = point4
+
+        self.n_symbol = n_symbol
+        self.message = message
+        self.text_flag_message = text_flag_message
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            #Creo la constelación
+            constellation = MainFunctions.create_constellation_tx_user(self, self.n_symbol, point1 = self.point1, point2 = self.point2, point3 = self.point3, point4 = self.point4)
+            constellation = MainFunctions.normalize_constellation(self, constellation)
+            #Le asigno símbolos a los bits. Los modulo
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            self.bits_array = bits_array
+
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.bits_array)  # Done
+
+
+
+class Worker_set_message_up_tx2(QRunnable):
+
+    def __init__(self, bits_array, tsim, fsample):
+        super(Worker_set_message_up_tx2, self).__init__()
+        # Store constructor arguments (re-used for processing)
+
+        self.tsim = tsim
+        self.fsample = fsample
+        self.bits_array = bits_array
+
+        self.signals = WorkerSignals3()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+
+        try:
+
+            self.symbols_to_send = MainFunctions.define_parts(self, self.bits_array, self.tsim, self.fsample, n_sym_parts = 100)
+
+            for inx,packet in enumerate(self.symbols_to_send):
+                self.symbols_to_send[inx] = np.multiply(packet,2**14)    
+
+            print(len(self.symbols_to_send))
+            if len(self.symbols_to_send[len(self.symbols_to_send)-1]) < len(self.symbols_to_send[0]):
+                add_zeros = np.zeros(len(self.symbols_to_send[0]) - len(self.symbols_to_send[len(self.symbols_to_send)-1]), dtype=complex)
+                self.symbols_to_send[len(self.symbols_to_send)-1] = np.append(self.symbols_to_send[len(self.symbols_to_send)-1], add_zeros)
+
+            
+        except Exception as e:
+            print(e)
+            warning_text = "Algo ocurrió...."
+            print(warning_text)
+
+        finally:
+            self.signals.finished.emit(self.symbols_to_send)  # Done
+
+
+
+
+
+
+
+
+
+
+class WorkerSignals3(QObject):
+
+    finished = Signal(object)  # QtCore.Signal
+    error = Signal(tuple)
 
 
 class WorkerSignals2(QObject):
