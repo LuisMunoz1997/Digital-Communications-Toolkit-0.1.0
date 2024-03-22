@@ -21,6 +21,7 @@ from ui_functions import *
 import pyqtgraph as pg
 import time
 import threading
+import queue
 import os
 
 import adi
@@ -140,8 +141,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self.ventana)
 
         # opening window in maximized size 
-        self.ventana.showMaximized() 
-        #self.ventana.setFixedHeight(800)
+        #self.ventana.showMaximized() 
+        self.ventana.setFixedHeight(800)
         self.fsample = 522000
         
         #REAL TIME GRAPH NECESARY OBJECTS

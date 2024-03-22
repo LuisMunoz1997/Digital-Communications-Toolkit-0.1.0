@@ -2215,7 +2215,7 @@ class MainFunctions(MainWindow):
         
         
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
-        
+        self.ventana.setFixedHeight(945) 
         self.stop_realtime_flag = True
         
         self.realtime_buffer.join()
@@ -2297,7 +2297,10 @@ class MainFunctions(MainWindow):
         
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
-        margen = 3
+        if self.margen_noise == 3:
+            margen = 3
+        else:
+            margen = self.margen_noise + 1
         #self.muestras = np.fromfile('muestras.iq', dtype=complex)
         #Aca se puede insertar 0+0j y apendar 0+0j a self.muestras para evitar comernos señal con la línea de abajo
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
@@ -2832,17 +2835,21 @@ class MainFunctions(MainWindow):
         self.ui.recBBlayout.addWidget(self.toolbar4)
 
     def get_buffer_sdr(self):
-        print("Realtime buffer started")
-        margen = 3
-        self.noise_flag = True
+        if self.margen_noise == 3:
+            margen = 3
+        else:
+            margen = self.margen_noise + 1
+        print("Margen: ", self.margen_noise)
+        #self.noise_flag = True
         #file = open('muestras.iq','ab')
+        print("Realtime buffer started")
         while not self.stop_realtime_flag:
             self.buffer_plot = self.sdr.rx()
             #file.write(self.buffer_plot)
                 
             if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
                 self.muestras = np.append(self.muestras, self.buffer_plot)
-                self.noise_flag = False
+                #self.noise_flag = False
                     
                 #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
                 
@@ -2863,10 +2870,10 @@ class MainFunctions(MainWindow):
      
     def realtime_plot(self):
         print("Realtime plotting started")
-        margen = 3
-        self.noise_pw = 0
-        noise_pw_index = [0,6000,12000,18000,24000,29999]
-        cont = 0
+        #margen = 3
+        #self.noise_pw = 0
+        #noise_pw_index = [0,6000,12000,18000,24000,29999]
+        #cont = 0
         while not self.stop_realtime_flag:
             if self.buffer_ready_flag:
                 self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
@@ -2884,16 +2891,16 @@ class MainFunctions(MainWindow):
                 self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
                 self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
                 
-                if self.noise_flag:
-                    cont += 6
-                    for index in noise_pw_index:
-                        self.noise_pw += np.abs(self.buffer_plot[index] ** 2) #Calcula potencia ruido de 6 muestras
-                    self.noise_flag = False
+                #if self.noise_flag:
+                    #cont += 6
+                    #for index in noise_pw_index:
+                    #    self.noise_pw += np.abs(self.buffer_plot[index] ** 2) #Calcula potencia ruido de 6 muestras
+                    #self.noise_flag = False
                           
                 self.buffer_ready_flag = False
             
         print("Realtime plotting Stopped")
-        self.noise_pw = self.noise_pw / cont #Calcula potencia promedio ruido
+        #self.noise_pw = self.noise_pw / cont #Calcula potencia promedio ruido
         self.buffer_ready_flag = False
         #break
 
@@ -2985,9 +2992,24 @@ class MainFunctions(MainWindow):
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
 
-        # Clear buffer just to be safe
+        # Clear buffer just to be safe, get max noise amplitude and noise power before starting realtime RX
+        for i in range (0, 10):
+            samples = self.sdr.rx()
+        self.margen_noise = 3
+        self.noise_pw = 0
+        cont_noise = 0
+        noise_pw_index = [0,6000,12000,18000,24000,29999]
         for i in range (0, 10):
            samples = self.sdr.rx()
+           max_noise_buffer = np.max(abs(samples))
+           if self.margen_noise <= max_noise_buffer:
+               self.margen_noise = max_noise_buffer
+
+           for index in noise_pw_index: #Creo que esto con numpy se puede hacer más rápido
+               self.noise_pw += np.abs(samples[index] ** 2) #Calcula potencia ruido de 6 muestras
+           cont_noise += 6
+        
+        self.noise_pw = self.noise_pw / cont_noise
         
         #Dominio temporal para gráficas
         #t = np.arange(0, len(samples)/fsample, 1/fsample)
