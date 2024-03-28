@@ -811,7 +811,7 @@ class MainWindow(QMainWindow):
                                     "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
                                     "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
                                     "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
-                                    "Número de muestras por simbolo: " + str(self.sps) +
+                                    "Número de muestras por simbolo: " + str(self.sps) + "\n\n" +
                                     "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
                                     "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" +
                                     "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
