@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1LpDbTH.ui'
+## Form generated from reading UI file 'transmission1RssQcJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -11,6 +11,7 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+
 
 import icons_rc
 import images_rc
@@ -830,7 +831,7 @@ class Ui_transmission1(object):
         self.fport = QDoubleSpinBox(self.widget_8)
         self.fport.setObjectName(u"fport")
         self.fport.setFont(font4)
-        self.fport.setMaximum(6000.000000000000000)
+        self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_11.addWidget(self.fport, 0, Qt.AlignLeft)
 
@@ -1177,7 +1178,6 @@ class Ui_transmission1(object):
         self.widget_6.setObjectName(u"widget_6")
         self.widget_6.setMaximumSize(QSize(16777215, 140))
         self.verticalLayout_33 = QVBoxLayout(self.widget_6)
-        self.verticalLayout_33.setSpacing(0)
         self.verticalLayout_33.setObjectName(u"verticalLayout_33")
         self.ConfigSig = QTextBrowser(self.widget_6)
         self.ConfigSig.setObjectName(u"ConfigSig")
@@ -1632,7 +1632,7 @@ class Ui_transmission1(object):
 
         self.label_5.setText(QCoreApplication.translate("transmission1", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo", None))
         self.label_4.setText(QCoreApplication.translate("transmission1", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo", None))
-        self.label_3.setText(QCoreApplication.translate("transmission1", u"Defina la frecuencia de Portadora (MHz - Max: 6000)", None))
+        self.label_3.setText(QCoreApplication.translate("transmission1", u"Defina la frecuencia de Portadora (MHz - Max: 3500)", None))
         self.label_23.setText(QCoreApplication.translate("transmission1", u"Defina la variante", None))
         self.radioButton_2.setText(QCoreApplication.translate("transmission1", u"Variante A", None))
         self.radioButton_3.setText(QCoreApplication.translate("transmission1", u"Variante B", None))

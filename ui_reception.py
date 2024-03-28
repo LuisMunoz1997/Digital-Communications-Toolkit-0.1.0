@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionNuCvou.ui'
+## Form generated from reading UI file 'receptionYAAKUA.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1087,7 +1087,7 @@ class Ui_reception(object):
         self.fport = QDoubleSpinBox(self.widget_13)
         self.fport.setObjectName(u"fport")
         self.fport.setFont(font4)
-        self.fport.setMaximum(6000.000000000000000)
+        self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_53.addWidget(self.fport)
 
@@ -2278,7 +2278,7 @@ class Ui_reception(object):
 
         self.label_41.setText(QCoreApplication.translate("reception", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo", None))
         self.label_42.setText(QCoreApplication.translate("reception", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo", None))
-        self.label_43.setText(QCoreApplication.translate("reception", u"Defina la frecuencia de Portadora (MHz - Max: 6000)", None))
+        self.label_43.setText(QCoreApplication.translate("reception", u"Defina la frecuencia de Portadora (MHz - Max: 3500)", None))
         self.label_44.setText(QCoreApplication.translate("reception", u"Defina la ganancia de recepci\u00f3n (dB - Max: 50)", None))
         self.label_52.setText("")
         self.label_28.setText(QCoreApplication.translate("reception", u"Para x = a, defina el valor de a", None))

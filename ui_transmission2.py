@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2QpJsYZ.ui'
+## Form generated from reading UI file 'transmission2Cjpnew.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -11,6 +11,7 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+
 
 import icons_rc
 import images_rc
@@ -864,7 +865,7 @@ class Ui_transmission2(object):
         self.fport = QDoubleSpinBox(self.widget_8)
         self.fport.setObjectName(u"fport")
         self.fport.setFont(font4)
-        self.fport.setMaximum(6000.000000000000000)
+        self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_11.addWidget(self.fport, 0, Qt.AlignLeft)
 
@@ -1669,7 +1670,7 @@ class Ui_transmission2(object):
 
         self.label_5.setText(QCoreApplication.translate("transmission2", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo", None))
         self.label_4.setText(QCoreApplication.translate("transmission2", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo", None))
-        self.label_3.setText(QCoreApplication.translate("transmission2", u"Defina la frecuencia de Portadora (MHz - Max: 6000)", None))
+        self.label_3.setText(QCoreApplication.translate("transmission2", u"Defina la frecuencia de Portadora (MHz - Max: 3500)", None))
         self.label_23.setText(QCoreApplication.translate("transmission2", u"Defina la variante", None))
         self.radioButton_2.setText(QCoreApplication.translate("transmission2", u"Variante A", None))
         self.radioButton_3.setText(QCoreApplication.translate("transmission2", u"Variante B", None))
