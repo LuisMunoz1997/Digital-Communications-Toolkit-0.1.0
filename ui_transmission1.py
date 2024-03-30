@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1RssQcJ.ui'
+## Form generated from reading UI file 'transmission1nYcIzS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -11,7 +11,6 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
 
 import icons_rc
 import images_rc
@@ -262,12 +261,71 @@ class Ui_transmission1(object):
 
         self.verticalLayout_3.addWidget(self.TranBtn)
 
+        self.widget_15 = QWidget(self.frame_2)
+        self.widget_15.setObjectName(u"widget_15")
+        self.widget_15.setMaximumSize(QSize(16777215, 0))
+        self.widget_15.setStyleSheet(u"#widget_15 QPushButton{\n"
+"	background-color: #4d648d;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"	color: #fff;\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}\n"
+"\n"
+"#widget_15 QPushButton:hover{\n"
+"	background-color: #acacac;\n"
+"	border-radius: 25px\n"
+"}\n"
+"\n"
+"#widget_15 {\n"
+"	background-color: #283655;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"	color: #fff;\n"
+"	border-width: 1px;\n"
+"	border-style: inset;\n"
+"}")
+        self.verticalLayout_6 = QVBoxLayout(self.widget_15)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.fileBtn_4 = QPushButton(self.widget_15)
+        self.fileBtn_4.setObjectName(u"fileBtn_4")
+        self.fileBtn_4.setMinimumSize(QSize(0, 0))
+        self.fileBtn_4.setMaximumSize(QSize(125, 16777215))
+        font2 = QFont()
+        font2.setFamilies([u"Bahnschrift Light"])
+        font2.setPointSize(10)
+        self.fileBtn_4.setFont(font2)
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/icons/paperclip.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.fileBtn_4.setIcon(icon3)
+        self.fileBtn_4.setIconSize(QSize(20, 20))
+
+        self.verticalLayout_6.addWidget(self.fileBtn_4)
+
+        self.textBtn_4 = QPushButton(self.widget_15)
+        self.textBtn_4.setObjectName(u"textBtn_4")
+        self.textBtn_4.setMinimumSize(QSize(0, 0))
+        self.textBtn_4.setMaximumSize(QSize(125, 16777215))
+        self.textBtn_4.setFont(font2)
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/icons/type.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.textBtn_4.setIcon(icon4)
+        self.textBtn_4.setIconSize(QSize(20, 20))
+
+        self.verticalLayout_6.addWidget(self.textBtn_4)
+
+
+        self.verticalLayout_3.addWidget(self.widget_15)
+
         self.RecepBtn = QPushButton(self.frame_2)
         self.RecepBtn.setObjectName(u"RecepBtn")
         self.RecepBtn.setFont(font1)
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/icons/trending-down.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.RecepBtn.setIcon(icon3)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/icons/trending-down.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.RecepBtn.setIcon(icon5)
         self.RecepBtn.setIconSize(QSize(40, 40))
 
         self.verticalLayout_3.addWidget(self.RecepBtn)
@@ -279,192 +337,19 @@ class Ui_transmission1(object):
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
-        self.frame_3 = QFrame(self.leftMenuSubContainer)
-        self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_4 = QVBoxLayout(self.frame_3)
-        self.verticalLayout_4.setSpacing(0)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(0, 10, 0, 10)
-        self.InfoBtn = QPushButton(self.frame_3)
-        self.InfoBtn.setObjectName(u"InfoBtn")
-        self.InfoBtn.setFont(font1)
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/icons/info.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.InfoBtn.setIcon(icon4)
-        self.InfoBtn.setIconSize(QSize(40, 40))
-        self.InfoBtn.setAutoDefault(False)
-        self.InfoBtn.setFlat(False)
-
-        self.verticalLayout_4.addWidget(self.InfoBtn)
-
-
-        self.verticalLayout_2.addWidget(self.frame_3, 0, Qt.AlignBottom)
-
 
         self.verticalLayout.addWidget(self.leftMenuSubContainer)
 
 
         self.horizontalLayout.addWidget(self.leftMenuContainer, 0, Qt.AlignLeft)
 
-        self.centerMenuContainer = QWidget(self.centralwidget)
-        self.centerMenuContainer.setObjectName(u"centerMenuContainer")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.centerMenuContainer.sizePolicy().hasHeightForWidth())
-        self.centerMenuContainer.setSizePolicy(sizePolicy1)
-        self.verticalLayout_8 = QVBoxLayout(self.centerMenuContainer)
-        self.verticalLayout_8.setSpacing(0)
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.centerMenuSubContaniner = QWidget(self.centerMenuContainer)
-        self.centerMenuSubContaniner.setObjectName(u"centerMenuSubContaniner")
-        self.centerMenuSubContaniner.setMaximumSize(QSize(0, 16777215))
-        self.verticalLayout_5 = QVBoxLayout(self.centerMenuSubContaniner)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(5, -1, 0, -1)
-        self.frame_4 = QFrame(self.centerMenuSubContaniner)
-        self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_4)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, -1)
-        self.label = QLabel(self.frame_4)
-        self.label.setObjectName(u"label")
-        font2 = QFont()
-        font2.setFamilies([u"Bahnschrift Light"])
-        font2.setPointSize(11)
-        self.label.setFont(font2)
-        self.label.setLineWidth(1)
-        self.label.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_3.addWidget(self.label)
-
-        self.closeMBtn = QPushButton(self.frame_4)
-        self.closeMBtn.setObjectName(u"closeMBtn")
-        self.closeMBtn.setStyleSheet(u"")
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/icons/x-circle.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.closeMBtn.setIcon(icon5)
-        self.closeMBtn.setIconSize(QSize(30, 30))
-
-        self.horizontalLayout_3.addWidget(self.closeMBtn)
-
-
-        self.verticalLayout_5.addWidget(self.frame_4)
-
-        self.frame_5 = QFrame(self.centerMenuSubContaniner)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_7 = QVBoxLayout(self.frame_5)
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.label_9 = QLabel(self.frame_5)
-        self.label_9.setObjectName(u"label_9")
-        font3 = QFont()
-        font3.setFamilies([u"Bahnschrift Light"])
-        font3.setPointSize(10)
-        self.label_9.setFont(font3)
-        self.label_9.setFrameShape(QFrame.NoFrame)
-
-        self.verticalLayout_7.addWidget(self.label_9)
-
-        self.textBtn_2 = QPushButton(self.frame_5)
-        self.textBtn_2.setObjectName(u"textBtn_2")
-        self.textBtn_2.setMinimumSize(QSize(125, 0))
-        self.textBtn_2.setMaximumSize(QSize(125, 16777215))
-        self.textBtn_2.setFont(font3)
-        icon6 = QIcon()
-        icon6.addFile(u":/icons/icons/type.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.textBtn_2.setIcon(icon6)
-        self.textBtn_2.setIconSize(QSize(40, 40))
-
-        self.verticalLayout_7.addWidget(self.textBtn_2)
-
-        self.fileBtn_2 = QPushButton(self.frame_5)
-        self.fileBtn_2.setObjectName(u"fileBtn_2")
-        self.fileBtn_2.setMinimumSize(QSize(125, 0))
-        self.fileBtn_2.setMaximumSize(QSize(125, 16777215))
-        self.fileBtn_2.setFont(font3)
-        icon7 = QIcon()
-        icon7.addFile(u":/icons/icons/paperclip.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.fileBtn_2.setIcon(icon7)
-        self.fileBtn_2.setIconSize(QSize(40, 40))
-
-        self.verticalLayout_7.addWidget(self.fileBtn_2)
-
-
-        self.verticalLayout_5.addWidget(self.frame_5)
-
-
-        self.verticalLayout_8.addWidget(self.centerMenuSubContaniner)
-
-        self.centerMenuSubContaniner_2 = QWidget(self.centerMenuContainer)
-        self.centerMenuSubContaniner_2.setObjectName(u"centerMenuSubContaniner_2")
-        self.centerMenuSubContaniner_2.setMinimumSize(QSize(0, 0))
-        self.centerMenuSubContaniner_2.setMaximumSize(QSize(0, 16777215))
-        self.verticalLayout_6 = QVBoxLayout(self.centerMenuSubContaniner_2)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.frame_12 = QFrame(self.centerMenuSubContaniner_2)
-        self.frame_12.setObjectName(u"frame_12")
-        self.frame_12.setMinimumSize(QSize(245, 0))
-        self.frame_12.setFrameShape(QFrame.StyledPanel)
-        self.frame_12.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_5 = QHBoxLayout(self.frame_12)
-        self.horizontalLayout_5.setSpacing(0)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.label_2 = QLabel(self.frame_12)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setFont(font2)
-        self.label_2.setLineWidth(1)
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_5.addWidget(self.label_2)
-
-        self.closeMBtn_2 = QPushButton(self.frame_12)
-        self.closeMBtn_2.setObjectName(u"closeMBtn_2")
-        self.closeMBtn_2.setStyleSheet(u"")
-        self.closeMBtn_2.setIcon(icon5)
-        self.closeMBtn_2.setIconSize(QSize(30, 30))
-
-        self.horizontalLayout_5.addWidget(self.closeMBtn_2, 0, Qt.AlignRight|Qt.AlignTop)
-
-
-        self.verticalLayout_6.addWidget(self.frame_12)
-
-        self.frame_13 = QFrame(self.centerMenuSubContaniner_2)
-        self.frame_13.setObjectName(u"frame_13")
-        self.frame_13.setFrameShape(QFrame.StyledPanel)
-        self.frame_13.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_24 = QVBoxLayout(self.frame_13)
-        self.verticalLayout_24.setSpacing(10)
-        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
-        self.verticalLayout_24.setContentsMargins(0, 20, 0, 15)
-        self.textBrowser_7 = QTextBrowser(self.frame_13)
-        self.textBrowser_7.setObjectName(u"textBrowser_7")
-
-        self.verticalLayout_24.addWidget(self.textBrowser_7)
-
-
-        self.verticalLayout_6.addWidget(self.frame_13)
-
-
-        self.verticalLayout_8.addWidget(self.centerMenuSubContaniner_2)
-
-
-        self.horizontalLayout.addWidget(self.centerMenuContainer)
-
         self.mainBodyContainer = QWidget(self.centralwidget)
         self.mainBodyContainer.setObjectName(u"mainBodyContainer")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.mainBodyContainer.sizePolicy().hasHeightForWidth())
-        self.mainBodyContainer.setSizePolicy(sizePolicy2)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.mainBodyContainer.sizePolicy().hasHeightForWidth())
+        self.mainBodyContainer.setSizePolicy(sizePolicy1)
         self.horizontalLayout_4 = QHBoxLayout(self.mainBodyContainer)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -497,7 +382,7 @@ class Ui_transmission1(object):
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.text = QPlainTextEdit(self.frame_6)
         self.text.setObjectName(u"text")
-        self.text.setFont(font3)
+        self.text.setFont(font2)
         self.text.setStyleSheet(u"#text {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -512,7 +397,7 @@ class Ui_transmission1(object):
 
         self.label_16 = QLabel(self.frame_10)
         self.label_16.setObjectName(u"label_16")
-        self.label_16.setFont(font3)
+        self.label_16.setFont(font2)
 
         self.verticalLayout_10.addWidget(self.label_16)
 
@@ -525,7 +410,7 @@ class Ui_transmission1(object):
         self.codeBox.addItem("")
         self.codeBox.addItem("")
         self.codeBox.setObjectName(u"codeBox")
-        self.codeBox.setFont(font3)
+        self.codeBox.setFont(font2)
         self.codeBox.setStyleSheet(u"	background-color: #769ad8;\n"
 "	border-width: 1px;\n"
 "	border-style: inset;")
@@ -534,11 +419,11 @@ class Ui_transmission1(object):
 
         self.label_14 = QLabel(self.frame_10)
         self.label_14.setObjectName(u"label_14")
-        font4 = QFont()
-        font4.setFamilies([u"Bahnschrift Light"])
-        font4.setPointSize(10)
-        font4.setUnderline(False)
-        self.label_14.setFont(font4)
+        font3 = QFont()
+        font3.setFamilies([u"Bahnschrift Light"])
+        font3.setPointSize(10)
+        font3.setUnderline(False)
+        self.label_14.setFont(font3)
 
         self.verticalLayout_10.addWidget(self.label_14)
 
@@ -550,9 +435,9 @@ class Ui_transmission1(object):
 
         self.UmbDisBtn = QRadioButton(self.frame_10)
         self.UmbDisBtn.setObjectName(u"UmbDisBtn")
-        font5 = QFont()
-        font5.setFamilies([u"Bahnschrift Light"])
-        self.UmbDisBtn.setFont(font5)
+        font4 = QFont()
+        font4.setFamilies([u"Bahnschrift Light"])
+        self.UmbDisBtn.setFont(font4)
 
         self.verticalLayout_10.addWidget(self.UmbDisBtn)
 
@@ -578,11 +463,11 @@ class Ui_transmission1(object):
         self.verticalLayout_28.setContentsMargins(0, 0, 0, 0)
         self.label_8 = QLabel(self.page_12)
         self.label_8.setObjectName(u"label_8")
-        font6 = QFont()
-        font6.setFamilies([u"Bahnschrift Light"])
-        font6.setPointSize(9)
-        font6.setUnderline(False)
-        self.label_8.setFont(font6)
+        font5 = QFont()
+        font5.setFamilies([u"Bahnschrift Light"])
+        font5.setPointSize(9)
+        font5.setUnderline(False)
+        self.label_8.setFont(font5)
 
         self.verticalLayout_28.addWidget(self.label_8)
 
@@ -593,7 +478,7 @@ class Ui_transmission1(object):
         self.simPBitBox.addItem("")
         self.simPBitBox.addItem("")
         self.simPBitBox.setObjectName(u"simPBitBox")
-        self.simPBitBox.setFont(font3)
+        self.simPBitBox.setFont(font2)
         self.simPBitBox.setStyleSheet(u"	background-color: #769ad8;\n"
 "	border-width: 1px;\n"
 "	border-style: inset;")
@@ -609,7 +494,7 @@ class Ui_transmission1(object):
         self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
         self.label_19 = QLabel(self.page_14)
         self.label_19.setObjectName(u"label_19")
-        self.label_19.setFont(font6)
+        self.label_19.setFont(font5)
 
         self.verticalLayout_29.addWidget(self.label_19)
 
@@ -618,7 +503,7 @@ class Ui_transmission1(object):
         self.simPBitBox_2.addItem("")
         self.simPBitBox_2.addItem("")
         self.simPBitBox_2.setObjectName(u"simPBitBox_2")
-        self.simPBitBox_2.setFont(font3)
+        self.simPBitBox_2.setFont(font2)
         self.simPBitBox_2.setStyleSheet(u"	background-color: #769ad8;\n"
 "	border-width: 1px;\n"
 "	border-style: inset;")
@@ -789,18 +674,18 @@ class Ui_transmission1(object):
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.label_5 = QLabel(self.widget_8)
         self.label_5.setObjectName(u"label_5")
-        font7 = QFont()
-        font7.setFamilies([u"Bahnschrift Light"])
-        font7.setPointSize(10)
-        font7.setUnderline(True)
-        self.label_5.setFont(font7)
+        font6 = QFont()
+        font6.setFamilies([u"Bahnschrift Light"])
+        font6.setPointSize(10)
+        font6.setUnderline(True)
+        self.label_5.setFont(font6)
         self.label_5.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_11.addWidget(self.label_5)
 
         self.fbit = QDoubleSpinBox(self.widget_8)
         self.fbit.setObjectName(u"fbit")
-        self.fbit.setFont(font3)
+        self.fbit.setFont(font2)
         self.fbit.setDecimals(2)
         self.fbit.setMaximum(1000000000.990000009536743)
 
@@ -808,14 +693,14 @@ class Ui_transmission1(object):
 
         self.label_4 = QLabel(self.widget_8)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font7)
+        self.label_4.setFont(font6)
         self.label_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_11.addWidget(self.label_4)
 
         self.tbit = QDoubleSpinBox(self.widget_8)
         self.tbit.setObjectName(u"tbit")
-        self.tbit.setFont(font3)
+        self.tbit.setFont(font2)
         self.tbit.setStyleSheet(u"	color: rgb(255, 255, 255);")
         self.tbit.setDecimals(9)
         self.tbit.setMaximum(1000000000.990000009536743)
@@ -824,13 +709,13 @@ class Ui_transmission1(object):
 
         self.label_3 = QLabel(self.widget_8)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font7)
+        self.label_3.setFont(font6)
 
         self.verticalLayout_11.addWidget(self.label_3)
 
         self.fport = QDoubleSpinBox(self.widget_8)
         self.fport.setObjectName(u"fport")
-        self.fport.setFont(font4)
+        self.fport.setFont(font3)
         self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_11.addWidget(self.fport, 0, Qt.AlignLeft)
@@ -885,25 +770,25 @@ class Ui_transmission1(object):
         self.verticalLayout_67.setObjectName(u"verticalLayout_67")
         self.label_23 = QLabel(self.page_25)
         self.label_23.setObjectName(u"label_23")
-        self.label_23.setFont(font7)
+        self.label_23.setFont(font6)
 
         self.verticalLayout_67.addWidget(self.label_23)
 
         self.radioButton_2 = QRadioButton(self.page_25)
         self.radioButton_2.setObjectName(u"radioButton_2")
-        self.radioButton_2.setFont(font3)
+        self.radioButton_2.setFont(font2)
 
         self.verticalLayout_67.addWidget(self.radioButton_2)
 
         self.radioButton_3 = QRadioButton(self.page_25)
         self.radioButton_3.setObjectName(u"radioButton_3")
-        self.radioButton_3.setFont(font3)
+        self.radioButton_3.setFont(font2)
 
         self.verticalLayout_67.addWidget(self.radioButton_3)
 
         self.radioButton_4 = QRadioButton(self.page_25)
         self.radioButton_4.setObjectName(u"radioButton_4")
-        self.radioButton_4.setFont(font3)
+        self.radioButton_4.setFont(font2)
 
         self.verticalLayout_67.addWidget(self.radioButton_4)
 
@@ -915,25 +800,25 @@ class Ui_transmission1(object):
         self.verticalLayout_66.setObjectName(u"verticalLayout_66")
         self.label_22 = QLabel(self.page_26)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setFont(font7)
+        self.label_22.setFont(font6)
 
         self.verticalLayout_66.addWidget(self.label_22, 0, Qt.AlignTop)
 
         self.radioButton_5 = QRadioButton(self.page_26)
         self.radioButton_5.setObjectName(u"radioButton_5")
-        self.radioButton_5.setFont(font3)
+        self.radioButton_5.setFont(font2)
 
         self.verticalLayout_66.addWidget(self.radioButton_5)
 
         self.radioButton_6 = QRadioButton(self.page_26)
         self.radioButton_6.setObjectName(u"radioButton_6")
-        self.radioButton_6.setFont(font3)
+        self.radioButton_6.setFont(font2)
 
         self.verticalLayout_66.addWidget(self.radioButton_6)
 
         self.radioButton_7 = QRadioButton(self.page_26)
         self.radioButton_7.setObjectName(u"radioButton_7")
-        self.radioButton_7.setFont(font3)
+        self.radioButton_7.setFont(font2)
 
         self.verticalLayout_66.addWidget(self.radioButton_7)
 
@@ -986,10 +871,10 @@ class Ui_transmission1(object):
         self.text_4 = QPlainTextEdit(self.page_19)
         self.text_4.setObjectName(u"text_4")
         self.text_4.setMaximumSize(QSize(16777215, 40))
-        font8 = QFont()
-        font8.setFamilies([u"Bahnschrift Light"])
-        font8.setUnderline(False)
-        self.text_4.setFont(font8)
+        font7 = QFont()
+        font7.setFamilies([u"Bahnschrift Light"])
+        font7.setUnderline(False)
+        self.text_4.setFont(font7)
         self.text_4.setStyleSheet(u"#text_4 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1002,7 +887,7 @@ class Ui_transmission1(object):
         self.text_3 = QPlainTextEdit(self.page_19)
         self.text_3.setObjectName(u"text_3")
         self.text_3.setMaximumSize(QSize(16777215, 40))
-        self.text_3.setFont(font8)
+        self.text_3.setFont(font7)
         self.text_3.setStyleSheet(u"#text_3 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1027,7 +912,7 @@ class Ui_transmission1(object):
         self.text_8 = QPlainTextEdit(self.page_20)
         self.text_8.setObjectName(u"text_8")
         self.text_8.setMaximumSize(QSize(16777215, 30))
-        self.text_8.setFont(font8)
+        self.text_8.setFont(font7)
         self.text_8.setStyleSheet(u"#text_8 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1040,7 +925,7 @@ class Ui_transmission1(object):
         self.text_5 = QPlainTextEdit(self.page_20)
         self.text_5.setObjectName(u"text_5")
         self.text_5.setMaximumSize(QSize(16777215, 30))
-        self.text_5.setFont(font8)
+        self.text_5.setFont(font7)
         self.text_5.setStyleSheet(u"#text_5 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1053,7 +938,7 @@ class Ui_transmission1(object):
         self.text_9 = QPlainTextEdit(self.page_20)
         self.text_9.setObjectName(u"text_9")
         self.text_9.setMaximumSize(QSize(16777215, 30))
-        self.text_9.setFont(font8)
+        self.text_9.setFont(font7)
         self.text_9.setStyleSheet(u"#text_9 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1066,7 +951,7 @@ class Ui_transmission1(object):
         self.text_7 = QPlainTextEdit(self.page_20)
         self.text_7.setObjectName(u"text_7")
         self.text_7.setMaximumSize(QSize(16777215, 30))
-        self.text_7.setFont(font8)
+        self.text_7.setFont(font7)
         self.text_7.setStyleSheet(u"#text_7 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1169,7 +1054,7 @@ class Ui_transmission1(object):
         self.simWarnTxt = QTextBrowser(self.frame_14)
         self.simWarnTxt.setObjectName(u"simWarnTxt")
         self.simWarnTxt.setMaximumSize(QSize(16777215, 100))
-        self.simWarnTxt.setFont(font3)
+        self.simWarnTxt.setFont(font2)
         self.simWarnTxt.setStyleSheet(u"color: rgb(255, 0, 0)")
 
         self.verticalLayout_40.addWidget(self.simWarnTxt)
@@ -1181,7 +1066,7 @@ class Ui_transmission1(object):
         self.verticalLayout_33.setObjectName(u"verticalLayout_33")
         self.ConfigSig = QTextBrowser(self.widget_6)
         self.ConfigSig.setObjectName(u"ConfigSig")
-        self.ConfigSig.setFont(font3)
+        self.ConfigSig.setFont(font2)
         self.ConfigSig.setStyleSheet(u"color: rgb(0, 0, 255);")
 
         self.verticalLayout_33.addWidget(self.ConfigSig)
@@ -1230,10 +1115,10 @@ class Ui_transmission1(object):
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.mSim = QLCDNumber(self.frame_11)
         self.mSim.setObjectName(u"mSim")
-        font9 = QFont()
-        font9.setFamilies([u"Bahnschrift Light"])
-        font9.setPointSize(14)
-        self.mSim.setFont(font9)
+        font8 = QFont()
+        font8.setFamilies([u"Bahnschrift Light"])
+        font8.setPointSize(14)
+        self.mSim.setFont(font8)
         self.mSim.setFrameShape(QFrame.Panel)
         self.mSim.setFrameShadow(QFrame.Sunken)
         self.mSim.setLineWidth(0)
@@ -1251,7 +1136,7 @@ class Ui_transmission1(object):
 
         self.label_11 = QLabel(self.frame_7)
         self.label_11.setObjectName(u"label_11")
-        self.label_11.setFont(font3)
+        self.label_11.setFont(font2)
 
         self.horizontalLayout_8.addWidget(self.label_11)
 
@@ -1278,13 +1163,13 @@ class Ui_transmission1(object):
         self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
         self.label_12 = QLabel(self.frame_22)
         self.label_12.setObjectName(u"label_12")
-        self.label_12.setFont(font3)
+        self.label_12.setFont(font2)
 
         self.horizontalLayout_22.addWidget(self.label_12)
 
         self.prevBBBTN = QPushButton(self.frame_22)
         self.prevBBBTN.setObjectName(u"prevBBBTN")
-        self.prevBBBTN.setFont(font3)
+        self.prevBBBTN.setFont(font2)
         self.prevBBBTN.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "text-align: center;")
 
@@ -1292,7 +1177,7 @@ class Ui_transmission1(object):
 
         self.prevPBBtn = QPushButton(self.frame_22)
         self.prevPBBtn.setObjectName(u"prevPBBtn")
-        self.prevPBBtn.setFont(font3)
+        self.prevPBBtn.setFont(font2)
         self.prevPBBtn.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "text-align: center;")
 
@@ -1391,14 +1276,14 @@ class Ui_transmission1(object):
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.label_13 = QLabel(self.frame_25)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font3)
+        self.label_13.setFont(font2)
         self.label_13.setStyleSheet(u"color: rgb(0, 0, 0);")
 
         self.horizontalLayout_23.addWidget(self.label_13)
 
         self.prevMSBtn = QPushButton(self.frame_25)
         self.prevMSBtn.setObjectName(u"prevMSBtn")
-        self.prevMSBtn.setFont(font3)
+        self.prevMSBtn.setFont(font2)
         self.prevMSBtn.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "text-align: center;")
 
@@ -1406,7 +1291,7 @@ class Ui_transmission1(object):
 
         self.prevDEPBtn = QPushButton(self.frame_25)
         self.prevDEPBtn.setObjectName(u"prevDEPBtn")
-        self.prevDEPBtn.setFont(font3)
+        self.prevDEPBtn.setFont(font2)
         self.prevDEPBtn.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "text-align: center;")
 
@@ -1414,7 +1299,7 @@ class Ui_transmission1(object):
 
         self.prevConstBtn = QPushButton(self.frame_25)
         self.prevConstBtn.setObjectName(u"prevConstBtn")
-        self.prevConstBtn.setFont(font3)
+        self.prevConstBtn.setFont(font2)
         self.prevConstBtn.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "text-align: center;")
 
@@ -1517,14 +1402,12 @@ class Ui_transmission1(object):
         transmission1.setCentralWidget(self.centralwidget)
         self.mainBodyContainer.raise_()
         self.leftMenuContainer.raise_()
-        self.centerMenuContainer.raise_()
 
         self.retranslateUi(transmission1)
 
         self.menuBtn.setDefault(False)
         self.TranBtn.setDefault(False)
         self.RecepBtn.setDefault(False)
-        self.InfoBtn.setDefault(False)
         self.stackedWidget_4.setCurrentIndex(1)
         self.stackedWidget_5.setCurrentIndex(2)
         self.stackedWidget_8.setCurrentIndex(0)
@@ -1547,40 +1430,12 @@ class Ui_transmission1(object):
         self.TranBtn.setToolTip(QCoreApplication.translate("transmission1", u"Trabaja como nodo transmisor", None))
 #endif // QT_CONFIG(tooltip)
         self.TranBtn.setText(QCoreApplication.translate("transmission1", u"Transmisi\u00f3n", None))
+        self.fileBtn_4.setText(QCoreApplication.translate("transmission1", u"Archivo", None))
+        self.textBtn_4.setText(QCoreApplication.translate("transmission1", u"Texto", None))
 #if QT_CONFIG(tooltip)
         self.RecepBtn.setToolTip(QCoreApplication.translate("transmission1", u"Trabajar como nodo receptor", None))
 #endif // QT_CONFIG(tooltip)
         self.RecepBtn.setText(QCoreApplication.translate("transmission1", u"Recepci\u00f3n", None))
-#if QT_CONFIG(tooltip)
-        self.InfoBtn.setToolTip(QCoreApplication.translate("transmission1", u"M\u00e1s informaci\u00f3n sobre la Herramienta", None))
-#endif // QT_CONFIG(tooltip)
-        self.InfoBtn.setText(QCoreApplication.translate("transmission1", u"Informaci\u00f3n", None))
-#if QT_CONFIG(shortcut)
-        self.InfoBtn.setShortcut("")
-#endif // QT_CONFIG(shortcut)
-        self.label.setText(QCoreApplication.translate("transmission1", u"Digital Comunications Toolkit", None))
-        self.closeMBtn.setText("")
-        self.label_9.setText(QCoreApplication.translate("transmission1", u"Seleccione el tipo de mensaje", None))
-        self.textBtn_2.setText(QCoreApplication.translate("transmission1", u"Texto", None))
-        self.fileBtn_2.setText(QCoreApplication.translate("transmission1", u"Archivo", None))
-        self.label_2.setText(QCoreApplication.translate("transmission1", u"Digital Comunications Toolkit", None))
-        self.closeMBtn_2.setText("")
-        self.textBrowser_7.setHtml(QCoreApplication.translate("transmission1", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Nombre</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: Digital Communications Toolkit</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'"
-                        "Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Versi\u00f3n</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: 1.0 2023</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Creado por</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: </span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">Luis G. Mu\u00f1oz L. y Jes\u00fas A. Del Mar R.</span></p>\n"
-"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; color:#ffffff;\"><br /></p>\n"
-"<p align=\"justify\" st"
-                        "yle=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-style:italic; color:#ffffff;\">Ingenier\u00eda en Telecomunicaciones</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-style:italic; color:#ffffff;\">Universidad Cat\u00f3lica Andr\u00e9s Bello</span></p></body></html>", None))
         self.text.setPlaceholderText(QCoreApplication.translate("transmission1", u"Escriba el mensaje a transmitir.", None))
         self.label_16.setText(QCoreApplication.translate("transmission1", u"Escoja el tipo de c\u00f3digo de l\u00ednea (Solo referencial):", None))
         self.codeBox.setItemText(0, "")

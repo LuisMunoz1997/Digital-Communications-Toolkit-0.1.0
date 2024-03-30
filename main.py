@@ -21,7 +21,6 @@ from ui_functions import *
 import pyqtgraph as pg
 import time
 import threading
-import queue
 import os
 
 import adi
@@ -52,6 +51,24 @@ class MainWindow(QMainWindow):
         self.showMaximized() 
         
         self.setWindowTitle("Digital Comunications Toolkit")
+
+
+        effect = QGraphicsOpacityEffect(self.ui.widget_cube)
+        self.ui.widget_cube.setGraphicsEffect(effect)
+        self.ui.widget_cube.resize(100, 100)
+        self.ui.anim = QPropertyAnimation(self.ui.widget_cube, b"pos")
+        self.ui.anim.setStartValue(QPoint(0, 300))
+        self.ui.anim.setEndValue(QPoint(0, 20))
+        self.ui.anim.setDuration(2000)
+        self.ui.anim_2 = QPropertyAnimation(effect, b"opacity")
+        self.ui.anim_2.setStartValue(0)
+        self.ui.anim_2.setEndValue(1)
+        self.ui.anim_2.setDuration(2000)
+        self.ui.anim_group = QParallelAnimationGroup()
+        self.ui.anim_group.addAnimation(self.ui.anim)
+        self.ui.anim_group.addAnimation(self.ui.anim_2)
+        self.ui.anim_group.start()
+
 
         
         ## TOGGLE/MENU
@@ -93,6 +110,24 @@ class MainWindow(QMainWindow):
         self.ventana = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.ventana)
+
+        effect = QGraphicsOpacityEffect(self.ui.widget_cube)
+        self.ui.widget_cube.setGraphicsEffect(effect)
+        self.ui.widget_cube.resize(100, 100)
+        self.ui.anim = QPropertyAnimation(self.ui.widget_cube, b"pos")
+        self.ui.anim.setStartValue(QPoint(0, 300))
+        self.ui.anim.setEndValue(QPoint(0, 20))
+        self.ui.anim.setDuration(2000)
+        self.ui.anim_2 = QPropertyAnimation(effect, b"opacity")
+        self.ui.anim_2.setStartValue(0)
+        self.ui.anim_2.setEndValue(1)
+        self.ui.anim_2.setDuration(2000)
+        self.ui.anim_group = QParallelAnimationGroup()
+        self.ui.anim_group.addAnimation(self.ui.anim)
+        self.ui.anim_group.addAnimation(self.ui.anim_2)
+        self.ui.anim_group.start()
+
+
 
         # opening window in maximized size 
         self.ventana.showMaximized() 
@@ -141,8 +176,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self.ventana)
 
         # opening window in maximized size 
-        #self.ventana.showMaximized() 
-        self.ventana.setFixedHeight(800)
+        self.ventana.showMaximized() 
+        #self.ventana.setFixedHeight(800)
         self.fsample = 522000
         
         #REAL TIME GRAPH NECESARY OBJECTS
@@ -151,6 +186,9 @@ class MainWindow(QMainWindow):
         #self.graphWidget_2 = pg.PlotWidget(background= "w")
         #self.graphWidget_3 = pg.PlotWidget(background= "w")
         #self.graphWidget_4 = pg.PlotWidget(background= "w")
+
+
+
         
         #FLAGS
         self.BB_graph_flag = False
@@ -188,23 +226,15 @@ class MainWindow(QMainWindow):
         #BUTTON ACTIONS
 
         #TRANSMISSION      
-        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
+        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info_3(self, 90, True))
         #self.ui.TranBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
-            
-        #INFO             
-        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))       
-        #self.ui.InfoBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
-
-        #CLOSE       
-        self.ui.closeMBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
-        self.ui.closeMBtn_2.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))
         
         #HOME PAGE
         self.ui.HomeBtn.clicked.connect(self.open_homepage)
         self.ui.HomeBtn.clicked.connect(self.close)
         
         #TRANSMISSION-TEXT PAGE
-        self.ui.textBtn_2.clicked.connect(self.open_transmission1)
+        self.ui.textBtn_2.clicked.connect(self.open_transmission1) 
         self.ui.textBtn_2.clicked.connect(self.close)
         
         #TRANSMISSION-ARCHIVE PAGE
@@ -330,17 +360,8 @@ class MainWindow(QMainWindow):
         #BUTTON ACTIONS
         ########################################################################
                
-        #TRANSMISSION     
-        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
-        #self.ui.TranBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
-            
-        #INFO            
-        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))       
-        #self.ui.InfoBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
-
-        #CLOSE     
-        self.ui.closeMBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
-        self.ui.closeMBtn_2.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))
+        #TRANSMISSION      
+        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info_3(self, 90, True))
 
         #RECEPTION PAGE
         self.ui.RecepBtn.clicked.connect(self.open_reception)
@@ -350,9 +371,13 @@ class MainWindow(QMainWindow):
         self.ui.HomeBtn.clicked.connect(self.open_homepage)
         self.ui.HomeBtn.clicked.connect(self.close)
         
+        #TRANSMISSION-TEXT PAGE
+        #self.ui.textBtn_4.clicked.connect(self.open_transmission1) 
+        #self.ui.textBtn_4.clicked.connect(self.close)
+        
         #TRANSMISSION-ARCHIVE PAGE
-        self.ui.fileBtn_2.clicked.connect(self.open_transmission2)
-        self.ui.fileBtn_2.clicked.connect(self.close)
+        self.ui.fileBtn_4.clicked.connect(self.open_transmission2)
+        self.ui.fileBtn_4.clicked.connect(self.close)
         
         
         #PREV BASE BAND
@@ -455,13 +480,9 @@ class MainWindow(QMainWindow):
         self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
         #self.ui.TranBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
             
-        ###INFO           
-        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))       
-        #self.ui.InfoBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
 
-        ###CLOSE     
-        self.ui.closeMBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
-        self.ui.closeMBtn_2.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))
+        #TRANSMISSION      
+        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info_3(self, 90, True))
         
         ###RECEPTION PAGE
         self.ui.RecepBtn.clicked.connect(self.open_reception)
@@ -474,7 +495,6 @@ class MainWindow(QMainWindow):
         ###HOME PAGE
         self.ui.HomeBtn.clicked.connect(self.open_homepage)
         self.ui.HomeBtn.clicked.connect(self.close)
-        
         
         
         #CHOOSE ARCHIVE
@@ -811,7 +831,7 @@ class MainWindow(QMainWindow):
                                     "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
                                     "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
                                     "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
-                                    "Número de muestras por simbolo: " + str(self.sps) + "\n\n" +
+                                    "Número de muestras por simbolo: " + str(self.sps) + + "\n\n" +
                                     "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
                                     "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" +
                                     "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")

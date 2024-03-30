@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepageuDZeek.ui'
+## Form generated from reading UI file 'homepageuSDaUf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -19,7 +19,11 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1364, 755)
+        MainWindow.resize(1364, 905)
+        font = QFont()
+        font.setFamilies([u"Bahnschrift Light"])
+        font.setPointSize(28)
+        MainWindow.setFont(font)
         MainWindow.setStyleSheet(u"*{\n"
 "	background-color: transparent;\n"
 "	background: transparent;\n"
@@ -111,10 +115,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.frame = QFrame(self.leftMenuSubContainer)
         self.frame.setObjectName(u"frame")
-        font = QFont()
-        font.setFamilies([u"Bahnschrift Light"])
-        font.setPointSize(12)
-        self.frame.setFont(font)
+        font1 = QFont()
+        font1.setFamilies([u"Bahnschrift Light"])
+        font1.setPointSize(12)
+        self.frame.setFont(font1)
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_2 = QHBoxLayout(self.frame)
@@ -123,7 +127,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.menuBtn = QPushButton(self.frame)
         self.menuBtn.setObjectName(u"menuBtn")
-        self.menuBtn.setFont(font)
+        self.menuBtn.setFont(font1)
         self.menuBtn.setAutoFillBackground(False)
         self.menuBtn.setStyleSheet(u"background-color: #283655;")
         icon = QIcon()
@@ -151,10 +155,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 10, 0, 10)
         self.HomeBtn = QPushButton(self.frame_2)
         self.HomeBtn.setObjectName(u"HomeBtn")
-        font1 = QFont()
-        font1.setFamilies([u"Bahnschrift Light"])
-        font1.setPointSize(9)
-        self.HomeBtn.setFont(font1)
+        font2 = QFont()
+        font2.setFamilies([u"Bahnschrift Light"])
+        font2.setPointSize(9)
+        self.HomeBtn.setFont(font2)
         icon1 = QIcon()
         icon1.addFile(u":/icons/icons/home.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.HomeBtn.setIcon(icon1)
@@ -164,7 +168,7 @@ class Ui_MainWindow(object):
 
         self.TranBtn = QPushButton(self.frame_2)
         self.TranBtn.setObjectName(u"TranBtn")
-        self.TranBtn.setFont(font1)
+        self.TranBtn.setFont(font2)
         icon2 = QIcon()
         icon2.addFile(u":/icons/icons/wifi.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.TranBtn.setIcon(icon2)
@@ -174,7 +178,7 @@ class Ui_MainWindow(object):
 
         self.RecepBtn = QPushButton(self.frame_2)
         self.RecepBtn.setObjectName(u"RecepBtn")
-        self.RecepBtn.setFont(font1)
+        self.RecepBtn.setFont(font2)
         icon3 = QIcon()
         icon3.addFile(u":/icons/icons/trending-down.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.RecepBtn.setIcon(icon3)
@@ -199,7 +203,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 10, 0, 10)
         self.InfoBtn = QPushButton(self.frame_3)
         self.InfoBtn.setObjectName(u"InfoBtn")
-        self.InfoBtn.setFont(font1)
+        self.InfoBtn.setFont(font2)
         icon4 = QIcon()
         icon4.addFile(u":/icons/icons/info.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.InfoBtn.setIcon(icon4)
@@ -216,7 +220,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.leftMenuSubContainer)
 
 
-        self.horizontalLayout.addWidget(self.leftMenuContainer, 0, Qt.AlignLeft)
+        self.horizontalLayout.addWidget(self.leftMenuContainer)
 
         self.centerMenuContainer = QWidget(self.centralwidget)
         self.centerMenuContainer.setObjectName(u"centerMenuContainer")
@@ -245,10 +249,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, -1)
         self.label = QLabel(self.frame_4)
         self.label.setObjectName(u"label")
-        font2 = QFont()
-        font2.setFamilies([u"Bahnschrift Light"])
-        font2.setPointSize(11)
-        self.label.setFont(font2)
+        font3 = QFont()
+        font3.setFamilies([u"Bahnschrift Light"])
+        font3.setPointSize(11)
+        self.label.setFont(font3)
         self.label.setLineWidth(1)
         self.label.setAlignment(Qt.AlignCenter)
 
@@ -275,10 +279,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.label_9 = QLabel(self.frame_5)
         self.label_9.setObjectName(u"label_9")
-        font3 = QFont()
-        font3.setFamilies([u"Bahnschrift Light"])
-        font3.setPointSize(10)
-        self.label_9.setFont(font3)
+        font4 = QFont()
+        font4.setFamilies([u"Bahnschrift Light"])
+        font4.setPointSize(10)
+        self.label_9.setFont(font4)
         self.label_9.setFrameShape(QFrame.NoFrame)
 
         self.verticalLayout_7.addWidget(self.label_9)
@@ -287,7 +291,7 @@ class Ui_MainWindow(object):
         self.textBtn_2.setObjectName(u"textBtn_2")
         self.textBtn_2.setMinimumSize(QSize(125, 0))
         self.textBtn_2.setMaximumSize(QSize(125, 16777215))
-        self.textBtn_2.setFont(font3)
+        self.textBtn_2.setFont(font4)
         icon6 = QIcon()
         icon6.addFile(u":/icons/icons/type.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.textBtn_2.setIcon(icon6)
@@ -299,7 +303,7 @@ class Ui_MainWindow(object):
         self.fileBtn_2.setObjectName(u"fileBtn_2")
         self.fileBtn_2.setMinimumSize(QSize(125, 0))
         self.fileBtn_2.setMaximumSize(QSize(125, 16777215))
-        self.fileBtn_2.setFont(font3)
+        self.fileBtn_2.setFont(font4)
         icon7 = QIcon()
         icon7.addFile(u":/icons/icons/paperclip.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.fileBtn_2.setIcon(icon7)
@@ -330,7 +334,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.label_2 = QLabel(self.frame_12)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setFont(font2)
+        self.label_2.setFont(font3)
         self.label_2.setLineWidth(1)
         self.label_2.setAlignment(Qt.AlignCenter)
 
@@ -380,33 +384,85 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.guideContainer = QFrame(self.mainBodyContainer)
-        self.guideContainer.setObjectName(u"guideContainer")
-        self.guideContainer.setMinimumSize(QSize(500, 0))
-        self.guideContainer.setMaximumSize(QSize(500, 16777215))
-        self.guideContainer.setFrameShape(QFrame.StyledPanel)
-        self.guideContainer.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_12 = QVBoxLayout(self.guideContainer)
-        self.verticalLayout_12.setSpacing(0)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.verticalLayout_12.setContentsMargins(10, 10, 0, 0)
-        self.textBrowser = QTextBrowser(self.guideContainer)
-        self.textBrowser.setObjectName(u"textBrowser")
-
-        self.verticalLayout_12.addWidget(self.textBrowser)
-
-
-        self.horizontalLayout_4.addWidget(self.guideContainer)
-
         self.mainRightContainer = QWidget(self.mainBodyContainer)
         self.mainRightContainer.setObjectName(u"mainRightContainer")
         self.mainRightContainer.setMinimumSize(QSize(350, 0))
-        self.verticalLayout_11 = QVBoxLayout(self.mainRightContainer)
-        self.verticalLayout_11.setSpacing(0)
-        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6 = QHBoxLayout(self.mainRightContainer)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.widget = QWidget(self.mainRightContainer)
+        self.widget.setObjectName(u"widget")
+        self.widget.setStyleSheet(u"\n"
+"#widget_cube{\n"
+"	background-color: #4d648d;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"	color: #fff;\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
+        self.verticalLayout_9 = QVBoxLayout(self.widget)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.widget_cube = QWidget(self.widget)
+        self.widget_cube.setObjectName(u"widget_cube")
+        self.widget_cube.setMinimumSize(QSize(680, 0))
+        self.widget_cube.setMaximumSize(QSize(680, 16777215))
+        self.widget_cube.setFont(font)
+        self.verticalLayout_10 = QVBoxLayout(self.widget_cube)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.label_3 = QLabel(self.widget_cube)
+        self.label_3.setObjectName(u"label_3")
+        font5 = QFont()
+        font5.setFamilies([u"Bahnschrift Light"])
+        font5.setPointSize(36)
+        self.label_3.setFont(font5)
+
+        self.verticalLayout_10.addWidget(self.label_3)
+
+
+        self.verticalLayout_9.addWidget(self.widget_cube, 0, Qt.AlignRight|Qt.AlignTop)
+
+
+        self.horizontalLayout_6.addWidget(self.widget, 0, Qt.AlignRight)
+
         self.frame_7 = QFrame(self.mainRightContainer)
         self.frame_7.setObjectName(u"frame_7")
+        self.frame_7.setMinimumSize(QSize(390, 0))
+        self.frame_7.setMaximumSize(QSize(390, 16777215))
+        self.frame_7.setStyleSheet(u"\n"
+"#frame_7{\n"
+"	background-color: #283655;\n"
+"	border-top-left-radius: 15px;\n"
+"	border-bottom-left-radius: 15px;\n"
+"	border-style: inset;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"}\n"
+"\n"
+"#textBrowser{\n"
+"	background-color: #4d648d;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"	color: #fff;\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}\n"
+"\n"
+"#textBrowser_3{\n"
+"	background-color: #4d648d;\n"
+"	padding: 7;\n"
+"	margin: 0;\n"
+"	color: #fff;\n"
+"	border-width: 1px;\n"
+"	border-radius: 7px;\n"
+"	border-style: inset;\n"
+"\n"
+"}")
         self.frame_7.setFrameShape(QFrame.StyledPanel)
         self.frame_7.setFrameShadow(QFrame.Raised)
         self.verticalLayout_14 = QVBoxLayout(self.frame_7)
@@ -416,11 +472,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.textBrowser_3)
 
+        self.textBrowser = QTextBrowser(self.frame_7)
+        self.textBrowser.setObjectName(u"textBrowser")
 
-        self.verticalLayout_11.addWidget(self.frame_7)
+        self.verticalLayout_14.addWidget(self.textBrowser)
 
+        self.verticalLayout_14.setStretch(0, 7)
+        self.verticalLayout_14.setStretch(1, 4)
 
-        self.horizontalLayout_4.addWidget(self.mainRightContainer, 0, Qt.AlignRight)
+        self.horizontalLayout_6.addWidget(self.frame_7)
+
+        self.horizontalLayout_6.setStretch(0, 8)
+        self.horizontalLayout_6.setStretch(1, 2)
+
+        self.horizontalLayout_4.addWidget(self.mainRightContainer)
 
 
         self.horizontalLayout.addWidget(self.mainBodyContainer)
@@ -476,29 +541,14 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Nombre</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: Digital Communications Toolkit</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'"
-                        "Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Versi\u00f3n</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: 1.0 2023</span></p>\n"
+                        "Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Versi\u00f3n</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: 0.1 2024</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; text-decoration: underline; color:#ffffff;\">Creado por</span><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">: </span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; color:#ffffff;\">Luis G. Mu\u00f1oz L. y Jes\u00fas A. Del Mar R.</span></p>\n"
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; color:#ffffff;\"><br /></p>\n"
 "<p align=\"justify\" st"
                         "yle=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-style:italic; color:#ffffff;\">Ingenier\u00eda en Telecomunicaciones</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-style:italic; color:#ffffff;\">Universidad Cat\u00f3lica Andr\u00e9s Bello</span></p></body></html>", None))
-        self.textBrowser.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:20pt; font-weight:600;\">Gu\u00eda de Inicio</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:7.8pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0"
-                        "px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:12pt;\">1)Conecte el m\u00f3dulo ADALM-PLUTO al ordenador</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:12pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:12pt;\">2)Escoja el modo de trabajo (Transmisi\u00f3n o Recepci\u00f3n)</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:12pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Ligh"
-                        "t'; font-size:12pt;\">2.1)Si el modo escogido es &quot;Transmisi\u00f3n&quot;, escoja el tipo de mensaje a enviar</span></p></body></html>", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Digital Communications Toolkit", None))
         self.textBrowser_3.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -509,8 +559,25 @@ class Ui_MainWindow(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\":/images/images/ADALM-PLUTO.png\" /></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:7.8pt;\"><br /></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; t"
-                        "ext-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:14pt;\">M\u00f3dulo ADALM - PLUTO</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:11pt;\">El m\u00f3dulo de aprendizaje activo ADALM-PLUTO (PlutoSDR) es una herramienta creada por Analog Devices Inc. Ayuda a los usuarios a introducirse en los fundamentos de la radio definida por software (SDR), la radiofrecuencia (RF) y las comunicaciones.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:7.8pt;\"><br /></p></body></html>", None))
+                        "ext-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:14pt; text-decoration: underline;\">Sobre  el M\u00f3dulo ADALM - PLUTO y el programa</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:12pt;\">El m\u00f3dulo de aprendizaje activo ADALM-PLUTO (PlutoSDR) es una herramienta creada por Analog Devices Inc. Ayuda a los usuarios a introducirse en los fundamentos de la radio definida por software (SDR), la radiofrecuencia (RF) y las comunicaciones. Por otro lado, el Digital Communications Toolkit es un programa desarrollado utilizando las bondades del ADALM-PLUTO, y cuyo objetivo es complementar el aprendizaje de las se\u00f1ales digitales, estudio de sus caracter\u00edsticas fundamentales y de los efectos desfavorables que puede generar el medio de transmisi\u00f3n sobre estas.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; ma"
+                        "rgin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:7.8pt;\"><br /></p></body></html>", None))
+        self.textBrowser.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:20pt; font-weight:600; text-decoration: underline;\">Gu\u00eda de Inicio</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:7.8pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; mar"
+                        "gin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:12pt;\">1) Conecte el m\u00f3dulo ADALM-PLUTO al ordenador</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:12pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Bahnschrift Light'; font-size:12pt;\">2) Escoja el modo de trabajo (Transmisi\u00f3n o Recepci\u00f3n)</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bahnschrift Light'; font-size:12pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\""
+                        " font-family:'Bahnschrift Light'; font-size:12pt;\">2.1) Si el modo escogido es &quot;Transmisi\u00f3n&quot;, escoja el tipo de mensaje a enviar</span></p></body></html>", None))
     # retranslateUi
 
