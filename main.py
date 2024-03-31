@@ -475,11 +475,6 @@ class MainWindow(QMainWindow):
         
         #BUTTON ACTIONS  
         #############################################################################################        
-        
-        ###TRANSMISSION      
-        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
-        #self.ui.TranBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
-            
 
         #TRANSMISSION      
         self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info_3(self, 90, True))
