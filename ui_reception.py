@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionRydTcC.ui'
+## Form generated from reading UI file 'receptionushacR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -400,7 +400,7 @@ class Ui_reception(object):
         self.frame_10 = QFrame(self.mainBodySubLeftContainer)
         self.frame_10.setObjectName(u"frame_10")
         self.frame_10.setMinimumSize(QSize(440, 0))
-        self.frame_10.setMaximumSize(QSize(440, 16777215))
+        self.frame_10.setMaximumSize(QSize(16777215, 16777215))
         self.frame_10.setStyleSheet(u"color: #000000;	\n"
 "\n"
 "")
