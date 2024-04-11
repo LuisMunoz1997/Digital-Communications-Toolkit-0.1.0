@@ -175,6 +175,10 @@ class MainWindow(QMainWindow):
         self.ui = Ui_reception()
         self.ui.setupUi(self.ventana)
 
+        self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
+        #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        #self.ui.label_40.setText("!#$%<d>&/()=?¡;:")
+
         # opening window in maximized size 
         self.ventana.showMaximized() 
         #self.ventana.setFixedHeight(800)
@@ -182,11 +186,6 @@ class MainWindow(QMainWindow):
         
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
-        #self.graphWidget = pg.PlotWidget(background= "w")
-        #self.graphWidget_2 = pg.PlotWidget(background= "w")
-        #self.graphWidget_3 = pg.PlotWidget(background= "w")
-        #self.graphWidget_4 = pg.PlotWidget(background= "w")
-
 
 
         
