@@ -1896,10 +1896,6 @@ class MainWindow(QMainWindow):
         elif self.filepath_flag_message == True:
             message = self.filePath[0]
 
-            #message = np.fromfile(self.filePath[0], dtype=np.uint8)
-            #int_message = message
-            #message = np.unpackbits(message)
-            #message = np.asarray(message, dtype=bool)
         
         if message == "":
             self.ui.simWarnTxt.setText("Hace falta definir al mensaje")
@@ -2157,7 +2153,7 @@ class MainWindow(QMainWindow):
                     
                     elif index_2_symbols_type_of_modulation != 0:
                         constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                         self.ui.mSim.display(int(len(bits_array)))
                         #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                         symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2172,7 +2168,7 @@ class MainWindow(QMainWindow):
                     
                     elif index_4_symbols_type_of_modulation != 0:
                         constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_4_symbols_type_of_modulation)
-                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                        bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                         self.ui.mSim.display(int(len(bits_array)))
                         #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                         symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2191,7 +2187,7 @@ class MainWindow(QMainWindow):
                         if index_8_symbols_type_of_modulation == 1 or index_8_symbols_type_of_modulation == 2:
                         
                             constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation)
-                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                             self.ui.mSim.display(int(len(bits_array)))
                             #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                             symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2202,7 +2198,7 @@ class MainWindow(QMainWindow):
                                 index_variant_8 = 1
 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2213,7 +2209,7 @@ class MainWindow(QMainWindow):
                                 index_variant_8 = 2
                                 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2223,7 +2219,7 @@ class MainWindow(QMainWindow):
                                 index_variant_8 = 3
                                 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_8_symbols_type_of_modulation, index_variant_8)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2242,7 +2238,7 @@ class MainWindow(QMainWindow):
                         if index_16_symbols_type_of_modulation == 1:
                         
                             constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation)
-                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                            bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                             self.ui.mSim.display(int(len(bits_array)))
                             #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                             symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2253,7 +2249,7 @@ class MainWindow(QMainWindow):
                                 index_variant_16 = 1
                                 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2264,7 +2260,7 @@ class MainWindow(QMainWindow):
                                 index_variant_16 = 2
                                 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2274,7 +2270,7 @@ class MainWindow(QMainWindow):
                                 index_variant_16 = 3
                                 
                                 constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_16_symbols_type_of_modulation, qam16_selector = index_variant_16)
-                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
+                                bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                                 self.ui.mSim.display(int(len(bits_array)))
                                 #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                                 symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
@@ -2301,7 +2297,7 @@ class MainWindow(QMainWindow):
 
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 2, point1 = point1, point2 = point2)
-                    bits_array = MainFunctions.prepare_to_send(self, message, 2, constellation)
+                    bits_array = MainFunctions.prepare_to_send(self, message, 2, constellation, self.text_flag_message)
                     self.ui.mSim.display(int(len(bits_array)))
                     symbols_to_send = MainFunctions.pulse_shape(self, bits_array, tsim, fsample)
                             
@@ -2326,7 +2322,7 @@ class MainWindow(QMainWindow):
 
 
                     constellation = MainFunctions.create_constellation_tx_user(self, 4, point1 = point1, point2 = point2, point3=point3, point4=point4)
-                    bits_array = MainFunctions.prepare_to_send(self, message, 4, constellation)
+                    bits_array = MainFunctions.prepare_to_send(self, message, 4, constellation, self.text_flag_message)
                     self.ui.mSim.display(int(len(bits_array)))
                     symbols_to_send = MainFunctions.pulse_shape(self, bits_array, tsim, fsample)
                         

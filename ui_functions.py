@@ -418,17 +418,19 @@ class MainFunctions(MainWindow):
         return constellation
 
     #Método asignar bits a un símbolo de la constelación. Retorna arreglo con simbolos. La conversión a "bits" se hace con npbromfile dtype bool
-    def prepare_to_send(self, message, nsimb, constellation):
+    def prepare_to_send(self, message, nsimb, constellation, flag_message):
+        text_flag_message = flag_message
+
         #Qué pasa si envío 3 bits por simbolo, y resulta que en los ultimos bits a enviar solo me faltan 2 o 1? Por no ser par
         #Acá si se quiere no se trabaja con nsimb sino con len(constellation)
         #Si el mensaje no es de np.fromfile dtype=bool, es string, convierto a bits sin comprimir, o buscar forma de comprimir.
-        if type(message)is str and self.text_flag_message:
+        if type(message)is str and text_flag_message:
             message = MainFunctions.string_to_bits(self, message)
             
-        elif self.filePath[0][:-4][-6:] == 'gris_#' or self.filePath[0][:-5][-6:] == 'gris_#' or self.filePath[0].find("gris_#") != -1 and not self.text_flag_message: #Imagen escala gris
+        elif message[:-4][-6:] == 'gris_#' or message[:-5][-6:] == 'gris_#' or message.find("gris_#") != -1 and not text_flag_message: #Imagen escala gris
             try:
                 print("Se enviará imagen escala grises")
-                image = Image.open(self.filePath[0]).convert("L")
+                image = Image.open(message).convert("L")
                 pixels = np.array(image, dtype=np.uint8)
                 pixels_message = pixels.flatten() #Se reconstruye con reshape(heigth,width)
                 pixels_message_bits = np.unpackbits(pixels_message)
@@ -441,9 +443,9 @@ class MainFunctions(MainWindow):
                 print("Error al preparar imagen escala gris")
                 print(e)     
             
-        elif self.filePath[0][-4:] == '.jpg' or self.filePath[0][-5:] == '.jpeg'and not self.text_flag_message: #Imagen jpg
+        elif message[-4:] == '.jpg' or message[-5:] == '.jpeg'and not text_flag_message: #Imagen jpg
             print("Se enviará imagen")
-            image = Image.open(self.filePath[0])
+            image = Image.open(message)
             #image.save('here.jpg', "JPEG", quality=35, optimize=False, progressive=True) #Si se quiere comprimir antes de enviar
             #image = Image.open('here.jpg')
             pixels = np.array(image, dtype=np.uint8)
@@ -455,9 +457,9 @@ class MainFunctions(MainWindow):
             message = np.insert(pixels_message_bits, 0, width_heigth_16bits)
             message = np.asarray(message, dtype=bool) #Mensaje cuyos primeros 32 bits son el width (16bits) y heigth(16bits) de la imagen
             
-        elif self.filePath[0][-4:] == '.png': #Imagen PNG
+        elif message[-4:] == '.png': #Imagen PNG
             print("Se enviará imagen PNG bajada de calidad comprimida")
-            image = Image.open(self.filePath[0])
+            image = Image.open(message)
             image.save("compress.png", quality=22,optimize=False,progressive=False)
             image.close()
             zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
@@ -470,11 +472,11 @@ class MainFunctions(MainWindow):
             message = np.asarray(message, dtype=bool)
             
         else:
-            extension_index = self.filePath[0][::-1].find('.')
-            extension = self.filePath[0][::-1][0:extension_index+1]
+            extension_index = message[::-1].find('.')
+            extension = message[::-1][0:extension_index+1]
             extension = extension[::-1]
             print("Se enviará archivo {}".format(extension))
-            message = np.fromfile(self.filePath[0], dtype=np.uint8)
+            message = np.fromfile(message, dtype=np.uint8)
             message.tofile("compress{}".format(extension))
             zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
             zip.write("compress{}".format(extension))
@@ -3381,14 +3383,16 @@ class Worker_set_message_up_tx1(QRunnable):
     @Slot()  # QtCore.Slot
     def run(self):
 
-        try:
+        #Creo la constelación
+        constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation)
+        constellation = MainFunctions.normalize_constellation(self, constellation)
+        #Le asigno símbolos a los bits. Los modulo
+        bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation, self.text_flag_message)
+        self.bits_array = bits_array
 
-            #Creo la constelación
-            constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation)
-            constellation = MainFunctions.normalize_constellation(self, constellation)
-            #Le asigno símbolos a los bits. Los modulo
-            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
-            self.bits_array = bits_array
+        try:
+            pass
+
 
         except Exception as e:
             print(e)
@@ -3422,7 +3426,7 @@ class Worker_set_message_up_tx1_1(QRunnable):
             constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation, self.index_variant)
             constellation = MainFunctions.normalize_constellation(self, constellation)
             #Le asigno símbolos a los bits. Los modulo
-            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation, self.text_flag_message)
             self.bits_array = bits_array
 
         except Exception as e:
@@ -3457,7 +3461,7 @@ class Worker_set_message_up_tx1_2(QRunnable):
             constellation = MainFunctions.create_constellation_tx(self, self.n_symbol, self.index_symbols_type_of_modulation, qam16_selector = self.index_variant)
             constellation = MainFunctions.normalize_constellation(self, constellation)
             #Le asigno símbolos a los bits. Los modulo
-            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation, self.text_flag_message)
             self.bits_array = bits_array
 
         except Exception as e:
@@ -3492,7 +3496,7 @@ class Worker_set_message_up_tx1_user_2(QRunnable):
             constellation = MainFunctions.create_constellation_tx_user(self, self.n_symbol, point1 = self.point1, point2 = self.point2)
             constellation = MainFunctions.normalize_constellation(self, constellation)
             #Le asigno símbolos a los bits. Los modulo
-            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation, self.text_flag_message)
             self.bits_array = bits_array
 
         except Exception as e:
@@ -3530,7 +3534,7 @@ class Worker_set_message_up_tx1_user_4(QRunnable):
             constellation = MainFunctions.create_constellation_tx_user(self, self.n_symbol, point1 = self.point1, point2 = self.point2, point3 = self.point3, point4 = self.point4)
             constellation = MainFunctions.normalize_constellation(self, constellation)
             #Le asigno símbolos a los bits. Los modulo
-            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation)
+            bits_array = MainFunctions.prepare_to_send(self, self.message, self.n_symbol, constellation, self.text_flag_message)
             self.bits_array = bits_array
 
         except Exception as e:
