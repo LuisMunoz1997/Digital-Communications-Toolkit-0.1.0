@@ -3402,7 +3402,7 @@ class Worker_set_message_up_tx1(QRunnable):
 class Worker_set_message_up_tx1_1(QRunnable):
 
     def __init__(self, n_symbol, index_symbols_type_of_modulation, message, text_flag_message, index_variant):
-        super(Worker_set_message_up_tx1, self).__init__()
+        super(Worker_set_message_up_tx1_1, self).__init__()
         # Store constructor arguments (re-used for processing)
 
         self.index_variant = index_variant
@@ -3437,7 +3437,7 @@ class Worker_set_message_up_tx1_1(QRunnable):
 class Worker_set_message_up_tx1_2(QRunnable):
 
     def __init__(self, n_symbol, index_symbols_type_of_modulation, message, text_flag_message, index_variant):
-        super(Worker_set_message_up_tx1, self).__init__()
+        super(Worker_set_message_up_tx1_2, self).__init__()
         # Store constructor arguments (re-used for processing)
 
         self.index_variant = index_variant
@@ -3472,7 +3472,7 @@ class Worker_set_message_up_tx1_2(QRunnable):
 class Worker_set_message_up_tx1_user_2(QRunnable):
 
     def __init__(self, n_symbol, point1, point2, message, text_flag_message):
-        super(Worker_set_message_up_tx1, self).__init__()
+        super(Worker_set_message_up_tx1_user_2, self).__init__()
         # Store constructor arguments (re-used for processing)
 
         self.point1 = point1
@@ -3507,7 +3507,7 @@ class Worker_set_message_up_tx1_user_2(QRunnable):
 class Worker_set_message_up_tx1_user_4(QRunnable):
 
     def __init__(self, n_symbol, point1, point2, point3, point4, message, text_flag_message):
-        super(Worker_set_message_up_tx1, self).__init__()
+        super(Worker_set_message_up_tx1_user_4, self).__init__()
         # Store constructor arguments (re-used for processing)
 
         self.point1 = point1
