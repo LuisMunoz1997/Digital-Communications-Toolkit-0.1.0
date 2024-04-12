@@ -1,6 +1,6 @@
-# Project Title
+# DIGITAL TELECOMUNICATIONS TOOLKIT
 
-One Paragraph of project description goes here
+Luis Muñoz & Jesús Del Mar's Final Degree Project
 
 ## Getting Started
 
