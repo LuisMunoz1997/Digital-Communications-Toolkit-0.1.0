@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepageuSDaUf.ui'
+## Form generated from reading UI file 'homepageThBmeR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -36,6 +36,12 @@ class Ui_MainWindow(object):
 "	text-align: left;\n"
 "	padding: 3px 8px;\n"
 "\n"
+"}\n"
+"\n"
+"QToolTip { \n"
+"	background-color: black; \n"
+"	color: white; \n"
+"	border: black solid 1px;\n"
 "}\n"
 "\n"
 "#leftMenuSubContainer QPushButton:hover {\n"
@@ -76,14 +82,14 @@ class Ui_MainWindow(object):
 "	color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	bo"
+                        "rder-style: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#frame_5 QPushButton:hover{\n"
 "	background-color: #acacac;\n"
-"	bord"
-                        "er-radius: 25px\n"
+"	border-radius: 25px\n"
 "}\n"
 "\n"
 "#modStatus {\n"
@@ -509,6 +515,9 @@ class Ui_MainWindow(object):
         self.menuBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Menu", None))
 #endif // QT_CONFIG(tooltip)
         self.menuBtn.setText("")
+#if QT_CONFIG(tooltip)
+        self.HomeBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Pantalla de Inicio", None))
+#endif // QT_CONFIG(tooltip)
         self.HomeBtn.setText(QCoreApplication.translate("MainWindow", u"Pantalla de Inicio", None))
 #if QT_CONFIG(tooltip)
         self.TranBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Trabaja como nodo transmisor", None))

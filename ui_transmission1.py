@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1nYcIzS.ui'
+## Form generated from reading UI file 'transmission1ZycKAf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -27,6 +27,12 @@ class Ui_transmission1(object):
 "	padding: 0;\n"
 "	margin: 0;\n"
 "	border: none;\n"
+"}\n"
+"\n"
+"QToolTip { \n"
+"	background-color: black; \n"
+"	color: white; \n"
+"	border: black solid 1px;\n"
 "}\n"
 "\n"
 "QPushButton{\n"
@@ -73,14 +79,14 @@ class Ui_transmission1(object):
 "	color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	bo"
+                        "rder-style: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#frame_5 QPushButton:hover{\n"
 "	background-color: #acacac;\n"
-"	bord"
-                        "er-radius: 25px\n"
+"	border-radius: 25px\n"
 "}\n"
 "\n"
 "#modStatus {\n"
@@ -127,14 +133,14 @@ class Ui_transmission1(object):
 "	background-color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	border-st"
+                        "yle: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#frame_22 QPushButton {\n"
 "	background-color: #4d648d;\n"
-"	border-width: 1"
-                        "px;\n"
+"	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
 "}\n"
@@ -290,32 +296,32 @@ class Ui_transmission1(object):
 "}")
         self.verticalLayout_6 = QVBoxLayout(self.widget_15)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.fileBtn_4 = QPushButton(self.widget_15)
-        self.fileBtn_4.setObjectName(u"fileBtn_4")
-        self.fileBtn_4.setMinimumSize(QSize(0, 0))
-        self.fileBtn_4.setMaximumSize(QSize(125, 16777215))
-        font2 = QFont()
-        font2.setFamilies([u"Bahnschrift Light"])
-        font2.setPointSize(10)
-        self.fileBtn_4.setFont(font2)
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/icons/paperclip.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.fileBtn_4.setIcon(icon3)
-        self.fileBtn_4.setIconSize(QSize(20, 20))
-
-        self.verticalLayout_6.addWidget(self.fileBtn_4)
-
         self.textBtn_4 = QPushButton(self.widget_15)
         self.textBtn_4.setObjectName(u"textBtn_4")
         self.textBtn_4.setMinimumSize(QSize(0, 0))
         self.textBtn_4.setMaximumSize(QSize(125, 16777215))
+        font2 = QFont()
+        font2.setFamilies([u"Bahnschrift Light"])
+        font2.setPointSize(10)
         self.textBtn_4.setFont(font2)
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/icons/type.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.textBtn_4.setIcon(icon4)
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/icons/type.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.textBtn_4.setIcon(icon3)
         self.textBtn_4.setIconSize(QSize(20, 20))
 
         self.verticalLayout_6.addWidget(self.textBtn_4)
+
+        self.fileBtn_4 = QPushButton(self.widget_15)
+        self.fileBtn_4.setObjectName(u"fileBtn_4")
+        self.fileBtn_4.setMinimumSize(QSize(0, 0))
+        self.fileBtn_4.setMaximumSize(QSize(125, 16777215))
+        self.fileBtn_4.setFont(font2)
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/icons/paperclip.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.fileBtn_4.setIcon(icon4)
+        self.fileBtn_4.setIconSize(QSize(20, 20))
+
+        self.verticalLayout_6.addWidget(self.fileBtn_4)
 
 
         self.verticalLayout_3.addWidget(self.widget_15)
@@ -1425,13 +1431,16 @@ class Ui_transmission1(object):
         self.menuBtn.setToolTip(QCoreApplication.translate("transmission1", u"Menu", None))
 #endif // QT_CONFIG(tooltip)
         self.menuBtn.setText("")
+#if QT_CONFIG(tooltip)
+        self.HomeBtn.setToolTip(QCoreApplication.translate("transmission1", u"Pantalla de Inicio", None))
+#endif // QT_CONFIG(tooltip)
         self.HomeBtn.setText(QCoreApplication.translate("transmission1", u"Pantalla de Inicio", None))
 #if QT_CONFIG(tooltip)
         self.TranBtn.setToolTip(QCoreApplication.translate("transmission1", u"Trabaja como nodo transmisor", None))
 #endif // QT_CONFIG(tooltip)
         self.TranBtn.setText(QCoreApplication.translate("transmission1", u"Transmisi\u00f3n", None))
-        self.fileBtn_4.setText(QCoreApplication.translate("transmission1", u"Archivo", None))
         self.textBtn_4.setText(QCoreApplication.translate("transmission1", u"Texto", None))
+        self.fileBtn_4.setText(QCoreApplication.translate("transmission1", u"Archivo", None))
 #if QT_CONFIG(tooltip)
         self.RecepBtn.setToolTip(QCoreApplication.translate("transmission1", u"Trabajar como nodo receptor", None))
 #endif // QT_CONFIG(tooltip)

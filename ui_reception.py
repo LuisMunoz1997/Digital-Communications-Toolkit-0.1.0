@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionushacR.ui'
+## Form generated from reading UI file 'receptionPKnesp.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -19,7 +19,7 @@ class Ui_reception(object):
     def setupUi(self, reception):
         if not reception.objectName():
             reception.setObjectName(u"reception")
-        reception.resize(1607, 998)
+        reception.resize(1607, 999)
         reception.setStyleSheet(u"*{\n"
 "	background-color: transparent;\n"
 "	background: transparent;\n"
@@ -32,6 +32,12 @@ class Ui_reception(object):
 "	text-align: left;\n"
 "	padding: 3px 8px;\n"
 "\n"
+"}\n"
+"\n"
+"QToolTip { \n"
+"	background-color: black; \n"
+"	color: white; \n"
+"	border: black solid 1px;\n"
 "}\n"
 "\n"
 "#leftMenuSubContainer QPushButton:hover {\n"
@@ -72,13 +78,13 @@ class Ui_reception(object):
 "	border-bottom-right-radius: 25px\n"
 "}\n"
 "\n"
-"\n"
+""
+                        "\n"
 "#frame_5 QPushButton{\n"
 "	background-color: #4d648d;\n"
 "	padding: 7;\n"
 "	margin: 0;\n"
-"	color: #ff"
-                        "f;\n"
+"	color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
@@ -128,12 +134,12 @@ class Ui_reception(object):
 "}\n"
 "\n"
 "#frame_10, #frame_9, #frame_23, #widget_6, #widget_7, #widget_2, #widget_10 {\n"
-"	background-color: #fafade;\n"
+""
+                        "	background-color: #fafade;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
-""
-                        "\n"
+"\n"
 "}\n"
 "\n"
 "\n"
@@ -180,12 +186,12 @@ class Ui_reception(object):
 "	background-color: #acacac;\n"
 "}\n"
 "\n"
-"#frame_8 QPushButton{\n"
+"#frame_8 QPushBu"
+                        "tton{\n"
 "	background-color: #8bb6ff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: i"
-                        "nset;\n"
+"	border-style: inset;\n"
 "\n"
 "}\n"
 "\n"
@@ -1779,7 +1785,9 @@ class Ui_reception(object):
         self.verticalLayout_52.setObjectName(u"verticalLayout_52")
         self.label_40 = QLabel(self.frame_18)
         self.label_40.setObjectName(u"label_40")
-        self.label_40.setFont(font2)
+        self.label_40.setMinimumSize(QSize(0, 0))
+        self.label_40.setMaximumSize(QSize(1350, 16777215))
+        self.label_40.setFont(font1)
 
         self.verticalLayout_52.addWidget(self.label_40, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -2023,6 +2031,9 @@ class Ui_reception(object):
         self.menuBtn.setToolTip(QCoreApplication.translate("reception", u"Menu", None))
 #endif // QT_CONFIG(tooltip)
         self.menuBtn.setText("")
+#if QT_CONFIG(tooltip)
+        self.HomeBtn.setToolTip(QCoreApplication.translate("reception", u"Pantalla de Inicio", None))
+#endif // QT_CONFIG(tooltip)
         self.HomeBtn.setText(QCoreApplication.translate("reception", u"Pantalla de Inicio", None))
 #if QT_CONFIG(tooltip)
         self.TranBtn.setToolTip(QCoreApplication.translate("reception", u"Trabaja como nodo transmisor", None))

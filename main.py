@@ -59,11 +59,11 @@ class MainWindow(QMainWindow):
         self.ui.anim = QPropertyAnimation(self.ui.widget_cube, b"pos")
         self.ui.anim.setStartValue(QPoint(0, 300))
         self.ui.anim.setEndValue(QPoint(0, 20))
-        self.ui.anim.setDuration(2000)
+        self.ui.anim.setDuration(1500)
         self.ui.anim_2 = QPropertyAnimation(effect, b"opacity")
         self.ui.anim_2.setStartValue(0)
         self.ui.anim_2.setEndValue(1)
-        self.ui.anim_2.setDuration(2000)
+        self.ui.anim_2.setDuration(1500)
         self.ui.anim_group = QParallelAnimationGroup()
         self.ui.anim_group.addAnimation(self.ui.anim)
         self.ui.anim_group.addAnimation(self.ui.anim_2)
@@ -117,11 +117,11 @@ class MainWindow(QMainWindow):
         self.ui.anim = QPropertyAnimation(self.ui.widget_cube, b"pos")
         self.ui.anim.setStartValue(QPoint(0, 300))
         self.ui.anim.setEndValue(QPoint(0, 20))
-        self.ui.anim.setDuration(2000)
+        self.ui.anim.setDuration(1500)
         self.ui.anim_2 = QPropertyAnimation(effect, b"opacity")
         self.ui.anim_2.setStartValue(0)
         self.ui.anim_2.setEndValue(1)
-        self.ui.anim_2.setDuration(2000)
+        self.ui.anim_2.setDuration(1500)
         self.ui.anim_group = QParallelAnimationGroup()
         self.ui.anim_group.addAnimation(self.ui.anim)
         self.ui.anim_group.addAnimation(self.ui.anim_2)
@@ -175,9 +175,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_reception()
         self.ui.setupUi(self.ventana)
 
-        self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
-        #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
-        #self.ui.label_40.setText("!#$%<d>&/()=?¡;:")
+        #self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
 
         # opening window in maximized size 
         self.ventana.showMaximized() 
@@ -187,8 +185,9 @@ class MainWindow(QMainWindow):
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
 
-
-        
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        #self.ui.label_40.setText("<u><b>Resultado 1: No Muller, Coarse y Fine</b></u> prueba")
+     
         #FLAGS
         self.BB_graph_flag = False
         self.delete_status = False
@@ -825,7 +824,7 @@ class MainWindow(QMainWindow):
                                     "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
                                     "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
                                     "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
-                                    "Número de muestras por simbolo: " + str(self.sps) + + "\n\n" +
+                                    "Número de muestras por simbolo: " + str(self.sps) + "\n\n" +
                                     "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
                                     "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" +
                                     "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
@@ -834,7 +833,8 @@ class MainWindow(QMainWindow):
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
-        self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        #self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.grafica1 = plt_received_signal(self.graph_sincro, 522000)
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
 
         self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
@@ -852,7 +852,10 @@ class MainWindow(QMainWindow):
 
 
         if n_format == 1:
-            self.ui.label_40.setText(self.string_resultado)
+            self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
+            results = self.string_resultado.replace("\x00","")
+
+            self.ui.label_40.setText(results)
 
         elif n_format == 2 or n_format == 3:
             try:

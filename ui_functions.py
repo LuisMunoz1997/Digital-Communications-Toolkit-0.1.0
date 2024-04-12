@@ -2623,15 +2623,15 @@ class MainFunctions(MainWindow):
         print("BW Estimado: ", self.bw_estimated)
         
         if message_format == 1: #String
-            self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
-            self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n\n"
-            self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n\n"
-            self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n\n"
-            self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
-            self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
-            self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
-            self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n\n"
-            self.string_resultado += "Resultado 9: Solo Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total9) + "\n\n"
+            self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n"
+            self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n"
+            self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n"
+            self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n"
+            self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n"
+            self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n"
+            self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n"
+            self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n"
+            self.string_resultado += "Resultado 9: Solo Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total9) + "\n"
             print(self.string_resultado)
             #print("symbols indices: ", self.symbols_indices_plot)
         

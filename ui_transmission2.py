@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2rNbAFU.ui'
+## Form generated from reading UI file 'transmission2MMFznn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -33,6 +33,12 @@ class Ui_transmission2(object):
 "	text-align: left;\n"
 "	padding: 3px 8px;\n"
 "\n"
+"}\n"
+"\n"
+"QToolTip { \n"
+"	background-color: black; \n"
+"	color: white; \n"
+"	border: black solid 1px;\n"
 "}\n"
 "\n"
 "#leftMenuSubContainer QPushButton:hover {\n"
@@ -73,14 +79,14 @@ class Ui_transmission2(object):
 "	color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	bo"
+                        "rder-style: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#frame_5 QPushButton:hover{\n"
 "	background-color: #acacac;\n"
-"	bord"
-                        "er-radius: 25px\n"
+"	border-radius: 25px\n"
 "}\n"
 "\n"
 "#modStatus {\n"
@@ -127,14 +133,14 @@ class Ui_transmission2(object):
 "	background-color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
-"	border-style: inset;\n"
+"	border-st"
+                        "yle: inset;\n"
 "\n"
 "}\n"
 "\n"
 "#frame_22 QPushButton {\n"
 "	background-color: #4d648d;\n"
-"	border-width: 1"
-                        "px;\n"
+"	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
 "}\n"
@@ -1455,6 +1461,9 @@ class Ui_transmission2(object):
         self.menuBtn.setToolTip(QCoreApplication.translate("transmission2", u"Menu", None))
 #endif // QT_CONFIG(tooltip)
         self.menuBtn.setText("")
+#if QT_CONFIG(tooltip)
+        self.HomeBtn.setToolTip(QCoreApplication.translate("transmission2", u"Pantalla de Inicio", None))
+#endif // QT_CONFIG(tooltip)
         self.HomeBtn.setText(QCoreApplication.translate("transmission2", u"Pantalla de Inicio", None))
 #if QT_CONFIG(tooltip)
         self.TranBtn.setToolTip(QCoreApplication.translate("transmission2", u"Trabaja como nodo transmisor", None))
