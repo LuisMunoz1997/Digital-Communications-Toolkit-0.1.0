@@ -4,6 +4,8 @@ Luis Muñoz & Jesús Del Mar's Final Degree Project: Design of a Digital Communi
 
 Version 0.1 - Currently in Development.
 
+## Overview
+
 ## Getting Started
 ### Prerequisites
 
