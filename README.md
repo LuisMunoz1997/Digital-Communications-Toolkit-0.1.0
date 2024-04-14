@@ -70,7 +70,7 @@ pip install .
 #### Option 3) Work directly with the Python's script on Linux (Any Distribution)
 
   - It's necessary to install all the libraries mentioned at Prerequisites and Python.
-  - As previously, it's necesary to libiio, libad9361-iio and pyadi-iio. Which you do, as follows:
+  - As previously, it's necesary to download: libiio, libad9361-iio and pyadi-iio. Which you do, as follows:
 
 ```
 sudo apt-get install build-essential git libxml2-dev bison flex libcdk5-dev cmake python3-pip libusb-1.0-0-dev libavahi-client-dev libavahi-common-dev libaio-dev
