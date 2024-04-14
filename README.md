@@ -31,15 +31,17 @@ Version 0.1 - Currently in Development.
 *Just when working directly with Python's scripts.
 
 ### Installing
-Option 1) Download .exe
+#### Option 1) Download .exe
 
 Click on the next link to download:
 
-Option 2) Work directly with the Python's script on Windows.
+Also, you may need the following 
+
+##### Option 2) Work directly with the Python's script on Windows.
 
 
 
-Option 3) Work directly with the Python's script on Linux (Any Distribution)
+##### Option 3) Work directly with the Python's script on Linux (Any Distribution)
 
 ```
 sudo apt-get install build-essential git libxml2-dev bison flex libcdk5-dev cmake python3-pip libusb-1.0-0-dev libavahi-client-dev libavahi-common-dev libaio-dev
