@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionPKnesp.ui'
+## Form generated from reading UI file 'receptionDmvcVo.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -2067,7 +2067,7 @@ class Ui_reception(object):
         self.codelineBox.setItemText(5, QCoreApplication.translate("reception", u"AMI (Alternate Mark Inversion)", None))
         self.codelineBox.setItemText(6, QCoreApplication.translate("reception", u"Manchester", None))
 
-        self.label_10.setText(QCoreApplication.translate("reception", u"Para la deteci\u00f3n de los simbolos, \u00bfComo prefiere definir los umbrales?", None))
+        self.label_10.setText(QCoreApplication.translate("reception", u"Para la detecci\u00f3n de los simbolos, \u00bfComo prefiere definir los umbrales?", None))
         self.UmbPreBtn.setText(QCoreApplication.translate("reception", u"Umbrales previamente definidos", None))
         self.UmbDisBtn.setText(QCoreApplication.translate("reception", u"Dise\u00f1ar los umbrales ", None))
         self.label_8.setText(QCoreApplication.translate("reception", u"Escoja la cantidad de bits codificados por simbolo:", None))
