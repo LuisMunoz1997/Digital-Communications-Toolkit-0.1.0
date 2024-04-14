@@ -13,17 +13,16 @@ The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog De
 1) A computer with at least 8 GB of RAM and a Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz procesor.
 2) A unit of the ADALM - PLUTO module (By Analog Devices).
 3) Python installed*.
-4) The following libraries*:
-   - PySide 2
+4) Import the following libraries*:
+   - PySide2
    - pyqtgraph
    - Spicy
    - Os
    - Numpy
    - Matplotlib
-   - Commpy.filters
-   - matplotlib.backends.backend_qt5agg
+   - Commpy
    - PIL
-   - gc
+   - Gc
    - Random
    - Threading
    - Time
@@ -115,8 +114,21 @@ Any Information related to the deployment and way of usage can be looked up on t
 ## Built With
 
 * [Python](https://www.python.org/) - Programming Language used.
-* [PySide - Qt](https://wiki.qt.io/Qt_for_Python) - Main library to develop the GUI.
+* [PySide - Qt](https://wiki.qt.io/Qt_for_Python) - Main library used to develop the GUI.
 * [Adi](https://github.com/analogdevicesinc/pyadi-iio.git) -  Main library that allows users manage ADALM-PLUTO throught Python.
+* [Pyadi-iio](https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio): Main library that allows users manage ADALM-PLUTO throught Python.
+* [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file): Analog Device’s “cross-platform” library for interfacing hardware.
+* [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file): AD9361 is the specific RF chip inside the PlutoSDR.
+* [Spicy](https://scipy.org/) -
+* [Numpy](https://numpy.org/) -
+* [Matplotlib](https://matplotlib.org/) -
+* [Commpy](https://commpy.readthedocs.io/en/latest/index.html) -
+* [PIL](https://pypi.org/project/pillow/) -
+* [gc](https://docs.python.org/3/library/gc.html) -
+* [Random](https://docs.python.org/3/library/random.html) -
+* [Threading](https://docs.python.org/es/3.8/library/threading.html) -
+* [Time](https://docs.python.org/3/library/time.html) -
+* [Zipfile](https://docs.python.org/3/library/zipfile.html) - 
 
 ## Version
 
