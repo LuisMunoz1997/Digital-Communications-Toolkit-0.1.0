@@ -50,7 +50,7 @@ cd pyadi-iio
 pip install .
 ```
 
-#### Option 2) Work directly with the Python's script on Windows.
+#### Option 2) Work directly with the Python's script on Windows (RECOMMENDED).
 
   - It's necessary to install all the libraries mentioned at Prerequisites and Python.
   - Install [PlutoSDR driver](https://github.com/analogdevicesinc/plutosdr-m2k-drivers-win/releases/download/v0.7/PlutoSDR-M2k-USB-Drivers.exe) for Windows.
@@ -67,7 +67,7 @@ cd pyadi-iio
 pip install .
 ```
 
-#### Option 3) Work directly with the Python's script on Linux (Any Distribution)
+#### Option 3) Work directly with the Python's script on Linux (Any Distribution) (RECOMMENDED).
 
   - It's necessary to install all the libraries mentioned at Prerequisites and Python.
   - As previously, it's necesary to download: libiio, libad9361-iio and pyadi-iio. Which you do, as follows:
