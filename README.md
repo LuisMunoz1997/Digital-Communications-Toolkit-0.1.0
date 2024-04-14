@@ -5,7 +5,7 @@ Luis Muñoz & Jesús Del Mar's Final Degree Project: Design of a Digital Communi
 Version 0.1.0 - Currently in Development.
 
 ## Overview
-The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog Devices Inc. It helps introduce users to the fundamentals of software defined radio (SDR), radio frequency (RF), and communications. Now, the Digital Communications Toolkit is a program developed by using the benefits of ADALM-PLUTO, and whose objective is to complement the learning of digital signals, study of their fundamental characteristics and the unfavorable effects that the transmission medium can generate on them. It is a program based on the Python programming language, which allows interoperability with the ADALM-PLUTO module quickly and easily, as long as the necessary libraries and plugins are installed.
+The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog Devices Inc. It helps introduce users to the fundamentals of software defined radio (SDR), radio frequency (RF), and communications. Now, the Digital Communications Toolkit is a program developed by using the benefits of ADALM-PLUTO, which objective is to complement the learning of digital signals, study of their fundamental characteristics and the unfavorable effects that the transmission medium can generate on them. It is a program based on the Python programming language, which allows interoperability with the ADALM-PLUTO module quickly and easily, as long as the necessary libraries and plugins are installed.
 
 ## Getting Started
 ### Prerequisites
