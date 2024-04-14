@@ -28,20 +28,31 @@ Version 0.1 - Currently in Development.
    - Time
    - Zipfile
 
-*Just when working directly with Python's scripts.
+*Just when working directly with Python's scripts (Option 2 and 3).
 
 ### Installing
 #### Option 1) Download .exe
 
 Click on the next link to download:
 
-Also, you may need the following 
+Install *[PlutoSDR driver](https://github.com/analogdevicesinc/plutosdr-m2k-drivers-win/releases/download/v0.7/PlutoSDR-M2k-USB-Drivers.exe) for Windows
 
-##### Option 2) Work directly with the Python's script on Windows.
+Also, it's necesary the following libraries:
+
+*[libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file): Analog Device’s “cross-platform” library for interfacing hardware
+*[libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file): AD9361 is the specific RF chip inside the PlutoSDR
+pyadi-iio: Main library that allows users manage ADALM-PLUTO throught Python.
+```
+git clone https://github.com/analogdevicesinc/pyadi-iio.git
+cd pyadi-iio
+pip install .
+```
+
+#### Option 2) Work directly with the Python's script on Windows.
 
 
 
-##### Option 3) Work directly with the Python's script on Linux (Any Distribution)
+#### Option 3) Work directly with the Python's script on Linux (Any Distribution)
 
 ```
 sudo apt-get install build-essential git libxml2-dev bison flex libcdk5-dev cmake python3-pip libusb-1.0-0-dev libavahi-client-dev libavahi-common-dev libaio-dev
