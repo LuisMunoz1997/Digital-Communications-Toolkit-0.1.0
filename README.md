@@ -124,10 +124,6 @@ Add additional notes about how to deploy this on a live system
 * [PySide - Qt](https://wiki.qt.io/Qt_for_Python) - Main library to develop the GUI.
 * [Adi](https://github.com/analogdevicesinc/pyadi-iio.git) -  Main library that allows users manage ADALM-PLUTO throught Python.
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Version
 
 0.1.0 (In Development)
