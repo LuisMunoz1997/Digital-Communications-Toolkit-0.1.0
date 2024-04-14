@@ -109,7 +109,7 @@ sdr.rx()
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Any Information related to the Deployment and Way of Usage can be looked up on the [User's Manual](Digital Communications Toolkit - User's Manual (Spanish Version).pdf) or the youtube channel, which has some explanation videos.
 
 ## Built With
 
