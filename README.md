@@ -43,13 +43,6 @@ Version 0.1.0 - Currently in Development.
 
 [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file): AD9361 is the specific RF chip inside the PlutoSDR.
 
-pyadi-iio: Main library that allows users manage ADALM-PLUTO throught Python.
-```
-git clone https://github.com/analogdevicesinc/pyadi-iio.git
-cd pyadi-iio
-pip install .
-```
-
 #### Option 2) Work directly with the Python's script on Windows (RECOMMENDED).
 
   - It's necessary to install all the libraries mentioned at Prerequisites and Python.
