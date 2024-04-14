@@ -120,9 +120,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Python](https://www.python.org/) - Programming Language used.
+* [PySide - Qt](https://wiki.qt.io/Qt_for_Python) - Main library to develop the GUI.
+* [Adi](https://github.com/analogdevicesinc/pyadi-iio.git) -  Main library that allows users manage ADALM-PLUTO throught Python.
 
 ## Contributing
 
@@ -134,9 +134,8 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Luis Muñoz** - *Initial work*
+* **Jesús Del Mar** - *Initial work* 
 
 ## License
 
