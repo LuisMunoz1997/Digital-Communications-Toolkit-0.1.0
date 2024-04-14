@@ -102,12 +102,16 @@ sudo python3 setup.py install
 ```
 
 
-### And coding style tests
+### Testing Code
 
-Explain what these tests test and why
+To test ADALM-PLUTO libraries related, type the following commands while having the module conected to your computer. This will allow module to start the reception mode until until it's forced to stop. 
 
 ```
-Give an example
+python3
+import adi
+sdr = adi.Pluto('ip:192.168.2.1')
+sdr.sample_rate = int(2.5e6)
+sdr.rx()
 ```
 
 ## Deployment
