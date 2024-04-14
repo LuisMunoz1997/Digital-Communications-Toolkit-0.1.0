@@ -1,18 +1,14 @@
 # DIGITAL TELECOMUNICATIONS TOOLKIT
 
-Luis Muñoz & Jesús Del Mar's Final Degree Project
+Luis Muñoz & Jesús Del Mar's Final Degree Project: Design of a Digital Communication Toolkit over Software Defined Radio for Telecommunications Laboratories.
+
+Version 0.1 - Currently in Development.
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+1) A computer with at least 8 GB of RAM and a procesor Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz.
+2) A unit of the ADALM - PLUTO module (Developed by Analog Devices).
 
 ### Installing
 
