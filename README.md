@@ -145,7 +145,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Universidad Católica Andrés Bello.
+* [Universidad Católica Andrés Bello](https://www.ucab.edu.ve/).
 * Marc Lichtman - [PySDR's Author](https://pysdr.org/index.html)
   
   
