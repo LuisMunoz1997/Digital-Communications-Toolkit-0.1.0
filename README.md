@@ -9,7 +9,7 @@ Version 0.1.0 - Currently in Development.
 ## Getting Started
 ### Prerequisites
 
-1) A computer with at least 8 GB of RAM and a procesor Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz.
+1) A computer with at least 8 GB of RAM and a Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz procesor.
 2) A unit of the ADALM - PLUTO module (By Analog Devices).
 3) Python installed*.
 4) The following libraries*:
