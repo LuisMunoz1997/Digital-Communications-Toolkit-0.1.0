@@ -31,7 +31,7 @@ Version 0.1.0 - Currently in Development.
 *Just when working directly with Python's scripts (Option 2 and 3).
 
 ### Installing
-#### Option 1) Download .exe
+#### Option 1) Download .exe for Windows.
 
  - [Download] .exe of the program.
 
