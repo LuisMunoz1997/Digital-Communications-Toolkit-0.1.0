@@ -11,34 +11,21 @@ Version 0.1 - Currently in Development.
 2) A unit of the ADALM - PLUTO module (Developed by Analog Devices).
 
 ### Installing
+Option 1) Install .exe
 
-A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+Option 2) Work directly with the Python's script on Windows.
 
 ```
 Give the example
 ```
 
-And repeat
+Option 3) Work directly with the Python's script on Linux (Any Distribution)
 
 ```
 until finished
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ### And coding style tests
 
