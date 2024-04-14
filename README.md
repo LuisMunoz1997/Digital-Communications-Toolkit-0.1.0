@@ -8,7 +8,7 @@ Version 0.1 - Currently in Development.
 ### Prerequisites
 
 1) A computer with at least 8 GB of RAM and a procesor Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz.
-2) A unit of the ADALM - PLUTO module (Developed by Analog Devices).
+2) A unit of the ADALM - PLUTO module (By Analog Devices).
 
 ### Installing
 Option 1) Install .exe
