@@ -34,9 +34,7 @@ The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog De
 #### Option 1) Download .exe for Windows.
 
  - [Download] .exe of the program.
-
  - Install [PlutoSDR driver](https://github.com/analogdevicesinc/plutosdr-m2k-drivers-win/releases/download/v0.7/PlutoSDR-M2k-USB-Drivers.exe) for Windows.
-
  - Also, it's necesary the following libraries:
 
 [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file): Analog Device’s “cross-platform” library for interfacing hardware.
