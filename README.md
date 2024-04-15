@@ -155,8 +155,8 @@ Any Information related to the deployment and way of usage can be looked up on t
 
 ## Authors
 
-* **Luis Muñoz** - *Initial work*
-* **Jesús Del Mar** - *Initial work* 
+* **Luis Muñoz** - *Initial work* - [Profile](https://github.com/LuisMunoz1997)
+* **Jesús Del Mar** - *Initial work* - [Profile](https://github.com/DelMar1111)
 
 ## License
 
