@@ -113,9 +113,9 @@ Any Information related to the deployment and way of usage can be looked up on t
 
 * [Python](https://www.python.org/) - Programming Language used.
 * [PySide - Qt](https://wiki.qt.io/Qt_for_Python) - Main library used to develop the GUI.
-* [Pyadi-iio (Adi)](https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio): Main library that allows users manage ADALM-PLUTO throught Python.
-* [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file): Analog Device’s “cross-platform” library for interfacing hardware.
-* [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file): AD9361 is the specific RF chip inside the PlutoSDR.
+* [Pyadi-iio (Adi)](https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio) - Main library that allows users manage ADALM-PLUTO throught Python.
+* [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file) - Analog Device’s “cross-platform” library for interfacing hardware.
+* [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file) - AD9361 is the specific RF chip inside the PlutoSDR.
 * [Spicy](https://scipy.org/) - Library for mathematics algorithms.
 * [Numpy](https://numpy.org/) - Open source library that enables numerical computing with Python through vectors.
 * [Matplotlib](https://matplotlib.org/) - Library for creating static, animated, and interactive visualizations in Python.
