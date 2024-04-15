@@ -57,6 +57,16 @@ git clone https://github.com/analogdevicesinc/pyadi-iio.git
 cd pyadi-iio
 pip install .
 ```
+  - Finally, download the following scripts from the repository:
+    * [main.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/main.py)
+    * [ui_functions.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_functions.py)
+    * [ui_homepage.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_homepage.py)
+    * [ui_reception.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_reception.py)
+    * [ui_transmission1.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission1.py)
+    * [ui_transmission2.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission2.py)
+    * [icons_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/icons_rc.py)
+    * [images_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/images_rc.py)
+
 
 #### Option 3) Work directly with the Python's script on Linux (Any Distribution) (RECOMMENDED).
 
@@ -91,7 +101,15 @@ pip3 install --upgrade pip
 pip3 install -r requirements.txt
 sudo python3 setup.py install
 ```
-
+  - Finally, download the following scripts from the repository:
+    * [main.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/main.py)
+    * [ui_functions.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_functions.py)
+    * [ui_homepage.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_homepage.py)
+    * [ui_reception.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_reception.py)
+    * [ui_transmission1.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission1.py)
+    * [ui_transmission2.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission2.py)
+    * [icons_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/icons_rc.py)
+    * [images_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/images_rc.py)
 
 ### Testing Code (Just for options 2 and 3)
 
