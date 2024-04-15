@@ -11,7 +11,7 @@ The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog De
 ### Prerequisites
 
 1) A computer with at least 8 GB of RAM and a Intel(R) Core(TM) i5-10510U CPU @ 1.80GHz 2.30 GHz procesor.
-2) A unit of the ADALM - PLUTO module (By Analog Devices).
+2) A unit of the [ADALM - PLUTO module](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/adalm-pluto.html) (By Analog Devices).
 3) Python installed*.
 4) Import the following libraries*:
    - PySide2
