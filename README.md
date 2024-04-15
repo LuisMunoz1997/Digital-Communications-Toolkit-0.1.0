@@ -66,6 +66,8 @@ pip install .
     * [ui_transmission2.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission2.py)
     * [icons_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/icons_rc.py)
     * [images_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/images_rc.py)
+      
+  - Once everything is set up, execute main.py.
 
 
 #### Option 3) Work directly with the Python's script on Linux (Any Distribution) (RECOMMENDED).
@@ -110,6 +112,8 @@ sudo python3 setup.py install
     * [ui_transmission2.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/ui_transmission2.py)
     * [icons_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/icons_rc.py)
     * [images_rc.py](https://github.com/LuisMunoz1997/Digital-Telecomunications-Toolkit-0.1.0/blob/main/images_rc.py)
+
+  - Once everything is set up, execute main.py.
 
 ### Testing Code (Just for options 2 and 3)
 
