@@ -117,7 +117,7 @@ sudo python3 setup.py install
 
 ### Testing Code (Just for options 2 and 3)
 
-To test ADALM-PLUTO libraries related, type the following commands while having the module conected to your computer. This will allow the module to start the reception mode until until it's forced to stop. 
+To test ADALM-PLUTO libraries related, type the following commands while having the module conected to your computer. This will allow the module to start the reception mode until it's forced to stop. 
 
 ```
 python3
