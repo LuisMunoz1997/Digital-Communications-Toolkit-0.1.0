@@ -138,14 +138,14 @@ Any Information related to the deployment and way of usage can be looked up on t
 * [Pyadi-iio (Adi)](https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio) - Main library that allows users manage ADALM-PLUTO throught Python.
 * [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file) - Analog Device’s “cross-platform” library for interfacing hardware.
 * [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file) - AD9361 is the specific RF chip inside the PlutoSDR.
-* [Spicy](https://scipy.org/) - Library for mathematics algorithms.
+* [Spicy](https://scipy.org/) - Open source library for mathematics algorithms.
 * [Numpy](https://numpy.org/) - Open source library that enables numerical computing with Python through vectors.
-* [Matplotlib](https://matplotlib.org/) - Library for creating static, animated, and interactive visualizations in Python.
+* [Matplotlib](https://matplotlib.org/) - Open source library for creating static, animated, and interactive visualizations in Python.
 * [Commpy](https://commpy.readthedocs.io/en/latest/index.html) - Open source package for implementing digital communications algorithms.
-* [PIL](https://pypi.org/project/pillow/) - Library for adding image processing capabilities.
+* [PIL](https://pypi.org/project/pillow/) - Open source library for adding image processing capabilities.
 * [gc](https://docs.python.org/3/library/gc.html) - Module that provides an interface to the optional garbage collector.
 * [Random](https://docs.python.org/3/library/random.html) - Module that implements pseudo-random number generators for various distributions.
-* [Threading](https://docs.python.org/es/3.8/library/threading.html) - Library that allows run code parts through threads.
+* [Threading](https://docs.python.org/es/3.8/library/threading.html) - Module that allows run code parts through threads.
 * [Time](https://docs.python.org/3/library/time.html) - Module that provides various time-related functions.
 * [Zipfile](https://docs.python.org/3/library/zipfile.html) - Module that provides tools to create, read, write, append, and list a ZIP file.
 
