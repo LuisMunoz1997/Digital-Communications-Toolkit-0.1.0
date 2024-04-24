@@ -129,7 +129,7 @@ sdr.rx()
 
 ## Deployment
 
-Any Information related to the deployment and way of usage can be looked up on the [User's Manual](https://github.com/LuisMunoz1997/Tesis/blob/main/Digital%20Communications%20Toolkit%20-%20User's%20Manual%20(Spanish%20Version).pdf) or the youtube channel, which has some explanation videos.
+Any Information related to the deployment and way of usage can be looked up on the [User's Manual](https://github.com/LuisMunoz1997/Tesis/blob/main/Digital%20Communications%20Toolkit%20-%20User's%20Manual%20(Spanish%20Version).pdf) or the [youtube channel](https://www.youtube.com/channel/UCFuAZh6CEBv1I5rJxSZda3Q), which has some explanation videos.
 
 ## Built With
 
