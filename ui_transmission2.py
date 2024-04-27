@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission2MMFznn.ui'
+## Form generated from reading UI file 'transmission2XlxeJu.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -470,15 +470,13 @@ class Ui_transmission2(object):
 
         self.UmbPreBtn = QRadioButton(self.frame_10)
         self.UmbPreBtn.setObjectName(u"UmbPreBtn")
-        self.UmbPreBtn.setFont(font1)
+        self.UmbPreBtn.setFont(font2)
 
         self.verticalLayout_10.addWidget(self.UmbPreBtn)
 
         self.UmbDisBtn = QRadioButton(self.frame_10)
         self.UmbDisBtn.setObjectName(u"UmbDisBtn")
-        font4 = QFont()
-        font4.setFamilies([u"Bahnschrift Light"])
-        self.UmbDisBtn.setFont(font4)
+        self.UmbDisBtn.setFont(font2)
 
         self.verticalLayout_10.addWidget(self.UmbDisBtn)
 
@@ -504,11 +502,11 @@ class Ui_transmission2(object):
         self.verticalLayout_28.setContentsMargins(0, 0, 0, 0)
         self.label_8 = QLabel(self.page_12)
         self.label_8.setObjectName(u"label_8")
-        font5 = QFont()
-        font5.setFamilies([u"Bahnschrift Light"])
-        font5.setPointSize(9)
-        font5.setUnderline(False)
-        self.label_8.setFont(font5)
+        font4 = QFont()
+        font4.setFamilies([u"Bahnschrift Light"])
+        font4.setPointSize(9)
+        font4.setUnderline(False)
+        self.label_8.setFont(font4)
 
         self.verticalLayout_28.addWidget(self.label_8)
 
@@ -535,7 +533,7 @@ class Ui_transmission2(object):
         self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
         self.label_19 = QLabel(self.page_14)
         self.label_19.setObjectName(u"label_19")
-        self.label_19.setFont(font5)
+        self.label_19.setFont(font4)
 
         self.verticalLayout_29.addWidget(self.label_19)
 
@@ -715,11 +713,11 @@ class Ui_transmission2(object):
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.label_5 = QLabel(self.widget_8)
         self.label_5.setObjectName(u"label_5")
-        font6 = QFont()
-        font6.setFamilies([u"Bahnschrift Light"])
-        font6.setPointSize(10)
-        font6.setUnderline(True)
-        self.label_5.setFont(font6)
+        font5 = QFont()
+        font5.setFamilies([u"Bahnschrift Light"])
+        font5.setPointSize(10)
+        font5.setUnderline(True)
+        self.label_5.setFont(font5)
         self.label_5.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_11.addWidget(self.label_5)
@@ -734,7 +732,7 @@ class Ui_transmission2(object):
 
         self.label_4 = QLabel(self.widget_8)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font6)
+        self.label_4.setFont(font5)
         self.label_4.setStyleSheet(u"	color: rgb(255, 255, 255);")
 
         self.verticalLayout_11.addWidget(self.label_4)
@@ -750,7 +748,7 @@ class Ui_transmission2(object):
 
         self.label_3 = QLabel(self.widget_8)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font6)
+        self.label_3.setFont(font5)
 
         self.verticalLayout_11.addWidget(self.label_3)
 
@@ -811,7 +809,7 @@ class Ui_transmission2(object):
         self.verticalLayout_67.setObjectName(u"verticalLayout_67")
         self.label_23 = QLabel(self.page_25)
         self.label_23.setObjectName(u"label_23")
-        self.label_23.setFont(font6)
+        self.label_23.setFont(font5)
 
         self.verticalLayout_67.addWidget(self.label_23, 0, Qt.AlignTop)
 
@@ -841,7 +839,7 @@ class Ui_transmission2(object):
         self.verticalLayout_66.setObjectName(u"verticalLayout_66")
         self.label_22 = QLabel(self.page_26)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setFont(font6)
+        self.label_22.setFont(font5)
 
         self.verticalLayout_66.addWidget(self.label_22, 0, Qt.AlignTop)
 
@@ -910,10 +908,10 @@ class Ui_transmission2(object):
         self.text_4 = QPlainTextEdit(self.page_19)
         self.text_4.setObjectName(u"text_4")
         self.text_4.setMaximumSize(QSize(16777215, 40))
-        font7 = QFont()
-        font7.setFamilies([u"Bahnschrift Light"])
-        font7.setUnderline(False)
-        self.text_4.setFont(font7)
+        font6 = QFont()
+        font6.setFamilies([u"Bahnschrift Light"])
+        font6.setUnderline(False)
+        self.text_4.setFont(font6)
         self.text_4.setStyleSheet(u"#text_4 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -926,7 +924,7 @@ class Ui_transmission2(object):
         self.text_3 = QPlainTextEdit(self.page_19)
         self.text_3.setObjectName(u"text_3")
         self.text_3.setMaximumSize(QSize(16777215, 40))
-        self.text_3.setFont(font7)
+        self.text_3.setFont(font6)
         self.text_3.setStyleSheet(u"#text_3 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -951,7 +949,7 @@ class Ui_transmission2(object):
         self.text_8 = QPlainTextEdit(self.page_20)
         self.text_8.setObjectName(u"text_8")
         self.text_8.setMaximumSize(QSize(16777215, 30))
-        self.text_8.setFont(font7)
+        self.text_8.setFont(font6)
         self.text_8.setStyleSheet(u"#text_8 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -964,7 +962,7 @@ class Ui_transmission2(object):
         self.text_5 = QPlainTextEdit(self.page_20)
         self.text_5.setObjectName(u"text_5")
         self.text_5.setMaximumSize(QSize(16777215, 30))
-        self.text_5.setFont(font7)
+        self.text_5.setFont(font6)
         self.text_5.setStyleSheet(u"#text_5 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -977,7 +975,7 @@ class Ui_transmission2(object):
         self.text_9 = QPlainTextEdit(self.page_20)
         self.text_9.setObjectName(u"text_9")
         self.text_9.setMaximumSize(QSize(16777215, 30))
-        self.text_9.setFont(font7)
+        self.text_9.setFont(font6)
         self.text_9.setStyleSheet(u"#text_9 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -990,7 +988,7 @@ class Ui_transmission2(object):
         self.text_7 = QPlainTextEdit(self.page_20)
         self.text_7.setObjectName(u"text_7")
         self.text_7.setMaximumSize(QSize(16777215, 30))
-        self.text_7.setFont(font7)
+        self.text_7.setFont(font6)
         self.text_7.setStyleSheet(u"#text_7 {\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1152,10 +1150,10 @@ class Ui_transmission2(object):
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.mSim = QLCDNumber(self.frame_11)
         self.mSim.setObjectName(u"mSim")
-        font8 = QFont()
-        font8.setFamilies([u"Bahnschrift Light"])
-        font8.setPointSize(14)
-        self.mSim.setFont(font8)
+        font7 = QFont()
+        font7.setFamilies([u"Bahnschrift Light"])
+        font7.setPointSize(14)
+        self.mSim.setFont(font7)
         self.mSim.setFrameShape(QFrame.Panel)
         self.mSim.setFrameShadow(QFrame.Sunken)
         self.mSim.setLineWidth(0)
@@ -1580,6 +1578,6 @@ class Ui_transmission2(object):
         self.label_13.setText(QCoreApplication.translate("transmission2", u"Previsualizaci\u00f3n:", None))
         self.prevMSBtn.setText(QCoreApplication.translate("transmission2", u"Se\u00f1al Pasa - Banda", None))
         self.prevDEPBtn.setText(QCoreApplication.translate("transmission2", u"D.E.P", None))
-        self.prevConstBtn.setText(QCoreApplication.translate("transmission2", u"Constelaci\u00f3n de la S.M.", None))
+        self.prevConstBtn.setText(QCoreApplication.translate("transmission2", u"Constelaci\u00f3n de la S.T.", None))
     # retranslateUi
 

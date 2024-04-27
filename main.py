@@ -185,7 +185,7 @@ class MainWindow(QMainWindow):
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
 
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
         #self.ui.label_40.setText("<u><b>Resultado 1: No Muller, Coarse y Fine</b></u> prueba")
      
         #FLAGS
@@ -209,8 +209,8 @@ class MainWindow(QMainWindow):
         
         #self.ui.stackedWidget_25.setCurrentWidget(self.ui.page_37)
         #self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
-        #                            "Cantidad total de bits recibidos: " + "12222" + "\n\n" +
-        #                            "Cantidad total de simbolos recibidos: " + "40000")
+        #                          "Cantidad total de bits recibidos: " + "12222" + "\n\n" +
+        #                           "Cantidad total de simbolos recibidos: " + "40000")
 
         #WINDOW ICON
         self.ventana.setWindowTitle("Digital Comunications Toolkit - Reception Mode")
@@ -822,19 +822,19 @@ class MainWindow(QMainWindow):
         self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
                                     "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +
                                     "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
-                                    "SER (Signal Error rate): " + str(self.ser) + "\n\n" +
+                                    "SER (Symbol Error rate): " + str(self.ser) + "\n\n" +
                                     "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
                                     "Número de muestras por simbolo: " + str(self.sps) + "\n\n" +
-                                    "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
-                                    "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" +
-                                    "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
-                                    #"Potencia de la señal estimada (referencial - NO REAL) en Watts: " + str(self.signal_pw) + "\n\n" +
-                                    #"Potencia de Ruido estimada (referencial - NO REAL) en Watts: " + str(self.noise_pw) + "\n\n")
+                                    #"Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
+                                    #"Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n"
+                                    #"Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
+                                    "Potencia de la señal estimada (dBFS): " + str(10*np.log(self.signal_pw)) + "\n\n" +
+                                    "Potencia de Ruido estimada (dBFS): " + str(10*np.log(self.noise_pw)) + "\n\n")
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
         #self.grafica1 = plt_received_signal(self.graph_sincro_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
-        self.grafica1 = plt_received_signal(self.graph_sincro, 522000)
+        self.grafica1 = plt_received_signal(self.graph_corrected, 522000)
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
 
         self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
@@ -1798,7 +1798,6 @@ class MainWindow(QMainWindow):
 
 
 
-
     def configure_signal(self):
         
         fsim = self.ui.fbit.value()
@@ -2155,6 +2154,7 @@ class MainWindow(QMainWindow):
                         constellation = MainFunctions.create_constellation_tx(self, n_symbol, index_2_symbols_type_of_modulation)
                         bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation, self.text_flag_message)
                         self.ui.mSim.display(int(len(bits_array)))
+
                         #symbols_to_send = np.asarray(MainFunctions.add_tsimb(self, tsim, fsample, bits_array), dtype=complex)
                         symbols_to_send = MainFunctions.pulse_shape(self,bits_array, tsim, fsample, beta=0.35)
                         MainFunctions.graph_signal(self, constellation, symbols_to_send, tsim, fsample) 

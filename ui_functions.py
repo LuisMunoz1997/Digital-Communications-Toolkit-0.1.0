@@ -420,12 +420,14 @@ class MainFunctions(MainWindow):
     #Método asignar bits a un símbolo de la constelación. Retorna arreglo con simbolos. La conversión a "bits" se hace con npbromfile dtype bool
     def prepare_to_send(self, message, nsimb, constellation, flag_message):
         text_flag_message = flag_message
+        #message = MainFunctions.string_to_bits(self, message)
 
         #Qué pasa si envío 3 bits por simbolo, y resulta que en los ultimos bits a enviar solo me faltan 2 o 1? Por no ser par
         #Acá si se quiere no se trabaja con nsimb sino con len(constellation)
         #Si el mensaje no es de np.fromfile dtype=bool, es string, convierto a bits sin comprimir, o buscar forma de comprimir.
         if type(message)is str and text_flag_message:
             message = MainFunctions.string_to_bits(self, message)
+
             
         elif message[:-4][-6:] == 'gris_#' or message[:-5][-6:] == 'gris_#' or message.find("gris_#") != -1 and not text_flag_message: #Imagen escala gris
             try:
@@ -446,6 +448,7 @@ class MainFunctions(MainWindow):
         elif message[-4:] == '.jpg' or message[-5:] == '.jpeg'and not text_flag_message: #Imagen jpg
             print("Se enviará imagen")
             image = Image.open(message)
+            print(message)
             #image.save('here.jpg', "JPEG", quality=35, optimize=False, progressive=True) #Si se quiere comprimir antes de enviar
             #image = Image.open('here.jpg')
             pixels = np.array(image, dtype=np.uint8)
@@ -456,6 +459,7 @@ class MainFunctions(MainWindow):
             image.close()
             message = np.insert(pixels_message_bits, 0, width_heigth_16bits)
             message = np.asarray(message, dtype=bool) #Mensaje cuyos primeros 32 bits son el width (16bits) y heigth(16bits) de la imagen
+
             
         elif message[-4:] == '.png': #Imagen PNG
             print("Se enviará imagen PNG bajada de calidad comprimida")
@@ -470,7 +474,9 @@ class MainFunctions(MainWindow):
             print(message[-10:])
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
-            
+
+    
+          
         else:
             extension_index = message[::-1].find('.')
             extension = message[::-1][0:extension_index+1]
@@ -487,10 +493,12 @@ class MainFunctions(MainWindow):
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
 
+
         if nsimb == 2:
             bits_condition = [~(message), (message)] #Bit 0, Bit 1
             bits_save = [constellation[0], constellation[1]] #Simbolo a bit 1, Simbolo a bit 0
             bits_array = np.select(bits_condition, bits_save, default=None)
+
         
         elif nsimb == 4: #Orden indices constellation 00, 01, 10, 11
             message = message.reshape(-1, 2)
@@ -3184,7 +3192,15 @@ class plt_modulated_signal(FigureCanvas):
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
-        plt.magnitude_spectrum(x, Fs = y, scale = 'linear', Fc = 0)
+        #plt.magnitude_spectrum(x, Fs = y, Fc = 0)
+
+        psd = np.abs(np.fft.fftshift(np.fft.fft(x))) ** 2
+        psd_dB = 10 * np.log(psd)
+        f = np.linspace(y/-2,y/2,len(psd))
+        plt.xlabel("Frecuencia (Hz)")
+        plt.ylabel("Potencia de Referencia (dBFS)")
+        plt.plot(f,psd_dB)
+
         
         #self.ax.plot()
         #self.ax.grid()
@@ -3195,7 +3211,7 @@ class plt_modulated_signal2(FigureCanvas):
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
-        self.ax.plot(x, y, x2, y2)
+        self.ax.plot(x[0:40000], y[0:40000], x2[0:40000], y2[0:40000])
         self.ax.grid()
 
 class plt_modulated_signal3(FigureCanvas):
@@ -3213,7 +3229,7 @@ class plt_modulated_signal4(FigureCanvas):
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
-        self.ax.plot(x, y)
+        self.ax.plot(x[0:40000], y[0:40000])
         self.ax.grid()
 
 
@@ -3225,11 +3241,15 @@ class plt_received_signal(FigureCanvas):
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
-        plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
-        
-        #self.ax.plot(x, y)
-        #self.ax.grid()
-        
+        #plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
+        psd = np.abs(np.fft.fftshift(np.fft.fft(x))) ** 2
+        psd_dB = 10 * np.log(psd)
+        f = np.linspace(y/-2,y/2,len(psd))
+        plt.xlabel("Frecuencia (Hz)")
+        plt.ylabel("Potencia de Referencia (dBFS)")
+        plt.plot(f,psd_dB)
+
+
 class plt_received_signal2(FigureCanvas):
      
     def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
@@ -3252,7 +3272,7 @@ class plt_received_signal2(FigureCanvas):
            self.ax2.plot(x, y, x2, y2)
            self.ax2.vlines(x[plot_sync_time], ymin=ymin, ymax=ymax, colors='r', linestyle='dashed', alpha=0.45)
         else:
-            self.ax2.plot(x, y, x2, y2)
+            self.ax2.plot(x[0:40000], y[0:40000], x2[0:40000], y2[0:40000])
         self.ax2.grid()
         
 class plt_received_signal3(FigureCanvas):
@@ -3318,11 +3338,12 @@ class Worker_config_signal(QRunnable):
             print('tsim elegido:', self.tsim)
 
             try:        
-                self.sdr = adi.Pluto("ip:192.168.2.1")        
+                self.sdr = adi.Pluto("ip:192.168.2.1")      
                 self.sdr.tx_hardwaregain_chan0 = 0
                 self.sdr.tx_lo = int(self.fport*1e6)
                 self.sdr.sample_rate = int(self.fsample)
                 self.sdr.tx_rf_bandwidth = int(self.fsample)
+                print("PREUBAAAA")  
                     
                 #MainWindow.transmit_signal(self, self.fsample, self.tsim, self.fport, self.fsim)
                 #print("Configuración PLUTO y Señal listas")

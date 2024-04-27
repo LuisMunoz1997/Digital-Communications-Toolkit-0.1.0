@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionDmvcVo.ui'
+## Form generated from reading UI file 'receptiongGJafR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1787,7 +1787,7 @@ class Ui_reception(object):
         self.label_40.setObjectName(u"label_40")
         self.label_40.setMinimumSize(QSize(0, 0))
         self.label_40.setMaximumSize(QSize(1350, 16777215))
-        self.label_40.setFont(font1)
+        self.label_40.setFont(font)
 
         self.verticalLayout_52.addWidget(self.label_40, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -2017,7 +2017,7 @@ class Ui_reception(object):
         self.stackedWidget_8.setCurrentIndex(0)
         self.stackedWidget_15.setCurrentIndex(5)
         self.stackedWidget_22.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(0)
         self.stackedWidget_25.setCurrentIndex(1)
         self.stackedWidget_3.setCurrentIndex(2)
 
@@ -2247,7 +2247,7 @@ class Ui_reception(object):
         self.recBBBTN.setText(QCoreApplication.translate("reception", u"Se\u00f1al Banda - Base Recuperada", None))
         self.label_40.setText("")
         self.dataBtn.setText(QCoreApplication.translate("reception", u"Datos de la Se\u00f1al Recibida", None))
-        self.SRBtn.setText(QCoreApplication.translate("reception", u"Se\u00f1al Recibida", None))
+        self.SRBtn.setText(QCoreApplication.translate("reception", u"Muestra tomada por simbolo", None))
         self.DEPBtn.setText(QCoreApplication.translate("reception", u"D.E.P", None))
         self.ConstBtn.setText(QCoreApplication.translate("reception", u"Constelaci\u00f3n de la S.R.", None))
         self.DEPBtn_2.setText(QCoreApplication.translate("reception", u"D.E.P", None))
