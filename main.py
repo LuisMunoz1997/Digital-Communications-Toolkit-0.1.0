@@ -746,7 +746,7 @@ class MainWindow(QMainWindow):
 
         t = np.arange(len(self.graph_sincro)) / 522000
 
-        self.grafica1 = plt_received_signal(self.graph_sincro, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
+        self.grafica1 = plt_received_signal(self.graph_corrected, 522000) #PASA LAS VARIABLES PARA CONSTRUIR LA DEP DE LA SEÑAL RECIBIDA
         self.toolbar1 = NavigationToolbar(self.grafica1, self)
 
         self.grafica3 = plt_received_signal3(self.graph_sincro.real, self.graph_sincro.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
