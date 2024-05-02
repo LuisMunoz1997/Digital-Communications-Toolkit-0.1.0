@@ -15,7 +15,7 @@ The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog De
 3) Python installed*.
 4) Import the following libraries*:
    - PySide2
-   - pyqtgraph
+   - PyQtGraph
    - SciPy
    - Os
    - Numpy
@@ -138,6 +138,7 @@ Any Information related to the deployment and way of usage can be looked up on t
 * [Pyadi-iio (Adi)](https://wiki.analog.com/resources/tools-software/linux-software/pyadi-iio) - Main library that allows users manage ADALM-PLUTO throught Python.
 * [libiio](https://github.com/analogdevicesinc/libiio?tab=readme-ov-file) - Analog Device’s “cross-platform” library for interfacing hardware.
 * [libad9361-iio](https://github.com/analogdevicesinc/libad9361-iio?tab=readme-ov-file) - AD9361 is the specific RF chip inside the PlutoSDR.
+* [PyQtGraph](https://www.pyqtgraph.org/) - Open source library built on PyQt / PySide and numpy. It is intended for use in mathematics / scientific / engineering applications. 
 * [SciPy](https://scipy.org/) - Open source library for mathematics algorithms.
 * [Numpy](https://numpy.org/) - Open source library that enables numerical computing with Python through vectors.
 * [Matplotlib](https://matplotlib.org/) - Open source library for creating static, animated, and interactive visualizations in Python.
