@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepagetbCzbF.ui'
+## Form generated from reading UI file 'homepageuZVrrb.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -534,12 +534,12 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.InfoBtn.setShortcut("")
 #endif // QT_CONFIG(shortcut)
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Digital Comunications Toolkit", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Digital Communications Toolkit", None))
         self.closeMBtn.setText("")
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Seleccione el tipo de mensaje", None))
         self.textBtn_2.setText(QCoreApplication.translate("MainWindow", u"Texto", None))
         self.fileBtn_2.setText(QCoreApplication.translate("MainWindow", u"Archivo", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Digital Comunications Toolkit", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Digital Communications Toolkit", None))
         self.closeMBtn_2.setText("")
         self.textBrowser_7.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
