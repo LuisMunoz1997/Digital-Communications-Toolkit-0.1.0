@@ -1,4 +1,4 @@
-# DIGITAL TELECOMUNICATIONS TOOLKIT
+# DIGITAL COMMUNICATIONS TOOLKIT
 
 Luis Muñoz & Jesús Del Mar's Final Degree Project: Design of a Digital Communication Toolkit over Software Defined Radio for Telecommunications Laboratories.
 
