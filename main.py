@@ -78,11 +78,11 @@ class MainWindow(QMainWindow):
         #BUTTON ACTIONS       
         #TRANSMISSION
         #############################################################################################       
-        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 275, True))
+        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 280, True))
             
         #INFO
         #############################################################################################              
-        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 275, True))       
+        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 280, True))       
 
         #CLOSE
         #############################################################################################       
@@ -141,11 +141,11 @@ class MainWindow(QMainWindow):
         #BUTTON ACTIONS       
         #TRANSMISSION
         #############################################################################################       
-        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 255, True))
+        self.ui.TranBtn.clicked.connect(lambda: MainFunctions.info(self, 280, True))
             
         #INFO
         #############################################################################################              
-        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 255, True))       
+        self.ui.InfoBtn.clicked.connect(lambda: MainFunctions.info_2(self, 280, True))       
 
         #CLOSE
         #############################################################################################       
