@@ -28,7 +28,7 @@ The ADALM-PLUTO (PlutoSDR) active learning module is a tool created by Analog De
    - Time
    - Zipfile
      
-5) Install [Git](https://git-scm.com/downloads) (Version Control Software), according to the OS used.
+5) Install [Git](https://git-scm.com/downloads) (Version Control Software), according to the OS used*.
 
 *Just when working directly with Python's scripts (Option 2 and 3).
 
