@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepageuZVrrb.ui'
+## Form generated from reading UI file 'homepageUZFTsy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -414,7 +414,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.widget_cube = QWidget(self.widget)
         self.widget_cube.setObjectName(u"widget_cube")
-        self.widget_cube.setMinimumSize(QSize(680, 0))
+        self.widget_cube.setMinimumSize(QSize(640, 0))
         self.widget_cube.setMaximumSize(QSize(680, 16777215))
         self.widget_cube.setFont(font)
         self.verticalLayout_10 = QVBoxLayout(self.widget_cube)
@@ -423,7 +423,7 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName(u"label_3")
         font5 = QFont()
         font5.setFamilies([u"Bahnschrift Light"])
-        font5.setPointSize(36)
+        font5.setPointSize(34)
         self.label_3.setFont(font5)
 
         self.verticalLayout_10.addWidget(self.label_3)
