@@ -181,6 +181,8 @@ class MainWindow(QMainWindow):
         self.ventana.showMaximized() 
         #self.ventana.setFixedHeight(800)
         self.fsample = 522000
+        self.contador_borrar = 1
+        self.string_anterior = ""
         
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
@@ -828,8 +830,8 @@ class MainWindow(QMainWindow):
                                     #"Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
                                     #"Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n"
                                     #"Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
-                                    "Potencia de la señal estimada (dBFS): " + str(10*np.log(self.signal_pw)) + "\n\n" +
-                                    "Potencia de Ruido estimada (dBFS): " + str(10*np.log(self.noise_pw)) + "\n\n")
+                                    "Potencia de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" +
+                                    "Potencia de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n")
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 

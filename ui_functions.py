@@ -462,34 +462,16 @@ class MainFunctions(MainWindow):
 
             
         elif message[-4:] == '.png': #Imagen PNG
-            print("Se enviará imagen PNG bajada de calidad comprimida")
-            image = Image.open(message)
-            image.save("compress.png", quality=22,optimize=False,progressive=False)
-            image.close()
-            zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
-            zip.write("compress.png")
-            zip.close()
-            message = np.fromfile("compress.zip", dtype=np.uint8)
-            print(message[0:10])
-            print(message[-10:])
+            print("Se enviará Imagen PNG")
+            message = np.fromfile(message, dtype=np.uint8)
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
 
     
           
         else:
-            extension_index = message[::-1].find('.')
-            extension = message[::-1][0:extension_index+1]
-            extension = extension[::-1]
-            print("Se enviará archivo {}".format(extension))
+            print("Se enviará archivo")
             message = np.fromfile(message, dtype=np.uint8)
-            message.tofile("compress{}".format(extension))
-            zip = zipfile.ZipFile("compress.zip","w", zipfile.ZIP_LZMA)
-            zip.write("compress{}".format(extension))
-            zip.close()
-            message = np.fromfile("compress.zip", dtype=np.uint8)
-            print(message[0:10])
-            print(message[-15:])
             message = np.unpackbits(message)
             message = np.asarray(message, dtype=bool)
 
@@ -632,7 +614,7 @@ class MainFunctions(MainWindow):
     
         num_symbols = len(samples_symbols)
         num_taps = sps * num_symbols
-        #print('Len samples es:', len(samples))
+        print('Len samples es:', len(samples))
         #print('num_taps es:', num_taps)
         Ts = sps / fsample
         t = np.arange(num_taps) * Ts - (num_taps - 1) * Ts / 2
@@ -640,6 +622,18 @@ class MainFunctions(MainWindow):
         h = rrcosfilter(num_taps, alpha=beta, Ts=sps/fsample, Fs = fsample)[1]
     
         shaped = np.convolve(samples,h,mode='same')
+        
+        shaped_maxreal = np.max(shaped.real)
+        shaped_maximag = np.max(shaped.imag)
+        samples_maxreal = np.max(samples.real)
+        samples_maximag = np.max(samples.imag)
+        
+        if shaped_maxreal > samples_maxreal:
+            print("Normalizado real pulse shape")
+            shaped.real = shaped.real / shaped_maxreal * samples_maxreal
+        if shaped_maximag > samples_maximag:
+            print("Normalizado imag pulse shape")
+            shaped.imag = shaped.imag / shaped_maximag * samples_maximag
 
         return shaped
         
@@ -966,8 +960,8 @@ class MainFunctions(MainWindow):
         return np.tan(radians)
     
     def threshold_defined(self, nsimb, esquema): #Amplificador en algunos casos suma y en otros multiplica
-        real_domain = np.linspace(-20,20,num=2, dtype=complex) #Dominios real e imag
-        imag_domain = np.linspace(-20j,20j,num=2, dtype=complex) #Para simular la formula y = mx + c de cierta forma
+        real_domain = np.linspace(-40,40,num=2, dtype=complex) #Dominios real e imag. Estaban en 20, 40 prueba
+        imag_domain = np.linspace(-40j,40j,num=2, dtype=complex) #Para simular la formula y = mx + c de cierta forma
         real_circle = np.linspace(0,1, num=16, dtype=complex)
 
         if nsimb == 2: # 1 Pendiente, 2 X y 3 Y
@@ -1275,7 +1269,7 @@ class MainFunctions(MainWindow):
                         '(samples.real < 0) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real))', #000 -0.7-0.7j
                         '(samples.imag < 0) & (samples.real < umbrales_i[2](samples.imag)) & (samples.real > umbrales_i[0](samples.imag))', #100 0-1j
                         '(samples.real > 0) & (samples.imag < umbrales[3](samples.real)) & (samples.imag > umbrales[2](samples.real))', #101 0.7-0.7j
-                ]
+                    ]
                 bits_save = [
                     '111',
                     '110',
@@ -1772,30 +1766,74 @@ class MainFunctions(MainWindow):
                 #result = np.select(regiones, bits_save, default=random.choice(bits_save))
                 
             elif etiquetas[0] == 3 and etiquetas[1] == 3: #Linea Inclinada con Inclinada
-                #hallar punto interseccion pues va a ayudar mucho
-                #luego ver cual umbral es mayor o menor al otro a la izquierda, arriba, abajo y derecha, y a partir de alli definir las regiones
-                #para cumplir con el orden de asignación de bits a las regiones
-                #aunque creo que es mejor irse por los angulos... Que los ingresa el usuario pero para no extender mas la funcion se pueden calcular
+                #hallar punto interseccion va a ayudar mucho
+                
+                #punto interseccion
+                point = find_intersection(umbrales_no[0].real, umbrales_no[0].imag, umbrales_no[1].real, umbrales_no[1].imag)
                 
                 if np.angle(umbrales_no[0][1]) > np.angle(umbrales_no[1][1]): #Umbral 1 tiene mayor angulo que umbral 2
                 #Esto quiere decir que, a la derecha umbral1 > umbral2, y a la izquierda lo opuesto
                 #Arriba lo mas probable es que umbral2 este a la izquierda y umbral1 a la derecha, y abajo lo opuesto
+                #Esto funcionara SOLO SI las muestras tomadas del umbral para calcular el ángulo tienen parte real positiva.    
                 
-                    point = find_intersection(umbrales_no[0].real, umbrales_no[0].imag, umbrales_no[1].real, umbrales_no[1].imag) #punto interseccion
-                
-                #ARREGLAR ESTAS REGIONES :((
                     regiones = [
                         '(samples.real < point.real) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real))', #00 Arriba izquierda (subjetivo angulo)
                         '(samples.imag > point.imag) & (samples.real > umbrales_i[1](samples.imag)) & (samples.real < umbrales_i[0](samples.imag))',#01 Arriba derecha
                         '(samples.imag < point.imag) & (samples.real < umbrales_i[1](samples.imag)) & (samples.real > umbrales_i[0](samples.imag))',   #10 Abajo derecha
-                        '(samples.imag < point.imag) & (samples.real < umbrales[1](samples.imag)) & (samples.real > umbrales[0](samples.imag))', #11 Abajo izquierda
+                        '(samples.real > point.real) & (samples.imag > umbrales[1](samples.real)) & (samples.imag < umbrales[0](samples.real))', #11 Abajo izquierda
                         ]
-                    bits_save = [
-                            '00',
-                            '01',
-                            '10',
-                            '11',
+
+                    bits_save = ['','','','']
+                
+                    for index,symbol in enumerate(constellation):
+                    
+                        if index == 0:
+                            bits_write = '00'
+                        elif index == 1:
+                            bits_write = '01'
+                        elif index == 2:
+                            bits_write = '10'
+                        elif index == 3:
+                            bits_write = '11'
+                        
+                        if (symbol.real < point.real) & (symbol.imag < umbrales[1](symbol.real)) & (symbol.imag > umbrales[0](symbol.real)):
+                            bits_save[0] = bits_write
+                        elif (symbol.imag > point.imag) & (symbol.real > umbrales_i[1](symbol.imag)) & (symbol.real < umbrales_i[0](symbol.imag)):
+                            bits_save[1] = bits_write
+                        elif (symbol.imag < point.imag) & (symbol.real < umbrales_i[1](symbol.imag)) & (symbol.real > umbrales_i[0](symbol.imag)):
+                            bits_save[2] = bits_write
+                        elif (symbol.real > point.real) & (symbol.imag > umbrales[1](symbol.real)) & (symbol.imag < umbrales[0](symbol.real)):
+                            bits_save[3] = bits_write 
+                else:
+                    regiones = [
+                        '(samples.real < point.real) & (samples.imag > umbrales[1](samples.real)) & (samples.imag < umbrales[0](samples.real))', #00 Arriba izquierda (subjetivo angulo)
+                        '(samples.imag > point.imag) & (samples.real < umbrales_i[1](samples.imag)) & (samples.real > umbrales_i[0](samples.imag))',#01 Arriba derecha
+                        '(samples.imag < point.imag) & (samples.real > umbrales_i[1](samples.imag)) & (samples.real < umbrales_i[0](samples.imag))',   #10 Abajo derecha
+                        '(samples.real > point.real) & (samples.imag < umbrales[1](samples.real)) & (samples.imag > umbrales[0](samples.real))', #11 Abajo izquierda
                         ]
+
+                    bits_save = ['','','','']
+                
+                    for index,symbol in enumerate(constellation):
+                    
+                        if index == 0:
+                            bits_write = '00'
+                        elif index == 1:
+                            bits_write = '01'
+                        elif index == 2:
+                            bits_write = '10'
+                        elif index == 3:
+                            bits_write = '11'
+                        
+                        if (symbol.real < point.real) & (symbol.imag > umbrales[1](symbol.real)) & (symbol.imag < umbrales[0](symbol.real)):
+                            bits_save[0] = bits_write
+                        elif (symbol.imag > point.imag) & (symbol.real < umbrales_i[1](symbol.imag)) & (symbol.real > umbrales_i[0](symbol.imag)):
+                            bits_save[1] = bits_write
+                        elif (symbol.imag < point.imag) & (symbol.real > umbrales_i[1](symbol.imag)) & (symbol.real < umbrales_i[0](symbol.imag)):
+                            bits_save[2] = bits_write
+                        elif (symbol.real > point.real) & (symbol.imag < umbrales[1](symbol.real)) & (symbol.imag > umbrales[0](symbol.real)):
+                            bits_save[3] = bits_write                         
+
                     #result = np.select(regiones, bits_save, default=random.choice(bits_save))                              
             
         return str(regiones), (bits_save) 
@@ -1902,6 +1940,7 @@ class MainFunctions(MainWindow):
     def bits_to_string(self,bits):
         binary_string = ''.join(bits)
         text = ''.join((chr(int(binary_string[i:i+8],2))) for i in range(0,len(binary_string),8))
+        #print(binary_string) #Quitar
         return text
         
 
@@ -1935,7 +1974,8 @@ class MainFunctions(MainWindow):
     def coarse_preamble_frequency_correction(self,preamble, signal, referencia = 80e3, Fs = 522000): #Corrijo offset frecuencia en base a la frecuencia del preambulo
         #Entre el preambulo y le calculo su offset en frecuencia en función a la frecuencia fijada para el preambulo
         # Calculate the FFT of the preamble
-        preamble_fft = np.fft.fftshift(np.abs(np.fft.fft(preamble)))
+        n = 2*14 #Improve precision ? To confirm
+        preamble_fft = np.fft.fftshift(np.abs(np.fft.fft(preamble, n=n)))
 
         # Find the peak frequency
         peak_freq = np.argmax(np.abs(preamble_fft))
@@ -1957,8 +1997,15 @@ class MainFunctions(MainWindow):
     
     def coarse_frequency_correction(self,signal, Fs, nsimb = 4):
 
+        #Mejorar precisión? Por confirmar
+        #Source: Colonel Panic. https://stackoverflow.com/questions/14267555/find-the-smallest-power-of-2-greater-than-or-equal-to-n-in-python
+        def shift_bit_length(x): #Retornar potencia de 2 más cercana hacia arriba.
+            return 1 if x== 0 else 1<<(x-1).bit_length()
+        
+        n = shift_bit_length(len(signal)) #Agrega ceros a la longitud de la FFT para que sea potencia de 2, lo que, en teoría, mejora la precisión de la FFT
+
         #Sin elevar a la potencia
-        signal_fft = np.fft.fftshift(np.abs(np.fft.fft(signal)))
+        signal_fft = np.fft.fftshift(np.abs(np.fft.fft(signal, n=n)))
         f = np.linspace(-Fs/2.0, Fs/2.0, len(signal_fft))
         
         #fig1, ax1 = plt.subplots(2)
@@ -1969,7 +2016,7 @@ class MainFunctions(MainWindow):
         signal_potencia = np.power(signal,nsimb)
     
         # Calculate the FFT of the signal con potencia
-        signal_fft = np.fft.fftshift(np.abs(np.fft.fft(signal_potencia)))
+        signal_fft = np.fft.fftshift(np.abs(np.fft.fft(signal_potencia, n=n)))
         
         f = np.linspace(-Fs/2.0, Fs/2.0, len(signal_fft))
     
@@ -1993,7 +2040,7 @@ class MainFunctions(MainWindow):
         
     def coarse_phase_correction(self,signal_interes, preambulo, peak_hz, fsample):
         t = np.arange(100) / fsample
-        preambulo_original = 0.5*np.exp(2j*np.pi*80e3*t)
+        preambulo_original = 1*np.exp(2j*np.pi*80e3*t)
         
         
         #Filtro el preambulo, de momento este es una sinusoide a 80kHz.
@@ -2006,7 +2053,8 @@ class MainFunctions(MainWindow):
         preambulo = preambulo * np.exp(-2j*np.pi*peak_hz*t)
         
         #Estimados desfase
-        delta_phi = np.angle(np.mean(preambulo * np.conj(preambulo_original)))
+        delta_phi = np.inner(preambulo, np.conj(preambulo_original))
+        delta_phi = np.arctan2(delta_phi.imag, delta_phi.real)
         #print("Desfase coarse estimado ", delta_phi)
         
         #Se corrige esa fase estimada en la señal de interes
@@ -2020,7 +2068,8 @@ class MainFunctions(MainWindow):
         #plt.show() 
         
         return signal_interes, delta_phi
-        
+    
+    #Otro método corrección fina. Fuente: Basado del Diagrama Costas Loop y código Marc Lichtman. NO IMPLEMENTADO - NO SE USA   
     def fine_frequency_correction(self,signal, loop_bandwidth, initial_freq_offset=0.0, modulation_scheme = 'BPSK'):
         # Define loop parameters
         loop_filter = np.array([1, -1], dtype=complex) * loop_bandwidth / (4 * np.pi)
@@ -2044,6 +2093,9 @@ class MainFunctions(MainWindow):
             elif modulation_scheme == '16PSK':
                 #error[i] = MainFunctions.phase_detector_16psk(self,output_signal[i])
                 pass
+            elif modulation_scheme == "8PSK":
+                #error[i] = MainFunctions.phase_detector_8psk(self,output_signal[i])
+                pass
             elif modulation_scheme == 'CUSTOM':
                 pass
     
@@ -2056,10 +2108,10 @@ class MainFunctions(MainWindow):
         
     def muller_muller_clock_recovery(self,samples, samples_per_symbol, initial_phase=0.0):
         # Normalize the samples
-        samples /= np.abs(samples).max()
+        #samples /= np.abs(samples).max() #Activado antes, prueba
     
         # Interpolate the signal
-        samples_interpolated = signal.resample_poly(samples, samples_per_symbol, 1)
+        samples_interpolated = signal.resample_poly(samples, 32, 1) #Add 32 samples beetwen two samples
     
     
         mu = initial_phase
@@ -2069,7 +2121,7 @@ class MainFunctions(MainWindow):
         i_out = 2
     
         while i_out < len(samples) and i_in + samples_per_symbol < len(samples):
-            out[i_out] = samples_interpolated[i_in*samples_per_symbol + int(mu*samples_per_symbol)]
+            out[i_out] = samples_interpolated[i_in*32 + int(mu*32)]
             out_rail[i_out] = int(np.real(out[i_out]) > 0) + 1j * int(np.imag(out[i_out]) > 0)
             x = (out_rail[i_out] - out_rail[i_out-2]) * np.conj(out[i_out-1])
             y = (out[i_out] - out[i_out-2]) * np.conj(out_rail[i_out-1])
@@ -2093,6 +2145,13 @@ class MainFunctions(MainWindow):
             b = -1.0
         return a * sample.imag - b * sample.real
     
+    def phase_detector_8psk(self,sample):
+        K = (np.sqrt(2.0)-1)
+        if np.abs(sample.real) >= np.abs(sample.imag):
+            return ( (1.0 if sample.real > 0.0 else -1.0) * sample.imag - (1.0 if sample.imag > 0.0 else -1.0) * sample.real * K )
+        else:
+            return ( (1.0 if sample.real > 0.0 else -1.0) * sample.imag * K - (1.0 if sample.imag > 0.0 else -1.0) * sample.real )
+    
     def phase_detector_16psk(self,sample): #Error para fine 16PSK
         psk16_domain = np.arange(0,16)
         constellation = np.exp(2j* np.pi * psk16_domain / 16)
@@ -2106,6 +2165,7 @@ class MainFunctions(MainWindow):
         
         return error
         
+    #Combinación de corrección de errores. Distintas Fuentes. NO IMPLEMENTADO - NO SE USA
     def calculate_combined_error(self,received_sample):
         psk16_domain = np.arange(0,16)
         constellation_symbols = np.exp(2j* np.pi * psk16_domain / 16)
@@ -2167,9 +2227,12 @@ class MainFunctions(MainWindow):
                 error = np.real(out[i]) * np.imag(out[i]) # This is the error formula for 2nd order Costas Loop (e.g. for BPSK)
             elif modulation_scheme == 'QPSK':
                 error = MainFunctions.phase_detector_4(self,out[i])
+            elif modulation_scheme == "8PSK":
+                #error = MainFunctions.phase_detector_8psk(self, out[i])
+                error = 0
             elif modulation_scheme == '16PSK':
-                error, amplitude_error = MainFunctions.calculate_combined_error(self,out[i])
-                #error = 0
+                #error, amplitude_error = MainFunctions.calculate_combined_error(self,out[i])
+                error = 0
             elif modulation_scheme == 'CUSTOM':
                 error = 0
             
@@ -2199,7 +2262,7 @@ class MainFunctions(MainWindow):
         bits_join = ''.join(bits)
         bits_result = np.frombuffer(bits_join.encode('utf-8'), dtype=np.uint8) - 48
         return bits_result
-        
+       
     def calculate_error_probability(self,received_samples, thresholds, thresholds_i, umbral = 0.15):
         num_samples = len(received_samples)
         
@@ -2234,7 +2297,7 @@ class MainFunctions(MainWindow):
     
         signal_pw = np.sum(np.abs(received_samples) ** 2) / len(received_samples) #Potencia promedio estimada de la señal
         snr = signal_pw / self.noise_pw #Calcula SNR estimado, noise_pw se calcula en hilo realtime plot
-        snr_db = 10 * np.log10(snr)
+        snr_db = 10 * np.log10(snr) #Escala dB
         return snr_db, snr, signal_pw
         
     def calculate_bw(self, received_samples, fs=522000):
@@ -2248,7 +2311,7 @@ class MainFunctions(MainWindow):
         
         return bw_estimado
         
-        
+
     def real_time_plt_stopped(self, fsample, tsimb, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
         self.stop_realtime_flag = True
@@ -2359,8 +2422,8 @@ class MainFunctions(MainWindow):
         resultado_total3 = np.array([]) #Solo filtrando sin hacer nada más
         resultado_total4 = np.array([]) #Solo freq coarse
         resultado_total5 = np.array([]) #Solo freq coarse y phase "coarse"
-        resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
-        resultado_total7 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+        resultado_total6 = np.array([]) #Sin muller, con freq coarse y phase "coarse", y con fine freq
+        resultado_total7 = np.array([]) #Con muller, con freq coarse y phase "coarse", y con fine freq
         resultado_total8 = np.array([]) #Con preamble coarse, phase y fin freq
         resultado_total9 = np.array([]) #Con solo phase
         
@@ -2382,6 +2445,8 @@ class MainFunctions(MainWindow):
             mod_scheme = "CUSTOM"
         elif nsimb == 4 and esquema == 2: #QPSK normal
             mod_scheme = "QPSK"
+        elif nsimb == 8 and esquema == 2: #8PSK
+            mod_scheme = "8PSK"
         elif nsimb == 8 and esquema == "8QAM-DIAGONAL": #8QAM DIAGONAL
             mod_scheme = "CUSTOM"
         elif nsimb == 8 and esquema == "8QAM-RECTANGULAR": #8QAM RECTANGULAR
@@ -2442,7 +2507,9 @@ class MainFunctions(MainWindow):
             preambulo = paquete[0:100]
             num_taps = len(resultado)
             h = rrcosfilter(num_taps, alpha = 0.35, Ts = sps/fsample, Fs = fsample)[1]
-            filtered = np.convolve(resultado,h,mode='same') #Se aplica el filtro raiz coseno en recepción
+            filtered = np.convolve(resultado,h,mode='same') #Se aplica el filtro raiz coseno en recepción, ganancia unitaria (forzada abajo)
+            filtered.real = (filtered.real / np.max(filtered.real)) * np.max(resultado.real)
+            filtered.imag = (filtered.imag / np.max(filtered.imag)) * np.max(resultado.imag)
             
             sin_nada = filtered #Muestras para señal solo filtrada
             
@@ -2489,11 +2556,7 @@ class MainFunctions(MainWindow):
             simbolos_solo_freq_coarse.real = simbolos_solo_freq_coarse.real * factor_real
             simbolos_solo_freq_coarse.imag = simbolos_solo_freq_coarse.imag * factor_imag
             
-            simbolos_phase_freq = filtered_phase[symbolindices] #Señal con Frecuencia y Fase corregida
-            simbolos_phase_freq.real = simbolos_phase_freq.real / np.max(abs(simbolos_phase_freq.real))
-            simbolos_phase_freq.imag = simbolos_phase_freq.imag / np.max(abs(simbolos_phase_freq.imag))
-            simbolos_phase_freq.real = simbolos_phase_freq.real * factor_real
-            simbolos_phase_freq.imag = simbolos_phase_freq.imag * factor_imag
+            #simbolos_phase_freq = filtered_phase[symbolindices] #Señal con Frecuencia y Fase corregida
             
             simbolos_onlycoarse_preamble = filtered_onlycoarse_preamble[symbolindices] #Señal con coarse preamble, fase corregida y fine freq
             simbolos_onlycoarse_preamble.real = simbolos_onlycoarse_preamble.real / np.max(abs(simbolos_onlycoarse_preamble.real))
@@ -2510,6 +2573,16 @@ class MainFunctions(MainWindow):
             
             #Sincronización en tiempo con Muller
             simbolos2 = MainFunctions.muller_muller_clock_recovery(self, filtered, samples_per_symbol=sps, initial_phase=0.0) #Con muller, con coarse y fine freq
+            simbolos2.real = simbolos2.real/np.max(abs(simbolos2.real))
+            simbolos2.imag = simbolos2.imag/np.max(abs(simbolos2.imag))
+            simbolos2.real = simbolos2.real * factor_real
+            simbolos2.imag = simbolos2.imag * factor_imag
+            
+            simbolos_phase_freq = MainFunctions.muller_muller_clock_recovery(self, filtered_phase, samples_per_symbol=sps, initial_phase=0.0)
+            simbolos_phase_freq.real = simbolos_phase_freq.real / np.max(abs(simbolos_phase_freq.real))
+            simbolos_phase_freq.imag = simbolos_phase_freq.imag / np.max(abs(simbolos_phase_freq.imag))
+            simbolos_phase_freq.real = simbolos_phase_freq.real * factor_real
+            simbolos_phase_freq.imag = simbolos_phase_freq.imag * factor_imag
             
             #Se aplica Fine Frequency Correction. PILA CON LOS ESQUEMAS, SE DEBEN SELECCIONAR DE ANTES
             simbolos2, freq_log2 = MainFunctions.fine_frequency_correction2(self, simbolos2, fs=fsample / sps, modulation_scheme = mod_scheme, alpha = 0.132, beta = 0.00932) #Con muller, con coarse y fine freq
@@ -2518,11 +2591,18 @@ class MainFunctions(MainWindow):
             
             simbolos3, freq_log3 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
             
-            simbolos4 = MainFunctions.fine_frequency_correction(self, simbolos_phase_freq, (1/tsimb)*2, initial_freq_offset=0.0, modulation_scheme = mod_scheme) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            simbolos4, freq_log4 = MainFunctions.fine_frequency_correction2(self, simbolos_phase_freq, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
             
             simbolos5, freq_log4 = MainFunctions.fine_frequency_correction2(self, simbolos_onlycoarse_preamble, fs=fsample / sps, modulation_scheme = mod_scheme, alpha=0.132, beta=0.00932) #Señal con coarse preamble, fase corregida y fine freq
             
             #esquema = 1 #Esto es prueba TEMPORAL, lo usa el check conditions solamente para modulaciones con mas de un esquema, implementar o modificar a futuro.
+
+            #PRUEBAAAA
+            #if nsimb == 8 and esquema == 2: #8PSK
+            #    simbolos2.real = simbolos2.real/np.max(abs(simbolos2.real))
+            #    simbolos2.imag = simbolos2.imag/np.max(abs(simbolos2.imag))
+            #    simbolos2.real = simbolos2.real * factor_real
+            #    simbolos2.imag = simbolos2.imag * factor_imag
             
             #Se acumulan los resultados obtenidos de todas las partes luego de aplicar esquema RX.
             resultado_total = np.append(resultado_total,MainFunctions.check_conditions(self,simbolos, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con coarse y fine freq
@@ -2537,7 +2617,7 @@ class MainFunctions(MainWindow):
     
             resultado_total6 = np.append(resultado_total6,MainFunctions.check_conditions(self,simbolos3, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq2 creo
     
-            resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Sin muller, con freq coarse y phase "coarse", y con fine freq el otro
+            resultado_total7 = np.append(resultado_total7,MainFunctions.check_conditions(self,simbolos4, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema)) #Con muller, con freq coarse y phase "coarse", y con fine freq el otro
             
             resultado_total8 = np.append(resultado_total8,MainFunctions.check_conditions(self,simbolos5, regiones, bits_save, umbrales_interpolate, umbrales_interpolate_i, umbrales, nsimb, esquema))
             
@@ -2569,8 +2649,8 @@ class MainFunctions(MainWindow):
                
             #En este punto se obtuvieron un arreglos con strings de 1's y 0's, que representan el resultado del esquema RX para cada método
             #De allí se pueden convertir a texto, imagen, o el formato requerido
-            #FIN DEL CICLO FOR
-            
+            #FIN DEL CICLO FOR        
+        
         if nsimb == 8: #Si la modulacion es de 8 simbolos, se elimina el padding en los bits recuperados antes de convertirlos a string
             print("Removiendo padding")
             resultado_total = MainFunctions.remove_padding_bits(self,resultado_total)
@@ -2582,31 +2662,6 @@ class MainFunctions(MainWindow):
             resultado_total7 = MainFunctions.remove_padding_bits(self,resultado_total7)
             resultado_total8 = MainFunctions.remove_padding_bits(self,resultado_total8)
             resultado_total9 = MainFunctions.remove_padding_bits(self,resultado_total9)              
-        """  
-        print("6- ESQUEMA CORRECIONES RX REALIZADO")
-        print("")
-        print("Resultado 1: No Muller, Coarse y Fine")
-        print(MainFunctions.bits_to_string(self,resultado_total))
-        print("")
-        print("Resultado 2: Muller, Coarse y Fine")
-        print(MainFunctions.bits_to_string(self,resultado_total2))
-        print("")
-        print("Resultado 3: Solo Filtrada")
-        print(MainFunctions.bits_to_string(self,resultado_total3))
-        print("")
-        print("Resultado 4: Solo Coarse")
-        print(MainFunctions.bits_to_string(self,resultado_total4))
-        print("")
-        print("Resultado 5: Coarse y Phase")
-        print(MainFunctions.bits_to_string(self,resultado_total5))
-        print("")
-        print("Resultado 6: Coarse, Phase y Fine")
-        print(MainFunctions.bits_to_string(self,resultado_total6))
-        print("")
-        print("Resultado 7: Coarse, Phase y Fine 2")
-        print(MainFunctions.bits_to_string(self,resultado_total7))
-        print("")
-        """
         
         self.bits_recibidos = MainFunctions.join_bits(self,resultado_total6)
         #self.bits_recibidos = np.asarray(self.bits_recibidos)
@@ -2626,8 +2681,8 @@ class MainFunctions(MainWindow):
         print("Num Errores: ", self.num_errors)
         print("Cantidad simbolos: ", self.cantidad_simbolos)
         print("Samples per Symbol: ", self.sps)
-        print("Potencia señal NO CALIBRADO: ", self.signal_pw)
-        print("Potencia ruido NO CALIBRADO: ", self.noise_pw)
+        print("Potencia señal dBFS: ", 10*np.log10(self.signal_pw / (16384 **2)))
+        print("Potencia ruido dBFS: ", 10*np.log10(self.noise_pw / (16384**2)))
         print("SNR: ", self.snr)
         print("SNR dB: ", self.snr_db)
         print("BW Estimado: ", self.bw_estimated)
@@ -2639,10 +2694,11 @@ class MainFunctions(MainWindow):
             self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n"
             self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n"
             self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n"
-            self.string_resultado += "Resultado 7: Coarse, Phase y Fine 2" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n"
+            self.string_resultado += "Resultado 7: Muller, Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n"
             self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n"
             self.string_resultado += "Resultado 9: Solo Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total9) + "\n"
             print(self.string_resultado)
+            
             #print("symbols indices: ", self.symbols_indices_plot)
         
         elif message_format == 2: #Imagen jpg
@@ -2815,24 +2871,11 @@ class MainFunctions(MainWindow):
                     print("\nMetodo " +str(index))
                     file_bits = MainFunctions.join_bits(self,file)
                     resultado_compress = np.packbits(file_bits.astype(np.uint8))
-                    print(resultado_compress[0:7])
-                    print(resultado_compress[-7:])
-                    #resultado_compress[0:4] = [80,75,3,4]  #Se fuerzan bytes de inicio y fin archivo zip
-                    #resultado_compress[-4:] = [80,75,5,6]
-                    resultado_compress.tofile(filePath + '/imagen_recibida' + str(index) + '.zip')
-                    
-                    print("descomprimiendo...")
-                    with zipfile.ZipFile(filePath + '/imagen_recibida' + str(index) + '.zip', 'r') as zip_ref:
-                        for file_info in zip_ref.infolist():
-                            try:
-                                zip_ref.extract(file_info, path=filePath+"/Imagen_Recibida_"+ str(index))
-                            except Exception as e:
-                                print("Error extranting file {}: {}".format(file_info.filename,e))
-                    resultado_correcto = True
-                    print("Imagen CORRECTA")
+                    print("Primeros bits: ",resultado_compress[0:7])
+                    print("Últimos bits: ",resultado_compress[-7:])
+                    resultado_compress.tofile(filePath + '/Resultado ' + str(index) + file_extension)
                     print("")
                 except Exception as e:
-                    resultado_correcto = False
                     #print("Imagen erronea...")
                     print(e)
 
@@ -2865,6 +2908,7 @@ class MainFunctions(MainWindow):
         self.ui.Constlayout.addWidget(self.toolbar3)
         self.ui.recBBlayout.addWidget(self.grafica4)
         self.ui.recBBlayout.addWidget(self.toolbar4)
+        
 
     def get_buffer_sdr(self):
         print("Realtime buffer started")
@@ -2904,7 +2948,8 @@ class MainFunctions(MainWindow):
         cont = 0
         while not self.stop_realtime_flag:
             if self.buffer_ready_flag:
-                self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+                #self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+                self.x1 = np.arange(len(self.buffer_plot)) / self.fsample #No actualiza tiempo, ahorra recursos no hacerlo
                 self.y1 = self.buffer_plot.real
         
                 self.y2 = self.buffer_plot.imag
@@ -2912,7 +2957,7 @@ class MainFunctions(MainWindow):
         
                 self.plot2 = self.buffer_plot[:16384]
                 #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
-                self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
+                self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2))) #Espectro magnitud, ahorra recursos al no obtener el de potencia
                 self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
         
                 self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
@@ -3109,7 +3154,8 @@ class MainFunctions(MainWindow):
         #self.y = np.append(self.y, samples[:-10])  # Add a new random value.
         
         #Para graficar en banda base, solo parte real y en muestras, no dominio tiempo definido
-        self.x1 = (np.arange(buffer) / fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+        #self.x1 = (np.arange(buffer) / fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
+        self.x1 = len(self.plot)
         self.y1 = self.plot.real
         
         self.y2 = self.plot.imag
@@ -3119,7 +3165,7 @@ class MainFunctions(MainWindow):
         self.plot2 = self.plot[:16384]
         #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
         self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
-        self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
+        self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz ESPECTRO MAGNITUD (Ahorra recursos computadora)
         #self.y3 = self.y3/len(self.plot2)
         
         self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
@@ -3195,7 +3241,7 @@ class plt_modulated_signal(FigureCanvas):
         #plt.magnitude_spectrum(x, Fs = y, Fc = 0)
 
         psd = np.abs(np.fft.fftshift(np.fft.fft(x))) ** 2
-        psd_dB = 10 * np.log(psd)
+        psd_dB = 10 * np.log10(psd / (16384**2))
         f = np.linspace(y/-2,y/2,len(psd))
         plt.xlabel("Frecuencia (Hz)")
         plt.ylabel("Potencia de Referencia (dBFS)")
@@ -3243,7 +3289,7 @@ class plt_received_signal(FigureCanvas):
         
         #plt.magnitude_spectrum(x, Fs = y, scale = 'linear')
         psd = np.abs(np.fft.fftshift(np.fft.fft(x))) ** 2
-        psd_dB = 10 * np.log(psd)
+        psd_dB = 10 * np.log10(psd / (16384 ** 2))
         f = np.linspace(y/-2,y/2,len(psd))
         plt.xlabel("Frecuencia (Hz)")
         plt.ylabel("Potencia de Referencia (dBFS)")
