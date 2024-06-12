@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptiongGJafR.ui'
+## Form generated from reading UI file 'receptionZNZFZa.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -1142,6 +1142,8 @@ class Ui_reception(object):
         self.doubleSpinBox_20.setObjectName(u"doubleSpinBox_20")
         self.doubleSpinBox_20.setFont(font2)
         self.doubleSpinBox_20.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.doubleSpinBox_20.setMinimum(-360.000000000000000)
+        self.doubleSpinBox_20.setMaximum(360.000000000000000)
 
         self.verticalLayout_49.addWidget(self.doubleSpinBox_20)
 
@@ -1308,6 +1310,8 @@ class Ui_reception(object):
         self.doubleSpinBox_10.setObjectName(u"doubleSpinBox_10")
         self.doubleSpinBox_10.setFont(font2)
         self.doubleSpinBox_10.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.doubleSpinBox_10.setMinimum(-360.000000000000000)
+        self.doubleSpinBox_10.setMaximum(360.000000000000000)
 
         self.verticalLayout_43.addWidget(self.doubleSpinBox_10)
 
