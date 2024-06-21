@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionZNZFZa.ui'
+## Form generated from reading UI file 'receptionbuvVDZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -950,7 +950,7 @@ class Ui_reception(object):
         self.fbit.setObjectName(u"fbit")
         self.fbit.setFont(font2)
         self.fbit.setDecimals(2)
-        self.fbit.setMaximum(1000000000.990000009536743)
+        self.fbit.setMaximum(1000000.000000000000000)
 
         self.verticalLayout_53.addWidget(self.fbit)
 
@@ -965,8 +965,8 @@ class Ui_reception(object):
         self.tbit.setObjectName(u"tbit")
         self.tbit.setFont(font2)
         self.tbit.setStyleSheet(u"	color: rgb(255, 255, 255);")
-        self.tbit.setDecimals(9)
-        self.tbit.setMaximum(1000000000.990000009536743)
+        self.tbit.setDecimals(8)
+        self.tbit.setMaximum(10.000000000000000)
 
         self.verticalLayout_53.addWidget(self.tbit)
 
@@ -979,6 +979,7 @@ class Ui_reception(object):
         self.fport = QDoubleSpinBox(self.widget_13)
         self.fport.setObjectName(u"fport")
         self.fport.setFont(font3)
+        self.fport.setMinimum(325.000000000000000)
         self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_53.addWidget(self.fport)
@@ -2148,9 +2149,9 @@ class Ui_reception(object):
         self.codelineBox_2.setItemText(4, QCoreApplication.translate("reception", u"L\u00ednea Horizontal (y = -b)", None))
         self.codelineBox_2.setItemText(5, QCoreApplication.translate("reception", u"L\u00ednea Inclinada ", None))
 
-        self.label_41.setText(QCoreApplication.translate("reception", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo", None))
-        self.label_42.setText(QCoreApplication.translate("reception", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo", None))
-        self.label_43.setText(QCoreApplication.translate("reception", u"Defina la frecuencia de Portadora (MHz - Max: 3500)", None))
+        self.label_41.setText(QCoreApplication.translate("reception", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo (Hz)", None))
+        self.label_42.setText(QCoreApplication.translate("reception", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo (s)", None))
+        self.label_43.setText(QCoreApplication.translate("reception", u"Defina la frecuencia de Portadora (MHz - Max: 3500 - Min: 325)", None))
         self.label_44.setText(QCoreApplication.translate("reception", u"Defina la ganancia de recepci\u00f3n (dB - Max: 50)", None))
         self.label_52.setText("")
         self.label_28.setText(QCoreApplication.translate("reception", u"Para x = a, defina el valor de a", None))

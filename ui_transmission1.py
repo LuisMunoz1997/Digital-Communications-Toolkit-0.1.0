@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'transmission1bBKkGR.ui'
+## Form generated from reading UI file 'transmission1rwyCdq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -658,7 +658,7 @@ class Ui_transmission1(object):
         self.verticalLayout_10.addWidget(self.widget)
 
 
-        self.verticalLayout_9.addWidget(self.frame_10, 0, Qt.AlignLeft)
+        self.verticalLayout_9.addWidget(self.frame_10)
 
         self.frame_8 = QFrame(self.mainBodySubLeftContainer)
         self.frame_8.setObjectName(u"frame_8")
@@ -691,7 +691,7 @@ class Ui_transmission1(object):
         self.fbit.setObjectName(u"fbit")
         self.fbit.setFont(font2)
         self.fbit.setDecimals(2)
-        self.fbit.setMaximum(1000000000.990000009536743)
+        self.fbit.setMaximum(1000000.000000000000000)
 
         self.verticalLayout_11.addWidget(self.fbit)
 
@@ -706,8 +706,8 @@ class Ui_transmission1(object):
         self.tbit.setObjectName(u"tbit")
         self.tbit.setFont(font2)
         self.tbit.setStyleSheet(u"	color: rgb(255, 255, 255);")
-        self.tbit.setDecimals(9)
-        self.tbit.setMaximum(1000000000.990000009536743)
+        self.tbit.setDecimals(8)
+        self.tbit.setMaximum(10.000000000000000)
 
         self.verticalLayout_11.addWidget(self.tbit)
 
@@ -720,6 +720,7 @@ class Ui_transmission1(object):
         self.fport = QDoubleSpinBox(self.widget_8)
         self.fport.setObjectName(u"fport")
         self.fport.setFont(font3)
+        self.fport.setMinimum(325.000000000000000)
         self.fport.setMaximum(3500.000000000000000)
 
         self.verticalLayout_11.addWidget(self.fport, 0, Qt.AlignLeft)
@@ -1492,9 +1493,9 @@ class Ui_transmission1(object):
         self.modBox_4.setItemText(1, QCoreApplication.translate("transmission1", u"16-PSK (Phase Shift Keying)", None))
         self.modBox_4.setItemText(2, QCoreApplication.translate("transmission1", u"16QAM (Quadrature Amplitude Modulation)", None))
 
-        self.label_5.setText(QCoreApplication.translate("transmission1", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo", None))
-        self.label_4.setText(QCoreApplication.translate("transmission1", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo", None))
-        self.label_3.setText(QCoreApplication.translate("transmission1", u"Defina la frecuencia de Portadora (MHz - Max: 3500)", None))
+        self.label_5.setText(QCoreApplication.translate("transmission1", u"Defina fsim (frecuencia de simbolo) - En base al tiempo de simbolo (Hz)", None))
+        self.label_4.setText(QCoreApplication.translate("transmission1", u"Defina tsim (tiempo de simbolo) -  En base a la frecuencia de simbolo (s)", None))
+        self.label_3.setText(QCoreApplication.translate("transmission1", u"Defina la frecuencia de Portadora (MHz - Max: 3500 - Min: 325)", None))
         self.label_23.setText(QCoreApplication.translate("transmission1", u"Defina la variante", None))
         self.radioButton_2.setText(QCoreApplication.translate("transmission1", u"Variante A", None))
         self.radioButton_3.setText(QCoreApplication.translate("transmission1", u"Variante B", None))
