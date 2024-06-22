@@ -820,18 +820,11 @@ class MainWindow(QMainWindow):
 
 
         MainFunctions.graph_original_bits_reception(self)
+        
+        variable = "A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +"Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" + "SER (Symbol Error rate): " + str(self.ser) + "\n\n" + "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" + "Número de muestras por simbolo: " + str(self.sps) + "\n\n" + "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" + "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" + "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n" + "Potencia de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" + "Potencia de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n"
+        
 
-        self.ui.finalInfo_2.setText("A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + 
-                                    "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +
-                                    "Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" +
-                                    "SER (Symbol Error rate): " + str(self.ser) + "\n\n" +
-                                    "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" +
-                                    "Número de muestras por simbolo: " + str(self.sps) + "\n\n" +
-                                    #"Relación señal a ruido estimada: " + str(self.snr) + "\n\n" +
-                                    #"Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n"
-                                    #"Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n")
-                                    "Potencia de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" +
-                                    "Potencia de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n")
+
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
 
@@ -856,8 +849,24 @@ class MainWindow(QMainWindow):
         if n_format == 1:
             self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
             results = self.string_resultado.replace("\x00","")
+            #results = self.string_resultado.replace("\0","")
+            #results = self.string_resultado.replace("0","")
+            iter = (ord(char) for char in results)
+            results_iter = np.fromiter(iter, dtype=np.uint8)
+            results_iter = np.delete(results_iter, np.where(results_iter == 0))
+            results_iter = np.delete(results_iter, np.where(results_iter > 255))
+            #results_iter = np.delete(results_iter, np.where(results_iter == 223))
+           # results_iter = np.delete(results_iter, np.where(results_iter > 160))
+            results = "".join(chr(a) for a in results_iter)
 
+            #print("Resultado en interfaz es:")
+            #print(results)
+            
+            self.ui.finalInfo_2.setText(variable + results)
+            
             self.ui.label_40.setText(results)
+            #for a in range(0,4):
+            #    self.ui.label_40.update()
 
         elif n_format == 2 or n_format == 3:
             try:

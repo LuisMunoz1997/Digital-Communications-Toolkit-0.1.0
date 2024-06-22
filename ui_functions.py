@@ -614,7 +614,7 @@ class MainFunctions(MainWindow):
     
         num_symbols = len(samples_symbols)
         num_taps = sps * num_symbols
-        print('Len samples es:', len(samples))
+        #print('Len samples es:', len(samples))
         #print('num_taps es:', num_taps)
         Ts = sps / fsample
         t = np.arange(num_taps) * Ts - (num_taps - 1) * Ts / 2
@@ -623,16 +623,16 @@ class MainFunctions(MainWindow):
     
         shaped = np.convolve(samples,h,mode='same')
         
-        shaped_maxreal = np.max(shaped.real)
-        shaped_maximag = np.max(shaped.imag)
-        samples_maxreal = np.max(samples.real)
-        samples_maximag = np.max(samples.imag)
+        shaped_maxreal = np.max(np.abs(shaped.real))
+        shaped_maximag = np.max(np.abs(shaped.imag))
+        samples_maxreal = np.max(np.abs(samples.real))
+        samples_maximag = np.max(np.abs(samples.imag))
         
         if shaped_maxreal > samples_maxreal:
-            print("Normalizado real pulse shape")
+            #print("Normalizado real pulse shape")
             shaped.real = shaped.real / shaped_maxreal * samples_maxreal
         if shaped_maximag > samples_maximag:
-            print("Normalizado imag pulse shape")
+            #print("Normalizado imag pulse shape")
             shaped.imag = shaped.imag / shaped_maximag * samples_maximag
 
         return shaped
@@ -645,9 +645,11 @@ class MainFunctions(MainWindow):
     def define_parts(self, samples_symbols, tsim, fsample, n_sym_parts = 100): #Recibe los pulsos de los simbolos sin añadir tiempo simb creo
         #Crea arreglo que cada volumna contiene un arreglo que representa la parte a enviar
         packets = np.split(samples_symbols, np.arange(n_sym_parts,len(samples_symbols),n_sym_parts))
-
+        
         i = 'Preparing part {} of {}'
         a = []
+        
+        n = len(packets)
 
         #Por cada parte, se realiza el pulse shape y se le agrega un preambulo. Se prueba con 1 solo preambulo con duration tsimb tambien a ver.
         for inx, part in enumerate(packets):
@@ -657,7 +659,8 @@ class MainFunctions(MainWindow):
             #for h in a:
                 #print(h)
                 #self.ui.ConfigSig.setText(h)
-
+            
+            print("Preparing Part {} of {}".format(inx,n))
             packets[inx] = MainFunctions.add_preamble(self,MainFunctions.pulse_shape(self, part, tsim, fsample, beta=0.35), fsample = 522000, freq = 80e3, n_samples = 100)
             
         return packets
@@ -2395,7 +2398,10 @@ class MainFunctions(MainWindow):
         
         #Primer paso: Separo el ruido de la señal que me interesa para quedarme con esta última
         print("4. OBTENIENDO SEÑAL DE INTERES")
-        margen = 3
+        if self.margen_noise == 3:
+            margen = 3
+        else:
+            margen = self.margen_noise + 1
         #self.muestras = np.fromfile('muestras.iq', dtype=complex)
         #Aca se puede insertar 0+0j y apendar 0+0j a self.muestras para evitar comernos señal con la línea de abajo
         resultado = np.where(~(self.muestras.real <=margen) | ~(self.muestras.real >=-margen) | ~(self.muestras.imag <=margen) | ~(self.muestras.imag >=-margen))
@@ -2455,6 +2461,10 @@ class MainFunctions(MainWindow):
             mod_scheme = "CUSTOM"
         elif nsimb == 16 and esquema == 1: #16PSK normal
             mod_scheme = "16PSK"
+        elif nsimb == 16 and (esquema == 2 or esquema == "16QAM-CIRCULAR"): #16QAM Circular
+            mod_scheme = "CUSTOM"
+        elif nsimb == 16 and (esquema == 3 or esquema == "16QAM-DIAGONAL"): #16QAM Diagonal o Estrella
+            mod_scheme = "CUSTOM"
         elif esquema == "CUSTOM":
             mod_scheme = "CUSTOM"
         else:
@@ -2481,9 +2491,11 @@ class MainFunctions(MainWindow):
         elif esquema == "16QAM-CIRCULAR":
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 2).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 2).imag))
+            esquema = 2
         elif esquema == "16QAM-DIAGONAL":
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 3).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 3).imag))
+            esquema = 3
         elif esquema == "16QAM-RECTANGULAR":
             factor_real = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 1).real))
             factor_imag = np.max(abs(MainFunctions.create_constellation_tx(self, nsimb,2, qam8_selector = 1, qam16_selector = 1).imag))         
@@ -2773,7 +2785,11 @@ class MainFunctions(MainWindow):
             for index,image in enumerate(images):
                 try:
                     image_bits = MainFunctions.join_bits(self,image) #Paso los strings '00', '101', '01', etc a [1,0,1...]
-                    print("\nMetodo {}".format(index + 1))   
+                    print("\nMetodo {}".format(index + 1))  
+                    width_heigth = image_bits[0:32] 
+                    print("width y height bits:", width_heigth)
+                    resultado_imagen = image_bits[32:]
+                        
                     resultado_imagen = np.packbits(resultado_imagen.astype(np.uint8))
                     
                     #https://stackoverflow.com/questions/49791312/numpy-packbits-pack-to-uint16-array
@@ -2797,6 +2813,7 @@ class MainFunctions(MainWindow):
                     image_resultado = Image.fromarray(resultado_imagen)
                         
                     image_resultado.save(filePath + '/imagen_recibida' + str(index) + '.jpg')
+                    image_resultado.save('imagen_recibida' + str(index) + '.jpg')
                     
                     #resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
                     
@@ -2826,17 +2843,19 @@ class MainFunctions(MainWindow):
                     print(resultado_compress[-7:])
                     #resultado_compress[0:4] = [80,75,3,4]  #Se fuerzan bytes de inicio y fin archivo zip
                     #resultado_compress[-4:] = [80,75,5,6]
-                    resultado_compress.tofile(filePath + '/imagen_recibida' + str(index) + '.zip')
+                    resultado_compress.tofile(filePath + '/imagen_recibida' + str(index) + '.png')
+                    if index == 5:
+                         resultado_compress.tofile("imagen_recibida5.jpg")
                     
-                    print("descomprimiendo...")
-                    with zipfile.ZipFile(filePath + '/imagen_recibida' + str(index) + '.zip', 'r') as zip_ref:
-                        for file_info in zip_ref.infolist():
-                            try:
-                                zip_ref.extract(file_info, path=filePath+"/Imagen_Recibida_"+ str(index))
-                            except Exception as e:
-                                print("Error extranting file {}: {}".format(file_info.filename,e))
+                    #print("descomprimiendo...")
+                    #with zipfile.ZipFile(filePath + '/imagen_recibida' + str(index) + '.zip', 'r') as zip_ref:
+                    #    for file_info in zip_ref.infolist():
+                    #        try:
+                    #            zip_ref.extract(file_info, path=filePath+"/Imagen_Recibida_"+ str(index))
+                    #        except Exception as e:
+                    #            print("Error extranting file {}: {}".format(file_info.filename,e))
                     print("Verificando con PIL...")
-                    im = Image.open(filePath + '/Imagen_Recibida_' + str(index) + '/compress.png')
+                    im = Image.open(filePath + '/imagen_recibida' + str(index) + '.png')
                     im.verify()
                     #im.load()
                     im.close()
@@ -2912,16 +2931,21 @@ class MainFunctions(MainWindow):
 
     def get_buffer_sdr(self):
         print("Realtime buffer started")
-        margen = 3
-        self.noise_flag = True
+        if self.margen_noise == 3:
+            margen = 3
+        else:
+            margen = self.margen_noise + 1
+        print("Margen: ", self.margen_noise)
+        #self.noise_flag = True
         #file = open('muestras.iq','ab')
         while not self.stop_realtime_flag:
             self.buffer_plot = self.sdr.rx()
             #file.write(self.buffer_plot)
                 
-            if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
+            #if (np.any(self.buffer_plot.real >=margen)) | (np.any(self.buffer_plot.real <=-margen)) | (np.any(self.buffer_plot.imag >=margen)) | (np.any(self.buffer_plot.imag <=-margen)):
+            if (np.any(np.abs(self.buffer_plot.real) >= margen)) | (np.any(np.abs(self.buffer_plot.imag) >= margen)):
                 self.muestras = np.append(self.muestras, self.buffer_plot)
-                self.noise_flag = False
+                #self.noise_flag = False
                     
                 #resultado = np.where(~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen) | ~(self.buffer_plot <=margen) | ~(self.buffer_plot >=-margen))
                 
@@ -2942,14 +2966,13 @@ class MainFunctions(MainWindow):
      
     def realtime_plot(self):
         print("Realtime plotting started")
-        margen = 3
-        self.noise_pw = 0
-        noise_pw_index = [0,6000,12000,18000,24000,29999]
-        cont = 0
+        #margen = 3
+        #self.noise_pw = 0
+        #noise_pw_index = [0,6000,12000,18000,24000,29999]
+        #cont = 0
         while not self.stop_realtime_flag:
             if self.buffer_ready_flag:
-                #self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) + self.x1[-1:] #con el fsample lo pasas a dominio temporal
-                self.x1 = np.arange(len(self.buffer_plot)) / self.fsample #No actualiza tiempo, ahorra recursos no hacerlo
+                self.x1 = (np.arange(len(self.buffer_plot)) / self.fsample) #con el fsample lo pasas a dominio temporal
                 self.y1 = self.buffer_plot.real
         
                 self.y2 = self.buffer_plot.imag
@@ -2957,25 +2980,24 @@ class MainFunctions(MainWindow):
         
                 self.plot2 = self.buffer_plot[:16384]
                 #self.y3, self.x3, self.a = plt.magnitude_spectrum(self.plot2, Fs = fsample, scale = 'linear')
-                self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2))) #Espectro magnitud, ahorra recursos al no obtener el de potencia
+                self.y3 = np.abs(np.fft.fftshift(np.fft.fft(self.plot2)))
                 self.x3 = np.linspace(self.fsample/-2, self.fsample/2, len(self.y3)) / 1e3 #kHz
         
                 self.data_line1.setData(self.x2, self.y2)  # Update the data. CONSTELATION
                 self.data_line3.setData(self.x3, self.y3)  # Update the data. DEP
                 self.data_line4.setData(self.x1, self.y1)  # Update the data. SIGNAL RECEIVED
                 
-                if self.noise_flag:
-                    cont += 6
-                    for index in noise_pw_index:
-                        self.noise_pw += np.abs(self.buffer_plot[index] ** 2) #Calcula potencia ruido de 6 muestras
-                    self.noise_flag = False
+                #if self.noise_flag:
+                    #cont += 6
+                    #for index in noise_pw_index:
+                    #    self.noise_pw += np.abs(self.buffer_plot[index] ** 2) #Calcula potencia ruido de 6 muestras
+                    #self.noise_flag = False
                           
                 self.buffer_ready_flag = False
             
         print("Realtime plotting Stopped")
-        self.noise_pw = self.noise_pw / cont #Calcula potencia promedio ruido
+        #self.noise_pw = self.noise_pw / cont #Calcula potencia promedio ruido
         self.buffer_ready_flag = False
-        #break
 
     def start_rx(self, frequency_carrier, fsample, tsimb, buffer, umbrales, umbrales_interpolate, umbrales_interpolate_i, regiones, bits_save, nsimb, esquema):
         
@@ -3064,10 +3086,26 @@ class MainFunctions(MainWindow):
             
         self.buffer_ready_flag = False
         self.stop_realtime_flag = False
-
-        # Clear buffer just to be safe
+        
+        # Clear buffer just to be safe, get max noise amplitude and noise power before starting realtime RX
+        for i in range (0, 10):
+            samples = self.sdr.rx()
+        self.margen_noise = 3
+        self.noise_pw = 0
+        cont_noise = 0
+        noise_pw_index = [0,6000,12000,18000,24000,29999]
         for i in range (0, 10):
            samples = self.sdr.rx()
+           max_noise_buffer = np.max(abs(samples))
+           if self.margen_noise <= max_noise_buffer:
+               self.margen_noise = max_noise_buffer
+
+           for index in noise_pw_index: #Creo que esto con numpy se puede hacer más rápido
+               self.noise_pw += np.abs(samples[index] ** 2) #Calcula potencia ruido de 6 muestras
+           cont_noise += 6
+        
+        self.noise_pw = self.noise_pw / cont_noise
+        
         
         #Dominio temporal para gráficas
         #t = np.arange(0, len(samples)/fsample, 1/fsample)
