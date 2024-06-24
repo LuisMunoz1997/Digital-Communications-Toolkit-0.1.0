@@ -189,7 +189,7 @@ class MainWindow(QMainWindow):
 
         #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
         #self.ui.label_40.setText("<u><b>Resultado 1: No Muller, Coarse y Fine</b></u> prueba")
-     
+
         #FLAGS
         self.BB_graph_flag = False
         self.delete_status = False
@@ -822,8 +822,7 @@ class MainWindow(QMainWindow):
         MainFunctions.graph_original_bits_reception(self)
         
         variable = "A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +"Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" + "SER (Symbol Error rate): " + str(self.ser) + "\n\n" + "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" + "Número de muestras por simbolo: " + str(self.sps) + "\n\n" + "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" + "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" + "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n" + "Potencia de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" + "Potencia de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n"
-        
-
+        self.ui.finalInfo_2.setText(variable)
 
 
         t = np.arange(len(self.graph_sincro_corrected)) / 522000
@@ -847,34 +846,35 @@ class MainWindow(QMainWindow):
 
 
         if n_format == 1:
-            self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
+            #self.ui.label_40.setTextFormat(QtCore.Qt.PlainText)
             results = self.string_resultado.replace("\x00","")
-            #results = self.string_resultado.replace("\0","")
-            #results = self.string_resultado.replace("0","")
+            results = self.string_resultado.replace("\0","")
+
             iter = (ord(char) for char in results)
             results_iter = np.fromiter(iter, dtype=np.uint8)
             results_iter = np.delete(results_iter, np.where(results_iter == 0))
             results_iter = np.delete(results_iter, np.where(results_iter > 255))
-            #results_iter = np.delete(results_iter, np.where(results_iter == 223))
-           # results_iter = np.delete(results_iter, np.where(results_iter > 160))
             results = "".join(chr(a) for a in results_iter)
 
-            #print("Resultado en interfaz es:")
-            #print(results)
-            
-            self.ui.finalInfo_2.setText(variable + results)
-            
-            self.ui.label_40.setText(results)
-            #for a in range(0,4):
-            #    self.ui.label_40.update()
+            self.ui.finalInfo_3.setText(results)
 
         elif n_format == 2 or n_format == 3:
             try:
-                pixmap = QPixmap("imagen_recibida5.jpg")
-                self.ui.label_40.setPixmap(pixmap)
+                #pixmap = QPixmap("imagen_recibida5.jpg") ":/images/images/ADALM-PLUTO.png\"
+
+                self.ui.finalInfo_3.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" ><img src=\":/imagen_recibida5.jpg\" /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
+
                 print("Imagen en interfaz")
             except Exception as e:
-                self.ui.label_40.setText("Algo ha salido mal...")
+                self.ui.finalInfo_3.setText("Algo ha salido mal...")
                 print("NO imagen en interfaz")
             
 
@@ -2100,24 +2100,6 @@ class MainWindow(QMainWindow):
                     worker.signals.finished.connect(self.transmit_signal_setting_1)
 
                     threadpool.start(worker)
-
-
-                    """
-                    constellation = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3=point3, point4=point4)
-                    constellation = MainFunctions.normalize_constellation(self, constellation)
-                    bits_array = MainFunctions.prepare_to_send(self, message, n_symbol, constellation)
-                    self.ui.mSim.display(int(len(bits_array)))
-                    symbols_to_send = MainFunctions.define_parts(self, bits_array, tsim, fsample, n_sym_parts = 100)
-
-                    for inx,packet in enumerate(symbols_to_send):
-                        symbols_to_send[inx] = np.multiply(packet,2**14)
-
-                    if len(symbols_to_send[len(symbols_to_send)-1]) < len(symbols_to_send[0]):
-                        add_zeros = np.zeros(len(symbols_to_send[0]) - len(symbols_to_send[len(symbols_to_send)-1]), dtype=complex)
-                        symbols_to_send[len(symbols_to_send)-1] = np.append(symbols_to_send[len(symbols_to_send)-1], add_zeros)
-                    
-                    self.symbols_to_send_pluto = symbols_to_send
-                    """
 
 
 

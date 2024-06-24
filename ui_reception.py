@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'receptionbuvVDZ.ui'
+## Form generated from reading UI file 'receptionEpWtWK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -133,9 +133,9 @@ class Ui_reception(object):
 "	background-color: #acacac;\n"
 "}\n"
 "\n"
-"#frame_10, #frame_9, #frame_23, #widget_6, #widget_7, #widget_2, #widget_10 {\n"
-""
-                        "	background-color: #fafade;\n"
+"#frame_10, #frame_9, #frame_23, #widget_6, #widget_7, #widget_2, #widget_10, #fra"
+                        "me_18 {\n"
+"	background-color: #fafade;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
 "	border-style: inset;\n"
@@ -143,7 +143,7 @@ class Ui_reception(object):
 "}\n"
 "\n"
 "\n"
-"#frame_18, #frame_19, #frame_26, #frame_27, #frame_28 {\n"
+"#frame_19, #frame_26, #frame_27, #frame_28 {\n"
 "	background-color: #fff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -186,8 +186,8 @@ class Ui_reception(object):
 "	background-color: #acacac;\n"
 "}\n"
 "\n"
-"#frame_8 QPushBu"
-                        "tton{\n"
+"#frame_8 QPushB"
+                        "utton{\n"
 "	background-color: #8bb6ff;\n"
 "	border-width: 1px;\n"
 "	border-radius: 7px;\n"
@@ -1786,15 +1786,16 @@ class Ui_reception(object):
         self.frame_18.setMaximumSize(QSize(16777215, 16777215))
         self.frame_18.setFrameShape(QFrame.StyledPanel)
         self.frame_18.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_52 = QVBoxLayout(self.frame_18)
-        self.verticalLayout_52.setObjectName(u"verticalLayout_52")
-        self.label_40 = QLabel(self.frame_18)
-        self.label_40.setObjectName(u"label_40")
-        self.label_40.setMinimumSize(QSize(0, 0))
-        self.label_40.setMaximumSize(QSize(1350, 16777215))
-        self.label_40.setFont(font)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_18)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.finalInfo_3 = QTextBrowser(self.frame_18)
+        self.finalInfo_3.setObjectName(u"finalInfo_3")
+        font7 = QFont()
+        font7.setFamilies([u"Bahnschrift Light"])
+        font7.setPointSize(14)
+        self.finalInfo_3.setFont(font7)
 
-        self.verticalLayout_52.addWidget(self.label_40, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+        self.horizontalLayout_3.addWidget(self.finalInfo_3)
 
 
         self.verticalLayout_14.addWidget(self.frame_18)
@@ -1980,10 +1981,10 @@ class Ui_reception(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.finalInfo_2 = QTextBrowser(self.widget_10)
         self.finalInfo_2.setObjectName(u"finalInfo_2")
-        font7 = QFont()
-        font7.setFamilies([u"Bahnschrift Light"])
-        font7.setPointSize(18)
-        self.finalInfo_2.setFont(font7)
+        font8 = QFont()
+        font8.setFamilies([u"Bahnschrift Light"])
+        font8.setPointSize(18)
+        self.finalInfo_2.setFont(font8)
 
         self.horizontalLayout_11.addWidget(self.finalInfo_2)
 
@@ -2250,7 +2251,14 @@ class Ui_reception(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Segoe UI';\">Se\u00f1al Recibida en Tiempo</span></p></body></html>", None))
         self.mesRecBtn.setText(QCoreApplication.translate("reception", u"Mensaje Recuperado", None))
         self.recBBBTN.setText(QCoreApplication.translate("reception", u"Se\u00f1al Banda - Base Recuperada", None))
-        self.label_40.setText("")
+        self.finalInfo_3.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
         self.dataBtn.setText(QCoreApplication.translate("reception", u"Datos de la Se\u00f1al Recibida", None))
         self.SRBtn.setText(QCoreApplication.translate("reception", u"Muestra tomada por simbolo", None))
         self.DEPBtn.setText(QCoreApplication.translate("reception", u"D.E.P", None))

@@ -3165,7 +3165,7 @@ class MainFunctions(MainWindow):
             #DATA SIGNAL RECEIVED 
             #self.ui.SRBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_10))
 
-            self.ui.recepBtn.clicked.connect(lambda: self.ui.simWarnTxt.setText("El proceso de recepción ya fue inicializado. Esperar a que termine el proceso de recepción"))
+            #self.ui.recepBtn.clicked.connect(lambda: self.ui.simWarnTxt.setText("El proceso de recepción ya fue inicializado. Esperar a que termine el proceso de recepción"))
       
             #DEP
             self.ui.DEPBtn_2.clicked.connect(lambda: self.ui.stackedWidget_3.setCurrentWidget(self.ui.page_11))
