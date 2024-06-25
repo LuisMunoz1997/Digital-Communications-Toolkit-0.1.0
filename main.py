@@ -187,9 +187,19 @@ class MainWindow(QMainWindow):
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
 
-        #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
         #self.ui.label_40.setText("<u><b>Resultado 1: No Muller, Coarse y Fine</b></u> prueba")
-
+        """
+        self.ui.finalInfo_3.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" ><img src=\":/home/lubuntu/Desktop/Principal_Digital3/pajarito.jpg\" /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
+        """
         #FLAGS
         self.BB_graph_flag = False
         self.delete_status = False
@@ -869,7 +879,7 @@ class MainWindow(QMainWindow):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" ><img src=\":/imagen_recibida5.jpg\" /></p>\n"
+"<p align=\"center\" ><img src=\":/pajarito.jpg\" /></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
 
                 print("Imagen en interfaz")
@@ -1215,6 +1225,7 @@ class MainWindow(QMainWindow):
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
+                            MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                             point1 = complex(symbol1) #Cuidado con los eval
                             point2 = complex(symbol2)
                             print("Puntos ingresados")
@@ -1251,6 +1262,7 @@ class MainWindow(QMainWindow):
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
+                            MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                             point1 = complex(symbol1) #Cuidado con los eval
                             point2 = complex(symbol2)
                             esquema = 'CUSTOM'
@@ -1288,6 +1300,7 @@ class MainWindow(QMainWindow):
 
                     elif symbol1 != "" and symbol2 != "":
                         try:
+                            MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                             point1 = complex(symbol1) #Cuidado con los eval
                             point2 = complex(symbol2)
                             esquema = 'CUSTOM'
@@ -1341,6 +1354,7 @@ class MainWindow(QMainWindow):
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
+                                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                     point1 = complex(symbol1) 
                                     point2 = complex(symbol2)
                                     point3 = complex(symbol3)
@@ -1381,6 +1395,7 @@ class MainWindow(QMainWindow):
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
+                                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                     point1 = complex(symbol1) 
                                     point2 = complex(symbol2)
                                     point3 = complex(symbol3)
@@ -1420,6 +1435,7 @@ class MainWindow(QMainWindow):
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
+                                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                     point1 = complex(symbol1) 
                                     point2 = complex(symbol2)
                                     point3 = complex(symbol3)
@@ -1429,6 +1445,7 @@ class MainWindow(QMainWindow):
                                     thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1="vertical", selector2="horizontal", offset_x=x, offset_y=0, angle=0, offset_x2=0, offset_y2=y2, angle2=0)
                                     self.thresholds_plot = thresholds
                                     print("umbrales custom creados")
+                                    print(thresholds)
                                     thresholds_interpolate, thresholds_interpolate_i = MainFunctions.interpolate_umbrales(self, thresholds)
                                     print("umbrales custom interpolados")
                                     self.constellation_rx = MainFunctions.create_constellation_tx_user(self, n_symbol, point1 = point1, point2 = point2, point3 = point3, point4 = point4)
@@ -1439,8 +1456,9 @@ class MainWindow(QMainWindow):
                             
                                     MainFunctions.start_rx(self, frequency_carrier, fsample, tsim, buffer, thresholds, thresholds_interpolate, thresholds_interpolate_i, regions, bits_save, n_symbol, esquema)                                    
 
-                                except:
+                                except Exception as e:
                                     print("VUELVA A INGRESAR") #Cambiar por aviso en interfaz
+                                    print(e)
                                     self.ui.simWarnTxt.setText("Alguno de los simbolos escritos tiene un error. Por favor revise e intente otra vez")
                                     self.ui.recepBtn.setEnabled(True)
                                 
@@ -1458,6 +1476,7 @@ class MainWindow(QMainWindow):
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
+                                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                     point1 = complex(symbol1) 
                                     point2 = complex(symbol2)
                                     point3 = complex(symbol3)
@@ -1499,6 +1518,7 @@ class MainWindow(QMainWindow):
 
                             elif symbol1 != "" and symbol2 != "" and symbol3 != "" and symbol4 != "":
                                 try:
+                                    MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                     point1 = complex(symbol1) 
                                     point2 = complex(symbol2)
                                     point3 = complex(symbol3)
@@ -1717,6 +1737,7 @@ class MainWindow(QMainWindow):
                                 point4 = complex(symbol4)
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
+                                MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=0, offset_y=y, angle=0, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
                                 self.thresholds_plot = thresholds
                                 print("umbrales custom creados")
@@ -1786,6 +1807,7 @@ class MainWindow(QMainWindow):
                                 point4 = complex(symbol4)
                                 esquema = 'CUSTOM'
                                 print("Puntos ingresados")
+                                MainFunctions.configure_reception_signal(self, gain_rx, frequency_carrier, fsample, buffer)
                                 thresholds, etiquetas = MainFunctions.threshold_user(self, n_symbol, selector1=selector1, selector2=selector2, offset_x=offx, offset_y=offy, angle=ang, offset_x2=offx2, offset_y2=offy2, angle2=ang2)
                                 self.thresholds_plot = thresholds
                                 print("umbrales custom creados")

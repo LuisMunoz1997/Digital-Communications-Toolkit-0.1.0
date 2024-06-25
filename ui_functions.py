@@ -706,7 +706,7 @@ class MainFunctions(MainWindow):
 
     def graph_original_bits_reception(self):
 
-        message = self.bits_recibidos
+        message = self.bits_recibidos.astype(bool)
 
         if self.ui.UmbPreBtn.isChecked() == True:
             index_n_symbols = self.ui.simPBitBox.currentIndex()
@@ -1557,7 +1557,7 @@ class MainFunctions(MainWindow):
                     'samples.imag < umbrales[0](samples.real)', #1
                     ]
                     
-                if constellation[0] > umbrales[0](samples.real):
+                if constellation[0].imag > umbrales[0](constellation[0].real):
                     bits_save = [
                         '0',
                         '1',
@@ -1915,23 +1915,23 @@ class MainFunctions(MainWindow):
             
         elif nsimb == 4: #Aca creo que es mejor hacer que el usuario obligatoriamente defina 2 umbrales
             if selector1 == "vertical":
-                umbral1 = np.array([linea_vertical(offset_x)])
+                umbral1 = linea_vertical(offset_x)
                 etiquetas.append(1)
             elif selector1 == "horizontal":
-                umbral1 = np.array([linea_horizontal(offset_y)])
+                umbral1 = linea_horizontal(offset_y)
                 etiquetas.append(2)
             elif selector1 == "inclinada":
-                umbral1 = np.array([linea_inclinada(angle, offset_x, offset_y)])
+                umbral1 = linea_inclinada(angle, offset_x, offset_y)
                 print("Inclinada 1 lista")
                 etiquetas.append(3)
             if selector2 == "vertical":
-                umbral2 = np.array([linea_vertical(offset_x2)])
+                umbral2 = linea_vertical(offset_x2)
                 etiquetas.append(1)
             elif selector2 == "horizontal":
-                umbral2 = np.array([linea_horizontal(offset_y2)])
+                umbral2 = linea_horizontal(offset_y2)
                 etiquetas.append(2)
             elif selector2 == "inclinada":
-                umbral2 = np.array([linea_inclinada(angle2, offset_x2, offset_y2)])
+                umbral2 = linea_inclinada(angle2, offset_x2, offset_y2)
                 print("inclinada 2 lista")
                 etiquetas.append(3)
             umbrales = np.array([umbral1,umbral2])
@@ -2254,7 +2254,7 @@ class MainFunctions(MainWindow):
         return out, freq_log
 
     def apply_frequency_correction(self, signal, diferencia, Fs=522000):
-        corrected_signal = signal * 0.5*np.exp(2j * np.pi * diferencia * np.arange(len(signal)) / Fs)
+        corrected_signal = signal * 1*np.exp(2j * np.pi * diferencia * np.arange(len(signal)) / Fs)
         return corrected_signal
 
     def apply_phase_correction(self, signal, preambulo, preambulo_original):
@@ -2700,14 +2700,14 @@ class MainFunctions(MainWindow):
         print("BW Estimado: ", self.bw_estimated)
         
         if message_format == 1: #String
-            self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n"
-            self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n"
-            self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n"
-            self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n"
-            self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n"
-            self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n"
-            self.string_resultado += "Resultado 7: Muller, Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n"
-            self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n"
+            self.string_resultado += "Resultado 1: No Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total) + "\n\n"
+            self.string_resultado += "Resultado 2: Muller, Coarse y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total2) + "\n\n"
+            self.string_resultado += "Resultado 3: Solo Filtrada" + "\n" + MainFunctions.bits_to_string(self,resultado_total3) + "\n\n"
+            self.string_resultado += "Resultado 4: Solo Coarse" + "\n" + MainFunctions.bits_to_string(self,resultado_total4) + "\n\n"
+            self.string_resultado += "Resultado 5: Coarse y Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total5) + "\n\n"
+            self.string_resultado += "Resultado 6: Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total6) + "\n\n"
+            self.string_resultado += "Resultado 7: Muller, Coarse, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total7) + "\n\n"
+            self.string_resultado += "Resultado 8: Coarse preamble, Phase y Fine" + "\n" + MainFunctions.bits_to_string(self,resultado_total8) + "\n\n"
             self.string_resultado += "Resultado 9: Solo Phase" + "\n" + MainFunctions.bits_to_string(self,resultado_total9) + "\n"
             print(self.string_resultado)
             
@@ -2740,12 +2740,13 @@ class MainFunctions(MainWindow):
                         print("Añadiendo muestras de 'correccion'")
                         residuo = len(resultado_imagen) % (width_image * heigth_image * 3)
                         append_zeros = np.random.randint(0,255,(width_image * heigth_image * 3) - residuo)
+                        print("Se añadieron " + str(len(append_zeros)) + "muestras")
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
                         
                     else: #ESTO ES UNA PRUEBA
                         print("Añadiendo muestras de 'correccion' con ERRORES")
-                        width_image = 600
-                        heigth_image = 600
+                        width_image = 100
+                        heigth_image = 100
                         residuo = len(resultado_imagen) % (width_image * heigth_image * 3)
                         append_zeros = np.random.randint(0,255,(width_image * heigth_image * 3) - residuo)
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
@@ -2761,7 +2762,9 @@ class MainFunctions(MainWindow):
                         image_resultado = image_resultado.convert("RGB")
                         
                     image_resultado.save(filePath + '/imagen_recibida' + str(index) + '.jpg')
-                    image_resultado.save('imagen_recibida' + str(index) + '.jpg')
+                    
+                    if index == 5:
+                         image_resultado.save('imagen_recibida' + str(index) + '.jpg')
                     
                     #resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
                     
@@ -2802,6 +2805,14 @@ class MainFunctions(MainWindow):
                     
                     if len(resultado_imagen) % (width_image * heigth_image) != 0 and (width_image and heigth_image) <= 4000: #Esto definiria maxima imagen a tx 4000x4000
                         print("Añadiendo muestras de 'correccion'")
+                        residuo = len(resultado_imagen) % (width_image * heigth_image)
+                        append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
+                        resultado_imagen = np.append(resultado_imagen, append_zeros)
+                        
+                    else: #ESTO ES UNA PRUEBA
+                        print("Añadiendo muestras de 'correccion' con ERRORES")
+                        width_image = 100
+                        heigth_image = 100
                         residuo = len(resultado_imagen) % (width_image * heigth_image)
                         append_zeros = np.random.randint(0,255,(width_image * heigth_image) - residuo)
                         resultado_imagen = np.append(resultado_imagen, append_zeros)
