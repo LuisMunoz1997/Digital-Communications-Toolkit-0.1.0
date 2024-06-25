@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
         #REAL TIME GRAPH NECESARY OBJECTS
         self.timer = QtCore.QTimer()
 
-        self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
+        #self.ui.stackedWidget_2.setCurrentWidget(self.ui.page_3)
         #self.ui.label_40.setText("<u><b>Resultado 1: No Muller, Coarse y Fine</b></u> prueba")
         """
         self.ui.finalInfo_3.setHtml(QCoreApplication.translate("reception", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -197,8 +197,8 @@ class MainWindow(QMainWindow):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" ><img src=\":/home/lubuntu/Desktop/Principal_Digital3/pajarito.jpg\" /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
+"<p align=\"center\" ><img src=\"imagen_recibida5.jpg\" /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:auto; margin-bottom:auto; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", baseUrl=QUrl.fromLocalFile(os.getcwd()+os.path.sep)))
         """
         #FLAGS
         self.BB_graph_flag = False
@@ -879,8 +879,8 @@ class MainWindow(QMainWindow):
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Bahnschrift Light'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" ><img src=\":/pajarito.jpg\" /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", None))
+"<p align=\"center\" ><img src=\"imagen_recibida5.jpg\" /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>", baseUrl=QUrl.fromLocalFile(os.getcwd()+os.path.sep)))
 
                 print("Imagen en interfaz")
             except Exception as e:
