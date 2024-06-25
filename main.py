@@ -868,7 +868,7 @@ class MainWindow(QMainWindow):
 
             self.ui.finalInfo_3.setText(results)
 
-        elif n_format == 2 or n_format == 3:
+        elif n_format == 2 or n_format == 3 or n_format == 10:
             try:
                 #pixmap = QPixmap("imagen_recibida5.jpg") ":/images/images/ADALM-PLUTO.png\"
 
@@ -2541,6 +2541,10 @@ class MainWindow(QMainWindow):
             self.format_path_flag_received = True
             
         if index == 9 and self.format_path_flag_received == False:
+            MainFunctions.format_rec(self, 70, True)
+            self.format_path_flag_received = True
+            
+        if index == 10 and self.format_path_flag_received == False:
             MainFunctions.format_rec(self, 70, True)
             self.format_path_flag_received = True
       

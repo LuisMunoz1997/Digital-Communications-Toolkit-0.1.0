@@ -2822,9 +2822,16 @@ class MainFunctions(MainWindow):
                     #print(resultado_imagen)
                     
                     image_resultado = Image.fromarray(resultado_imagen)
+                    print(resultado_imagen)
+                    print(image_resultado)
+                    
+                    #image_resultado = image_resultado.convert("L")
+                    
+                    if index == 5:
+                        image_resultado.save('imagen_recibida' + str(index) + '.jpg')
                         
                     image_resultado.save(filePath + '/imagen_recibida' + str(index) + '.jpg')
-                    image_resultado.save('imagen_recibida' + str(index) + '.jpg')
+
                     
                     #resultado_imagen.tofile(filePath + '/imagen_recibida' + str(index) + '.jpg')
                     
