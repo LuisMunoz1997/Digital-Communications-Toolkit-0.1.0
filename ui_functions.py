@@ -3281,14 +3281,14 @@ class plt_bits_coded(FigureCanvas):
         plt.grid()
 
         self.ax.set_title("Primeros bits que componen el mensaje (tbit aprox = " + str(tbit) + ")")
-        #self.ax.set_ylabel("Amplitud (Referencial)")
-        #self.ax.set_xlabel("Tiempo")
+        self.ax.set_ylabel("Amplitud (Referencial)")
+        self.ax.set_xlabel("Tiempo (s)")
 
         #self.ax.plot()
         #self.ax.grid()
         
         
-class plt_modulated_signal(FigureCanvas):
+class plt_modulated_signal(FigureCanvas): #DEP TX
      
     def __init__(self, x, y, parent = None):  
         self.fig , self.ax = plt.subplots()
@@ -3307,16 +3307,18 @@ class plt_modulated_signal(FigureCanvas):
         #self.ax.plot()
         #self.ax.grid()
             
-class plt_modulated_signal2(FigureCanvas):
+class plt_modulated_signal2(FigureCanvas): #Banda base IQ TX
      
     def __init__(self, x, y, x2, y2, parent = None):  
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         self.ax.plot(x[0:40000], y[0:40000], x2[0:40000], y2[0:40000])
+        self.ax.set_ylabel("Amplitud Referencial")
+        self.ax.set_xlabel("Tiempo (s)")
         self.ax.grid()
 
-class plt_modulated_signal3(FigureCanvas):
+class plt_modulated_signal3(FigureCanvas): #Constelación TX
      
     def __init__(self, x, y, parent = None):  
         self.fig , self.ax = plt.subplots()
@@ -3325,19 +3327,21 @@ class plt_modulated_signal3(FigureCanvas):
         self.ax.plot(x, y, "*", linewidth = 58)
         self.ax.grid()
 
-class plt_modulated_signal4(FigureCanvas):
+class plt_modulated_signal4(FigureCanvas): #Pasa banda
      
     def __init__(self, x, y, parent = None):  
         self.fig , self.ax = plt.subplots()
         super().__init__(self.fig)
         
         self.ax.plot(x[0:40000], y[0:40000])
+        self.ax.set_ylabel("Amplitud Referencial")
+        self.ax.set_xlabel("Tiempo (s)")
         self.ax.grid()
 
 
 ###############################################################################################
 
-class plt_received_signal(FigureCanvas):
+class plt_received_signal(FigureCanvas): #DEP Rx
      
     def __init__(self, x, y, parent = None):  
         self.fig , self.ax = plt.subplots()
@@ -3352,7 +3356,7 @@ class plt_received_signal(FigureCanvas):
         plt.plot(f,psd_dB)
 
 
-class plt_received_signal2(FigureCanvas):
+class plt_received_signal2(FigureCanvas): #Banda Base IQ Rx
      
     def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
         self.fig2 , self.ax2 = plt.subplots()
@@ -3375,9 +3379,11 @@ class plt_received_signal2(FigureCanvas):
            self.ax2.vlines(x[plot_sync_time], ymin=ymin, ymax=ymax, colors='r', linestyle='dashed', alpha=0.45)
         else:
             self.ax2.plot(x[0:40000], y[0:40000], x2[0:40000], y2[0:40000])
+        self.ax2.set_ylabel("Amplitud (Full Scale)")
+        self.ax2.set_xlabel("Tiempo (s)")
         self.ax2.grid()
         
-class plt_received_signal3(FigureCanvas):
+class plt_received_signal3(FigureCanvas): #Constelacion RX
      
     def __init__(self, x, y, thresholds=np.array([0]), parent = None):  
         self.fig3 , self.ax3 = plt.subplots()
@@ -3399,17 +3405,32 @@ class plt_received_signal3(FigureCanvas):
         self.ax3.set_ylim(-max_y-0.5,max_y+0.5)
         self.ax3.grid()
         
-class plt_received_signal4(FigureCanvas):
+class plt_received_signal4(FigureCanvas): #Muestra tomada por símbolo
      
-    def __init__(self, x, y, parent = None):  
-        self.fig4 , self.ax4 = plt.subplots()
-        super().__init__(self.fig4)
-        #self.fig4.clf()
-        #self.fig4.cla()
-        #self.fig4.close()        
+    def __init__(self, x, y, x2, y2, plot_sync_time=np.array([]), parent = None):  
+        self.fig2 , self.ax2 = plt.subplots()
+        super().__init__(self.fig2)
+        #self.fig2.clf()
+        #self.fig2.cla()
+        #self.fig2.close()
         
-        self.ax4.plot(x, y)
-        self.ax4.grid()
+        if len(plot_sync_time) > 0 and len(plot_sync_time) <= 40: #Solo grafica la referencia si hay 40 simbolos max, si hay mas la grafica se ve muy saturada
+           if np.max(y) >= np.max(y2):
+               ymax = np.max(y)
+           else:
+               ymax = np.max(y2)
+           if np.min(y) <= np.min(y2):
+               ymin = np.min(y)
+           else:
+               ymin = np.min(y2)
+               
+           self.ax2.plot(x, y, x2, y2)
+           self.ax2.vlines(x[plot_sync_time], ymin=ymin, ymax=ymax, colors='r', linestyle='dashed', alpha=0.45)
+        else:
+            self.ax2.plot(x[0:40000], y[0:40000], x2[0:40000], y2[0:40000])
+        self.ax2.set_ylabel("Amplitud Referencial")
+        self.ax2.set_xlabel("Tiempo (s)")
+        self.ax2.grid()
 
 ############################################################################################################################################################################
 ############################################################################################################################################################################

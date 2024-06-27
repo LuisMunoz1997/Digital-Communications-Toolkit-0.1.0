@@ -764,7 +764,7 @@ class MainWindow(QMainWindow):
         self.grafica3 = plt_received_signal3(self.graph_sincro.real, self.graph_sincro.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
             
-        self.grafica4 = plt_received_signal2(t, self.graph_sincro.real, t, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        self.grafica4 = plt_received_signal4(t, self.graph_sincro.real, t, self.graph_sincro.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
 
         self.ui.DEPlayout.addWidget(self.grafica1)
@@ -831,7 +831,7 @@ class MainWindow(QMainWindow):
 
         MainFunctions.graph_original_bits_reception(self)
         
-        variable = "A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +"Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" + "SER (Symbol Error rate): " + str(self.ser) + "\n\n" + "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" + "Número de muestras por simbolo: " + str(self.sps) + "\n\n" + "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" + "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" + "Ancho de Banda estimada (Hz): " + str(self.bw_estimated) + "\n\n" + "Potencia de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" + "Potencia de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n"
+        variable = "A continuación se presenta información relacionada de la señal recibida:" + "\n\n" + "Cantidad total de bits recibidos: " + self.cantidad_bits + "\n\n" +"Cantidad total de simbolos recibidos: " + self.cantidad_simbolos  + "\n\n" + "SER (Symbol Error rate): " + str(self.ser) + "\n\n" + "Número de simbolos con posible error: " + str(self.num_errors) + "\n\n" + "Número de muestras por simbolo: " + str(self.sps) + "\n\n" + "Relación señal a ruido estimada: " + str(self.snr) + "\n\n" + "Relación señal a ruido estimada (dB): " + str(self.snr_db) + "\n\n" + "Potencia Promedio de la señal estimada (dBFS): " + str(10*np.log10(self.signal_pw / (16384 **2))) + "\n\n" + "Potencia Promedio de Ruido estimada (dBFS): " + str(10*np.log10(self.noise_pw / (16384**2))) + "\n\n"
         self.ui.finalInfo_2.setText(variable)
 
 
@@ -843,8 +843,9 @@ class MainWindow(QMainWindow):
 
         self.grafica3 = plt_received_signal3(self.graph_sincro_corrected.real, self.graph_sincro_corrected.imag, thresholds=self.thresholds_plot) #PASA LAS VARIABLES PARA CONSTRUIR LA CONSTELACIÓN DE LA SEÑAL RECIBIDA
         self.toolbar3 = NavigationToolbar(self.grafica3, self)
-            
-        self.grafica4 = plt_received_signal2(t, self.graph_sincro_corrected.real, t, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
+        
+        t_reference = np.arange(len(self.graph_sincro_corrected))
+        self.grafica4 = plt_received_signal4(t_reference, self.graph_sincro_corrected.real, t_reference, self.graph_sincro_corrected.imag) #PASA LAS VARIABLES PARA CONSTRUIR LA SEÑAL ORIGINAL RECIBIDA
         self.toolbar4 = NavigationToolbar(self.grafica4, self)
 
         self.ui.DEPlayout.addWidget(self.grafica1)
@@ -919,7 +920,11 @@ class MainWindow(QMainWindow):
 
         self.graphWidget = pg.PlotWidget(background="w")
         self.graphWidget_3 = pg.PlotWidget(background="w")
+        self.graphWidget_3.setLabel('left', 'Magnitud (Full Scale)')
+        self.graphWidget_3.setLabel('bottom', 'Frecuencia (kHz)')
         self.graphWidget_4 = pg.PlotWidget(background="w")
+        self.graphWidget_4.setLabel('left', 'Amplitud (Full Scale)')
+        self.graphWidget_4.setLabel('bottom', 'Tiempo (s)')
 
         if self.reception_configured == True:
             self.reception_configured = False
